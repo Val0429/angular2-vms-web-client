@@ -1,0 +1,148 @@
+<div class="animated fadeIn">
+  <div class="row" *ngIf="isAdmin">
+    <div class="col-12">
+      <div class="card">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newUser(); largeModal.show()">
+          New User
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>Users
+        </div>
+        <div class="card-block">
+
+          <!--<div class="row mb-1">
+            <div class="col-md-4 offset-md-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search by name" />
+              </div>
+            </div>
+          </div>-->
+          <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+              <tr>
+                <th style="width: 5%">No</th>
+                <th style="width: 25%">
+                  <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                </th>
+                <th style="width: 65%">
+                  <mfDefaultSorter by="group">Group</mfDefaultSorter>
+                </th>
+                <th style="width: '100px;'"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--<tr *ngFor="let item of mf.data; let i = index" (click)="modifyUser(item); largeModal.show()">-->
+              <tr *ngFor="let item of mf.data; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.group}}</td>
+                <td>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">{{model.title}}</h4>
+            <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form #userForm="ngForm" action="javascript:void(0);" (ngSubmit)="userForm.valid && onFormSubmit(userForm); largeModal.hide();">
+            <div class="modal-body">
+              <div class="card mx-2">
+                <div class="card-block p-2">
+                  <div class="input-group mb-1" [ngClass]="{ 'has-danger': username.invalid && (username.dirty || username.touched), 'has-success': username.valid && (username.dirty || username.touched)}">
+                    <span class="input-group-addon">
+                      <i class="icon-user"></i>
+                    </span>
+                    <input type="text" class="form-control" required id="username" name="username" #username="ngModel" [ngClass]="{ 'form-control-danger': username.invalid && (username.dirty ||username.touched), 'form-control-success': username.valid && (username.dirty || username.touched)}"
+                      placeholder="Username" [(ngModel)]="model.username">
+                  </div>
+                  <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched || userForm.submitted)">
+                    <p *ngIf="username.errors.required">
+                      The Username is required
+                    </p>
+                  </div>
+
+                  <div class="input-group mb-1 has-success">
+                    <span class="input-group-addon">
+                      <i class="icon-people"></i>
+                    </span>
+                    <input type="text" readonly class="form-control form-control-success" id="group" name="group" placeholder="Group" [(ngModel)]="model.group">
+                  </div>
+
+                  <div class="input-group mb-1" [ngClass]="{ 'has-danger': password.invalid && (password.dirty || password.touched), 'has-success': password.valid && (password.dirty || password.touched)}">
+                    <span class="input-group-addon">
+                      <i class="icon-key"></i>
+                    </span>
+                    <input type="password" class="form-control" id="password" name="password" required validateEqual="confirmPassword" #password="ngModel"
+                      reverse="true" [ngClass]="{ 'form-control-danger': password.invalid && (password.dirty ||password.touched), 'form-control-success': password.valid && (password.dirty || password.touched)}"
+                      placeholder="Password" [(ngModel)]="model.password">
+
+                  </div>
+                  <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched || userForm.submitted)">
+                    <p *ngIf="password.errors.required">
+                      The Password is required
+                    </p>
+                  </div>
+
+                  <div class="input-group mb-1" [ngClass]="{ 'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched), 'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}">
+                    <span class="input-group-addon">
+                      <i class="icon-key"></i>
+                    </span>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required validateEqual="password" #confirmPassword="ngModel" 
+                    [ngClass]="{ 'form-control-danger': confirmPassword.invalid && (confirmPassword.dirty ||confirmPassword.touched), 'form-control-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}"
+                    placeholder="Repeat password" [(ngModel)]="model.confirmPassword">
+                  </div>
+                  <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched || userForm.submitted)">
+                    <p *ngIf="confirmPassword.errors.required">
+                      The Repeat password is required
+                    </p>
+                    <p *ngIf="confirmPassword.invalid">
+                      Password mismatch
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+              <!-- <button type="button" class="btn btn-primary" (click)="saveUser(); largeModal.hide()">{{model.buttom}}</button> -->
+              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">{{model.buttom}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

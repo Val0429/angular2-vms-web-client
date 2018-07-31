@@ -1,0 +1,107 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newReceiver(); largeModal.show()">
+          New Email Receiver
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>Email Receivers
+        </div>
+        <div class="card-block">
+
+          <!--<div class="row mb-1">
+            <div class="col-md-4 offset-md-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search by name" />
+              </div>
+            </div>
+          </div>-->
+          <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+              <tr>
+                <th style="width: 5%">No</th>
+                <th style="width: 30%">
+                  <mfDefaultSorter by="device_type">Name</mfDefaultSorter>
+                </th>
+                <th style="width: 60%">
+                  <mfDefaultSorter by="device_token">Email Address</mfDefaultSorter>
+                </th>
+                <th style="width: 5%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr *ngFor="let item of mf.data; let i = index" (click)="modifyCommand(item, $event); largeModal.show()"> -->
+              <tr *ngFor="let item of mf.data; let i = index; async">
+                <td>{{i + 1}}</td>
+                <td>{{item.receiver_name}}</td>
+                <td>{{item.receiver_address}}</td>
+                <td>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteReceiver(item, $event)"></a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">{{model.title}}</h4>
+            <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card mx-2">
+              <div class="card-block p-2">
+                <div class="input-group mb-1">
+                  <span class="input-group-addon">
+                    <i class="icon-user"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="Name" [(ngModel)]="model.push_device_name">
+                </div>
+
+                <div class="input-group mb-1">
+                  <span class="input-group-addon">
+                    <i class="icon-envelope"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="Email Address" [(ngModel)]="model.push_device_type">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="saveCommand(); largeModal.hide()">{{model.buttom}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

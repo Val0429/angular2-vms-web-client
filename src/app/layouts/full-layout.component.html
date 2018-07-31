@@ -1,0 +1,276 @@
+<header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">&#9776;</button>
+    <a class="navbar-brand" href="#"></a>
+    <ul class="nav navbar-nav hidden-md-down">
+        <li class="nav-item">
+            <a class="nav-link navbar-toggler sidebar-toggler" href="#">&#9776;</a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item dropdown" dropdown placement="bottom right">
+            <span class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle>
+                <i class="'fa fa-user-o fa-5x'"></i>{{model.username}}</span>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+                <div class="dropdown-header text-center">
+                    <strong>Account</strong>
+                </div>
+                <div class="divider"></div>
+                <a class="dropdown-item" style="cursor: pointer;" (click)="changePassword(); largeModal.show()">
+                    <i class="fa fa-shield"></i> Change Password</a>
+                <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">
+                    <i class="fa fa-lock"></i> Logout</a>
+            </div>
+        </li>
+        <li class="nav-item hidden-md-down">
+            <a class="nav-link navbar-toggler aside-menu-toggler"></a>
+        </li>
+    </ul>
+</header>
+
+<div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/report']">
+                        <i class="icon-menu"></i> Report
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/dashboard']">
+                                <i class="icon-link"></i> Dashboard</a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/attendance']">
+                                <i class="icon-link"></i> Attendance</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/general']">
+                        <i class="icon-menu"></i> General
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/network']">
+                                <i class="icon-link"></i> ((Network))</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/server']">
+                                <i class="icon-settings"></i> Server</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/user']">
+                        <i class="icon-shield"></i> User
+                        <!--span class="badge badge-info">NEW</span-->
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/manage-user']">
+                                <i class="icon-user"></i> User Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/user-group']">
+                                <i class="icon-people"></i> Person Group</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/enroll-person']">
+                                <i class="icon-user-follow"></i> Enroll Person</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/batch-person']">
+                                <i class="icon-action-redo"></i> Batch Enroll</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--<li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="icon-camrecorder"></i> Video Stream</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/stream/rtsp']">
+                                <i class="icon-camera"></i> RTSP</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-docs"></i> iSAP CMS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-doc"></i> iSAP NVR</a>
+                        </li> 
+                    </ul>
+                </li>-->
+
+                 <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i> Recognition</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/recognition/face']"><i class="icon-target"></i> Face Recognition</a>
+                        </li>
+                    </ul>
+                </li> 
+
+                <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="icon-exclamation"></i> Action</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/http']">
+                                <i class="icon-globe"></i> HTTP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/email']">
+                                <i class="icon-envelope-letter"></i> E-Mail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/notification']">
+                                <i class="icon-screen-smartphone"></i> Mobile Notification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/grouprule']">
+                                <i class="icon-people"></i> Group Action</a>
+                        </li>
+                        <!--<li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/buttons']"><i class="icon-user"></i> User</a>
+                        </li>-->
+                    </ul>
+                </li>
+                <li class="nav-item nav-dropdown" routerLinkActive="open">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="icon-key"></i> License</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/server']">
+                                <i class="icon-organization"></i> Server</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/client']">
+                                <i class="icon-screen-desktop"></i> Client</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/camera']">
+                                <i class="icon-camera"></i> Camera</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/activation']">
+                                <i class="icon-lock-open"></i> Licnese Activation</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <breadcrumbs></breadcrumbs>
+        </ol>
+
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- /.conainer-fluid -->
+    </main>
+</div>
+
+<footer class="app-footer">
+    <!--a href="https://genesisui.com">Genius</a> &copy; 2017 creativeLabs.
+    <span class="float-right">Powered by <a href="https://genesisui.com">GenesisUI</a>
+    </span -->
+</footer>
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Password</h4>
+                        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form #passwordForm="ngForm" action="javascript:void(0);" (ngSubmit)="passwordForm.valid && onFormSubmit(passwordForm); largeModal.hide();">
+                        <div class="modal-body">
+                            <div class="card mx-2">
+                                <div class="card-block p-2 row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-1 has-success">
+                                            <span class="input-group-addon">
+                                                <i class="icon-people"></i>
+                                            </span>
+                                            <input type="text" name="username" readonly required class="form-control form-control-success" placeholder="Username" [(ngModel)]="model.username">
+                                        </div>
+
+                                        <div class="input-group mb-1" [ngClass]="{ 'has-danger': pwd.invalid && (pwd.dirty || pwd.touched), 'has-success': pwd.valid && (pwd.dirty || pwd.touched)}">
+                                            <span class="input-group-addon">
+                                                <i class="icon-key"></i>
+                                            </span>
+                                            <input type="password" name="password" required passwordvalidator class="form-control" [ngClass]="{ 'form-control-danger': pwd.invalid && (pwd.dirty || pwd.touched), 'form-control-success': pwd.valid && (pwd.dirty || pwd.touched)}"
+                                                placeholder="Password" [(ngModel)]="model.password" #pwd="ngModel">
+                                        </div>
+                                        <div style="color:red" *ngIf="pwd.errors && (pwd.dirty || pwd.touched || passwordForm.submitted)">
+                                            <p *ngIf="pwd.errors.required">
+                                                The Password is required.
+                                            </p>
+                                            <p *ngIf="pwd.errors.passwordvalidator ">
+                                                Password incorrect.
+                                            </p>
+                                        </div>
+
+                                        <div class="input-group mb-1" [ngClass]="{ 'has-danger': newpassword.invalid && (newpassword.dirty || newpassword.touched), 'has-success': newpassword.valid && (newpassword.dirty || newpassword.touched)}">
+                                            <span class="input-group-addon">
+                                                <i class="icon-lock"></i>
+                                            </span>
+                                            <input type="password" name="newpassword" required validateEqual="confirmPassword" #newpassword="ngModel" reverse="true"
+                                                class="form-control" [ngClass]="{ 'form-control-danger': newpassword.invalid && (newpassword.dirty ||newpassword.touched), 'form-control-success': newpassword.valid && (newpassword.dirty || newpassword.touched)}" placeholder="New Password" [(ngModel)]="model.newpassword">
+
+                                        </div>
+                                        <div style="color:red" *ngIf="newpassword.errors && (newpassword.dirty || newpassword.touched || passwordForm.submitted)">
+                                            <p *ngIf="newpassword.errors.required">
+                                                The New Password is required
+                                            </p>
+                                        </div>
+
+                                        <div class="input-group mb-1" [ngClass]="{ 'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched), 'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}">
+                                            <span class="input-group-addon">
+                                                <i class="icon-lock"></i>
+                                            </span>
+                                            <input type="password" name="confirmpassword" required validateEqual="newpassword" #confirmPassword="ngModel" class="form-control"
+                                            [ngClass]="{ 'form-control-danger': confirmPassword.invalid && (confirmPassword.dirty ||confirmPassword.touched), 'form-control-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}"
+                                                placeholder="Repeat password" [(ngModel)]="model.repeatpassword">
+                                        </div>
+                                        <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched || passwordForm.submitted)">
+                                            <p *ngIf="confirmPassword.errors.required">
+                                                The Repeat password is required
+                                            </p>
+                                            <p *ngIf="confirmPassword.invalid">
+                                                Password mismatch
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+                            <!-- <button type="button" class="btn btn-primary" (click)="saveChangePassword(); largeModal.hide()">{{model.buttom}}</button> -->
+                            <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid">{{model.buttom}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

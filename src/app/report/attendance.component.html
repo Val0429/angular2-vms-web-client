@@ -1,0 +1,72 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            Search Condition
+        </div>
+        <div class="card-block row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false" (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{model.startdate | date:'yyyy/MM/dd'}}"/>
+                    <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker"><i class="fa fa-calendar"></i></span>
+                    <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="startDate" [showWeeks]="false" [(ngModel)]="model.startdate" (selectionDone)="showStartDatePicker = false"></datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="{{model.enddate | date:'yyyy/MM/dd'}}"/>
+                    <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker"><i class="fa fa-calendar"></i></span>
+                    <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.enddate" (selectionDone)="showEndDatePicker = false"></datepicker>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button> 
+                <button type="submit" class="btn btn-primary px-2 pull-right" (click)="validateSearch()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i>Attendance
+      </div>
+      <div class="card-block">
+        <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+          <thead>
+            <tr>
+                <th style="width: 5%">No</th>
+                <th style="width: 20%">Date</th>
+                <th style="width: 20%">Time</th>
+                <th style="width: 20%">Location</th>
+                <th style="width: 15%">Employee No</th>
+                <th style="width: 20%">Photo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data; let i = index;">
+                <td>{{i+ 1}}</td>
+                <td>{{TimecodeToDateString(item["timestamp"])}}</td>
+                <td>{{TimecodeToTimeString(item["timestamp"])}}</td>
+                <td>{{item["channel"]}}</td>                
+                <td>{{item["person_info"]["employeeno"]}}</td>
+                <td>
+                    <div ngif="item.snapshot != null">
+                        <img src="{{item.snapshot}}" width="100px" height="100px">
+                    </div>
+                </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+                <td colspan="6">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+</div>
