@@ -30,140 +30,165 @@
 <div class="app-body">
     <div class="sidebar">
         <nav class="sidebar-nav">
-            <ul class="nav">
-                <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/report']">
-                        <i class="icon-menu"></i> Report
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/dashboard']">
-                                <i class="icon-link"></i> Dashboard</a>
-                        </li>
-                    </ul>
-
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/attendance']">
-                                <i class="icon-link"></i> Attendance</a>
-                        </li>
-                    </ul>
+          <ul class="nav">
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/report']">
+                <i class="icon-menu"></i> Report
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/dashboard']">
+                    <i class="icon-link"></i> Dashboard
+                  </a>
                 </li>
+              </ul>
 
-                <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/general']">
-                        <i class="icon-menu"></i> General
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/network']">
-                                <i class="icon-link"></i> ((Network))</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/server']">
-                                <i class="icon-settings"></i> Server</a>
-                        </li>
-                    </ul>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/attendance']">
+                    <i class="icon-link"></i> Attendance
+                  </a>
                 </li>
+              </ul>
+            </li>
 
-                <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/user']">
-                        <i class="icon-shield"></i> User
-                        <!--span class="badge badge-info">NEW</span-->
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/manage-user']">
-                                <i class="icon-user"></i> User Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/user-group']">
-                                <i class="icon-people"></i> Person Group</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/enroll-person']">
-                                <i class="icon-user-follow"></i> Enroll Person</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/batch-person']">
-                                <i class="icon-action-redo"></i> Batch Enroll</a>
-                        </li>
-                    </ul>
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/general']">
+                <i class="icon-menu"></i> General
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/network']">
+                    <i class="icon-link"></i> ((Network))
+                  </a>
                 </li>
-                <!--<li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="icon-camrecorder"></i> Video Stream</a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/stream/rtsp']">
-                                <i class="icon-camera"></i> RTSP</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-docs"></i> iSAP CMS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-doc"></i> iSAP NVR</a>
-                        </li> 
-                    </ul>
-                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/server']">
+                    <i class="icon-settings"></i> Server
+                  </a>
+                </li>
+              </ul>
+            </li>
 
-                 <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i> Recognition</a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/recognition/face']"><i class="icon-target"></i> Face Recognition</a>
-                        </li>
-                    </ul>
-                </li> 
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/user']">
+                <i class="icon-shield"></i> User
+                <!--span class="badge badge-info">NEW</span-->
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/manage-user']">
+                    <i class="icon-user"></i> User Account
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/user-group']">
+                    <i class="icon-people"></i> Person Group
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/enroll-person']">
+                    <i class="icon-user-follow"></i> Enroll Person
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/batch-person']">
+                    <i class="icon-action-redo"></i> Batch Enroll
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!--<li class="nav-item nav-dropdown" routerLinkActive="open">
+      <a class="nav-link nav-dropdown-toggle" href="#">
+          <i class="icon-camrecorder"></i> Video Stream</a>
+      <ul class="nav-dropdown-items">
+          <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/stream/rtsp']">
+                  <i class="icon-camera"></i> RTSP</a>
+          </li>
+           <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-docs"></i> iSAP CMS</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/social-buttons']"><i class="icon-doc"></i> iSAP NVR</a>
+          </li>
+      </ul>
+  </li>-->
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i> Tenant</a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/tenant/invitation']"><i class="icon-target"></i> Invitation</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i> Recognition</a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/recognition/face']"><i class="icon-target"></i> Face Recognition</a>
+                </li>
+              </ul>
+            </li>
 
-                <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="icon-exclamation"></i> Action</a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/http']">
-                                <i class="icon-globe"></i> HTTP</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/email']">
-                                <i class="icon-envelope-letter"></i> E-Mail</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/notification']">
-                                <i class="icon-screen-smartphone"></i> Mobile Notification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/grouprule']">
-                                <i class="icon-people"></i> Group Action</a>
-                        </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/buttons']"><i class="icon-user"></i> User</a>
-                        </li>-->
-                    </ul>
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <i class="icon-exclamation"></i> Action
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/http']">
+                    <i class="icon-globe"></i> HTTP
+                  </a>
                 </li>
-                <li class="nav-item nav-dropdown" routerLinkActive="open">
-                    <a class="nav-link nav-dropdown-toggle" href="#">
-                        <i class="icon-key"></i> License</a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/server']">
-                                <i class="icon-organization"></i> Server</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/client']">
-                                <i class="icon-screen-desktop"></i> Client</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/camera']">
-                                <i class="icon-camera"></i> Camera</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/activation']">
-                                <i class="icon-lock-open"></i> Licnese Activation</a>
-                        </li>
-                    </ul>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/email']">
+                    <i class="icon-envelope-letter"></i> E-Mail
+                  </a>
                 </li>
-            </ul>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/notification']">
+                    <i class="icon-screen-smartphone"></i> Mobile Notification
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/action/grouprule']">
+                    <i class="icon-people"></i> Group Action
+                  </a>
+                </li>
+                <!--<li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/components/buttons']"><i class="icon-user"></i> User</a>
+      </li>-->
+              </ul>
+            </li>
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <i class="icon-key"></i> License
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/server']">
+                    <i class="icon-organization"></i> Server
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/client']">
+                    <i class="icon-screen-desktop"></i> Client
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/camera']">
+                    <i class="icon-camera"></i> Camera
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/license/activation']">
+                    <i class="icon-lock-open"></i> Licnese Activation
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </nav>
     </div>
 

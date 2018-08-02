@@ -31,6 +31,8 @@ import { ServiceModule } from './service/service.module';
 // Form Directive
 import { PasswordValidator } from './layouts/password-validation.directive';
 import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.directive';
+import { TenantModule } from './tenant/tenant.module';
+
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.d
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    ServiceModule   
+    ServiceModule,
+    TenantModule   
   ],
   declarations: [
     AppComponent,
@@ -55,7 +58,7 @@ import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.d
     SIDEBAR_TOGGLE_DIRECTIVES,
     //AsideToggleDirective,
     PasswordValidator,
-    ConfirmPasswordValidator 
+    ConfirmPasswordValidator
   ],
   providers: [],
   bootstrap: [AppComponent]

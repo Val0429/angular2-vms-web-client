@@ -54,6 +54,11 @@ export const routes: Routes = [
         loadChildren: './license/license.module#LicenseModule'
       },
       {
+        path: 'tenant',
+        canActivate: [LoginService],
+        loadChildren: './tenant/tenant.module#TenantModule'
+      },
+      {
         path: '**',
         redirectTo: '/login',
         pathMatch: 'full'
