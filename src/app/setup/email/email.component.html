@@ -1,3 +1,93 @@
-<p>
-  email works!
-</p>
+<div class="animated fadeIn">
+  <form #serverForm="ngForm" action="javascript:void(0);" (ngSubmit)="serverForm.valid && onFormSubmit(serverForm); largeModal.hide();">
+    
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> <input type="checkbox" id="smtp_setting" name="smtp_setting" [(ngModel)]="model.smtp_setting"> SMTP Setting
+      </div>
+      <div class="card-block row">
+        <div class="input-group mb-1" [ngClass]="{ 'has-danger': smtphost.invalid && (smtphost.dirty || smtphost.touched), 'has-success': smtphost.valid && (smtphost.dirty || smtphost.touched)}">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <input type="text" class="form-control" required id="smtphost" name="smtphost" #smtphost="ngModel" [ngClass]="{ 'form-control-danger': smtphost.invalid && (smtphost.dirty ||smtphost.touched), 'form-control-success': smtphost.valid && (smtphost.dirty || smtphost.touched)}"
+                 placeholder="SMTP Server" [(ngModel)]="model.mail_server_settings.mail_server_host_address" [disabled]="!model.smtp_setting">
+        </div>
+        <div style="color:red" *ngIf="smtphost.errors && (smtphost.dirty || smtphost.touched || serverForm.submitted)">
+          <p *ngIf="smtphost.errors.required">
+            The SMTP Server is required
+          </p>
+        </div>
+
+        <div class="input-group mb-1">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="smtp">
+            <input type="radio" id="smtp" name="smtp" [value]="0" [(ngModel)]="model.mail_server_settings.mail_server_host_secure" [checked]="model.mail_server_settings.mail_server_host_secure==0" [disabled]="!model.smtp_setting"> SMTP
+          </label>
+          <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;" for="tls">
+            <input type="radio" id="tls" name="tls" [value]="1" [(ngModel)]="model.mail_server_settings.mail_server_host_secure" [checked]="model.mail_server_settings.mail_server_host_secure==1" [disabled]="!model.smtp_setting"> TLS
+          </label>
+          <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;" for="ssl">
+            <input type="radio" id="ssl" name="ssl" [value]="2" [(ngModel)]="model.mail_server_settings.mail_server_host_secure" [checked]="model.mail_server_settings.mail_server_host_secure==2" [disabled]="!model.smtp_setting"> SSL
+          </label>
+        </div>
+
+        <div class="input-group mb-1" [ngClass]="{ 'has-danger': smtpport.invalid && (smtpport.dirty || smtpport.touched), 'has-success': smtpport.valid && (smtpport.dirty || smtpport.touched)}">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <input type="text" class="form-control" required id="smtpport" name="smtpport" #smtpport="ngModel" [ngClass]="{ 'form-control-danger': smtpport.invalid && (smtpport.dirty ||smtpport.touched), 'form-control-success': smtpport.valid && (smtpport.dirty || smtpport.touched)}"
+                 placeholder="SMTP Server Port" [(ngModel)]="model.mail_server_settings.mail_server_host_port" [disabled]="!model.smtp_setting">
+        </div>
+        <div style="color:red" *ngIf="smtpport.errors && (smtpport.dirty || smtpport.touched || serverForm.submitted)">
+          <p *ngIf="smtpport.errors.required">
+            The SMTP Port is required
+          </p>
+        </div>
+
+        <div class="input-group mb-1">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <input type="text" class="form-control" id="sendername" name="sendername" #sendername="ngModel" placeholder="Sender Name" [(ngModel)]="model.mail_server_settings.mail_server_sender_name" [disabled]="!model.smtp_setting">
+        </div>
+
+        <div class="input-group mb-1" [ngClass]="{ 'has-danger': senderaccount.invalid && (senderaccount.dirty || senderaccount.touched), 'has-success': senderaccount.valid && (senderaccount.dirty || senderaccount.touched)}">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <input type="text" class="form-control" required id="senderaccount" name="senderaccount" #senderaccount="ngModel"
+                 [ngClass]="{ 'form-control-danger': senderaccount.invalid && (senderaccount.dirty ||senderaccount.touched), 'form-control-success': senderaccount.valid && (senderaccount.dirty || senderaccount.touched)}"
+                 placeholder="Sender Account" [(ngModel)]="model.mail_server_settings.mail_server_sender_username" [disabled]="!model.smtp_setting">
+        </div>
+        <div style="color:red" *ngIf="senderaccount.errors && (senderaccount.dirty || senderaccount.touched || serverForm.submitted)">
+          <p *ngIf="senderaccount.errors.required">
+            The Sender Account is required
+          </p>
+        </div>
+
+        <div class="input-group mb-1" [ngClass]="{ 'has-danger': senderpassword.invalid && (senderpassword.dirty || senderpassword.touched), 'has-success': senderpassword.valid && (senderpassword.dirty || senderpassword.touched)}">
+          <span class="input-group-addon">
+            <i class="icon-user"></i>
+          </span>
+          <input type="password" class="form-control" required id="senderpassword" name="senderpassword" #senderpassword="ngModel"
+                 [ngClass]="{ 'form-control-danger': senderpassword.invalid && (senderpassword.dirty ||senderpassword.touched), 'form-control-success': senderpassword.valid && (senderpassword.dirty || senderpassword.touched)}"
+                 placeholder="Sender Password" [(ngModel)]="model.mail_server_settings.mail_server_sender_password" [disabled]="!model.smtp_setting">
+        </div>
+        <div style="color:red" *ngIf="senderpassword.errors && (senderpassword.dirty || senderpassword.touched || serverForm.submitted)">
+          <p *ngIf="senderpassword.errors.required">
+            The Sender Password is required
+          </p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="!serverForm.valid">Save</button>
+    </div>
+  </form>
+</div>
