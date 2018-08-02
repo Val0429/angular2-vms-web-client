@@ -20,7 +20,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'report',
-        canActivate: [LoginService],
+        canActivate: [LoginService],        
         loadChildren: './report/report.module#ReportModule'
       },
       {

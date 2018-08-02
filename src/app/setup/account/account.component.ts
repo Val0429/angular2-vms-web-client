@@ -15,7 +15,7 @@ export class AccountComponent  {
 
     setTimeout(async () => {
       var currUser = await me._userService.getCurrentUser();
-      if (currUser.username == "Admin")
+      if (currUser.username === "Admin")
         me.isAdmin = true;
       else
         me.isAdmin = false;
@@ -23,7 +23,7 @@ export class AccountComponent  {
 
       let users = await this._userService.getUsersList();
       for (var user of users) {
-        me.data.push(JSON.parse(`{"username" : "` + user["name"] + `", "group": "` + user["group"] + `"}`));
+        me.data.push(user);
       }
     }, 1000);
   }

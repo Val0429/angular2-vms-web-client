@@ -25,7 +25,7 @@ export class SetupService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `" }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `" }`;
 
         var result = await this._coreService.postConfig({ path: this.uriGetServerSettings, data: data }).toPromise();
         console.log(result);
@@ -47,7 +47,7 @@ export class SetupService {
         //             "apns_push_settings": {
         //                 "apns_topic": "com.isapsolution.frs",
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "server_settings" : { "settings": {` + _setting + `} } }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "server_settings" : { "settings": {` + _setting + `} } }`;
 
         var result = await this._coreService.postConfig({ path: this.uriModifyServerSettings, data: data }).toPromise();
 

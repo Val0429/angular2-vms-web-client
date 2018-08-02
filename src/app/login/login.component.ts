@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
 
     let data: string = `{ "username":"` + this.model.username + `", "password":"` + this.model.password + `" }`;
     let ret = await this._loginService.logInByPassword(data);
-
+    console.log("login result: "+ret);
     if (ret == true) {
       if (this.model.rememberMe) {
         this.removeRememberMe();
@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('rememberMe', JSON.stringify(this.rememberUsers));
       }
 
-      this._router.navigate(['/user/manage-user']);
+      this._router.navigate(['/report/dashboard']);
     }
     else {
       alert('Login failed.');

@@ -23,7 +23,7 @@ export class ReportService {
         var token = this._loginService.getCurrentUserToken();
 
         // { "session_id":"jhljl9urEuLhVfUkIfQHLKyV", "page_size" : 99, "skip_pages" :0, "start_time" : 0, "end_time" : 2525453941773 }
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
         var _records = [];
         var result = await this._coreService.postConfig({ path: this.uriGetVerifyResultList, data: data }).toPromise();
@@ -51,7 +51,7 @@ export class ReportService {
         }
 
         for (let i = 1; i < total_pages; i++) {
-            let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : ` + i + `, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+            let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : ` + i + `, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
             var result = await this._coreService.postConfig({ path: this.uriGetVerifyResultList, data: data }).toPromise();
 
@@ -72,7 +72,7 @@ export class ReportService {
         var token = this._loginService.getCurrentUserToken();
 
         // { "session_id":"jhljl9urEuLhVfUkIfQHLKyV", "page_size" : 99, "skip_pages" :0, "start_time" : 0, "end_time" : 2525453941773 }
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
         var _records = [];
         var result = await this._coreService.postConfig({ path: this.uriGetNonverifyResultList, data: data }).toPromise();
@@ -100,7 +100,7 @@ export class ReportService {
         }
 
         for (let i = 1; i < total_pages; i++) {
-            let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : ` + i + `, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+            let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : ` + i + `, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
             var result = await this._coreService.postConfig({ path: this.uriGetNonverifyResultList, data: data }).toPromise();
 
@@ -120,7 +120,7 @@ export class ReportService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `" }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `" }`;
 
         var _records = [];
         var result = await this._coreService.postConfig({ path: this.uriGetFcsSttings, data: data }).toPromise();
@@ -146,7 +146,7 @@ export class ReportService {
         var token = this._loginService.getCurrentUserToken();
 
         // { "session_id":"jhljl9urEuLhVfUkIfQHLKyV", "page_size" : 99, "skip_pages" :0, "start_time" : 0, "end_time" : 2525453941773 }
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 1, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 1, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
         var _records = [];
         var result = await this._coreService.postConfig({ path: this.uriGetVerifyResultList, data: data }).toPromise();
@@ -174,7 +174,7 @@ export class ReportService {
         var token = this._loginService.getCurrentUserToken();
 
         // { "session_id":"jhljl9urEuLhVfUkIfQHLKyV", "page_size" : 99, "skip_pages" :0, "start_time" : 0, "end_time" : 2525453941773 }
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 1, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 1, "skip_pages" : 0, "start_time" : ` + starttime + `, "end_time" : ` + endtime + ` }`;
 
         var _records = [];
         var result = await this._coreService.postConfig({ path: this.uriGetNonverifyResultList, data: data }).toPromise();

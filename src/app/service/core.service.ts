@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Http, Response, RequestOptions } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Promise } from 'q';
 
 @Injectable()
 export class CoreService {
@@ -25,8 +26,10 @@ export class CoreService {
 
   postConfig(args: { path: string, data: any }): Observable<Response> {
     const finalUrl = args.path;
-
+    var headers = new Headers();
+    headers.append("content-type", "application/json");
     const options = new RequestOptions();
+    options.headers = headers;
     return this.http.post(finalUrl, args.data, options)
       .map((response: Response) => {
         return response.json();

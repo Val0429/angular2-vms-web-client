@@ -3,7 +3,7 @@ import { Router, CanActivate } from '@angular/router';
 
 import { CoreService } from 'app/service/core.service';
 import { Observable } from 'rxjs/Rx';
-import { sessionToken, User } from 'app/Interface/interface';
+import { SessionToken, User } from 'app/Interface/interface';
 import { promise } from 'selenium-webdriver';
 import * as Globals from '../globals';
 
@@ -14,8 +14,8 @@ export class LoginService implements CanActivate {
     //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
     _remember : User[];
 
-    private uriLogin: string = Globals.cgiRoot + "frs/cgi/login";
-    private uriMaintainSession: string = Globals.cgiRoot + "frs/cgi/maintainsession";
+    private uriLogin: string = Globals.cgiRoot + "users/login";
+    private uriMaintainSession: string = Globals.cgiRoot + "users/maintainsession";
 
     constructor(
         private _router: Router,
@@ -25,10 +25,13 @@ export class LoginService implements CanActivate {
 
     }
 
-    canActivate() {
+  canActivate() {
+    return true;
+      //TODO: ask Tulip about how to check token expiration
+      /*
         if (sessionStorage.getItem('currentUserToken')) {
             var me = this;
-            var token = new sessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
+            var token = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
             var diff = token.expire - (new Date).getTime();
 
             console.log("canActivate " + token.expire + "    " + (new Date).getTime() + "   " + diff);
@@ -40,7 +43,7 @@ export class LoginService implements CanActivate {
         }
 
         this._router.navigate(['/login']);
-        return false;
+        return false;*/
     }
 
     async logInByPassword(_data: string): Promise<boolean> {
@@ -53,10 +56,9 @@ console.log("logInByPassword");
 console.log(data);
         await this._coreService.postConfig({ path: this.uriLogin, data: data })
             .do(
-                function (result) {
+          function (result) {
                     // result Handle
-                    var _sessionToken = new sessionToken().fromJSON(result);
-                    console.log(_sessionToken);
+                    var sessionToken = new SessionToken().fromJSON(result);            
                     // {
                     //     "message": "ok",
                     //     "session_id": "Ul3Rh7SnrB",
@@ -64,22 +66,14 @@ console.log(data);
                     //     "expire": 1524212923170
                     // }
 
-                    if (_sessionToken.message == "ok") {
-                        sessionStorage.setItem('currentUserToken', JSON.stringify(_sessionToken));
+                        sessionStorage.setItem('currentUserToken', JSON.stringify(sessionToken));
                         sessionStorage.setItem('currentUser', data);
 
                         // console.log('login ' + sessionStorage.getItem('currentUserToken'));
                         // console.log('login ' + sessionStorage.getItem('currentUser'));
 
-                        let diff = _sessionToken.expire - _sessionToken.servertime - 30000;
-                        console.log(diff);
-                        setTimeout(function () { me.maintainSession(); }, diff);
-
                         ret = true;
-                    }
-                    else {
-                        ret = false;
-                    }
+                    
                 },
                 function (err) {
                     ret = false;
@@ -98,9 +92,9 @@ console.log(data);
 
     private maintainSession() {
         let me = this;
-        var _sessionToken = new sessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
+        var sessionToken = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
 
-        let data: string = `{ "session_id":"` + _sessionToken.session_id + `" }`;
+        let data: string = `{ "session_id":"` + sessionToken.sessionId + `" }`;
         this._coreService.postConfig({ path: this.uriMaintainSession, data: data })
             .do(result => {
                 console.log(result);
@@ -110,22 +104,13 @@ console.log(data);
                 //     "expire": 1524212890049
                 // }
 
-                if (result["message"] == "ok") {
-                    _sessionToken.servertime = +result["servertime"];
-                    _sessionToken.expire = +result["expire"];
-                    sessionStorage.setItem('currentUserToken', JSON.stringify(_sessionToken));
+                
+                    sessionToken.serverTime = +result["servertime"];
+                    sessionToken.expire = +result["expire"];
+                    sessionStorage.setItem('currentUserToken', JSON.stringify(sessionToken));
 
                     console.log('maintain ' + sessionStorage.getItem('currentUserToken'));
-
-                    let diff = +result["expire"] - +result["servertime"] - 30000
-                    setTimeout(function () { me.maintainSession(); }, diff);
-                }
-                else {
-                    console.log("relogin") ;
-                    var data = sessionStorage.getItem('currentUser');
-                    me.logInByPassword(data) ;
-
-                }
+  
             }).subscribe(
                 (data)=>{},
                 (err) => { 
@@ -138,14 +123,14 @@ console.log(data);
             );
     }
 
-    getCurrentUserToken(): sessionToken {
-        var _sessionToken = new sessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
+    getCurrentUserToken(): SessionToken {
+        var sessionToken = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
 
-        return _sessionToken;
+        return sessionToken;
     }
 
     getCurrentUser(): User {
-        var _currentUser = new User().fromJSON(JSON.parse(sessionStorage.getItem('currentUser')));
-        return _currentUser;
+        var currentUser = new User().fromJSON(JSON.parse(sessionStorage.getItem('currentUser')));
+        return currentUser;
     }
 }

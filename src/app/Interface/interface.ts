@@ -1,16 +1,16 @@
 
-export class sessionToken {
+export class SessionToken {
     public message: string;
-    public session_id: string;
-    public servertime: number;
+    public sessionId: string;
+    public serverTime: number;
     public expire: number;
 
-    public fromJSON(json: any): sessionToken {
+    public fromJSON(json: any): SessionToken {
         //let object = Object.create(sessionToken.prototype);
 
         this.message = json["message"];
-        this.session_id = json["session_id"];
-        this.servertime = json["servertime"];
+        this.sessionId = json["sessionId"];
+        this.serverTime = json["serverTime"];
         this.expire = json["expire"];
 
         return this;
