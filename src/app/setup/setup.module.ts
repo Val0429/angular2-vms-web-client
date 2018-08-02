@@ -11,13 +11,18 @@ import { FormsModule } from '@angular/forms';
 import { DatepickerModule } from 'ng2-bootstrap';
 
 import { NetworkComponent } from './network.component';
-import { ServerComponent } from './server.component';
+import { ServerComponent } from './server/server.component';
 
-import { GeneralRoutingModule } from './general-routing.module';
+import { SetupRoutingModule } from './setup-routing.module';
+import { EmailComponent } from './email/email.component';
+import { SmsComponent } from './sms/sms.component';
+import { KioskComponent } from './kiosk/kiosk.component';
+import { FloorComponent } from './floor/floor.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   imports: [
-    GeneralRoutingModule,
+    SetupRoutingModule,
     ModalModule.forRoot(),
     CommonModule,
     DataTableModule,
@@ -26,6 +31,6 @@ import { GeneralRoutingModule } from './general-routing.module';
 //    ChartsModule,
     DatepickerModule.forRoot()
   ],
-  declarations: [NetworkComponent, ServerComponent]
+  declarations: [NetworkComponent, ServerComponent, EmailComponent, SmsComponent, KioskComponent, FloorComponent, AccountComponent]
 })
-export class GeneralModule { }
+export class SetupModule { }

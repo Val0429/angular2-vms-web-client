@@ -53,51 +53,72 @@
             </li>
 
             <li class="nav-item nav-dropdown" routerLinkActive="open">
-              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/general']">
-                <i class="icon-menu"></i> General
+              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
+                <i class="icon-menu"></i> Setup
               </a>
               <ul class="nav-dropdown-items">
                 <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/network']">
-                    <i class="icon-link"></i> ((Network))
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/account']">
+                    <i class="icon-link"></i> Account Management
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/general/server']">
-                    <i class="icon-settings"></i> Server
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/server']">
+                    <i class="icon-settings"></i> FRS Settings
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/email']">
+                    <i class="icon-settings"></i> Email Settings
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/sms']">
+                    <i class="icon-settings"></i> SMS Settings
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/kiosk']">
+                    <i class="icon-settings"></i> Kiosk Management
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/floor']">
+                    <i class="icon-settings"></i> Floor Management
                   </a>
                 </li>
               </ul>
             </li>
-
-            <li class="nav-item nav-dropdown" routerLinkActive="open">
-              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/user']">
-                <i class="icon-shield"></i> User
-                <!--span class="badge badge-info">NEW</span-->
-              </a>
-              <ul class="nav-dropdown-items">
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/manage-user']">
-                    <i class="icon-user"></i> User Account
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/user-group']">
-                    <i class="icon-people"></i> Person Group
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/enroll-person']">
-                    <i class="icon-user-follow"></i> Enroll Person
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/batch-person']">
-                    <i class="icon-action-redo"></i> Batch Enroll
-                  </a>
-                </li>
-              </ul>
-            </li>
+            <!--
+  <li class="nav-item nav-dropdown" routerLinkActive="open">
+    <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/user']">
+      <i class="icon-shield"></i> User
+      <span class="badge badge-info">NEW</span>
+    </a>
+    <ul class="nav-dropdown-items">
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/manage-user']">
+          <i class="icon-user"></i> User Account
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/user-group']">
+          <i class="icon-people"></i> Person Group
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/enroll-person']">
+          <i class="icon-user-follow"></i> Enroll Person
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/batch-person']">
+          <i class="icon-action-redo"></i> Batch Enroll
+        </a>
+      </li>
+    </ul>
+  </li>
+      -->
             <!--<li class="nav-item nav-dropdown" routerLinkActive="open">
       <a class="nav-link nav-dropdown-toggle" href="#">
           <i class="icon-camrecorder"></i> Video Stream</a>

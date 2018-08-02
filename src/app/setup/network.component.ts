@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { UserService } from 'app/service/user.service';
-import { GeneralService } from 'app/service/general.service';
+import { SetupService } from 'app/service/setup.service';
 
 import { Network_Settings } from 'app/Interface/interface';
 
@@ -12,7 +12,7 @@ import { Network_Settings } from 'app/Interface/interface';
 export class NetworkComponent {
   public model: Network_Settings = new Network_Settings();
 
-  constructor(private _userService: UserService, private _generalService: GeneralService) {
+  constructor(private _userService: UserService, private _generalService: SetupService) {
     var me = this;
     setTimeout(async () => {
       // let setting = await this._generalService.getNetworkSettings();

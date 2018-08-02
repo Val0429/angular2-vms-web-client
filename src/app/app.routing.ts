@@ -24,9 +24,9 @@ export const routes: Routes = [
         loadChildren: './report/report.module#ReportModule'
       },
       {
-        path: 'general',
+        path: 'setup',
         canActivate: [LoginService],
-        loadChildren: './general/general.module#GeneralModule'
+        loadChildren: './setup/setup.module#SetupModule'
       },
       {
         path: 'user',

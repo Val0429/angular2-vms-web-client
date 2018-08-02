@@ -7,7 +7,7 @@ import { Group, NotificationDevice } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
-export class GeneralService {
+export class SetupService {
     //private webRoot: string = "http://172.16.10.88:8088/";
     //private webRoot: string = "http://203.69.170.41:8088/";
     //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
