@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 //Service
 import { LoginService } from 'app/service/login.service';
-import { InvitationComponent } from './invitation.component';
+import { InvitationComponent } from './invitation/invitation.component';
 
 const routes: Routes = [{
   path: '', data: { title: 'Tenant' },

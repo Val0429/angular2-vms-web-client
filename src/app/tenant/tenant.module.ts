@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TenantRoutingModule } from './tenant-routing.module';
-import { InvitationComponent } from './invitation.component';
+import { InvitationComponent } from './invitation/invitation.component';
 
 @NgModule({
   imports: [
