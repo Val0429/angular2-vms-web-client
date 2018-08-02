@@ -6,131 +6,123 @@ import { Observable } from 'rxjs/Rx';
 import { SessionToken, User } from 'app/Interface/interface';
 import { promise } from 'selenium-webdriver';
 import * as Globals from '../globals';
+import * as Defaults from '../defaults';
 
 @Injectable()
 export class LoginService implements CanActivate {
-    //private webRoot: string = "http://172.16.10.88:8088/";
-    //private webRoot: string = "http://203.69.170.41:8088/";
-    //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
-    _remember : User[];
 
-    private uriLogin: string = Globals.cgiRoot + "users/login";
-    private uriMaintainSession: string = Globals.cgiRoot + "users/maintainsession";
+  //private webRoot: string = "http://172.16.10.88:8088/";
+  //private webRoot: string = "http://203.69.170.41:8088/";
+  //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
 
-    constructor(
-        private _router: Router,
-        private _coreService: CoreService,
-    ) { 
-        this._remember = JSON.parse(sessionStorage.getItem('USER_INFO'));
+  private uriLogin: string = Globals.cgiRoot + "users/login";
+  private uriLogout: string = Globals.cgiRoot + "users/logout";
 
+  constructor(
+    private _router: Router,
+    private _coreService: CoreService,
+  ) {
+
+  }
+  checkActiveSession(): boolean {
+    var rememberMe = localStorage.getItem(Defaults.rememberMe);
+    var currentUserToken = sessionStorage.getItem(Defaults.currentUserToken);
+    if (rememberMe || currentUserToken) {
+      //checks whether this token already stored in local storage but not in session storage
+      if (!currentUserToken && rememberMe) {
+        sessionStorage.setItem(Defaults.currentUserToken, rememberMe);
+      }
+      return true;
     }
-
+    return false;
+  }
   canActivate() {
-    return true;
-      //TODO: ask Tulip about how to check token expiration
-      /*
-        if (sessionStorage.getItem('currentUserToken')) {
-            var me = this;
-            var token = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
-            var diff = token.expire - (new Date).getTime();
+    var result = this.checkActiveSession();
+    console.log("can activate result:  ", result);
+    return result;
+  }
 
-            console.log("canActivate " + token.expire + "    " + (new Date).getTime() + "   " + diff);
+  async logInByPassword(_data: any): Promise<boolean> {
+    let me = this;
+    let user = JSON.parse(_data);
+    let data: string = `{ "username":"` + user["username"] + `", "password":"` + user["password"] + `" }`;
 
-            if (diff >= 30000) {
-                setTimeout(function () { me.maintainSession(); }, diff - 30000);
-                return true;
-            }
+    var ret: boolean = false;
+    console.log("logInByPassword");
+    console.log(data);
+    await this._coreService.postConfig({ path: this.uriLogin, data: data })
+      .do(
+        function (result) {
+          // result Handle
+          var sessionToken = new SessionToken().fromJSON(result);
+          //adds username to session token object
+          sessionToken.username = user["username"];
+          sessionStorage.setItem(Defaults.currentUserToken, JSON.stringify(sessionToken));
+
+          ret = true;
+        },
+        function (err) {
+          ret = false;
+        },
+        function () {
+          ret = true;
         }
+      ).toPromise()
+      .catch(err => {
+        console.log(JSON.stringify(err));
+      });
 
-        this._router.navigate(['/login']);
-        return false;*/
+    return ret;
+  }
+
+
+  getCurrentUserToken(): SessionToken {
+    var item = sessionStorage.getItem(Defaults.currentUserToken);
+    if (item && item !== null) {
+      var sessionToken = new SessionToken().fromJSON(JSON.parse(item));
+
+      return sessionToken;
     }
+    else return null;
+  }
 
-    async logInByPassword(_data: string): Promise<boolean> {
-        let me = this;
-        var user = JSON.parse(_data);
-        let data: string = `{ "username":"` + user["username"] + `", "password":"` + user["password"] + `" }`;
+  getCurrentUser(): User {
+    var sessionToken = this.getCurrentUserToken();
+    if (sessionToken && sessionToken !== null) {
+      var currentUser = new User();
+      currentUser.username = sessionToken.username;
+      currentUser.password = "";
+      return currentUser;
+    }
+    else return null;
+  }
+  async logOut(): Promise<boolean> {
+    var currentUserToken = this.getCurrentUserToken();
+    if (currentUserToken !== null) {
+      var sessionId = currentUserToken.sessionId;
+      var data = `{"sessionId":"` + sessionId + `"}`;
 
-        var ret: boolean = false;
-console.log("logInByPassword");
-console.log(data);
-        await this._coreService.postConfig({ path: this.uriLogin, data: data })
-            .do(
+      var ret: boolean = false;
+      console.log("logout function call");
+      console.log(data);
+      await this._coreService.postConfig({ path: this.uriLogout, data: data })
+        .do(
           function (result) {
-                    // result Handle
-                    var sessionToken = new SessionToken().fromJSON(result);            
-                    // {
-                    //     "message": "ok",
-                    //     "session_id": "Ul3Rh7SnrB",
-                    //     "servertime": 1524212623174,
-                    //     "expire": 1524212923170
-                    // }
-
-                        sessionStorage.setItem('currentUserToken', JSON.stringify(sessionToken));
-                        sessionStorage.setItem('currentUser', data);
-
-                        // console.log('login ' + sessionStorage.getItem('currentUserToken'));
-                        // console.log('login ' + sessionStorage.getItem('currentUser'));
-
-                        ret = true;
-                    
-                },
-                function (err) {
-                    ret = false;
-                },
-                function () {
-                    ret = true;
-                }
-            )
-            .toPromise()
-            .catch(err => {
-                console.log(JSON.stringify(err));
-            });
-
-        return ret  ;
+          },
+          function (err) {
+            ret = false;
+          },
+          function () {
+            ret = true;
+          }
+        ).toPromise().catch(err => {
+          console.log(err);
+        });      
     }
-
-    private maintainSession() {
-        let me = this;
-        var sessionToken = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
-
-        let data: string = `{ "session_id":"` + sessionToken.sessionId + `" }`;
-        this._coreService.postConfig({ path: this.uriMaintainSession, data: data })
-            .do(result => {
-                console.log(result);
-                // {
-                //     "message": "ok",
-                //     "servertime": 1524212590051,
-                //     "expire": 1524212890049
-                // }
-
-                
-                    sessionToken.serverTime = +result["servertime"];
-                    sessionToken.expire = +result["expire"];
-                    sessionStorage.setItem('currentUserToken', JSON.stringify(sessionToken));
-
-                    console.log('maintain ' + sessionStorage.getItem('currentUserToken'));
-  
-            }).subscribe(
-                (data)=>{},
-                (err) => { 
-                    console.log(err) ;
-
-                    console.log("relogin") ;
-                    var data = sessionStorage.getItem('currentUser');
-                    me.logInByPassword(data) ;
-                }
-            );
-    }
-
-    getCurrentUserToken(): SessionToken {
-        var sessionToken = new SessionToken().fromJSON(JSON.parse(sessionStorage.getItem('currentUserToken')));
-
-        return sessionToken;
-    }
-
-    getCurrentUser(): User {
-        var currentUser = new User().fromJSON(JSON.parse(sessionStorage.getItem('currentUser')));
-        return currentUser;
-    }
+    ret = true;
+    //clears data on local storage and session
+    localStorage.clear();
+    sessionStorage.clear();
+    return ret;
+  }
 }

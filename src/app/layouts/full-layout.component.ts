@@ -2,6 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
+import { LoginService } from 'app/service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +27,7 @@ export class FullLayoutComponent implements OnInit {
     };
 
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private _loginService: LoginService, private _router:Router) { }
 
   public disabled: boolean = false;
   public status: { isopen: boolean } = { isopen: false };
@@ -71,8 +73,11 @@ console.log('form submit');
     this.ngOnInit();
   }
 
-  public logout() {
-
+  public async logout() {
+    var result = await this._loginService.logOut();
+    if (result) {
+      this._router.navigate(['/login']);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { Router } from '@angular/router';
-
+import * as Defaults from "../defaults";
 import { User } from 'app/Interface/interface';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
@@ -26,8 +26,7 @@ import { Observable } from 'rxjs/Rx';
         }
       `]
 })
-export class LoginComponent implements OnInit {
-  public rememberUsers: User[] = [];
+export class LoginComponent implements OnInit {  
 
   model: {
     username?: string,
@@ -41,25 +40,14 @@ export class LoginComponent implements OnInit {
     private _router: Router,
     private _loginService: LoginService
   ) {
-    function OrderByArray(values: User[]) {
-      return values.sort((a, b) => {
-        if (a.username < b.username) return -1;
-        if (a.username > b.username) return 1;
-        return 0
-      });
-    }
 
-    var _remembers = JSON.parse(localStorage.getItem('rememberMe'));
-
-    if (_remembers != null) {
-      var u = [];
-
-      for (var info of _remembers) {
-        var newUser = new User().fromJSON(info);
-        u.push(newUser);
-
-        this.rememberUsers = OrderByArray(u);
-      };
+    let activeSession = _loginService.checkActiveSession();
+    if (activeSession) {    
+      //navigate to dashboard
+      this._router.navigate(['/report/dashboard']);
+    } else {
+      //clear storage and force logout after user closed tab / browser
+      this._loginService.logOut(); 
     }
   }
 
@@ -68,29 +56,16 @@ export class LoginComponent implements OnInit {
     this.model.password = "";
     this.model.rememberMe = false;
   }
-
-  public loadRememberUser(user) {
-    this.model.username = user.username;
-    this.model.password = user.password;
-  }
+  
   public checkRememberMe(event) {
     this.model.rememberMe = event;
   }
 
   private removeRememberMe() {
-    for (var info of this.rememberUsers) {
-      if (info.username == this.model.username)
-        var index = this.rememberUsers.indexOf(info, 0);
-      if (index > -1) {
-        this.rememberUsers.splice(index, 1);
-      }
-
-      localStorage.setItem('rememberMe', JSON.stringify(this.rememberUsers));
-    }
+    localStorage.clear();
   }
   public forget() {
     this.removeRememberMe();
-
     this.model.username = "";
     this.model.password = "";
   }
@@ -113,17 +88,10 @@ export class LoginComponent implements OnInit {
     console.log("login result: "+ret);
     if (ret == true) {
       if (this.model.rememberMe) {
-        this.removeRememberMe();
-
-        var newUser = new User();
-        newUser.username = this.model.username;
-        newUser.password = this.model.password;
-
-        this.rememberUsers.push(newUser);
-
-        localStorage.setItem('rememberMe', JSON.stringify(this.rememberUsers));
+        var currentUserToken = sessionStorage.getItem(Defaults.currentUserToken);
+        localStorage.setItem(Defaults.rememberMe, currentUserToken);        
       }
-
+      //redirect to dashboard
       this._router.navigate(['/report/dashboard']);
     }
     else {

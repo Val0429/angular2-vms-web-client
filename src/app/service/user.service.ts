@@ -42,7 +42,7 @@ export class UserService {
         private _loginService: LoginService
     ) { }
 
-    async getCurrentUser(): Promise<User> {
+    getCurrentUser(): User {
         return this._loginService.getCurrentUser();
     }
 

@@ -12,7 +12,7 @@ export class SetupService {
     //private webRoot: string = "http://203.69.170.41:8088/";
     //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
 
-    private uriGetServerSettings: string = Globals.cgiRoot + "frs/cgi/getserversettings";
+    private uriGetServerSettings: string = Globals.cgiRoot + "config";
     private uriModifyServerSettings: string = Globals.cgiRoot + "frs/cgi/modifyserversettings";
     
 
@@ -25,9 +25,9 @@ export class SetupService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.sessionId + `" }`;
+        
 
-        var result = await this._coreService.postConfig({ path: this.uriGetServerSettings, data: data }).toPromise();
+      var result = await this._coreService.getConfig({ path: this.uriGetServerSettings, query:"?sessionId="+token.sessionId }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok")
