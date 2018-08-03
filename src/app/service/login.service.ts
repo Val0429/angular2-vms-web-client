@@ -58,8 +58,6 @@ export class LoginService implements CanActivate {
         function (result) {
           // result Handle
           var sessionToken = new SessionToken().fromJSON(result);
-          //adds username to session token object
-          sessionToken.username = data["username"];
           sessionStorage.setItem(Defaults.currentUserToken, JSON.stringify(sessionToken));
 
           ret = true;
@@ -92,10 +90,7 @@ export class LoginService implements CanActivate {
   getCurrentUser(): User {
     var sessionToken = this.getCurrentUserToken();
     if (sessionToken && sessionToken !== null) {
-      var currentUser = new User();
-      currentUser.username = sessionToken.username;
-      currentUser.password = "";
-      return currentUser;
+      return sessionToken.user;
     }
     else return null;
   }

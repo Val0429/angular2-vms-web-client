@@ -1,16 +1,16 @@
 
 export class SessionToken {
-    public username: string;
+  
     public sessionId: string;
     public serverTime: number;
-    
+    public user: User;
 
     public fromJSON(json: any): SessionToken {
       //let object = Object.create(sessionToken.prototype);
       //optional property
-      if (json["username"] && json["username"]!==null) {
-        this.username = json["username"];
-      }
+      
+        this.user = json["user"];
+      
         this.sessionId = json["sessionId"];
         this.serverTime = json["serverTime"];        
 
@@ -21,17 +21,35 @@ export class SessionToken {
 export class User {
     public username: string;
     public password: string;
-    public group: string;
+    public objectId: string;
+    public createdAt: string;
+    public updatedAt: string;
+    public roles: Roles[];
 
     public fromJSON(json: any): User {
-        //let object = Object.create(User.prototype);
-
-        this.username = json["username"];
+      //let object = Object.create(User.prototype);
+      this.objectId = json["objectId"];
+      this.username = json["username"];
+      if (json["password"]) {
         this.password = json["password"];
-        return this;
+      }
+      this.roles = json["roles"];
+      return this;
     }
 }
-
+export class Roles {
+  public objectId: string;
+  public createdAt: string;
+  public updatedAt: string;
+  public name: string;
+  public fromJSON(json: any): Roles {
+    this.objectId = json["objectId"];
+    this.createdAt = json["createdAt"];
+    this.name = json["name"];
+    this.updatedAt = json["updatedAt"];
+    return this;
+  }
+}
 export class Person {
     public id: string;
     public fullname: string;

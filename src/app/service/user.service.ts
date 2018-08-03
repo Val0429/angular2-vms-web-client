@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group } from 'app/Interface/interface';
+import { User, Person, Group, Roles } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
@@ -44,25 +44,6 @@ export class UserService {
         return this._loginService.getCurrentUser();
     }
 
-    async changePassword(_user: string): Promise<boolean> {
-        var modUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
-
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "newpassword" : "` + modUser.newpassword + `"}`;
-
-        var result = await this._coreService.postConfig({ path: this.uriChangePassword, data: data }).toPromise();
-        console.log(result);
-
-        if (result["message"] == "ok") {
-            let newData: string = `{ "username":"` + currentUser.username + `", "password":"` + modUser.newpassowrd + `" }`;
-            sessionStorage.setItem('currentUser', newData);
-
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     async getUsersList(): Promise<User[]> {
         var me = this;
@@ -109,11 +90,11 @@ export class UserService {
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
-        console.log(result);
-        var user = new User();
-        user.username = newUser["username"];      
-        user.group = "user";
-        return user;
+        console.log("create user result: ", result);
+        
+      //TODO: change this with proper roles
+      var createdUser = new User().fromJSON(result);
+      return createdUser;
     }
 
   async deleteUser(objectId: string): Promise<number> {

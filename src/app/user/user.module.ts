@@ -14,7 +14,6 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 import { SelectModule } from 'ng2-select';
 
 // Child Page Component 
-import { UserComponent } from './user.component';
 import { PersonComponent } from './person.component';
 import { GroupComponent } from './group.component';
 import { BatchEnrollComponent } from './batchenroll.component';
@@ -36,7 +35,6 @@ import { ConfirmPasswordValidator } from './confirmpassword-validation.directive
     SelectModule
   ],
   declarations: [
-    UserComponent,
     GroupComponent,
     PersonComponent,
     BatchEnrollComponent,

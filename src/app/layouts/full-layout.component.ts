@@ -14,9 +14,10 @@ import { Router } from '@angular/router';
 
 export class FullLayoutComponent implements OnInit {
   model: {
-    "title"?: string, "action": string, "username"?: string, "password"?: string, "newpassword"?: string, "repeatpassword"?: string, "buttom"?: string
+    "title"?: string, "action": string, "username"?: string, "password"?: string, "newpassword"?: string, "repeatpassword"?: string, "buttom"?: string, "objectId":string
   } =
     {
+      "objectId":"",
       "title": "Change Password",
       "action": "Modify",
       "username": "",
@@ -44,7 +45,7 @@ export class FullLayoutComponent implements OnInit {
 
   async ngOnInit() {
     var user = await this._userService.getCurrentUser();
-
+    this.model.objectId = user.objectId;
     this.model.username = user.username;
     //this.model.password = user.password ;
   }
@@ -67,10 +68,25 @@ console.log('form submit');
     this.model.buttom = "Save";
   }
 
-  async saveChangePassword() {
-    var ret = await this._userService.changePassword(JSON.stringify(this.model));
+  async saveChangePassword() {    
+    // Update password User
+    console.log("update Password Current User");
+    var data: object = {
+      objectId: this.model.objectId,
+      password: this.model.newpassword
+    };
 
-    this.ngOnInit();
+    console.log(data);
+    var result = await this._userService.updateUser(data)
+      .catch(error => {
+        console.log(error);
+      });
+
+    if (result === 200) {
+      //TODO: POP update result
+      this.ngOnInit();
+    }
+    
   }
 
   public async logout() {

@@ -122,7 +122,7 @@ export class AccountComponent implements OnInit {
   }
   async updatePasswordUser() {
     if (this.model.action === "Edit User") {
-      // Create User
+      // Update password User
       console.log("updatePasswordUser");
       var data: object = {
         objectId: this.model.objectId,

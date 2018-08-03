@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 
 //Layouts
-import { UserComponent } from './user.component';
 import { PersonComponent } from './person.component';
 import { GroupComponent } from './group.component';
 import { BatchEnrollComponent } from './batchenroll.component';
@@ -16,15 +15,7 @@ import { BatchEnrollComponent } from './batchenroll.component';
 const routes: Routes = [
   { path: '', data: { title: 'User' },
     canActivate: [LoginService],
-    children: [   
-      {
-        path: 'manage-user',
-        canActivate: [LoginService],
-        component: UserComponent,
-        data: {
-          title: 'User Account'
-        }
-      },
+    children: [ 
       {
         path: 'enroll-person',
         canActivate: [LoginService],
