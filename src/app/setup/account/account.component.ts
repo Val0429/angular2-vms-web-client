@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
@@ -8,25 +8,12 @@ import { UserService } from 'app/service/user.service';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent  {
+export class AccountComponent implements OnInit {
+  
   @ViewChild("userForm") userForm: NgForm;
   constructor(private _userService: UserService) {
-    var me = this;
-
-    setTimeout(async () => {
-      var currUser = await me._userService.getCurrentUser();
-      if (currUser.username === "Admin")
-        me.isAdmin = true;
-      else
-        me.isAdmin = false;
-      console.log(me.isAdmin);
-
-      let users = await this._userService.getUsersList();
-      for (var user of users) {
-        me.data.push(user);
-      }
-    }, 1000);
   }
+    
   
 
   public data = [];
@@ -48,7 +35,21 @@ export class AccountComponent  {
       "buttom": "Create User"
     };
 
-  
+  async ngOnInit(): Promise<void> {
+    let me = this;
+    var currUser = await me._userService.getCurrentUser();
+    if (currUser.username === "Admin")
+      me.isAdmin = true;
+    else
+      me.isAdmin = false;
+    console.log(me.isAdmin);
+
+    let users = await this._userService.getUsersList();
+    for (var user of users) {
+      me.data.push(user);
+    }
+  }
+
   newUser() {
     this.userForm.form.reset();
 
@@ -92,7 +93,10 @@ export class AccountComponent  {
       // Create User
       console.log("saveUser");
       console.log(JSON.stringify(this.model));
-      var result = await this._userService.createUser(JSON.stringify(this.model));
+      var result = await this._userService.createUser(JSON.stringify(this.model))
+        .catch(error => {
+          console.log(error);
+        });
       if (result != null)
         this.data.push(result);
     }

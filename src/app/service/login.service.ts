@@ -25,6 +25,7 @@ export class LoginService implements CanActivate {
 
   }
   checkActiveSession(): boolean {
+    //TODO: improve this active session check
     var rememberMe = localStorage.getItem(Defaults.rememberMe);
     var currentUserToken = sessionStorage.getItem(Defaults.currentUserToken);
     if (rememberMe || currentUserToken) {

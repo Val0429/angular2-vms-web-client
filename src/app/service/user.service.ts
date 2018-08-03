@@ -8,12 +8,10 @@ import * as Globals from '../globals';
 @Injectable()
 export class UserService {
   
-    private uriChangePassword: string = Globals.cgiRoot + "frs/cgi/changepassword";
+  private uriChangePassword: string = Globals.cgiRoot + "frs/cgi/changepassword";
 
+  private uriUserCrud: string = Globals.cgiRoot + "users";  
 
-  private uriGetUserList: string = Globals.cgiRoot + "users";
-
-    private uriCreateUser: string = Globals.cgiRoot + "frs/cgi/createuser";
     //private uriModifyUser: string = Globals.cgiRoot + "frs/cgi/changepassword";
     private uriDeleteUser: string = Globals.cgiRoot + "frs/cgi/deleteuser";
 
@@ -73,7 +71,7 @@ export class UserService {
         
 
       var _users = [];
-      var result = await this._coreService.getConfig({ path: this.uriGetUserList, query: "?sessionId="+token.sessionId }).toPromise();
+      var result = await this._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId="+token.sessionId }).toPromise();
         console.log(result);
 
         // {
@@ -100,26 +98,26 @@ export class UserService {
     }
 
     async createUser(_user: string): Promise<User> {
-        var newUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
+      var newUser = JSON.parse(_user);
+      var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "newuser_username" : "` + newUser["username"] + `", "newuser_password" : "` + newUser["password"] + `"}`;
+      let data: object = {
+          sessionId: token.sessionId,
+          username: newUser["username"],
+          password: newUser["password"],
+          data: {},
+          roles: ["Administrator"]
+      };
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriCreateUser, data: data }).toPromise();
+        var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
         console.log(result);
+        var user = new User();
+        user.username = newUser["username"];      
+        user.group = "user";
 
-        if (result["message"] == "ok") {
-            var user = new User();
-            user.username = newUser["username"];
-            user.password = newUser["password"];
-            user.group = "user";
-
-            return user;
-        }
-        else {
-            return null;
-        }
+        return user;
+        
 
     }
 
