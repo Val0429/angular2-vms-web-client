@@ -69,7 +69,7 @@ export class LoginService implements CanActivate {
         }
       ).toPromise()
       .catch(err => {
-        console.log(JSON.stringify(err));
+        console.log(err);
       });
 
     return ret;
@@ -108,21 +108,28 @@ export class LoginService implements CanActivate {
       await this._coreService.postConfig({ path: this.uriLogout, data: data })
         .do(
           function (result) {
+            ret = true;
           },
-          function (err) {
-            ret = false;
+        function (err) {            
+          ret = false;
+          //TODO: do something with this error
           },
           function () {
             ret = true;
           }
-        ).toPromise().catch(err => {
+      ).finally(() => {
+        //we'd just let user logout
+        ret = true;
+        //clears data on local storage and session
+        localStorage.clear();
+        sessionStorage.clear();
+        }).toPromise()
+        .catch(err => {
           console.log(err);
         });      
     }
-    ret = true;
-    //clears data on local storage and session
-    localStorage.clear();
-    sessionStorage.clear();
+    
+    
     return ret;
   }
 }

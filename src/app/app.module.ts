@@ -29,7 +29,6 @@ import { FullLayoutComponent } from './layouts/full-layout.component';
 import { ServiceModule } from './service/service.module';
 
 // Form Directive
-import { PasswordValidator } from './layouts/password-validation.directive';
 import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.directive';
 import { TenantModule } from './tenant/tenant.module';
 
@@ -56,8 +55,7 @@ import { TenantModule } from './tenant/tenant.module';
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    //AsideToggleDirective,
-    PasswordValidator,
+    //AsideToggleDirective,    
     ConfirmPasswordValidator
   ],
   providers: [],

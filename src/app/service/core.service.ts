@@ -20,7 +20,7 @@ export class CoreService {
         return response.json();
       })
        .catch((error:any) => 
-         Observable.throw(new Error(`{ "message": "error", "body" : "` + error._body + `"}`))
+         Observable.throw(new Error(error))
     );
   }
 
@@ -34,11 +34,9 @@ export class CoreService {
       .map((response: Response) => {
         return response.json();
       })
-      .catch((error:any) => 
-        Observable.throw(
-          new Error(`{ "message": "error", "body" : "` + error._body + `"}`)
-        )
-    );
+      .catch((error: any) =>
+        Observable.throw(new Error(error))
+      );
   }
 
   getImage(args: { path: string }) {
@@ -49,9 +47,8 @@ export class CoreService {
       .map((response: Response) => {
         return response;
       })
-      .catch((error: any) => {
-        return JSON.parse(`{ "message": "error", "body" : "` + error._body + `"}`);
-      }
+       .catch((error:any) => 
+         Observable.throw(new Error(error))
     );
   }
 }
