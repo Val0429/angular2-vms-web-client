@@ -55,7 +55,20 @@ export class CoreService {
         Observable.throw(new Error(error))
       );
   }
-
+  putConfig(args: { path: string, data: any }): Observable<Response> {
+    const finalUrl = args.path;
+    var headers = new Headers();
+    headers.append("content-type", "application/json");
+    const options = new RequestOptions();
+    options.headers = headers;
+    return this.http.put(finalUrl, args.data, options)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch((error: any) =>
+        Observable.throw(new Error(error))
+      );
+  }
   getImage(args: { path: string }) {
     let finalUrl = args.path;
 

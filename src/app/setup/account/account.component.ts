@@ -9,30 +9,41 @@ import { UserService } from 'app/service/user.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
-  
+
   @ViewChild("userForm") userForm: NgForm;
   constructor(private _userService: UserService) {
   }
-    
-  
 
   public data = [];
   public filterQuery = '';
   private srcUser = '';
 
   private isAdmin = false;
+  private editMode = false;
 
   model: {
-    "title"?: string, "action": string, "username"?: string, "group"?: string, "password"?: string, "repeatpassword"?: string, "buttom"?: string
+    "objectId"?: string,
+    "title"?: string,
+    "action": string,
+    "username"?: string,
+    "group"?: string,
+    "password"?: string,
+    "repeatpassword"?: string,
+    "createUserButton"?: string,
+    "updateUserButton"?: string,
+    "updatePasswordButton"?: string
   } =
     {
+      "objectId":"",
       "title": "New User",
       "action": "New User",
       "username": "",
       "group": "user",
       "password": "",
       "repeatpassword": "",
-      "buttom": "Create User"
+      "createUserButton": "Create User",
+      "updateUserButton": "Update User",
+      "updatePasswordButton": "Update Password"
     };
 
   async ngOnInit(): Promise<void> {
@@ -49,22 +60,30 @@ export class AccountComponent implements OnInit {
       me.data.push(user);
     }
   }
-
+  editUser(item) {
+    this.editMode = true;
+    this.userForm.form.reset();
+    this.model.objectId = item.objectId;
+    this.model.title = "Edit User";
+    this.model.action = "Edit User";
+    this.model.username = item.username;
+    this.model.group = "";
+    this.model.password = "";
+    this.model.repeatpassword = "";
+    
+  }
   newUser() {
     this.userForm.form.reset();
-
+    this.editMode = false;
     var u = ("000" + this.data.length);
     u = "user" + u.substr(u.length - 3, 3);
-
+    
     this.model.title = "New User";
     this.model.action = "New User";
     this.model.username = u;
     this.model.group = "user";
     this.model.password = "";
     this.model.repeatpassword = "";
-    this.model.buttom = "Create User";
-
-
   }
 
   async deleteUser(item) {
@@ -89,7 +108,7 @@ export class AccountComponent implements OnInit {
   }
 
   async saveUser() {
-    if (this.model.action == "New User") {
+    if (this.model.action === "New User") {
       // Create User
       console.log("saveUser");
       console.log(this.model);
@@ -100,6 +119,54 @@ export class AccountComponent implements OnInit {
       if (result != null)
         this.data.push(result);
     }
+  }
+  async updatePasswordUser() {
+    if (this.model.action === "Edit User") {
+      // Create User
+      console.log("updatePasswordUser");
+      var data: object = {
+        objectId: this.model.objectId,
+        password: this.model.password
+      };
+
+      console.log(data);
+      var result = await this._userService.updateUser(data)
+        .catch(error => {
+          console.log(error);
+        });
+      
+      if (result === 200) {
+        //TODO: POP update result
+        
+      }
+    }
+  }
+
+  async updateUser() {
+    if (this.model.action === "Edit User") {
+      // Create User
+      console.log("updateUser");
+      var data: object = {
+        objectId: this.model.objectId,
+        //add something to it
+        data: {},
+        //add roles array to modify user's role
+        //roles:[""]
+      };
+      console.log(data);
+      var result = await this._userService.updateUser(data)
+        .catch(error => {
+          console.log(error);
+        });
+      var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
+      if (result === 200 && index > -1) {
+        //TODO: update other properties
+        //TODO: POP update result
+      }
+    }
+  }
+
+  updatePassword() {
 
   }
 

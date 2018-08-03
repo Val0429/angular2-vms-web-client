@@ -80,9 +80,22 @@ export class UserService {
         });        
 
         return users;
-    }
+  }
+  async updateUser(data: any): Promise<number> {
 
-    async createUser(newUser: object): Promise<User> {
+    var token = this._loginService.getCurrentUserToken();
+
+    data.sessionId = token.sessionId;
+
+    console.log(data);
+
+    var result = await this._coreService.putConfig({ path: this.uriUserCrud, data: data }).toPromise();
+
+    console.log(result);
+
+    return result.status;
+  }
+    async createUser(newUser: any): Promise<User> {
       
         var token = this._loginService.getCurrentUserToken();
 
@@ -100,10 +113,7 @@ export class UserService {
         var user = new User();
         user.username = newUser["username"];      
         user.group = "user";
-
         return user;
-        
-
     }
 
   async deleteUser(objectId: string): Promise<number> {

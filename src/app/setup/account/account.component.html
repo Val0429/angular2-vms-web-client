@@ -33,9 +33,9 @@
                   <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
                 <th style="width: 65%">
-                  <mfDefaultSorter by="group">Group</mfDefaultSorter>
+                  <mfDefaultSorter by="group">Roles</mfDefaultSorter>
                 </th>
-                <th style="width: '100px;'"></th>
+                <th style=""></th>
               </tr>
             </thead>
             <tbody>
@@ -43,7 +43,14 @@
               <tr *ngFor="let item of mf.data; let i = index">
                 <td>{{i + 1}}</td>
                 <td>{{item.username}}</td>
-                <td>{{item.group}}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let role of item.roles">{{role.name}}</li>
+                  </ul>
+                </td>
+                <td>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);largeModal.show()"></a>
+                </td>
                 <td>
                   <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
                 </td>
@@ -101,6 +108,10 @@
                     <input type="text" readonly class="form-control form-control-success" id="group" name="group" placeholder="Group" [(ngModel)]="model.group">
                   </div>
 
+                  <div class="modal-footer" [hidden]="!editMode">
+                    <button (click)="largeModal.hide();updateUser()" class="btn btn-primary" typeof="button">{{model.updateUserButton}}</button>
+                  </div>
+
                   <div class="input-group mb-1" [ngClass]="{ 'has-danger': password.invalid && (password.dirty || password.touched), 'has-success': password.valid && (password.dirty || password.touched)}">
                     <span class="input-group-addon">
                       <i class="icon-key"></i>
@@ -132,13 +143,16 @@
                       Password mismatch
                     </p>
                   </div>
+                  <div class="modal-footer" [hidden]="!editMode">
+                    <button type="button" class="btn btn-primary" [disabled]="!userForm.valid" (click)="largeModal.hide();updatePasswordUser()">{{model.updatePasswordButton}}</button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" [hidden]="editMode">
               <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-              <!-- <button type="button" class="btn btn-primary" (click)="saveUser(); largeModal.hide()">{{model.buttom}}</button> -->
-              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">{{model.buttom}}</button>
+              <!-- <button type="button" class="btn btn-primary" (click)="saveUser(); largeModal.hide()">{{model.createUserButton}}</button> -->
+              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">{{model.createUserButton}}</button>
             </div>
           </form>
         </div>
