@@ -70,10 +70,11 @@ export class AccountComponent implements OnInit {
   async deleteUser(item) {
     console.log("deleteUser");
     console.log(item);
-    var result = await this._userService.deleteUser(item.objectId);
-
+    var result = await this._userService.deleteUser(item.objectId).catch(error => {
+      console.log(error);      
+    });
     var index = this.data.indexOf(item, 0);
-    if (index > -1) {
+    if (result === 200 && index > -1) {
       this.data.splice(index, 1);
     }
   }
@@ -91,8 +92,8 @@ export class AccountComponent implements OnInit {
     if (this.model.action == "New User") {
       // Create User
       console.log("saveUser");
-      console.log(JSON.stringify(this.model));
-      var result = await this._userService.createUser(JSON.stringify(this.model))
+      console.log(this.model);
+      var result = await this._userService.createUser(this.model)
         .catch(error => {
           console.log(error);
         });

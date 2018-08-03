@@ -68,46 +68,31 @@ export class UserService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        
-
-      var _users = [];
-      var result = await this._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId="+token.sessionId }).toPromise();
-        console.log(result);
-
-        // {
-        //    "message": "ok",
-        //     "skip": 0,
-        //     "amount": 100,
-        //     "list": [
-        //         {
-        //             "name": "Admin",
-        //             "group": "admin"
-        //         }
-        //     ],
-        // }
-
-        
+      var users = [];
+        var result = await this._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
+          console.log(error);
+        });
+        console.log(result);        
         var list = result["results"];
         list.forEach(function (user) {
             if (user["username"])
-                _users.push(user);
-        });
-        
+                users.push(user);
+        });        
 
-        return _users;
+        return users;
     }
 
-    async createUser(_user: string): Promise<User> {
-      var newUser = JSON.parse(_user);
-      var token = this._loginService.getCurrentUserToken();
+    async createUser(newUser: object): Promise<User> {
+      
+        var token = this._loginService.getCurrentUserToken();
 
-      let data: object = {
-          sessionId: token.sessionId,
-          username: newUser["username"],
-          password: newUser["password"],
-          data: {},
-          roles: ["Administrator"]
-      };
+        let data: object = {
+            sessionId: token.sessionId,
+            username: newUser["username"],
+            password: newUser["password"],
+            data: {},
+            roles: ["Administrator"]
+        };
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();

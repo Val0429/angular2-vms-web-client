@@ -83,7 +83,10 @@ export class LoginComponent implements OnInit {
     console.log(this.model.username);
     console.log(this.model.password);
 
-    let data: string = `{ "username":"` + this.model.username + `", "password":"` + this.model.password + `" }`;
+    let data: object = {
+      username: this.model.username,
+      password: this.model.password
+    };
     let ret = await this._loginService.logInByPassword(data);
     console.log("login result: "+ret);
     if (ret == true) {

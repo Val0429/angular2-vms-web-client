@@ -90,7 +90,7 @@ export class UserComponent {
       // Create User
       console.log("saveUser");
       console.log(JSON.stringify(this.model));
-      var result = await this._userService.createUser(JSON.stringify(this.model));
+      var result = await this._userService.createUser(this.model);
       if (result != null)
         this.data.push(result);
     }

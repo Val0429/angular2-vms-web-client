@@ -47,11 +47,9 @@ export class LoginService implements CanActivate {
     return result;
   }
 
-  async logInByPassword(_data: any): Promise<boolean> {
+  async logInByPassword(data: object): Promise<boolean> {
     let me = this;
-    let user = JSON.parse(_data);
-    let data: string = `{ "username":"` + user["username"] + `", "password":"` + user["password"] + `" }`;
-
+    
     var ret: boolean = false;
     console.log("logInByPassword");
     console.log(data);
@@ -61,7 +59,7 @@ export class LoginService implements CanActivate {
           // result Handle
           var sessionToken = new SessionToken().fromJSON(result);
           //adds username to session token object
-          sessionToken.username = user["username"];
+          sessionToken.username = data["username"];
           sessionStorage.setItem(Defaults.currentUserToken, JSON.stringify(sessionToken));
 
           ret = true;
@@ -104,8 +102,8 @@ export class LoginService implements CanActivate {
   async logOut(): Promise<boolean> {
     var currentUserToken = this.getCurrentUserToken();
     if (currentUserToken !== null) {
-      var sessionId = currentUserToken.sessionId;
-      var data = `{"sessionId":"` + sessionId + `"}`;
+      
+      let data: object = { sessionId: currentUserToken.sessionId };
 
       var ret: boolean = false;
       console.log("logout function call");
