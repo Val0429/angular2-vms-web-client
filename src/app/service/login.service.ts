@@ -39,6 +39,10 @@ export class LoginService implements CanActivate {
   canActivate() {
     var result = this.checkActiveSession();
     console.log("can activate result:  ", result);
+    if (!result) {
+      //redirect to login
+      this._router.navigate["/login"];
+    }
     return result;
   }
 
