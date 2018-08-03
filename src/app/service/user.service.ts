@@ -13,7 +13,7 @@ export class UserService {
   private uriUserCrud: string = Globals.cgiRoot + "users";  
 
     //private uriModifyUser: string = Globals.cgiRoot + "frs/cgi/changepassword";
-    private uriDeleteUser: string = Globals.cgiRoot + "frs/cgi/deleteuser";
+    
 
 
     private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
@@ -121,23 +121,13 @@ export class UserService {
 
     }
 
-    async deleteUser(_user: string): Promise<boolean> {
-        var delUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
+  async deleteUser(objectId: string): Promise<number> {
+      var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "delete_username" : "` + delUser.username + `"}`;
-        console.log(data);
+      var result = await this._coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
 
-        var result = await this._coreService.postConfig({ path: this.uriDeleteUser, data: data }).toPromise();
-        console.log(result);
-
-        if (result["message"] == "ok") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+      return result.status;
+  }
 
 
     async getGroupsList(): Promise<User[]> {

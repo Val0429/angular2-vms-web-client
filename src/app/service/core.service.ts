@@ -24,6 +24,23 @@ export class CoreService {
     );
   }
 
+  deleteConfig(args: { path: string, query?: string }): Observable<Response> {
+    let finalUrl = args.path;
+
+    if (args.query) {
+      finalUrl += args.query;
+    }
+
+    const options = new RequestOptions();
+    
+    return this.http.delete(finalUrl, options)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch((error: any) =>
+        Observable.throw(new Error(error))
+      );
+  }
   postConfig(args: { path: string, data: any }): Observable<Response> {
     const finalUrl = args.path;
     var headers = new Headers();

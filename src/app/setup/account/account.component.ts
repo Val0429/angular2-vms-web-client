@@ -68,10 +68,9 @@ export class AccountComponent implements OnInit {
   }
 
   async deleteUser(item) {
-    this.model.username = item.username;
     console.log("deleteUser");
-    console.log(JSON.stringify(this.model));
-    var result = await this._userService.deleteUser(JSON.stringify(this.model));
+    console.log(item);
+    var result = await this._userService.deleteUser(item.objectId);
 
     var index = this.data.indexOf(item, 0);
     if (index > -1) {
