@@ -50,6 +50,9 @@ export class Roles {
     return this;
   }
 }
+export class RoleOption extends Roles {
+  public checked: boolean;
+}
 export class Person {
     public id: string;
     public fullname: string;

@@ -105,7 +105,13 @@
                     <span class="input-group-addon">
                       <i class="icon-people"></i>
                     </span>
-                    <input type="text" readonly class="form-control form-control-success" id="group" name="group" placeholder="Group" [(ngModel)]="model.group">
+                    <span *ngFor="let role of model.roles; let i = index" >
+                      <input type="checkbox"
+                              [(ngModel)]="model.roles[i].checked"                             
+                             name="{{role.name}}" 
+                             />
+                      <label for="role">{{role.name}}</label>
+                    </span>
                   </div>
 
                   <div class="modal-footer" [hidden]="!editMode">

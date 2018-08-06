@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
+import { Roles, RoleOption } from '../../Interface/interface';
 
 @Component({
   selector: 'app-account',
@@ -14,8 +15,7 @@ export class AccountComponent implements OnInit {
 
   @ViewChild("userForm") userForm: NgForm;
   constructor(private _userService: UserService, private _dialogService: DialogService) {
-  }
-
+  }  
   public data = [];
   public filterQuery = '';
   private srcUser = '';
@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit {
     "title"?: string,
     "action": string,
     "username"?: string,
-    "group"?: string,
+    "roles"?: RoleOption[],
     "password"?: string,
     "repeatpassword"?: string,
     "createUserButton"?: string,
@@ -40,7 +40,7 @@ export class AccountComponent implements OnInit {
       "title": "New User",
       "action": "New User",
       "username": "",
-      "group": "user",
+      "roles": [],
       "password": "",
       "repeatpassword": "",
       "createUserButton": "Create User",
@@ -56,20 +56,34 @@ export class AccountComponent implements OnInit {
     else
       me.isAdmin = false;
     console.log(me.isAdmin);
-
-    let users = await this._userService.getUsersList();
-    for (var user of users) {
+    let roles = await me._userService.getUserRole();
+    if (roles) {
+      for (let role of roles) {
+        var newRole = new RoleOption();
+        newRole.name = role;
+        newRole.checked = false;
+        me.model.roles.push(newRole);
+      }
+    }
+    let users = await me._userService.getUsersList();
+    for (let user of users) {
       me.data.push(user);
     }
   }
   editUser(item) {
+    console.log("edit item",item);
     this.editMode = true;
     this.userForm.form.reset();
     this.model.objectId = item.objectId;
     this.model.title = "Edit User";
     this.model.action = "Edit User";
     this.model.username = item.username;
-    this.model.group = "";
+    for (let i = 0; i < this.model.roles.length; i++) {
+      let role = this.model.roles[i];
+      let findIndex = item.roles.map(function (e) { return e.name; }).indexOf(role.name);      
+      this.model.roles[i].checked = findIndex > -1;    
+    }
+    
     this.model.password = "";
     this.model.repeatpassword = "";
     
@@ -83,15 +97,16 @@ export class AccountComponent implements OnInit {
     this.model.title = "New User";
     this.model.action = "New User";
     this.model.username = u;
-    this.model.group = "user";
+    for (let role of this.model.roles) {      
+      role.checked = false;
+    }
     this.model.password = "";
     this.model.repeatpassword = "";
   }
   
   async deleteUser(item) {
-    console.log("deleteUser");
-    console.log(item);
-
+    console.log("deleteUser", item);
+    
     let disposable = this._dialogService.addDialog(ConfirmComponent, {
       title: "Confirmation",
       message: "Are you sure?"
@@ -125,9 +140,17 @@ export class AccountComponent implements OnInit {
   async saveUser() {
     if (this.model.action === "New User") {
       // Create User
-      console.log("saveUser");
-      console.log(this.model);
-      var result = await this._userService.createUser(this.model)
+      console.log("saveUser", this.model);
+      
+      let data: object = {
+        username: this.model.username,
+        password: this.model.password,
+        data: {},
+        roles: this.getRolesFromModel()
+      };
+      console.log("create user", data);
+
+      var result = await this._userService.createUser(data)
         .catch(error => {
           console.log(error);
         });
@@ -156,27 +179,37 @@ export class AccountComponent implements OnInit {
       }
     }
   }
-
+  getRolesFromModel() {
+    var roles = [];
+    for (let role of this.model.roles) {
+      if (role.checked && role.checked === true) {
+        roles.push(role.name);
+      }
+    }
+    return roles;
+  }
   async updateUser() {
     if (this.model.action === "Edit User") {
-      // Create User
-      console.log("updateUser");
+      console.log("updateUser model", this.model); 
+      
+
       var data: object = {
         objectId: this.model.objectId,
         //add something to it
         data: {},
-        //add roles array to modify user's role
-        //roles:[""]
+        roles: this.getRolesFromModel()
       };
-      console.log(data);
+      console.log("updateUser", data);
+      
+       
       var result = await this._userService.updateUser(data)
         .catch(error => {
           console.log(error);
         });
       var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
-      if (result && index > -1) {
-        //TODO: update other properties
+      if (result && index > -1) {        
         //TODO: POP update result
+        //this.data[index].roles = result.roles;
       }
     }
   }

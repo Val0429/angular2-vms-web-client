@@ -82,7 +82,7 @@ console.log('form submit');
         console.log(error);
       });
 
-    if (result === 200) {
+    if (result) {
       //TODO: POP update result
       this.ngOnInit();
     }

@@ -8,7 +8,7 @@ import * as Globals from '../globals';
 @Injectable()
 export class UserService {
   
-  private uriChangePassword: string = Globals.cgiRoot + "frs/cgi/changepassword";
+  private uriRoleCrud: string = Globals.cgiRoot + "roles";
 
   private uriUserCrud: string = Globals.cgiRoot + "users";  
 
@@ -44,13 +44,27 @@ export class UserService {
         return this._loginService.getCurrentUser();
     }
 
+  async getUserRole(): Promise<string[]> {
+    var me = this;
+    var token = me._loginService.getCurrentUserToken();
 
+    var roles = [];
+    var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
+      console.log(error);
+    });
+    console.log(result);
+    if (result) {
+      roles = result;
+    }
+
+    return roles;
+  }
     async getUsersList(): Promise<User[]> {
         var me = this;
-        var token = this._loginService.getCurrentUserToken();
+      var token = me._loginService.getCurrentUserToken();
 
       var users = [];
-        var result = await this._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
+        var result = await me._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
           console.log(error);
         });
       console.log(result);
@@ -63,10 +77,10 @@ export class UserService {
 
         return users;
   }
-  async updateUser(data: any): Promise<number> {
+  async updateUser(data: any): Promise<User> {
 
     var token = this._loginService.getCurrentUserToken();
-
+    
     data.sessionId = token.sessionId;
 
     console.log(data);
@@ -75,20 +89,13 @@ export class UserService {
 
     console.log(result);
 
-    return result.status;
+    var updatedUser = new User().fromJSON(result);
+    return updatedUser;
   }
-    async createUser(newUser: any): Promise<User> {
+    async createUser(data: any): Promise<User> {
       
         var token = this._loginService.getCurrentUserToken();
-
-        let data: object = {
-            sessionId: token.sessionId,
-            username: newUser["username"],
-            password: newUser["password"],
-            data: {},
-            roles: ["Administrator"]
-        };
-        console.log(data);
+        data.sessionId = token.sessionId;
 
         var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
         console.log("create user result: ", result);
