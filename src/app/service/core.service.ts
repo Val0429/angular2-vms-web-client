@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Promise } from 'q';
+import { throttle } from 'rxjs/operator/throttle';
 
 @Injectable()
 export class CoreService {
   constructor(private http: Http) {}
 
-  getConfig(args: { path?: string, query?: string }): Observable<Response> {
+  getConfig(args: { path?: string, query?: string }): Observable<any> {
     let finalUrl = args.path;
 
     if (args.query) {
@@ -17,6 +18,9 @@ export class CoreService {
     const options = new RequestOptions();
     return this.http.get(finalUrl, options)
       .map((response: Response) => {
+        if (response.status === 401) {
+          Observable.throw(new Error("Unauthorized, please relogin"));
+        }
         return response.json();
       })
        .catch((error:any) => 
@@ -24,7 +28,7 @@ export class CoreService {
     );
   }
 
-  deleteConfig(args: { path: string, query?: string }): Observable<Response> {
+  deleteConfig(args: { path: string, query?: string }): Observable<any> {
     let finalUrl = args.path;
 
     if (args.query) {
@@ -35,13 +39,16 @@ export class CoreService {
     
     return this.http.delete(finalUrl, options)
       .map((response: Response) => {
-        return response.json();
+        if (response.status === 401) {
+          Observable.throw(new Error("Unauthorized, please relogin"));
+        }
+        return response.json();        
       })
       .catch((error: any) =>
         Observable.throw(new Error(error))
       );
   }
-  postConfig(args: { path: string, data: any }): Observable<Response> {
+  postConfig(args: { path: string, data: any }): Observable<any> {
     const finalUrl = args.path;
     var headers = new Headers();
     headers.append("content-type", "application/json");
@@ -49,13 +56,16 @@ export class CoreService {
     options.headers = headers;
     return this.http.post(finalUrl, args.data, options)
       .map((response: Response) => {
+        if (response.status === 401) {
+          Observable.throw(new Error("Unauthorized, please relogin"));
+        }
         return response.json();
       })
       .catch((error: any) =>
         Observable.throw(new Error(error))
       );
   }
-  putConfig(args: { path: string, data: any }): Observable<Response> {
+  putConfig(args: { path: string, data: any }): Observable<any> {
     const finalUrl = args.path;
     var headers = new Headers();
     headers.append("content-type", "application/json");
@@ -63,6 +73,9 @@ export class CoreService {
     options.headers = headers;
     return this.http.put(finalUrl, args.data, options)
       .map((response: Response) => {
+        if (response.status === 401) {
+          Observable.throw(new Error("Unauthorized, please relogin"));
+        }
         return response.json();
       })
       .catch((error: any) =>
