@@ -31,8 +31,10 @@ import { ServiceModule } from './service/service.module';
 // Form Directive
 import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.directive';
 import { TenantModule } from './tenant/tenant.module';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
-
+import { ConfirmComponent } from './dialog/confirm/confirm.component';
+import { AlertComponent } from './dialog/alert/alert.component';
 
 @NgModule({
   imports: [
@@ -46,7 +48,12 @@ import { TenantModule } from './tenant/tenant.module';
     TabsModule.forRoot(),
     ChartsModule,
     ServiceModule,
-    TenantModule   
+    TenantModule,
+    BootstrapModalModule
+  ],
+  entryComponents: [
+    ConfirmComponent,
+    AlertComponent
   ],
   declarations: [
     AppComponent,
@@ -56,7 +63,9 @@ import { TenantModule } from './tenant/tenant.module';
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
     //AsideToggleDirective,    
-    ConfirmPasswordValidator
+    ConfirmPasswordValidator,    
+    ConfirmComponent,
+    AlertComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

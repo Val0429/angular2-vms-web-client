@@ -5,6 +5,8 @@ import * as Defaults from "../defaults";
 import { User } from 'app/Interface/interface';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { AlertComponent } from '../dialog/alert/alert.component';
 //import * as $ from 'jquery'
 // import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 // import { NgForm } from '@angular/forms';
@@ -38,7 +40,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _dialogService: DialogService
   ) {
 
     let activeSession = _loginService.checkActiveSession();
@@ -50,7 +53,15 @@ export class LoginComponent implements OnInit {
       this._loginService.logOut(); 
     }
   }
-
+  showConfirm(message:string, title?:string) {
+    let disposable = this._dialogService.addDialog(AlertComponent, {
+      title: title,
+      message: message
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+      });
+  }
   ngOnInit() {
     this.model.username = "";
     this.model.password = "";
@@ -98,7 +109,7 @@ export class LoginComponent implements OnInit {
       this._router.navigate(['/report/dashboard']);
     }
     else {
-      alert('Login failed.');
+      this.showConfirm('Please check your account and password!', "Login failed");
       this.loading = false;
     }
   }

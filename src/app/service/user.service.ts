@@ -53,12 +53,13 @@ export class UserService {
         var result = await this._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
           console.log(error);
         });
-        console.log(result);        
-        var list = result["results"];
-        list.forEach(function (user) {
-            if (user["username"])
-                users.push(user);
-        });        
+      console.log(result);
+      if (result && result["results"]) {        
+        result["results"].forEach(function (user) {
+          if (user["username"])
+            users.push(user);
+        });
+      }
 
         return users;
   }
@@ -97,12 +98,10 @@ export class UserService {
       return createdUser;
     }
 
-  async deleteUser(objectId: string): Promise<number> {
+  async deleteUser(objectId: string): Promise<User> {
       var token = this._loginService.getCurrentUserToken();
-
       var result = await this._coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-
-      return result.status;
+      return new User().fromJSON(result);
   }
 
 

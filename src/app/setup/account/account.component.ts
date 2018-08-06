@@ -2,6 +2,8 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-account',
@@ -11,7 +13,7 @@ import { UserService } from 'app/service/user.service';
 export class AccountComponent implements OnInit {
 
   @ViewChild("userForm") userForm: NgForm;
-  constructor(private _userService: UserService) {
+  constructor(private _userService: UserService, private _dialogService: DialogService) {
   }
 
   public data = [];
@@ -85,17 +87,30 @@ export class AccountComponent implements OnInit {
     this.model.password = "";
     this.model.repeatpassword = "";
   }
-
+  
   async deleteUser(item) {
     console.log("deleteUser");
     console.log(item);
-    var result = await this._userService.deleteUser(item.objectId).catch(error => {
-      console.log(error);      
-    });
-    var index = this.data.indexOf(item, 0);
-    if (result === 200 && index > -1) {
-      this.data.splice(index, 1);
-    }
+
+    let disposable = this._dialogService.addDialog(ConfirmComponent, {
+      title: "Confirmation",
+      message: "Are you sure?"
+    })
+      .subscribe(async (isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {
+          var result = await this._userService.deleteUser(item.objectId).catch(error => {
+            console.log(error);
+          });
+          var index = this.data.indexOf(item, 0);
+          console.log(index);
+          console.log(result);
+          if (result && index > -1) {
+            this.data.splice(index, 1);
+          }
+        }
+      });
+    
   }
 
   onFormSubmit(form: NgForm) {
@@ -135,7 +150,7 @@ export class AccountComponent implements OnInit {
           console.log(error);
         });
       
-      if (result === 200) {
+      if (result) {
         //TODO: POP update result
         
       }
@@ -159,7 +174,7 @@ export class AccountComponent implements OnInit {
           console.log(error);
         });
       var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
-      if (result === 200 && index > -1) {
+      if (result && index > -1) {
         //TODO: update other properties
         //TODO: POP update result
       }
