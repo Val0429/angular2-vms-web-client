@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './full-layout.component.html',
-  encapsulation: ViewEncapsulation.None,
-
+  encapsulation: ViewEncapsulation.None  
 })
 
 export class FullLayoutComponent implements OnInit {
