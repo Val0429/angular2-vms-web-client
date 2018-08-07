@@ -114,9 +114,7 @@ export class AccountComponent implements OnInit {
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this._userService.deleteUser(item.objectId).catch(error => {
-            console.log(error);
-          });
+          var result = await this._userService.deleteUser(item.objectId);
           var index = this.data.indexOf(item, 0);
           console.log(index);
           console.log(result);
@@ -168,10 +166,7 @@ export class AccountComponent implements OnInit {
       };
 
       console.log(data);
-      var result = await this._userService.updateUser(data)
-        .catch(error => {
-          console.log(error);
-        });
+      var result = await this._userService.updateUser(data);
       
       if (result) {
         //TODO: POP update result
@@ -202,10 +197,7 @@ export class AccountComponent implements OnInit {
       console.log("updateUser", data);
       
        
-      var result = await this._userService.updateUser(data)
-        .catch(error => {
-          console.log(error);
-        });
+      var result = await this._userService.updateUser(data);
       var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
       if (result && index > -1) {        
         //TODO: POP update result

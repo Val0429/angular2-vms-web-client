@@ -17,14 +17,11 @@ export class CoreService {
 
     const options = new RequestOptions();
     return this.http.get(finalUrl, options)
-      .map((response: Response) => {
-        if (response.status === 401) {
-          Observable.throw(new Error("Unauthorized, please relogin"));
-        }
+      .map((response: Response) => {        
         return response.json();
       })
        .catch((error:any) => 
-         Observable.throw(new Error(error))
+         Observable.throw(error)
     );
   }
 
@@ -39,13 +36,10 @@ export class CoreService {
     
     return this.http.delete(finalUrl, options)
       .map((response: Response) => {
-        if (response.status === 401) {
-          Observable.throw(new Error("Unauthorized, please relogin"));
-        }
-        return response.json();        
+        return response.json();
       })
       .catch((error: any) =>
-        Observable.throw(new Error(error))
+        Observable.throw(error)
       );
   }
   postConfig(args: { path: string, data: any }): Observable<any> {
@@ -55,14 +49,11 @@ export class CoreService {
     const options = new RequestOptions();
     options.headers = headers;
     return this.http.post(finalUrl, args.data, options)
-      .map((response: Response) => {
-        if (response.status === 401) {
-          Observable.throw(new Error("Unauthorized, please relogin"));
-        }
+      .map((response: Response) => {        
         return response.json();
       })
       .catch((error: any) =>
-        Observable.throw(new Error(error))
+        Observable.throw(error)
       );
   }
   putConfig(args: { path: string, data: any }): Observable<any> {
@@ -72,14 +63,11 @@ export class CoreService {
     const options = new RequestOptions();
     options.headers = headers;
     return this.http.put(finalUrl, args.data, options)
-      .map((response: Response) => {
-        if (response.status === 401) {
-          Observable.throw(new Error("Unauthorized, please relogin"));
-        }
+      .map((response: Response) => {        
         return response.json();
       })
       .catch((error: any) =>
-        Observable.throw(new Error(error))
+        Observable.throw(error)
       );
   }
   getImage(args: { path: string }) {
@@ -91,7 +79,7 @@ export class CoreService {
         return response;
       })
        .catch((error:any) => 
-         Observable.throw(new Error(error))
+         Observable.throw(error)
     );
   }
 }

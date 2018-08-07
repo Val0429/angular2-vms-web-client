@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
+import { GlobalErrorHandler } from './global.error.handler';
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
 import { TabsModule } from 'ng2-bootstrap/tabs';
@@ -67,7 +67,10 @@ import { AlertComponent } from './dialog/alert/alert.component';
     ConfirmComponent,
     AlertComponent
   ],
-  providers: [],
+  providers: [{
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

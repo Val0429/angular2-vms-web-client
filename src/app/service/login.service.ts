@@ -68,10 +68,7 @@ export class LoginService implements CanActivate {
         function () {
           ret = true;
         }
-      ).toPromise()
-      .catch(err => {
-        console.log(err);
-      });
+      ).toPromise();
 
     return ret;
   }
@@ -94,6 +91,12 @@ export class LoginService implements CanActivate {
     }
     else return null;
   }
+  invalidateSession() {
+    //clears data on local storage and session
+    console.log("invalidate session");
+    localStorage.clear();
+    sessionStorage.clear();
+  }
   async logOut(): Promise<boolean> {
     var currentUserToken = this.getCurrentUserToken();
     if (currentUserToken !== null) {
@@ -108,23 +111,18 @@ export class LoginService implements CanActivate {
           function (result) {
             ret = true;
           },
-        function (err) {            
-          ret = false;
-          //TODO: do something with this error
+          function (err) {
+            ret = false;
+            //TODO: do something with this error
           },
           function () {
             ret = true;
           }
-      ).finally(() => {
-        //we'd just let user logout
-        ret = true;
-        //clears data on local storage and session
-        localStorage.clear();
-        sessionStorage.clear();
-        }).toPromise()
-        .catch(err => {
-          console.log(err);
-        });      
+        ).finally(() => {
+          //we'd just let user logout
+          ret = true;
+          this.invalidateSession();
+        }).toPromise();   
     }
     
     

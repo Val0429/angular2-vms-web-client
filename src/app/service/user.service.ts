@@ -49,9 +49,7 @@ export class UserService {
     var token = me._loginService.getCurrentUserToken();
 
     var roles = [];
-    var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
-      console.log(error);
-    });
+    var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result) {
       roles = result;
@@ -64,9 +62,7 @@ export class UserService {
       var token = me._loginService.getCurrentUserToken();
 
       var users = [];
-        var result = await me._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise().catch(error => {
-          console.log(error);
-        });
+      var result = await me._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
       console.log(result);
       if (result && result["results"]) {        
         result["results"].forEach(function (user) {
