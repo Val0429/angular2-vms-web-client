@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Http, Response, RequestOptions, Headers, ResponseType } from '@angular/http';
 import { Promise } from 'q';
 import { throttle } from 'rxjs/operator/throttle';
 
@@ -17,7 +17,8 @@ export class CoreService {
 
     const options = new RequestOptions();
     return this.http.get(finalUrl, options)
-      .map((response: Response) => {        
+      .map((response: Response) => {
+        if (!response.headers.get("content-type") || response.headers.get("content-type") !== "application/json; charset=utf-8") return response;
         return response.json();
       })
        .catch((error:any) => 
@@ -36,6 +37,7 @@ export class CoreService {
     
     return this.http.delete(finalUrl, options)
       .map((response: Response) => {
+        if (!response.headers.get("content-type") || response.headers.get("content-type") !== "application/json; charset=utf-8") return response;
         return response.json();
       })
       .catch((error: any) =>
@@ -49,7 +51,8 @@ export class CoreService {
     const options = new RequestOptions();
     options.headers = headers;
     return this.http.post(finalUrl, args.data, options)
-      .map((response: Response) => {        
+      .map((response: Response) => {
+        if (!response.headers.get("content-type") || response.headers.get("content-type") !== "application/json; charset=utf-8") return response;
         return response.json();
       })
       .catch((error: any) =>
@@ -64,6 +67,7 @@ export class CoreService {
     options.headers = headers;
     return this.http.put(finalUrl, args.data, options)
       .map((response: Response) => {        
+        if (!response.headers.get("content-type") || response.headers.get("content-type") !== "application/json; charset=utf-8") return response;
         return response.json();
       })
       .catch((error: any) =>
