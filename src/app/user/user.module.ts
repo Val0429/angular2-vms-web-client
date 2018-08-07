@@ -22,7 +22,7 @@ import { BatchEnrollComponent } from './batchenroll.component';
 import { UserRoutingModule } from './user-routing.module';
 
 //From Directive
-import { ConfirmPasswordValidator } from './confirmpassword-validation.directive';
+import { ConfirmPasswordValidator } from '../directive/confirmpassword-validation.directive';
 
 @NgModule({
   imports: [

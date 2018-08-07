@@ -30,7 +30,7 @@ export class AccountComponent implements OnInit {
     "username"?: string,
     "roles"?: RoleOption[],
     "password"?: string,
-    "repeatpassword"?: string,
+    "confirmPassword"?: string,
     "createUserButton"?: string,
     "updateUserButton"?: string,
     "updatePasswordButton"?: string
@@ -42,7 +42,7 @@ export class AccountComponent implements OnInit {
       "username": "",
       "roles": [],
       "password": "",
-      "repeatpassword": "",
+      "confirmPassword": "",
       "createUserButton": "Create User",
       "updateUserButton": "Update User",
       "updatePasswordButton": "Update Password"
@@ -51,11 +51,8 @@ export class AccountComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     let me = this;
     var currUser = await me._userService.getCurrentUser();
-    if (currUser.username === "Admin")
-      me.isAdmin = true;
-    else
-      me.isAdmin = false;
-    console.log(me.isAdmin);
+    me.isAdmin = currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+    console.log("is admin:", me.isAdmin);
     let roles = await me._userService.getUserRole();
     if (roles) {
       for (let role of roles) {
@@ -73,7 +70,7 @@ export class AccountComponent implements OnInit {
   editUser(item) {
     console.log("edit item",item);
     this.editMode = true;
-    this.userForm.form.reset();
+    //this.userForm.form.reset();
     this.model.objectId = item.objectId;
     this.model.title = "Edit User";
     this.model.action = "Edit User";
@@ -84,8 +81,8 @@ export class AccountComponent implements OnInit {
       this.model.roles[i].checked = findIndex > -1;    
     }
     
-    this.model.password = "";
-    this.model.repeatpassword = "";
+    this.model.password = "";    
+    this.model.confirmPassword = "";
     
   }
   newUser() {
@@ -101,7 +98,7 @@ export class AccountComponent implements OnInit {
       role.checked = false;
     }
     this.model.password = "";
-    this.model.repeatpassword = "";
+    this.model.confirmPassword = "";
   }
   
   async deleteUser(item) {

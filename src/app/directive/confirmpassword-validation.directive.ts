@@ -18,17 +18,18 @@ export class ConfirmPasswordValidator implements Validator {
         return this.reverse === 'true' ? true: false;
     }
 
-    validate(c: AbstractControl): { [key: string]: any } {
+  validate(c: AbstractControl): { [key: string]: any } {
+    
         // self value
         let v = c.value;
 
         // control vlaue
         let e = c.root.get(this.validateEqual);
-
+        console.log("validate", e);
         // value not equal
         if (e && v !== e.value && !this.isReverse) {
             return {
-                validateEqual: false
+              invalid: true
             }
         }
 
@@ -40,7 +41,7 @@ export class ConfirmPasswordValidator implements Validator {
 
         // value not equal and reverse
         if (e && v !== e.value && this.isReverse) {
-            e.setErrors({ validateEqual: false });
+          e.setErrors({ invalid: true });
         }
 
         return null;
