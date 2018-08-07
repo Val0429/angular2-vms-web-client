@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
+import { GlobalErrorHandler } from './global.error.handler';
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
 import { TabsModule } from 'ng2-bootstrap/tabs';
@@ -29,9 +29,12 @@ import { FullLayoutComponent } from './layouts/full-layout.component';
 import { ServiceModule } from './service/service.module';
 
 // Form Directive
-import { PasswordValidator } from './layouts/password-validation.directive';
 import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.directive';
+import { TenantModule } from './tenant/tenant.module';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
+import { ConfirmComponent } from './dialog/confirm/confirm.component';
+import { AlertComponent } from './dialog/alert/alert.component';
 
 @NgModule({
   imports: [
@@ -44,7 +47,13 @@ import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.d
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    ServiceModule   
+    ServiceModule,
+    TenantModule,
+    BootstrapModalModule
+  ],
+  entryComponents: [
+    ConfirmComponent,
+    AlertComponent
   ],
   declarations: [
     AppComponent,
@@ -53,11 +62,15 @@ import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.d
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    //AsideToggleDirective,
-    PasswordValidator,
-    ConfirmPasswordValidator 
+    //AsideToggleDirective,    
+    ConfirmPasswordValidator,    
+    ConfirmComponent,
+    AlertComponent
   ],
-  providers: [],
+  providers: [{
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,17 +1,18 @@
 
-export class sessionToken {
-    public message: string;
-    public session_id: string;
-    public servertime: number;
-    public expire: number;
+export class SessionToken {
+  
+    public sessionId: string;
+    public serverTime: number;
+    public user: User;
 
-    public fromJSON(json: any): sessionToken {
-        //let object = Object.create(sessionToken.prototype);
-
-        this.message = json["message"];
-        this.session_id = json["session_id"];
-        this.servertime = json["servertime"];
-        this.expire = json["expire"];
+    public fromJSON(json: any): SessionToken {
+      //let object = Object.create(sessionToken.prototype);
+      //optional property
+      
+        this.user = json["user"];
+      
+        this.sessionId = json["sessionId"];
+        this.serverTime = json["serverTime"];        
 
         return this;
     }
@@ -20,17 +21,38 @@ export class sessionToken {
 export class User {
     public username: string;
     public password: string;
-    public group: string;
+    public objectId: string;
+    public createdAt: string;
+    public updatedAt: string;
+    public roles: Roles[];
 
     public fromJSON(json: any): User {
-        //let object = Object.create(User.prototype);
-
-        this.username = json["username"];
+      //let object = Object.create(User.prototype);
+      this.objectId = json["objectId"];
+      this.username = json["username"];
+      if (json["password"]) {
         this.password = json["password"];
-        return this;
+      }
+      this.roles = json["roles"];
+      return this;
     }
 }
-
+export class Roles {
+  public objectId: string;
+  public createdAt: string;
+  public updatedAt: string;
+  public name: string;
+  public fromJSON(json: any): Roles {
+    this.objectId = json["objectId"];
+    this.createdAt = json["createdAt"];
+    this.name = json["name"];
+    this.updatedAt = json["updatedAt"];
+    return this;
+  }
+}
+export class RoleOption extends Roles {
+  public checked: boolean;
+}
 export class Person {
     public id: string;
     public fullname: string;

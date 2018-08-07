@@ -55,7 +55,7 @@ export class ActionService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : 0 }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0 }`;
 
         var _devices = [];
         var result = await this._coreService.postConfig({ path: this.uriGetPushDeviceList, data: data }).toPromise();
@@ -102,7 +102,7 @@ export class ActionService {
         var newDevice = JSON.parse(_device);
 
         //{ "session_id":"aaMXZzR3Kg", "push_device_type" : "ios", "push_device_name" : "test", "push_device_token" : "test123" }
-        let data: string = `{ "session_id":"` + token.session_id + `", "push_device_type" : "` + newDevice["push_device_type"] + `", "push_device_name" : "` + newDevice["push_device_name"] + `", "push_device_token" : "` + newDevice["push_device_token"] + `" }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "push_device_type" : "` + newDevice["push_device_type"] + `", "push_device_name" : "` + newDevice["push_device_name"] + `", "push_device_token" : "` + newDevice["push_device_token"] + `" }`;
 
         var result = await this._coreService.postConfig({ path: this.uriAddPushDevice, data: data }).toPromise();
 
@@ -124,7 +124,7 @@ export class ActionService {
     async deletePushDeviceList(_device: string): Promise<boolean> {
         var delDevice = JSON.parse(_device);
         var token = this._loginService.getCurrentUserToken();
-        let data: string = `{"session_id":"` + token.session_id + `","push_device_id_list":["` + delDevice.id + `"]}`;
+        let data: string = `{"session_id":"` + token.sessionId + `","push_device_id_list":["` + delDevice.id + `"]}`;
 
         var result = await this._coreService.postConfig({ path: this.uriDeletePushDeviceList, data: data }).toPromise();
         console.log(result);
@@ -159,7 +159,7 @@ export class ActionService {
         var modgroup = JSON.parse(_group);
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "group_id" : "` + modgroup["group_id"] + `" }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "group_id" : "` + modgroup["group_id"] + `" }`;
 
         var _devices = [];
         var result = await this._coreService.postConfig({ path: this.uriGetGroupPushAction, data: data }).toPromise();
@@ -204,7 +204,7 @@ export class ActionService {
         //                 "push_device_token": "044d48a7b05ad7bb375c3bfcdf0477f18b1295b6e629285a7a8f289a8ca6f6db"
         //             },
 
-        let data: string = `{"session_id":"` + token.session_id + `", "group_id" : "` + modGroup["id"] + `", "push_action" : ` + JSON.stringify(modGroup["push_action"]) + ` }`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "group_id" : "` + modGroup["id"] + `", "push_action" : ` + JSON.stringify(modGroup["push_action"]) + ` }`;
 
         console.log(data);
 

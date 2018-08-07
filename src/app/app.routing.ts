@@ -20,13 +20,13 @@ export const routes: Routes = [
     children: [
       {
         path: 'report',
-        canActivate: [LoginService],
+        canActivate: [LoginService],        
         loadChildren: './report/report.module#ReportModule'
       },
       {
-        path: 'general',
+        path: 'setup',
         canActivate: [LoginService],
-        loadChildren: './general/general.module#GeneralModule'
+        loadChildren: './setup/setup.module#SetupModule'
       },
       {
         path: 'user',
@@ -52,6 +52,11 @@ export const routes: Routes = [
         path: 'license',
         canActivate: [LoginService],
         loadChildren: './license/license.module#LicenseModule'
+      },
+      {
+        path: 'tenant',
+        canActivate: [LoginService],
+        loadChildren: './tenant/tenant.module#TenantModule'
       },
       {
         path: '**',

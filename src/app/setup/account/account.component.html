@@ -33,9 +33,9 @@
                   <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
                 <th style="width: 65%">
-                  <mfDefaultSorter by="group">Group</mfDefaultSorter>
+                  <mfDefaultSorter by="group">Roles</mfDefaultSorter>
                 </th>
-                <th style="width: '100px;'"></th>
+                <th style=""></th>
               </tr>
             </thead>
             <tbody>
@@ -43,7 +43,14 @@
               <tr *ngFor="let item of mf.data; let i = index">
                 <td>{{i + 1}}</td>
                 <td>{{item.username}}</td>
-                <td>{{item.group}}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let role of item.roles">{{role.name}}</li>
+                  </ul>
+                </td>
+                <td>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);largeModal.show()"></a>
+                </td>
                 <td>
                   <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
                 </td>
@@ -86,7 +93,7 @@
                       <i class="icon-user"></i>
                     </span>
                     <input type="text" class="form-control" required id="username" name="username" #username="ngModel" [ngClass]="{ 'form-control-danger': username.invalid && (username.dirty ||username.touched), 'form-control-success': username.valid && (username.dirty || username.touched)}"
-                      placeholder="Username" [(ngModel)]="model.username">
+                           placeholder="Username" [(ngModel)]="model.username">
                   </div>
                   <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched || userForm.submitted)">
                     <p *ngIf="username.errors.required">
@@ -98,7 +105,18 @@
                     <span class="input-group-addon">
                       <i class="icon-people"></i>
                     </span>
-                    <input type="text" readonly class="form-control form-control-success" id="group" name="group" placeholder="Group" [(ngModel)]="model.group">
+                    <span *ngFor="let role of model.roles; let i = index" >
+                      <input type="checkbox"
+                             [disabled]="editMode"
+                             [(ngModel)]="model.roles[i].checked"                             
+                             name="{{role.name}}" 
+                             />
+                      <label for="role">{{role.name}}</label>
+                    </span>
+                  </div>
+
+                  <div class="modal-footer" [hidden]="!editMode">
+                    <button (click)="largeModal.hide();updateUser()" class="btn btn-primary" typeof="button">{{model.updateUserButton}}</button>
                   </div>
 
                   <div class="input-group mb-1" [ngClass]="{ 'has-danger': password.invalid && (password.dirty || password.touched), 'has-success': password.valid && (password.dirty || password.touched)}">
@@ -106,8 +124,8 @@
                       <i class="icon-key"></i>
                     </span>
                     <input type="password" class="form-control" id="password" name="password" required validateEqual="confirmPassword" #password="ngModel"
-                      reverse="true" [ngClass]="{ 'form-control-danger': password.invalid && (password.dirty ||password.touched), 'form-control-success': password.valid && (password.dirty || password.touched)}"
-                      placeholder="Password" [(ngModel)]="model.password">
+                           reverse="true" [ngClass]="{ 'form-control-danger': password.invalid && (password.dirty ||password.touched), 'form-control-success': password.valid && (password.dirty || password.touched)}"
+                           placeholder="Password" [(ngModel)]="model.password">
 
                   </div>
                   <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched || userForm.submitted)">
@@ -120,9 +138,9 @@
                     <span class="input-group-addon">
                       <i class="icon-key"></i>
                     </span>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required validateEqual="password" #confirmPassword="ngModel" 
-                    [ngClass]="{ 'form-control-danger': confirmPassword.invalid && (confirmPassword.dirty ||confirmPassword.touched), 'form-control-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}"
-                    placeholder="Repeat password" [(ngModel)]="model.confirmPassword">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required validateEqual="password" #confirmPassword="ngModel"
+                           [ngClass]="{ 'form-control-danger': confirmPassword.invalid && (confirmPassword.dirty ||confirmPassword.touched), 'form-control-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}"
+                           placeholder="Repeat password" [(ngModel)]="model.confirmPassword">
                   </div>
                   <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched || userForm.submitted)">
                     <p *ngIf="confirmPassword.errors.required">
@@ -132,13 +150,16 @@
                       Password mismatch
                     </p>
                   </div>
+                  <div class="modal-footer" [hidden]="!editMode">
+                    <button type="button" class="btn btn-primary" [disabled]="!userForm.valid" (click)="largeModal.hide();updatePasswordUser()">{{model.updatePasswordButton}}</button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" [hidden]="editMode">
               <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-              <!-- <button type="button" class="btn btn-primary" (click)="saveUser(); largeModal.hide()">{{model.buttom}}</button> -->
-              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">{{model.buttom}}</button>
+              <!-- <button type="button" class="btn btn-primary" (click)="saveUser(); largeModal.hide()">{{model.createUserButton}}</button> -->
+              <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">{{model.createUserButton}}</button>
             </div>
           </form>
         </div>

@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group } from 'app/Interface/interface';
+import { User, Person, Group, Roles } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
 export class UserService {
-    private uriChangePassword: string = Globals.cgiRoot + "frs/cgi/changepassword";
+  
+  private uriRoleCrud: string = Globals.cgiRoot + "roles";
 
+  private uriUserCrud: string = Globals.cgiRoot + "users";  
 
-    private uriGetUserList: string = Globals.cgiRoot + "frs/cgi/getuserlist";
-    private uriCreateUser: string = Globals.cgiRoot + "frs/cgi/createuser";
     //private uriModifyUser: string = Globals.cgiRoot + "frs/cgi/changepassword";
-    private uriDeleteUser: string = Globals.cgiRoot + "frs/cgi/deleteuser";
+    
 
 
     private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
@@ -33,28 +33,6 @@ export class UserService {
     private uriGetFaceImage: string = Globals.cgiRoot + "frs/cgi/getfaceimage";
     private uriGetFaceSnapshot: string = Globals.cgiRoot + "frs/cgi/snapshot/session_id={0}&image={1}";
 
-    // private uriPersonAddFace: string = Globals.cgiRoot + "frs/cgi/personaddface";
-    // { 
-    //     "session_id":"dBRmHV9sAH", 
-    //     "person_id":"5ad6c76ff26b2455cb812fdd", 
-    //     "image" : "/9j/4AAQSkZJRgABAQAAAQABAAD/2"
-    // }
-
-    // private uriModifyPersonFace: string = Globals.cgiRoot + "frs/cgi/modifypersonface";
-    // { 
-    //     "session_id":"WA1tfushhh", 
-    //     "person_id":"5ad6c76ff26b2455cb812fdd", 
-    //     "face_id_number":"00bQCS6vNd", 
-    //     "image" : "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECA" 
-    // }
-
-    // private uriModifyPersonFace: string = Globals.cgiRoot + "frs/cgi/deletepersonfaces";
-    // { 
-    //     "session_id":"aaMXZzR3Kg", 
-    //     "person_id":"5ad6c76ff26b2455cb812fdd", 
-    //     "face_id_numbers": ["pQkm67aAed"] 
-    // }
-
 
 
     constructor(
@@ -62,111 +40,84 @@ export class UserService {
         private _loginService: LoginService
     ) { }
 
-    async getCurrentUser(): Promise<User> {
+    getCurrentUser(): User {
         return this._loginService.getCurrentUser();
     }
 
-    async changePassword(_user: string): Promise<boolean> {
-        var modUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
+  async getUserRole(): Promise<string[]> {
+    var me = this;
+    var token = me._loginService.getCurrentUserToken();
 
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "newpassword" : "` + modUser.newpassword + `"}`;
-
-        var result = await this._coreService.postConfig({ path: this.uriChangePassword, data: data }).toPromise();
-        console.log(result);
-
-        if (result["message"] == "ok") {
-            let newData: string = `{ "username":"` + currentUser.username + `", "password":"` + modUser.newpassowrd + `" }`;
-            sessionStorage.setItem('currentUser', newData);
-
-            return true;
-        }
-        else {
-            return false;
-        }
+    var roles = [];
+    var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    console.log(result);
+    if (result) {
+      //removes kiosk from roles (according to Val)
+      var index = result.indexOf("Kiosk", 0);      
+      if (index > -1) {
+        result.splice(index, 1);
+      }
+      roles = result;
     }
 
+    return roles;
+  }
     async getUsersList(): Promise<User[]> {
         var me = this;
+      var token = me._loginService.getCurrentUserToken();
+
+      var users = [];
+      var result = await me._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+      console.log(result);
+      if (result && result["results"]) {        
+        result["results"].forEach(function (user) {
+          if (user["username"])
+            users.push(user);
+        });
+      }
+
+        return users;
+  }
+  async updateUser(data: any): Promise<User> {
+
+    var token = this._loginService.getCurrentUserToken();
+    
+    data.sessionId = token.sessionId;
+
+    console.log(data);
+
+    var result = await this._coreService.putConfig({ path: this.uriUserCrud, data: data }).toPromise();
+
+    console.log(result);
+
+    var updatedUser = new User().fromJSON(result);
+    return updatedUser;
+  }
+    async createUser(data: any): Promise<User> {
+      
         var token = this._loginService.getCurrentUserToken();
+        data.sessionId = token.sessionId;
 
-        let data: string = `{ "session_id":"` + token.session_id + `" }`;
-
-        var _users = [];
-        var result = await this._coreService.postConfig({ path: this.uriGetUserList, data: data }).toPromise();
-        console.log(result);
-
-        // {
-        //    "message": "ok",
-        //     "skip": 0,
-        //     "amount": 100,
-        //     "list": [
-        //         {
-        //             "name": "Admin",
-        //             "group": "admin"
-        //         }
-        //     ],
-        // }
-
-        if (result["message"] == "ok") {
-            var list = result["list"];
-            list.forEach(function (user) {
-                if (user["name"])
-                    _users.push(user);
-            });
-        }
-
-        return _users;
+        var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
+        console.log("create user result: ", result);
+        
+      //TODO: change this with proper roles
+      var createdUser = new User().fromJSON(result);
+      return createdUser;
     }
 
-    async createUser(_user: string): Promise<User> {
-        var newUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
-
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "newuser_username" : "` + newUser["username"] + `", "newuser_password" : "` + newUser["password"] + `"}`;
-        console.log(data);
-
-        var result = await this._coreService.postConfig({ path: this.uriCreateUser, data: data }).toPromise();
-        console.log(result);
-
-        if (result["message"] == "ok") {
-            var user = new User();
-            user.username = newUser["username"];
-            user.password = newUser["password"];
-            user.group = "user";
-
-            return user;
-        }
-        else {
-            return null;
-        }
-
-    }
-
-    async deleteUser(_user: string): Promise<boolean> {
-        var delUser = JSON.parse(_user);
-        var currentUser = this._loginService.getCurrentUser();
-
-        let data: string = `{"username":"` + currentUser.username + `", "password":"` + currentUser.password + `", "delete_username" : "` + delUser.username + `"}`;
-        console.log(data);
-
-        var result = await this._coreService.postConfig({ path: this.uriDeleteUser, data: data }).toPromise();
-        console.log(result);
-
-        if (result["message"] == "ok") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+  async deleteUser(objectId: string): Promise<User> {
+      var token = this._loginService.getCurrentUserToken();
+      var result = await this._coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+      return new User().fromJSON(result);
+  }
 
 
     async getGroupsList(): Promise<User[]> {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : 0 }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0 }`;
 
         var _groups = [];
         var result = await this._coreService.postConfig({ path: this.uriGetGroupList, data: data }).toPromise();
@@ -199,7 +150,7 @@ export class UserService {
         var token = this._loginService.getCurrentUserToken();
 
         //{ "session_id":"9HLHqTTaEC", "name":"vip4", "group_info" : {"actions" : []} }
-        let data: string = `{ "session_id":"` + token.session_id + `", "name":"` + newgroup.groupname + `", "group_info" : {  "actions" : [] } }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "name":"` + newgroup.groupname + `", "group_info" : {  "actions" : [] } }`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriCreateGroup, data: data }).toPromise();
@@ -222,7 +173,7 @@ export class UserService {
     async deleteGroup(_group: string): Promise<boolean> {
         var delGroup = JSON.parse(_group);
         var token = this._loginService.getCurrentUserToken();
-        let data: string = `{"session_id":"` + token.session_id + `","group_id_list":["` + delGroup.id + `"]}`;
+        let data: string = `{"session_id":"` + token.sessionId + `","group_id_list":["` + delGroup.id + `"]}`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriDeleteGroup, data: data }).toPromise();
@@ -240,7 +191,7 @@ export class UserService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : 0 }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0 }`;
 
         var _users = [];
         var result = await this._coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
@@ -279,7 +230,7 @@ export class UserService {
         }
         console.log("getPersonsList = " + total_pages);
         for (let i = 1; i < total_pages; i++) {
-            data = `{ "session_id":"` + token.session_id + `", "page_size" : 999, "skip_pages" : ` + i + ` }`;
+            data = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : ` + i + ` }`;
 
             result = await this._coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
 
@@ -304,7 +255,7 @@ export class UserService {
         if (pos >= 1)
             faceImage = faceImage.substring(pos + 8);
 
-        let data: string = `{"session_id":"` + token.session_id + `", "person_info" : {"fullname":"` + newPerson["fullname"] + `", "employeeno":"` + newPerson["employeeno"] + `" }, "image" : "` + faceImage + `"}`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "person_info" : {"fullname":"` + newPerson["fullname"] + `", "employeeno":"` + newPerson["employeeno"] + `" }, "image" : "` + faceImage + `"}`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriCreatePerson, data: data }).toPromise();
@@ -330,7 +281,7 @@ export class UserService {
     async modifyPerson(_newuser: string) {
         var modUser = JSON.parse(_newuser);
         var token = this._loginService.getCurrentUserToken();
-        let data: string = `{"session_id":"` + token.session_id + `", "person_id" : "` + modUser["id"] + `", "person_info" : {"fullname":"` + modUser["fullname"] + `", "employeeno":"` + modUser["employeeno"] + `"} }`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + modUser["id"] + `", "person_info" : {"fullname":"` + modUser["fullname"] + `", "employeeno":"` + modUser["employeeno"] + `"} }`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriModifyPerson, data: data }).toPromise();
@@ -349,7 +300,7 @@ export class UserService {
         var delPerson = JSON.parse(_user);
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{"session_id":"` + token.session_id + `", "person_id" : "` + delPerson["id"] + `"}`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + delPerson["id"] + `"}`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriDeletePerson, data: data }).toPromise();
@@ -373,7 +324,7 @@ export class UserService {
             ids.push(`"` + group.id + `"`);
         };
 
-        let data: string = `{"session_id":"` + token.session_id + `", "person_id" : "` + modUser["id"] + `", "group_id_list" : [` + ids.join() + `]}`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + modUser["id"] + `", "group_id_list" : [` + ids.join() + `]}`;
         console.log(data);
 
         var result = await this._coreService.postConfig({ path: this.uriApplyPersonToGroups, data: data }).toPromise();
@@ -389,7 +340,7 @@ export class UserService {
 
     async getFaceByFaceId(_id: string) {
         var token = this._loginService.getCurrentUserToken();
-        let data: string = `{"session_id":"` + token.session_id + `", "face_id_number" : "` + _id + `"}`;
+        let data: string = `{"session_id":"` + token.sessionId + `", "face_id_number" : "` + _id + `"}`;
         console.log(data);
         var result = await this._coreService.postConfig({ path: this.uriGetFaceImage, data: data }).toPromise();
 
@@ -404,7 +355,7 @@ export class UserService {
 
     getSnapshotByFaceId(_id: string) {
         var token = this._loginService.getCurrentUserToken();
-        var uri = this.uriGetFaceSnapshot.replace("{0}", token.session_id).replace("{1}", _id);
+        var uri = this.uriGetFaceSnapshot.replace("{0}", token.sessionId).replace("{1}", _id);
         console.log(uri);
 
         return uri ;        
@@ -412,7 +363,7 @@ export class UserService {
 
     async getBase64ByFaceId(_id: string) {
         var token = this._loginService.getCurrentUserToken();
-        var uri = this.uriGetFaceSnapshot.replace("{0}", token.session_id).replace("{1}", _id);
+        var uri = this.uriGetFaceSnapshot.replace("{0}", token.sessionId).replace("{1}", _id);
         //var uri = _id ;
         console.log(uri);
 

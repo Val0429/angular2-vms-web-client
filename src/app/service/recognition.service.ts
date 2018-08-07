@@ -21,7 +21,7 @@ export class RecognitionService {
         var me = this;
         var token = this._loginService.getCurrentUserToken();
 
-        let data: string = `{ "session_id":"` + token.session_id + `" }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `" }`;
 
         var result = await this._coreService.postConfig({ path: this.uriGetFcsSettings, data: data }).toPromise();
         console.log(result);
@@ -43,7 +43,7 @@ export class RecognitionService {
         //             "apns_push_settings": {
         //                 "apns_topic": "com.isapsolution.frs",
 
-        let data: string = `{ "session_id":"` + token.session_id + `", "fcs_settings" : ` + _setting + ` }`;
+        let data: string = `{ "session_id":"` + token.sessionId + `", "fcs_settings" : ` + _setting + ` }`;
 
         var result = await this._coreService.postConfig({ path: this.uriModifyFcsSettings, data: data }).toPromise();
 
