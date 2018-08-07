@@ -148,10 +148,7 @@ export class AccountComponent implements OnInit {
       };
       console.log("create user", data);
 
-      var result = await this._userService.createUser(data)
-        .catch(error => {
-          console.log(error);
-        });
+      var result = await this._userService.createUser(data);
       if (result != null)
         this.data.push(result);
     }
@@ -201,7 +198,7 @@ export class AccountComponent implements OnInit {
       var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
       if (result && index > -1) {        
         //TODO: POP update result
-        //this.data[index].roles = result.roles;
+        this.data[index] = result;
       }
     }
   }

@@ -68,7 +68,11 @@ export class LoginService implements CanActivate {
         function () {
           ret = true;
         }
-      ).toPromise();
+      ).toPromise()
+      .catch(error => {
+        //we don't want global error handler to redirect it to login page for unsucessful login (401)
+        console.log("login error", error);
+      });
 
     return ret;
   }

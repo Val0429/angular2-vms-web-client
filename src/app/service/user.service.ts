@@ -52,6 +52,11 @@ export class UserService {
     var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result) {
+      //removes kiosk from roles (according to Val)
+      var index = result.indexOf("Kiosk", 0);      
+      if (index > -1) {
+        result.splice(index, 1);
+      }
       roles = result;
     }
 
