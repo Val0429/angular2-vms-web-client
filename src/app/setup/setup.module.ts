@@ -7,7 +7,7 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 // DataTable
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatepickerModule } from 'ng2-bootstrap';
 
 import { NetworkComponent } from './network.component';
@@ -19,6 +19,8 @@ import { SmsComponent } from './sms/sms.component';
 import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
+import { CreateEditFormComponent } from './account/create-edit-form.component';
+import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 
 @NgModule({
   imports: [
@@ -28,9 +30,9 @@ import { AccountComponent } from './account/account.component';
     DataTableModule,
     FormsModule,
     HttpModule,
-//    ChartsModule,
+    ReactiveFormsModule,    
     DatepickerModule.forRoot()
   ],
-  declarations: [NetworkComponent, ServerComponent, EmailComponent, SmsComponent, KioskComponent, FloorComponent, AccountComponent]
+  declarations: [NetworkComponent, ServerComponent, EmailComponent, SmsComponent, KioskComponent, FloorComponent, AccountComponent, CreateEditFormComponent]
 })
 export class SetupModule { }

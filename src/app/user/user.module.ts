@@ -21,8 +21,6 @@ import { BatchEnrollComponent } from './batchenroll.component';
 //Routing
 import { UserRoutingModule } from './user-routing.module';
 
-//From Directive
-import { ConfirmPasswordValidator } from '../directive/confirmpassword-validation.directive';
 
 @NgModule({
   imports: [
@@ -37,9 +35,7 @@ import { ConfirmPasswordValidator } from '../directive/confirmpassword-validatio
   declarations: [
     GroupComponent,
     PersonComponent,
-    BatchEnrollComponent,
-    
-    ConfirmPasswordValidator
+    BatchEnrollComponent
   ]
 })
 export class UserModule { }

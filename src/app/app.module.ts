@@ -28,8 +28,6 @@ import { FullLayoutComponent } from './layouts/full-layout.component';
 // Services
 import { ServiceModule } from './service/service.module';
 
-// Form Directive
-import { ConfirmPasswordValidator } from './directive/confirmpassword-validation.directive';
 import { TenantModule } from './tenant/tenant.module';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
@@ -63,7 +61,6 @@ import { AlertComponent } from './dialog/alert/alert.component';
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
     //AsideToggleDirective,    
-    ConfirmPasswordValidator,    
     ConfirmComponent,
     AlertComponent
   ],

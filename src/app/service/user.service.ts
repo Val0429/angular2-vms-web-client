@@ -84,11 +84,9 @@ export class UserService {
     
     data.sessionId = token.sessionId;
 
-    console.log(data);
-
     var result = await this._coreService.putConfig({ path: this.uriUserCrud, data: data }).toPromise();
 
-    console.log(result);
+    console.log("update user result: ",result);
 
     var updatedUser = new User().fromJSON(result);
     return updatedUser;
