@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { SessionToken, User } from 'app/Interface/interface';
 import { promise } from 'selenium-webdriver';
 import * as Globals from '../globals';
-import * as Defaults from '../defaults';
+
 
 @Injectable()
 export class LoginService implements CanActivate {
@@ -26,12 +26,12 @@ export class LoginService implements CanActivate {
   }
   checkActiveSession(): boolean {
     //TODO: improve this active session check
-    var rememberMe = localStorage.getItem(Defaults.rememberMe);
-    var currentUserToken = sessionStorage.getItem(Defaults.currentUserToken);
+    var rememberMe = localStorage.getItem(Globals.rememberMe);
+    var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
     if (rememberMe || currentUserToken) {
       //checks whether this token already stored in local storage but not in session storage
       if (!currentUserToken && rememberMe) {
-        sessionStorage.setItem(Defaults.currentUserToken, rememberMe);
+        sessionStorage.setItem(Globals.currentUserToken, rememberMe);
       }
       return true;
     }
@@ -58,7 +58,7 @@ export class LoginService implements CanActivate {
         function (result) {
           // result Handle
           var sessionToken = new SessionToken().fromJSON(result);
-          sessionStorage.setItem(Defaults.currentUserToken, JSON.stringify(sessionToken));
+          sessionStorage.setItem(Globals.currentUserToken, JSON.stringify(sessionToken));
 
           ret = true;
         },
@@ -79,7 +79,7 @@ export class LoginService implements CanActivate {
 
 
   getCurrentUserToken(): SessionToken {
-    var item = sessionStorage.getItem(Defaults.currentUserToken);
+    var item = sessionStorage.getItem(Globals.currentUserToken);
     if (item && item !== null) {
       var sessionToken = new SessionToken().fromJSON(JSON.parse(item));
 

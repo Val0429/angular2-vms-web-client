@@ -3,6 +3,7 @@ import { SetupService } from '../../service/setup.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
+import * as Globals from 'app/globals';
 
 @Component({
   selector: 'app-frs',
@@ -62,7 +63,7 @@ export class FrsComponent implements OnInit {
 
     this.ip = new FormControl(data.ip, [
       Validators.required,
-      Validators.pattern("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)+$")
+      Validators.pattern(Globals.emailRegex)
     ]);
 
     this.password = new FormControl(data.password, [
@@ -72,7 +73,7 @@ export class FrsComponent implements OnInit {
 
     this.wsport = new FormControl(data.port, [
       Validators.required,
-      Validators.pattern("^[0-9]+$")
+      Validators.pattern(Globals.numberRegex)
     ]);
   }
 }
