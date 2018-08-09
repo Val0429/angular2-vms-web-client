@@ -25,30 +25,19 @@ export class User {
     public createdAt: string;
     public updatedAt: string;
     public roles: Roles[];
-
-    public fromJSON(json: any): User {
-      //let object = Object.create(User.prototype);
-      this.objectId = json["objectId"];
-      this.username = json["username"];
-      if (json["password"]) {
-        this.password = json["password"];
-      }
-      this.roles = json["roles"];
-      return this;
-    }
+}
+export class KioskData {
+  public kioskId: string;
+  public kioskName: string;
+}
+export class KioskUser extends User {
+  public data: KioskData;
 }
 export class Roles {
   public objectId: string;
   public createdAt: string;
   public updatedAt: string;
   public name: string;
-  public fromJSON(json: any): Roles {
-    this.objectId = json["objectId"];
-    this.createdAt = json["createdAt"];
-    this.name = json["name"];
-    this.updatedAt = json["updatedAt"];
-    return this;
-  }
 }
 export class RoleOption extends Roles {
   public checked: boolean;
@@ -309,3 +298,6 @@ export class Face_Settings {
     }
 }
 
+export interface CreateEditDialog {
+  title: string;
+}

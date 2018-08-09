@@ -1,11 +1,7 @@
 import { Component} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { RoleOption } from "app/Interface/interface";
+import { RoleOption, CreateEditDialog } from "app/Interface/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
-
-export interface CreateEditDialog {
-  title: string;  
-}
 
 @Component({
   selector: 'create-edit-user',
@@ -70,7 +66,10 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
 
   createFormControls() {
-    this.username = new FormControl('', Validators.required);    
+    this.username = new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]);    
     this.email = new FormControl('', [
       //Validators.required,
       Validators.pattern("[^ @]*@[^ @]*")

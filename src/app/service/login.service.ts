@@ -57,7 +57,7 @@ export class LoginService implements CanActivate {
       .do(
         function (result) {
           // result Handle
-          var sessionToken = new SessionToken().fromJSON(result);
+          var sessionToken = result;
           sessionStorage.setItem(Globals.currentUserToken, JSON.stringify(sessionToken));
 
           ret = true;

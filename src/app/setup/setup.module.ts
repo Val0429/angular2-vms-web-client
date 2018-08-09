@@ -8,14 +8,18 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatepickerModule } from 'ng2-bootstrap';
 
+//sub menu components
 import { SetupRoutingModule } from './setup-routing.module';
 import { EmailComponent } from './email/email.component';
 import { SmsComponent } from './sms/sms.component';
 import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
-import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { FrsComponent } from './frs/frs.component';
+
+//dialog components
+import { CreateEditUserComponent } from './account/create-edit-user.component';
+import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
 
 
 @NgModule({
@@ -30,7 +34,8 @@ import { FrsComponent } from './frs/frs.component';
     DatepickerModule.forRoot()
   ],
   entryComponents: [
-    CreateEditUserComponent    
+    CreateEditUserComponent,
+    CreateEditKioskComponent
   ],
   declarations: [
     EmailComponent,
@@ -38,8 +43,9 @@ import { FrsComponent } from './frs/frs.component';
     KioskComponent,
     FloorComponent,
     AccountComponent,
-    CreateEditUserComponent,
-    FrsComponent
+    FrsComponent,
+    CreateEditUserComponent,    
+    CreateEditKioskComponent
   ]
 })
 export class SetupModule { }
