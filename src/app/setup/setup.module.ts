@@ -18,6 +18,7 @@ import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { CreateEditFormComponent } from './account/create-edit-form.component';
+import { FrsComponent } from './frs/frs.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { CreateEditFormComponent } from './account/create-edit-form.component';
     KioskComponent,
     FloorComponent,
     AccountComponent,
-    CreateEditFormComponent
+    CreateEditFormComponent,
+    FrsComponent
   ]
 })
 export class SetupModule { }
