@@ -14,7 +14,7 @@ import { SmsComponent } from './sms/sms.component';
 import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
-import { CreateEditFormComponent } from './account/create-edit-form.component';
+import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { FrsComponent } from './frs/frs.component';
 
 
@@ -30,7 +30,7 @@ import { FrsComponent } from './frs/frs.component';
     DatepickerModule.forRoot()
   ],
   entryComponents: [
-    CreateEditFormComponent    
+    CreateEditUserComponent    
   ],
   declarations: [
     EmailComponent,
@@ -38,7 +38,7 @@ import { FrsComponent } from './frs/frs.component';
     KioskComponent,
     FloorComponent,
     AccountComponent,
-    CreateEditFormComponent,
+    CreateEditUserComponent,
     FrsComponent
   ]
 })

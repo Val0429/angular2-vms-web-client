@@ -3,7 +3,8 @@ import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Roles, RoleOption } from '../../Interface/interface';
-import { CreateEditFormComponent } from './create-edit-form.component';
+import { CreateEditUserComponent } from './create-edit-user.component';
+import { AlertComponent } from '../../dialog/alert/alert.component';
 
 @Component({
   selector: 'app-account',
@@ -56,9 +57,9 @@ export class AccountComponent implements OnInit {
   }
   private showCreateEditDialog(data: any, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditFormComponent(this._dialogService);
+    let newForm = new CreateEditUserComponent(this._dialogService);
     newForm.setFormData(data, this.availableRoles, editMode);
-    let disposable = this._dialogService.addDialog(CreateEditFormComponent, newForm)
+    let disposable = this._dialogService.addDialog(CreateEditUserComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
@@ -84,7 +85,16 @@ export class AccountComponent implements OnInit {
 
     this.showCreateEditDialog(data, false);
   }
-  
+  showAlert(message: string, title?: string) {
+    let disposable = this._dialogService.addDialog(AlertComponent, {
+      title: title,
+      message: message
+    })
+      .subscribe(async (isConfirmed) => {
+        //We get dialog result
+        
+      }); 
+  }
   async deleteUser(item) {
     console.log("deleteUser", item);
     
@@ -126,8 +136,10 @@ export class AccountComponent implements OnInit {
     };
     console.log("create user", data);
     var result = await this._userService.createUser(data);
-    if (result != null)
+    if (result) {
       this.data.push(result);
+      this.showAlert("New user has been created");
+    }
   }
 
   
@@ -147,6 +159,7 @@ export class AccountComponent implements OnInit {
       if (result && index > -1) {        
         //TODO: POP update result
         this.data[index] = result;
+        this.showAlert(data.username+ " has been updated");
       }
     
   }

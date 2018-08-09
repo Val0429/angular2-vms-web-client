@@ -8,11 +8,11 @@ export interface CreateEditDialog {
 }
 
 @Component({
-  selector: 'create-edit-form',
-  templateUrl: './create-edit-form.component.html',
+  selector: 'create-edit-user',
+  templateUrl: './create-edit-user.component.html',
   styles: []
 })
-export class CreateEditFormComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
+export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
   title: string;  
   editMode:boolean;
   objectId: string;
