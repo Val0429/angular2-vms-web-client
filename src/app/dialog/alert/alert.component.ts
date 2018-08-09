@@ -14,7 +14,7 @@ export class AlertComponent extends DialogComponent<AlertModel, boolean> impleme
   constructor(dialogService: DialogService) {
     super(dialogService);
   }
-  showAlert() {
+  closeAlert() {
     // we set dialog result as true on click on alert button, 
     // then we can get dialog result from caller code 
     this.result = true;

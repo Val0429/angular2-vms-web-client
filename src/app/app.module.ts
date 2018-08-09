@@ -33,6 +33,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { AlertComponent } from './dialog/alert/alert.component';
+import { SetupModule } from './setup/setup.module';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { AlertComponent } from './dialog/alert/alert.component';
     ChartsModule,
     ServiceModule,
     TenantModule,
+    SetupModule,
     BootstrapModalModule
   ],
   entryComponents: [

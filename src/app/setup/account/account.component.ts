@@ -11,48 +11,28 @@ import { CreateEditFormComponent } from './create-edit-form.component';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
-  @ViewChild(CreateEditFormComponent) child: CreateEditFormComponent;
-  
+   
 
   constructor(private _userService: UserService, private _dialogService: DialogService) {
-  }  
-  public data = [];
-  public filterQuery = '';
-  private srcUser = '';
+  }
 
+  data = [];
+  availableRoles: string[];
+  filterQuery = "";
+  actionMode = "";
+  private srcUser = "";
   private isAdmin = false;
   
 
-  model: {
-    "objectId"?: string,
-    "title"?: string,
-    "action": string,
-    "username"?: string,
-    "roles"?: string[],
-    "password"?: string,
-    "confirmPassword"?: string
-  } =
-    {
-      "objectId":"",
-      "title": "New User",
-      "action": "New User",
-      "username": "",
-      "roles": [],
-      "password": "",
-      "confirmPassword": ""
-    };
-
-  async ngOnInit(): Promise<void> {
-    let me = this;
-    
-    let roles = await me._userService.getUserRole();
+  async ngOnInit(): Promise<void> {    
+    this.availableRoles = [];
+    let roles = await this._userService.getUserRole();
     if (roles) {
-      this.child.setRoles(roles);
-      me.model.roles = roles;
+      this.availableRoles = roles;      
     }
-    let users = await me._userService.getUsersList();
+    let users = await this._userService.getUsersList();
     for (let user of users) {
-      me.data.push(user);
+      this.data.push(user);
     }
     var currUser = await this._userService.getCurrentUser();
     this.isAdmin = currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
@@ -61,34 +41,48 @@ export class AccountComponent implements OnInit {
   
 
   editUser(item) {
-    console.log("edit item", item);    
+    console.log("edit item", item);
+    this.actionMode = "Edit User";
+    let data = {
+      objectId: item.objectId,
+      title: this.actionMode,
+      username: item.username,
+      roles: item.roles.map(function (e) { return e.name; }),
+      password: "",
+      confirmPassword: "",
+    }    
     
-    this.model.objectId = item.objectId;
-    this.model.title = "Edit User";
-    this.model.action = "Edit User";
-    this.model.username = item.username;
-         
-    this.model.roles = item.roles.map(function (e) { return e.name; });   
-    
-    this.model.password = "";    
-    this.model.confirmPassword = "";
-
-    this.child.setFormData(this.model, true);
+    this.showCreateEditDialog(data, true); 
   }
+  private showCreateEditDialog(data: any, editMode: boolean) {
+    //creates dialog form here
+    let newForm = new CreateEditFormComponent(this._dialogService);
+    newForm.setFormData(data, this.availableRoles, editMode);
+    let disposable = this._dialogService.addDialog(CreateEditFormComponent, newForm)
+      .subscribe((saved) => {
+        //We get dialog result
+        if (saved) {
+          let data = newForm.getFormData();
+          this.saveUser(data);
+        }
+      });
+  }
+
   newUser() {
-    
+    this.actionMode = "New User";
     
     var u = ("000" + this.data.length);
     u = "user" + u.substr(u.length - 3, 3);
-    
-    this.model.title = "New User";
-    this.model.action = "New User";
-    this.model.username = u;
-    this.model.roles = [];
-    this.model.password = "";
-    this.model.confirmPassword = "";
 
-    this.child.setFormData(this.model, false);
+    let data = {      
+      title: this.actionMode,
+      username: u,
+      roles: [],
+      password: "",
+      confirmPassword: "",
+    }
+
+    this.showCreateEditDialog(data, false);
   }
   
   async deleteUser(item) {
@@ -109,25 +103,22 @@ export class AccountComponent implements OnInit {
             this.data.splice(index, 1);
           }
         }
-      });
-    
+      });    
   }
 
-  
-
-  async saveUser() {
-    if (this.model.action === "New User") {
-      // Create User      
-      await this.createUser();
-    } else if (this.model.action === "Edit User") {
-      // Create User      
-      await this.updateUser();
+  async saveUser(formResult:any) {
+    if (this.actionMode==="New User") {
+      // Create User
+      await this.createUser(formResult);
+    } else {       
+      // edit User
+      await this.updateUser(formResult);
     }
   }
-  async createUser() {
-    let formResult = this.child.getFormData();
+  async createUser(formResult:any) {
+    //let formResult = this.child.getFormData();
     console.log("form result", formResult);
-    let data: object = {
+    let data: any = {
       username: formResult.username,
       password: formResult.passwordGroup.password,
       data: {},
@@ -139,30 +130,11 @@ export class AccountComponent implements OnInit {
       this.data.push(result);
   }
 
-  async updatePasswordUser() {
-    if (this.model.action === "Edit User") {
-      // Update password User
-      console.log("updatePasswordUser");
-      var data: object = {
-        objectId: this.model.objectId,
-        password: this.model.password
-      };
-
-      console.log(data);
-      var result = await this._userService.updateUser(data);
-      
-      if (result) {
-        //TODO: POP update result
-        
-      }
-    }
-  }
   
-  async updateUser() {
-      let formResult = this.child.getFormData();
+  async updateUser(formResult:any) {      
       console.log("form result", formResult);
-      let data: object = {
-        objectId: this.model.objectId,
+      let data: any = {
+        objectId: formResult.objectId,
         username: formResult.username,
         password: formResult.passwordGroup.password,
         data: {},
@@ -171,7 +143,7 @@ export class AccountComponent implements OnInit {
       console.log("updateUser", data);      
        
       var result = await this._userService.updateUser(data);
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(this.model.objectId);
+      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       if (result && index > -1) {        
         //TODO: POP update result
         this.data[index] = result;

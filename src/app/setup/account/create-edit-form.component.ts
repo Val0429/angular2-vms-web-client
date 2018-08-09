@@ -1,22 +1,21 @@
-import { OnInit, Component, EventEmitter } from "@angular/core";
+import { Component} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { RoleOption } from "app/Interface/interface";
+import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
+
+export interface CreateEditDialog {
+  title: string;  
+}
 
 @Component({
   selector: 'create-edit-form',
   templateUrl: './create-edit-form.component.html',
-  styles: [`
-   
-    .input-group.mb-1{     
-     padding:2px 10px;     
-    }
-  `]
+  styles: []
 })
-export class CreateEditFormComponent implements OnInit{
-  
-
-  private editMode = false;
-
+export class CreateEditFormComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
+  title: string;  
+  editMode:boolean;
+  objectId: string;
   rolesArray: RoleOption[];
   myform: FormGroup;
   username: FormControl;  
@@ -27,10 +26,15 @@ export class CreateEditFormComponent implements OnInit{
   roles: FormControl;
   tempRoles: string[];
   
-  constructor() {
-
+  constructor(dialogService: DialogService) {
+    super(dialogService);
+    this.createFormControls();
+    this.createForm();
+    this.tempRoles = [];
   }
-  public setRoles(rolesArray: string[]): void {
+    
+  public setFormData(data: any, rolesArray: string[], editMode: boolean) {
+    this.myform.reset();
     this.rolesArray = [];
     for (let name of rolesArray) {
       let role = new RoleOption();
@@ -38,20 +42,9 @@ export class CreateEditFormComponent implements OnInit{
       role.checked = false;
       this.rolesArray.push(role);
     }
-    
-  }
- 
+    this.objectId = data.objectId;
+    this.title = data.title;
 
-  public getForm(): FormGroup{
-    return this.myform;
-  }
-  ngOnInit() {
-    this.createFormControls();
-    this.createForm();
-    this.tempRoles = [];
-  }
-  public setFormData(data: any, editMode: boolean) {
-    this.myform.reset();
     this.editMode = editMode;
     this.username.setValue(data.username);
     //set all checked value
@@ -65,7 +58,10 @@ export class CreateEditFormComponent implements OnInit{
     this.roles.setValue(data.roles);    
   }
   public getFormData(): any {
-    return this.myform.value;
+    var data = this.myform.value;
+    //sets objectId back
+    data.objectId = this.objectId;
+    return data;
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -96,6 +92,12 @@ export class CreateEditFormComponent implements OnInit{
     }, this.passwordMatchValidator);
 
     this.roles = new FormControl('', Validators.required );
+  }
+  save() {
+    // we set dialog result as true on click on confirm button, 
+    // then we can get dialog result from caller code 
+    this.result = true;
+    this.close();
   }
   addRemoveRole(checked: boolean, value:string) {
     console.log("clicked role:", checked, value);
