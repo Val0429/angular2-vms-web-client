@@ -5,8 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 
 //Layouts
-import { NetworkComponent } from './network.component';
-import { ServerComponent } from './server/server.component';
 import { EmailComponent } from './email/email.component';
 import { SmsComponent } from './sms/sms.component';
 import { KioskComponent } from './kiosk/kiosk.component';

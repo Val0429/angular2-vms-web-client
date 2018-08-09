@@ -8,9 +8,6 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatepickerModule } from 'ng2-bootstrap';
 
-import { NetworkComponent } from './network.component';
-import { ServerComponent } from './server/server.component';
-
 import { SetupRoutingModule } from './setup-routing.module';
 import { EmailComponent } from './email/email.component';
 import { SmsComponent } from './sms/sms.component';
@@ -36,8 +33,6 @@ import { FrsComponent } from './frs/frs.component';
     CreateEditFormComponent    
   ],
   declarations: [
-    NetworkComponent,
-    ServerComponent,
     EmailComponent,
     SmsComponent,
     KioskComponent,
