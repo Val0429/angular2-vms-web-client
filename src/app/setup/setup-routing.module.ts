@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 
 //Layouts
-import { NetworkComponent } from './network.component';
-import { ServerComponent } from './server/server.component';
 import { EmailComponent } from './email/email.component';
 import { SmsComponent } from './sms/sms.component';
 import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
+import { FrsComponent } from './frs/frs.component';
 
 const routes: Routes = [
   { path: '', data: { title: 'Setup' },
@@ -26,9 +25,9 @@ const routes: Routes = [
         }
       },
       {
-        path: 'server',
+        path: 'frs',
         canActivate: [LoginService],
-        component: ServerComponent,
+        component: FrsComponent,
         data: {
           title: 'FRS Settings'
         }

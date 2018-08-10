@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
 import { LoginService } from 'app/service/login.service';
 import { Router } from '@angular/router';
+import { User } from 'app/Interface/interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -70,10 +71,10 @@ console.log('form submit');
   async saveChangePassword() {    
     // Update password User
     console.log("update Password Current User");
-    var data: object = {
-      objectId: this.model.objectId,
-      password: this.model.newpassword
-    };
+    let data: User = new User();
+    
+    data.objectId= this.model.objectId;
+    data.password= this.model.newpassword;    
 
     console.log(data);
     var result = await this._userService.updateUser(data)

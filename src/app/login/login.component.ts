@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { Router } from '@angular/router';
-import * as Defaults from "../defaults";
 import { User } from 'app/Interface/interface';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from '../dialog/alert/alert.component';
+import  * as Globals from 'app/globals';
 //import * as $ from 'jquery'
 // import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 // import { NgForm } from '@angular/forms';
@@ -102,8 +102,8 @@ export class LoginComponent implements OnInit {
     console.log("login result: "+ret);
     if (ret == true) {
       if (this.model.rememberMe) {
-        var currentUserToken = sessionStorage.getItem(Defaults.currentUserToken);
-        localStorage.setItem(Defaults.rememberMe, currentUserToken);        
+        var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
+        localStorage.setItem(Globals.rememberMe, currentUserToken);        
       }
       //redirect to dashboard
       this._router.navigate(['/report/dashboard']);

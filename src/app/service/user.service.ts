@@ -2,19 +2,16 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles } from 'app/Interface/interface';
+import { User, Person, Group, Roles, KioskUser, Floor, UserData } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
 export class UserService {
   
-  private uriRoleCrud: string = Globals.cgiRoot + "roles";
-
-  private uriUserCrud: string = Globals.cgiRoot + "users";  
-
-    //private uriModifyUser: string = Globals.cgiRoot + "frs/cgi/changepassword";
-    
-
+    private uriRoleCrud: string = Globals.cgiRoot + "roles";
+    private uriUserCrud: string = Globals.cgiRoot + "users";
+  private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
+  private uriFloorCrud: string = Globals.cgiRoot + "floors";  
 
     private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
     private uriCreateGroup: string = Globals.cgiRoot + "frs/cgi/creategroup";
@@ -36,20 +33,24 @@ export class UserService {
 
 
     constructor(
-        private _coreService: CoreService,
-        private _loginService: LoginService
+        private coreService: CoreService,
+        private loginService: LoginService
     ) { }
 
     getCurrentUser(): User {
-        return this._loginService.getCurrentUser();
+        return this.loginService.getCurrentUser();
     }
 
+  isAdmin(): boolean {
+    var currUser = this.getCurrentUser();
+    return currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+  }
   async getUserRole(): Promise<string[]> {
     var me = this;
-    var token = me._loginService.getCurrentUserToken();
+    var token = me.loginService.getCurrentUserToken();
 
     var roles = [];
-    var result = await me._coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await me.coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result) {
       //removes kiosk from roles (according to Val)
@@ -62,65 +63,136 @@ export class UserService {
 
     return roles;
   }
-    async getUsersList(): Promise<User[]> {
-        var me = this;
-      var token = me._loginService.getCurrentUserToken();
+  async getFloorList(): Promise<Floor[]> {
 
+    var token = this.loginService.getCurrentUserToken();
+    var data = [];
+    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    console.log(result);
+    if (result && result["results"]) {
+      result["results"].forEach(function (newData) {
+        if (newData["objectId"])
+          data.push(newData);
+      });
+    }
+    return data;
+  }
+  async getKioskUsersList(): Promise<KioskUser[]> {
+
+    var token = this.loginService.getCurrentUserToken();
+    var users = [];
+    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    console.log(result);
+    if (result && result["results"]) {
+      result["results"].forEach(function (user) {
+        if (user["objectId"])
+          users.push(user);
+      });
+    }
+    return users;
+  }
+    async getUsersList(): Promise<User[]> {        
+
+      var token = this.loginService.getCurrentUserToken();
       var users = [];
-      var result = await me._coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+      var result = await this.coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
       console.log(result);
       if (result && result["results"]) {        
         result["results"].forEach(function (user) {
-          if (user["username"])
+          if (user["objectId"])
             users.push(user);
         });
       }
-
-        return users;
+      return users;
   }
-  async updateUser(data: any): Promise<User> {
+  async updateKiosk(data: KioskUser): Promise<KioskUser> {
 
-    var token = this._loginService.getCurrentUserToken();
+    let token = this.loginService.getCurrentUserToken();
+
+    let result = await this.coreService.putConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
+
+    console.log("update kiosk result: ", result);
+
+    return result;
+  }
+  async createKiosk(data: KioskUser): Promise<KioskUser> {
+
+    let token = this.loginService.getCurrentUserToken();
+
+    let result = await this.coreService.postConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
+
+    console.log("create kiosk result: ", result);
+
+    return result;
+
+  }
+  async updateFloor(data: Floor): Promise<Floor> {
+
+    var token = this.loginService.getCurrentUserToken();
+
+    var result = await this.coreService.putConfig({ path: this.uriFloorCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
+
+    console.log("update floor result: ", result);
+
+    return result;
+  }
+  async createFloor(data: Floor): Promise<Floor> {
+
+    var token = this.loginService.getCurrentUserToken();
+
+    var result = await this.coreService.postConfig({ path: this.uriFloorCrud +"?sessionId="+token.sessionId, data: data }).toPromise();
+
+    console.log("create floor result: ", result);
+
+    return result;
+
+  }
+  async updateUser(data: User): Promise<User> {
+
+    let token = this.loginService.getCurrentUserToken();
     
-    data.sessionId = token.sessionId;
+    let result = await this.coreService.putConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
 
-    console.log(data);
-
-    var result = await this._coreService.putConfig({ path: this.uriUserCrud, data: data }).toPromise();
-
-    console.log(result);
-
-    var updatedUser = new User().fromJSON(result);
-    return updatedUser;
-  }
-    async createUser(data: any): Promise<User> {
-      
-        var token = this._loginService.getCurrentUserToken();
-        data.sessionId = token.sessionId;
-
-        var result = await this._coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
-        console.log("create user result: ", result);
+    console.log("update user result: ", result);
         
-      //TODO: change this with proper roles
-      var createdUser = new User().fromJSON(result);
-      return createdUser;
-    }
+    return result;
+  }
+  async createUser(userData: User): Promise<User> {
+      
+    let token = this.loginService.getCurrentUserToken();
 
+    let result = await this.coreService.postConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: userData }).toPromise();
+
+    console.log("create user result: ", result);
+
+    return result;
+
+  }
+  async deleteFloor(objectId: string): Promise<Floor> {
+    var token = this.loginService.getCurrentUserToken();
+    var result = await this.coreService.deleteConfig({ path: this.uriFloorCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+    return result;
+  }
+  async deleteKiosk(objectId: string): Promise<KioskUser> {
+    var token = this.loginService.getCurrentUserToken();
+    var result = await this.coreService.deleteConfig({ path: this.uriKioskCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+    return result;
+  }
   async deleteUser(objectId: string): Promise<User> {
-      var token = this._loginService.getCurrentUserToken();
-      var result = await this._coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-      return new User().fromJSON(result);
+      var token = this.loginService.getCurrentUserToken();
+      var result = await this.coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+      return result;
   }
 
 
     async getGroupsList(): Promise<User[]> {
         var me = this;
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0 }`;
 
         var _groups = [];
-        var result = await this._coreService.postConfig({ path: this.uriGetGroupList, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriGetGroupList, data: data }).toPromise();
         console.log(result);
         // {
         //     "message": "ok",
@@ -147,13 +219,13 @@ export class UserService {
 
     async createGroup(_group: string): Promise<Group> {
         var newgroup = JSON.parse(_group);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         //{ "session_id":"9HLHqTTaEC", "name":"vip4", "group_info" : {"actions" : []} }
         let data: string = `{ "session_id":"` + token.sessionId + `", "name":"` + newgroup.groupname + `", "group_info" : {  "actions" : [] } }`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriCreateGroup, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriCreateGroup, data: data }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok") {
@@ -172,11 +244,11 @@ export class UserService {
 
     async deleteGroup(_group: string): Promise<boolean> {
         var delGroup = JSON.parse(_group);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
         let data: string = `{"session_id":"` + token.sessionId + `","group_id_list":["` + delGroup.id + `"]}`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriDeleteGroup, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriDeleteGroup, data: data }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok") {
@@ -189,12 +261,12 @@ export class UserService {
 
     async getPersonsList(): Promise<Person[]> {
         var me = this;
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         let data: string = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : 0 }`;
 
         var _users = [];
-        var result = await this._coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
         console.log(result);
         // {
         // "message": "ok",
@@ -232,7 +304,7 @@ export class UserService {
         for (let i = 1; i < total_pages; i++) {
             data = `{ "session_id":"` + token.sessionId + `", "page_size" : 999, "skip_pages" : ` + i + ` }`;
 
-            result = await this._coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
+            result = await this.coreService.postConfig({ path: this.uriGetPersonList, data: data }).toPromise();
 
             if (result["message"] == "ok") {
                 var lists = result["person_list"]["persons"];
@@ -247,7 +319,7 @@ export class UserService {
 
     async createPerson(_user: string): Promise<Person> {
         var newPerson = JSON.parse(_user);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         var faceImage = newPerson["image"];
         var pos = faceImage.indexOf(";base64,");
@@ -258,7 +330,7 @@ export class UserService {
         let data: string = `{"session_id":"` + token.sessionId + `", "person_info" : {"fullname":"` + newPerson["fullname"] + `", "employeeno":"` + newPerson["employeeno"] + `" }, "image" : "` + faceImage + `"}`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriCreatePerson, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriCreatePerson, data: data }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok") {
@@ -280,11 +352,11 @@ export class UserService {
 
     async modifyPerson(_newuser: string) {
         var modUser = JSON.parse(_newuser);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
         let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + modUser["id"] + `", "person_info" : {"fullname":"` + modUser["fullname"] + `", "employeeno":"` + modUser["employeeno"] + `"} }`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriModifyPerson, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriModifyPerson, data: data }).toPromise();
         console.log(result);
 
         var person = new Person();
@@ -298,12 +370,12 @@ export class UserService {
 
     async deletePerson(_user: string): Promise<boolean> {
         var delPerson = JSON.parse(_user);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + delPerson["id"] + `"}`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriDeletePerson, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriDeletePerson, data: data }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok") {
@@ -316,7 +388,7 @@ export class UserService {
 
     async applypersontogroups(_newuser: string): Promise<boolean> {
         var modUser = JSON.parse(_newuser);
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
 
         var groups = modUser["groups"];
         var ids: string[] = [];
@@ -327,7 +399,7 @@ export class UserService {
         let data: string = `{"session_id":"` + token.sessionId + `", "person_id" : "` + modUser["id"] + `", "group_id_list" : [` + ids.join() + `]}`;
         console.log(data);
 
-        var result = await this._coreService.postConfig({ path: this.uriApplyPersonToGroups, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriApplyPersonToGroups, data: data }).toPromise();
         console.log(result);
 
         if (result["message"] == "ok") {
@@ -339,10 +411,10 @@ export class UserService {
     }
 
     async getFaceByFaceId(_id: string) {
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
         let data: string = `{"session_id":"` + token.sessionId + `", "face_id_number" : "` + _id + `"}`;
         console.log(data);
-        var result = await this._coreService.postConfig({ path: this.uriGetFaceImage, data: data }).toPromise();
+        var result = await this.coreService.postConfig({ path: this.uriGetFaceImage, data: data }).toPromise();
 
         if (result["message"] == "ok") {
             return result["image"]
@@ -354,7 +426,7 @@ export class UserService {
 
 
     getSnapshotByFaceId(_id: string) {
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
         var uri = this.uriGetFaceSnapshot.replace("{0}", token.sessionId).replace("{1}", _id);
         console.log(uri);
 
@@ -362,12 +434,12 @@ export class UserService {
     }
 
     async getBase64ByFaceId(_id: string) {
-        var token = this._loginService.getCurrentUserToken();
+        var token = this.loginService.getCurrentUserToken();
         var uri = this.uriGetFaceSnapshot.replace("{0}", token.sessionId).replace("{1}", _id);
         //var uri = _id ;
         console.log(uri);
 
-        var result = await this._coreService.getImage({ path: uri }).toPromise();
+        var result = await this.coreService.getImage({ path: uri }).toPromise();
 
         if (result["message"] == "ok") {
             return result["image"];

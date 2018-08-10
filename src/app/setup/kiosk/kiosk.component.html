@@ -1,3 +1,71 @@
-<p>
-  kiosk works!
-</p>
+<div class="animated fadeIn">
+  <div class="row" *ngIf="isAdmin">
+    <div class="col-12">
+      <div class="card">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newKiosk(); ">
+          New Kiosk
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>Kiosks
+        </div>
+        <div class="card-block">
+
+          <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+              <tr>
+                <th style="width: 5%">No</th>
+                <th style="width: 25%">
+                  <mfDefaultSorter by="name">User Name</mfDefaultSorter>
+                </th>
+                <th style="width: 35%">
+                  Kiosk Id
+                </th>
+                <th style="width: 30%">
+                  Kiosk Name
+                </th>
+                <th style=""></th>
+                <th style=""></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--<tr *ngFor="let item of mf.data; let i = index" (click)="modifyUser(item); largeModal.show()">-->
+              <tr *ngFor="let item of mf.data; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{item.username}}</td>
+                <td>
+                  {{item.data.kioskId}}
+                  </td>
+                <td>
+                  {{item.data.kioskName}}
+                </td>
+                <td>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editKiosk(item);"></a>
+                </td>
+                <td>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteKiosk(item)"></a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

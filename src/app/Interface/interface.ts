@@ -1,54 +1,57 @@
-
-export class SessionToken {
-  
-    public sessionId: string;
-    public serverTime: number;
-    public user: User;
-
-    public fromJSON(json: any): SessionToken {
-      //let object = Object.create(sessionToken.prototype);
-      //optional property
-      
-        this.user = json["user"];
-      
-        this.sessionId = json["sessionId"];
-        this.serverTime = json["serverTime"];        
-
-        return this;
-    }
-}
-
-export class User {
-    public username: string;
-    public password: string;
-    public objectId: string;
-    public createdAt: string;
-    public updatedAt: string;
-    public roles: Roles[];
-
-    public fromJSON(json: any): User {
-      //let object = Object.create(User.prototype);
-      this.objectId = json["objectId"];
-      this.username = json["username"];
-      if (json["password"]) {
-        this.password = json["password"];
-      }
-      this.roles = json["roles"];
-      return this;
-    }
-}
-export class Roles {
+export class BaseClass {
   public objectId: string;
   public createdAt: string;
   public updatedAt: string;
+}
+export class BaseUser extends BaseClass {
+  public username: string;
+  public password: string;
+  public roles: Roles[];
+}
+
+export class Floor extends BaseClass {
+  
   public name: string;
-  public fromJSON(json: any): Roles {
-    this.objectId = json["objectId"];
-    this.createdAt = json["createdAt"];
-    this.name = json["name"];
-    this.updatedAt = json["updatedAt"];
+  public unitNo: string;
+  public phone: string[];
+  public floor: number;
+}
+export class UserData {
+  public email: string;
+}
+export class User extends BaseUser {
+  
+  public data: UserData;
+}
+export class SessionToken {
+
+  public sessionId: string;
+  public serverTime: number;
+  public user: User;
+
+  public fromJSON(json: any): SessionToken {
+    //let object = Object.create(sessionToken.prototype);
+    //optional property
+
+    this.user = json["user"];
+
+    this.sessionId = json["sessionId"];
+    this.serverTime = json["serverTime"];
+
     return this;
   }
+}
+export class KioskData {
+  public kioskId: string;
+  public kioskName: string;
+}
+export class KioskUser extends BaseUser {
+  
+  public data: KioskData;
+}
+export class Roles extends BaseClass{
+  
+  public name: string;
 }
 export class RoleOption extends Roles {
   public checked: boolean;
@@ -309,3 +312,6 @@ export class Face_Settings {
     }
 }
 
+export interface CreateEditDialog {
+  title: string;
+}

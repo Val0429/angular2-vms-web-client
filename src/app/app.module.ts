@@ -28,13 +28,12 @@ import { FullLayoutComponent } from './layouts/full-layout.component';
 // Services
 import { ServiceModule } from './service/service.module';
 
-// Form Directive
-import { ConfirmPasswordValidator } from './layouts/confirmpassword-validation.directive';
 import { TenantModule } from './tenant/tenant.module';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { AlertComponent } from './dialog/alert/alert.component';
+import { SetupModule } from './setup/setup.module';
 
 @NgModule({
   imports: [
@@ -49,6 +48,7 @@ import { AlertComponent } from './dialog/alert/alert.component';
     ChartsModule,
     ServiceModule,
     TenantModule,
+    SetupModule,
     BootstrapModalModule
   ],
   entryComponents: [
@@ -63,7 +63,6 @@ import { AlertComponent } from './dialog/alert/alert.component';
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
     //AsideToggleDirective,    
-    ConfirmPasswordValidator,    
     ConfirmComponent,
     AlertComponent
   ],

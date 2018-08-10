@@ -1,0 +1,137 @@
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <form novalidate
+            [formGroup]="myform">
+
+        <div class="input-group mb-1"
+             [ngClass]="{
+       'has-danger': username.invalid && (username.dirty || username.touched),
+       'has-success': username.valid && (username.dirty || username.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 [readonly]="editMode"
+                 required
+                 formControlName="username"
+                 placeholder="Username" />
+        </div>
+        <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
+          <p *ngIf="username.errors.required">Username is required</p>
+          <p *ngIf="username.errors.minlength">Username must be 3 at least characters long</p>
+        </div>
+        <fieldset formGroupName="data">
+          <div class="input-group mb-1" [ngClass]="{
+       'has-danger': email.invalid && (email.dirty || email.touched),
+       'has-success': email.valid && (email.dirty || email.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input type="email"
+                   class="form-control"
+                   formControlName="email"
+                   placeholder="email" />
+          </div>
+          <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
+            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+          </div>
+        </fieldset>
+
+
+        <div class="input-group mb-1"
+             [ngClass]="{
+       'has-danger': roles.invalid && (roles.dirty || roles.touched ),
+       'has-success': roles.valid}">
+          <span class="input-group-addon">
+            <i class="fa fa-group"></i>
+          </span>
+          <span *ngFor="let role of rolesArray">
+            <input type="checkbox"
+                   [disabled]="editMode"
+                   [checked]="role.checked"
+                   name="{{role.name}}" value="{{role.name}}" (click)="addRemoveRole($event.srcElement.checked, $event.srcElement.value)" />
+            <label for="role">{{role.name}}</label>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 required
+                 formControlName="roles"
+                 style="display:none" />
+
+        </div>
+        <div class="modal-footer" *ngIf="editMode">
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">Update Data</button>
+        </div>
+
+        <fieldset formGroupName="passwordGroup">
+
+
+          <div class="input-group mb-1"
+               [ngClass]="{
+       'has-danger': password.invalid && (password.dirty || password.touched),
+       'has-success': password.valid && (password.dirty || password.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-key"></i>
+            </span>
+            <input type="password"
+                   class="form-control"
+                   required
+                   formControlName="password"
+                   placeholder="password" />
+          </div>
+          <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
+            <p *ngIf="password.errors.required">Password is required</p>
+            <p *ngIf="password.errors.minlength">Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+          </div>
+          <div class="input-group mb-1"
+               [ngClass]="{
+       'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched),
+       'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-key"></i>
+            </span>
+            <input type="password"
+                   class="form-control"
+                   required
+                   formControlName="confirmPassword"
+                   placeholder="Confirm Password" />
+          </div>
+
+          <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
+            <p *ngIf="confirmPassword.errors.required">Confirm Password is required</p>
+          </div>
+
+          <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
+            <p *ngIf="passwordGroup.errors.mismatch">Confirm Password is not the same with password</p>
+          </div>
+        </fieldset>
+        <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
+          <p *ngIf="roles.errors.required">Roles is required</p>
+        </div>
+
+
+
+
+
+
+
+        <!--<pre>{{myform.value | json}}</pre>-->
+
+      </form>
+
+      <div class="modal-footer" >
+        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
