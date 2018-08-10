@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles, KioskUser } from 'app/Interface/interface';
+import { User, Person, Group, Roles, KioskUser, Floor } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
@@ -10,7 +10,8 @@ export class UserService {
   
     private uriRoleCrud: string = Globals.cgiRoot + "roles";
     private uriUserCrud: string = Globals.cgiRoot + "users";
-    private uriKioskUserCrud: string = Globals.cgiRoot + "kiosks";  
+  private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
+  private uriFloorCrud: string = Globals.cgiRoot + "floors";  
 
     private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
     private uriCreateGroup: string = Globals.cgiRoot + "frs/cgi/creategroup";
@@ -58,15 +59,29 @@ export class UserService {
 
     return roles;
   }
+  async getFloorList(): Promise<Floor[]> {
+
+    var token = this.loginService.getCurrentUserToken();
+    var data = [];
+    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    console.log(result);
+    if (result && result["results"]) {
+      result["results"].forEach(function (newData) {
+        if (newData["objectId"])
+          data.push(newData);
+      });
+    }
+    return data;
+  }
   async getKioskUsersList(): Promise<KioskUser[]> {
 
     var token = this.loginService.getCurrentUserToken();
     var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriKioskUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result && result["results"]) {
       result["results"].forEach(function (user) {
-        if (user["data"])
+        if (user["objectId"])
           users.push(user);
       });
     }
@@ -80,7 +95,7 @@ export class UserService {
       console.log(result);
       if (result && result["results"]) {        
         result["results"].forEach(function (user) {
-          if (user["username"])
+          if (user["objectId"])
             users.push(user);
         });
       }
@@ -92,7 +107,7 @@ export class UserService {
 
     data.sessionId = token.sessionId;
 
-    var result = await this.coreService.putConfig({ path: this.uriKioskUserCrud, data: data }).toPromise();
+    var result = await this.coreService.putConfig({ path: this.uriKioskCrud, data: data }).toPromise();
 
     console.log("update kiosk result: ", result);
 
@@ -104,9 +119,30 @@ export class UserService {
 
     data.sessionId = token.sessionId;
 
-    var result = await this.coreService.postConfig({ path: this.uriKioskUserCrud, data: data }).toPromise();
+    var result = await this.coreService.postConfig({ path: this.uriKioskCrud, data: data }).toPromise();
 
     console.log("create kiosk result: ", result);
+
+    return result;
+
+  }
+  async updateFloor(data: Floor): Promise<Floor> {
+
+    var token = this.loginService.getCurrentUserToken();
+
+    var result = await this.coreService.putConfig({ path: this.uriFloorCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
+
+    console.log("update floor result: ", result);
+
+    return result;
+  }
+  async createFloor(data: Floor): Promise<Floor> {
+
+    var token = this.loginService.getCurrentUserToken();
+
+    var result = await this.coreService.postConfig({ path: this.uriFloorCrud +"?sessionId="+token.sessionId, data: data }).toPromise();
+
+    console.log("create floor result: ", result);
 
     return result;
 
@@ -136,9 +172,14 @@ export class UserService {
     return result;
 
   }
+  async deleteFloor(objectId: string): Promise<Floor> {
+    var token = this.loginService.getCurrentUserToken();
+    var result = await this.coreService.deleteConfig({ path: this.uriFloorCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+    return result;
+  }
   async deleteKiosk(objectId: string): Promise<KioskUser> {
     var token = this.loginService.getCurrentUserToken();
-    var result = await this.coreService.deleteConfig({ path: this.uriKioskUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
+    var result = await this.coreService.deleteConfig({ path: this.uriKioskCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
     return result;
   }
   async deleteUser(objectId: string): Promise<User> {

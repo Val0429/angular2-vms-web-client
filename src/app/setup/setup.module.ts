@@ -20,6 +20,7 @@ import { FrsComponent } from './frs/frs.component';
 //dialog components
 import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
+import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
   ],
   entryComponents: [
     CreateEditUserComponent,
-    CreateEditKioskComponent
+    CreateEditKioskComponent,
+    CreateEditFloorComponent
   ],
   declarations: [
     EmailComponent,
@@ -45,7 +47,8 @@ import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
     AccountComponent,
     FrsComponent,
     CreateEditUserComponent,    
-    CreateEditKioskComponent
+    CreateEditKioskComponent,
+    CreateEditFloorComponent
   ]
 })
 export class SetupModule { }

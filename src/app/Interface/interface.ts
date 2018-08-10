@@ -17,7 +17,15 @@ export class SessionToken {
         return this;
     }
 }
-
+export class Floor {
+  public objectId: string;
+  public createdAt: string;
+  public updatedAt: string;
+  public name: string;
+  public unitNo: string;
+  public phone: string[];
+  public floor: number;
+}
 export class User {
     public username: string;
     public password: string;

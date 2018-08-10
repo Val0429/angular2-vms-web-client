@@ -160,8 +160,5 @@ export class KioskComponent implements OnInit {
 
   }
 
-  updatePassword() {
-
-  }
 
 }

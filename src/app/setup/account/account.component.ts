@@ -173,8 +173,5 @@ export class AccountComponent implements OnInit {
     
   }
 
-  updatePassword() {
-
-  }
 
 }
