@@ -22,10 +22,13 @@
               <tr>
                 <th style="width: 5%">No</th>
                 <th style="width: 25%">
-                  <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                  <mfDefaultSorter by="name">User Name</mfDefaultSorter>
                 </th>
-                <th style="width: 65%">
-                  <mfDefaultSorter by="group">Kiosk Data</mfDefaultSorter>
+                <th style="width: 35%">
+                  Kiosk Id
+                </th>
+                <th style="width: 30%">
+                  Kiosk Name
                 </th>
                 <th style=""></th>
               </tr>
@@ -36,7 +39,9 @@
                 <td>{{i + 1}}</td>
                 <td>{{item.username}}</td>
                 <td>
-                  {{item.data.kioskId}}<br/>
+                  {{item.data.kioskId}}
+                  </td>
+                <td>
                   {{item.data.kioskName}}
                 </td>
                 <td>
