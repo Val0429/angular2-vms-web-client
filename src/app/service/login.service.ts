@@ -47,7 +47,7 @@ export class LoginService implements CanActivate {
     return result;
   }
 
-  async logInByPassword(data: object): Promise<boolean> {
+  async logInByPassword(data: any): Promise<boolean> {
     let me = this;
     
     var ret: boolean = false;
@@ -105,7 +105,7 @@ export class LoginService implements CanActivate {
     var currentUserToken = this.getCurrentUserToken();
     if (currentUserToken !== null) {
       
-      let data: object = { sessionId: currentUserToken.sessionId };
+      let data: any = { sessionId: currentUserToken.sessionId };
 
       var ret: boolean = false;
       console.log("logout function call");

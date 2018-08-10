@@ -30,8 +30,8 @@ export class FloorComponent implements OnInit {
     for (let floor of floors) {
       this.data.push(floor);
     }
-    var currUser = await this.userService.getCurrentUser();
-    this.isAdmin = currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+    this.isAdmin = this.userService.isAdmin();
+    
     console.log("is admin:", this.isAdmin);
   }
 

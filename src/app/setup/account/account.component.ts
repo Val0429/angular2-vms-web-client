@@ -14,7 +14,7 @@ import { AlertComponent } from '../../dialog/alert/alert.component';
 export class AccountComponent implements OnInit {
    
 
-  constructor(private _userService: UserService, private _dialogService: DialogService) {
+  constructor(private userService: UserService, private dialogService: DialogService) {
   }
 
   data = [];
@@ -27,16 +27,16 @@ export class AccountComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {    
     this.availableRoles = [];
-    let roles = await this._userService.getUserRole();
+    let roles = await this.userService.getUserRole();
     if (roles) {
       this.availableRoles = roles;      
     }
-    let users = await this._userService.getUsersList();
+    let users = await this.userService.getUsersList();
     for (let user of users) {
       this.data.push(user);
     }
-    var currUser = await this._userService.getCurrentUser();
-    this.isAdmin = currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+    
+    this.isAdmin = this.userService.isAdmin();
     console.log("is admin:", this.isAdmin);
   }
   
@@ -58,9 +58,9 @@ export class AccountComponent implements OnInit {
   }
   private showCreateEditDialog(data: any, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditUserComponent(this._dialogService);
+    let newForm = new CreateEditUserComponent(this.dialogService);
     newForm.setFormData(data, this.availableRoles, editMode);
-    let disposable = this._dialogService.addDialog(CreateEditUserComponent, newForm)
+    let disposable = this.dialogService.addDialog(CreateEditUserComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
@@ -88,7 +88,7 @@ export class AccountComponent implements OnInit {
     this.showCreateEditDialog(data, false);
   }
   showAlert(message: string, title?: string) {
-    let disposable = this._dialogService.addDialog(AlertComponent, {
+    let disposable = this.dialogService.addDialog(AlertComponent, {
       title: title,
       message: message
     })
@@ -100,14 +100,14 @@ export class AccountComponent implements OnInit {
   async deleteUser(item) {
     console.log("deleteUser", item);
     
-    let disposable = this._dialogService.addDialog(ConfirmComponent, {
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Confirmation",
       message: "Are you sure?"
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this._userService.deleteUser(item.objectId);
+          var result = await this.userService.deleteUser(item.objectId);
           var index = this.data.indexOf(item, 0);
           console.log(index);
           console.log(result);
@@ -137,7 +137,7 @@ export class AccountComponent implements OnInit {
       roles: formResult.roles
     };
     console.log("create user", data);
-    var result = await this._userService.createUser(data);
+    var result = await this.userService.createUser(data);
     if (result) {
       this.data.push(result);
       this.showAlert("New user has been created");
@@ -163,7 +163,7 @@ export class AccountComponent implements OnInit {
 
       console.log("updateUser", data);      
        
-      var result = await this._userService.updateUser(data);
+      var result = await this.userService.updateUser(data);
       var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       if (result && index > -1) {        
         //TODO: POP update result

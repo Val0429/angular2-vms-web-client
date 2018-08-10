@@ -41,6 +41,10 @@ export class UserService {
         return this.loginService.getCurrentUser();
     }
 
+  isAdmin(): boolean {
+    var currUser = this.getCurrentUser();
+    return currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+  }
   async getUserRole(): Promise<string[]> {
     var me = this;
     var token = me.loginService.getCurrentUserToken();
