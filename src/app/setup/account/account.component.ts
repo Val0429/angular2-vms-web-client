@@ -2,9 +2,9 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Roles, RoleOption } from '../../Interface/interface';
+import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
-import { AlertComponent } from '../../dialog/alert/alert.component';
+import { AlertComponent } from 'app/dialog/alert/alert.component';
 
 @Component({
   selector: 'app-account',
@@ -43,29 +43,21 @@ export class AccountComponent implements OnInit {
 
   editUser(item) {
     console.log("edit item", item);
-    this.actionMode = "Edit User";
-    let data = {
-      objectId: item.objectId,
-      title: this.actionMode,
-      username: item.username,
-      roles: item.roles.map(function (e) { return e.name; }),
-      data:item.data,
-      password: "",
-      confirmPassword: "",
-    }    
+    this.actionMode = "Edit User";    
     
-    this.showCreateEditDialog(data, true); 
+    this.showCreateEditDialog(item, true); 
   }
-  private showCreateEditDialog(data: any, editMode: boolean) {
+  private showCreateEditDialog(data: User, editMode: boolean) {
     //creates dialog form here
     let newForm = new CreateEditUserComponent(this.dialogService);
-    newForm.setFormData(data, this.availableRoles, editMode);
+    //sets form data
+    newForm.setFormData(data, this.actionMode, this.availableRoles, editMode);
     let disposable = this.dialogService.addDialog(CreateEditUserComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
-          let data = newForm.getFormData();
-          this.saveUser(data);
+          let formData = newForm.getFormData();
+          this.saveUser(formData);
         }
       });
   }
@@ -76,16 +68,15 @@ export class AccountComponent implements OnInit {
     var u = ("000" + this.data.length);
     u = "user" + u.substr(u.length - 3, 3);
 
-    let data = {      
-      title: this.actionMode,
-      username: u,
-      roles: [],
-      password: "",
-      confirmPassword: "",
-      data: {email:""}
-    }
+    let newUser = new User();
+      
+    newUser.username= u;
+    newUser.roles = [];
+    newUser.password= "";    
+    newUser.data = new UserData();
+    newUser.data.email = "";
 
-    this.showCreateEditDialog(data, false);
+    this.showCreateEditDialog(newUser, false);
   }
   showAlert(message: string, title?: string) {
     let disposable = this.dialogService.addDialog(AlertComponent, {
@@ -118,7 +109,7 @@ export class AccountComponent implements OnInit {
       });    
   }
 
-  async saveUser(formResult:any) {
+  async saveUser(formResult: User) {
     if (this.actionMode==="New User") {
       // Create User
       await this.createUser(formResult);
@@ -127,15 +118,9 @@ export class AccountComponent implements OnInit {
       await this.updateUser(formResult);
     }
   }
-  async createUser(formResult:any) {
+  async createUser(data:User) {
     //let formResult = this.child.getFormData();
-    console.log("form result", formResult);
-    let data: any = {
-      username: formResult.username,
-      password: formResult.passwordGroup.password,
-      data: formResult.data,
-      roles: formResult.roles
-    };
+    
     console.log("create user", data);
     var result = await this.userService.createUser(data);
     if (result) {
@@ -145,15 +130,8 @@ export class AccountComponent implements OnInit {
   }
 
   
-  async updateUser(formResult:any) {      
-      console.log("form result", formResult);
-      let data: any = {
-        objectId: formResult.objectId,
-        username: formResult.username,
-        password: formResult.passwordGroup.password,
-        data: formResult.data,
-        roles: formResult.roles
-      };
+  async updateUser(data:User) {      
+      console.log("form result", data);      
 
       //update data without update password by admin
     if (data.password === "") {

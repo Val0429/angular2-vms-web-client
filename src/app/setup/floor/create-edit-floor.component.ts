@@ -20,17 +20,11 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
 
   constructor(dialogService: DialogService) {
     super(dialogService);
-    this.formData = new Floor();
-    this.createFormControls();
-    this.createForm();
-
   }
 
   public setFormData(floorData: Floor, title:string, editMode: boolean) {
-    this.myform.reset();
-
+    
     this.formData = floorData;
-
     this.title = title;
     this.editMode = editMode;
     this.createFormControls();

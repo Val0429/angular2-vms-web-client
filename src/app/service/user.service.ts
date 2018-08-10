@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles, KioskUser, Floor } from 'app/Interface/interface';
+import { User, Person, Group, Roles, KioskUser, Floor, UserData } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
@@ -105,25 +105,21 @@ export class UserService {
       }
       return users;
   }
-  async updateKiosk(data: any): Promise<KioskUser> {
+  async updateKiosk(data: KioskUser): Promise<KioskUser> {
 
-    var token = this.loginService.getCurrentUserToken();
+    let token = this.loginService.getCurrentUserToken();
 
-    data.sessionId = token.sessionId;
-
-    var result = await this.coreService.putConfig({ path: this.uriKioskCrud, data: data }).toPromise();
+    let result = await this.coreService.putConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
 
     console.log("update kiosk result: ", result);
 
     return result;
   }
-  async createKiosk(data: any): Promise<KioskUser> {
+  async createKiosk(data: KioskUser): Promise<KioskUser> {
 
-    var token = this.loginService.getCurrentUserToken();
+    let token = this.loginService.getCurrentUserToken();
 
-    data.sessionId = token.sessionId;
-
-    var result = await this.coreService.postConfig({ path: this.uriKioskCrud, data: data }).toPromise();
+    let result = await this.coreService.postConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
 
     console.log("create kiosk result: ", result);
 
@@ -151,25 +147,21 @@ export class UserService {
     return result;
 
   }
-  async updateUser(data: any): Promise<User> {
+  async updateUser(data: User): Promise<User> {
 
-    var token = this.loginService.getCurrentUserToken();
+    let token = this.loginService.getCurrentUserToken();
     
-    data.sessionId = token.sessionId;
-
-    var result = await this.coreService.putConfig({ path: this.uriUserCrud, data: data }).toPromise();
+    let result = await this.coreService.putConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
 
     console.log("update user result: ", result);
         
     return result;
   }
-  async createUser(data: any): Promise<User> {
+  async createUser(userData: User): Promise<User> {
       
-    var token = this.loginService.getCurrentUserToken();
+    let token = this.loginService.getCurrentUserToken();
 
-    data.sessionId = token.sessionId;
-
-    var result = await this.coreService.postConfig({ path: this.uriUserCrud, data: data }).toPromise();
+    let result = await this.coreService.postConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: userData }).toPromise();
 
     console.log("create user result: ", result);
 

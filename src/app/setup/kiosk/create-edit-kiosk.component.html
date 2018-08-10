@@ -29,6 +29,48 @@
           <p *ngIf="username.errors.minlength">Username must be 3 at least characters long</p>
         </div>
 
+        <fieldset formGroupName="data">
+          <div class="input-group mb-1"
+               [ngClass]="{
+       'has-danger': kioskId.invalid && (kioskId.dirty || kioskId.touched),
+       'has-success': kioskId.valid && (kioskId.dirty || kioskId.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-key"></i>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   required
+                   formControlName="kioskId"
+                   placeholder="Kiosk Id" />
+          </div>
+          <div style="color:red" *ngIf="kioskId.errors && (kioskId.dirty || kioskId.touched )">
+            <p *ngIf="kioskId.errors.required">Kiosk Id is required</p>
+            <p *ngIf="kioskId.errors.minlength">Kiosk Id must be at least 3 characters long </p>
+          </div>
+
+          <div class="input-group mb-1"
+               [ngClass]="{
+       'has-danger': kioskName.invalid && (kioskName.dirty || kioskName.touched),
+       'has-success': kioskName.valid && (kioskName.dirty || kioskName.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-key"></i>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   required
+                   formControlName="kioskName"
+                   placeholder="Kiosk Name" />
+          </div>
+
+          <div style="color:red" *ngIf="kioskName.errors && (kioskName.dirty || kioskName.touched)">
+            <p *ngIf="kioskName.errors.required">Kiosk Name is required</p>
+            <p *ngIf="kioskName.errors.minlength">Kiosk Name must be at least 3 characters long</p>
+          </div>
+
+        </fieldset>
+        <div class="modal-footer" *ngIf="editMode">
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">Update Data</button>
+        </div>
         <fieldset formGroupName="passwordGroup">
           <div class="input-group mb-1"
                [ngClass]="{
@@ -69,46 +111,6 @@
           <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
             <p *ngIf="passwordGroup.errors.mismatch">Confirm Password is not the same with password</p>
           </div>
-        </fieldset>
-
-        <fieldset formGroupName="data">
-          <div class="input-group mb-1"
-               [ngClass]="{
-       'has-danger': kioskId.invalid && (kioskId.dirty || kioskId.touched),
-       'has-success': kioskId.valid && (kioskId.dirty || kioskId.touched)}">
-            <span class="input-group-addon">
-              <i class="fa fa-key"></i>
-            </span>
-            <input type="text"
-                   class="form-control"
-                   required
-                   formControlName="kioskId"
-                   placeholder="Kiosk Id" />
-          </div>
-          <div style="color:red" *ngIf="kioskId.errors && (kioskId.dirty || kioskId.touched )">
-            <p *ngIf="kioskId.errors.required">Kiosk Id is required</p>
-            <p *ngIf="kioskId.errors.minlength">Kiosk Id must be at least 3 characters long </p>
-          </div>
-
-          <div class="input-group mb-1"
-               [ngClass]="{
-       'has-danger': kioskName.invalid && (kioskName.dirty || kioskName.touched),
-       'has-success': kioskName.valid && (kioskName.dirty || kioskName.touched)}">
-            <span class="input-group-addon">
-              <i class="fa fa-key"></i>
-            </span>
-            <input type="text"
-                   class="form-control"
-                   required
-                   formControlName="kioskName"
-                   placeholder="Kiosk Name" />
-          </div>
-
-          <div style="color:red" *ngIf="kioskName.errors && (kioskName.dirty || kioskName.touched)">
-            <p *ngIf="kioskName.errors.required">Kiosk Name is required</p>
-            <p *ngIf="kioskName.errors.minlength">Kiosk Name must be at least 3 characters long</p>
-          </div>
-
         </fieldset>
 
 

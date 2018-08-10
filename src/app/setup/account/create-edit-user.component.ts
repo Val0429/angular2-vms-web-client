@@ -1,6 +1,6 @@
 import { Component} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { RoleOption, CreateEditDialog } from "app/Interface/interface";
+import { RoleOption, CreateEditDialog, User} from "app/Interface/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
 
 @Component({
@@ -11,27 +11,21 @@ import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
 export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
   title: string;  
   editMode:boolean;
-  objectId: string;
+  tempRoles: string[];
+  formData: User;  
   rolesArray: RoleOption[];
+
   myform: FormGroup;
   username: FormControl;  
   email: FormControl;
   password: FormControl;
   confirmPassword: FormControl;
   passwordGroup: FormGroup;
-  roles: FormControl;
-  tempRoles: string[];
-  data: FormGroup;
-  
-  constructor(dialogService: DialogService) {
-    super(dialogService);
-    this.createFormControls();
-    this.createForm();
-    this.tempRoles = [];
-  }
-    
-  public setFormData(userData: any, rolesArray: string[], editMode: boolean) {
-    this.myform.reset();
+  roles: FormControl;  
+  data: FormGroup;  
+  public setFormData(userData: User, title: string, rolesArray: string[], editMode: boolean) {
+    this.formData = userData;
+
     this.rolesArray = [];
     for (let name of rolesArray) {
       let role = new RoleOption();
@@ -39,26 +33,33 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       role.checked = false;
       this.rolesArray.push(role);
     }
-    this.objectId = userData.objectId;
-    this.title = userData.title;
 
+    this.title = title;
     this.editMode = editMode;
-    this.username.setValue(userData.username);
+
     //set all checked value
     for (let role of this.rolesArray) {
-      let findIndex = userData.roles.indexOf(role.name);
+      let findIndex = userData.roles.map(function (e) { return e.name }).indexOf(role.name);
       role.checked = findIndex > -1;
     }
-    this.confirmPassword.setValue("");
-    this.password.setValue("");
-    this.email.setValue(userData.data.email);
-    this.roles.setValue(userData.roles);    
+    //binding data
+    this.createFormControls();
+    this.createForm();
+    this.tempRoles = [];
   }
-  public getFormData(): any {
-    var data = this.myform.value;
-    //sets objectId back
-    data.objectId = this.objectId;
-    return data;
+  constructor(dialogService: DialogService) {
+    super(dialogService);
+    
+  }
+  
+  public getFormData(): User {
+    let formResult = this.myform.value;    
+    this.formData.username = formResult.username;
+    this.formData.password = formResult.passwordGroup.password;
+    this.formData.data = formResult.data;
+    //reformat
+    this.formData.roles = formResult.roles;
+    return this.formData;
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -67,11 +68,11 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
 
   createFormControls() {
-    this.username = new FormControl('', [
+    this.username = new FormControl(this.formData.username, [
       Validators.required,
       Validators.minLength(3)
-    ]);    
-    this.email = new FormControl('', [
+    ]);
+    this.email = new FormControl(this.formData.data.email, [
       //Validators.required,
       Validators.pattern("[^ @]*@[^ @]*")
       
@@ -91,7 +92,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       confirmPassword: this.confirmPassword
     }, this.passwordMatchValidator);
 
-    this.roles = new FormControl('', Validators.required);
+    this.roles = new FormControl(this.formData.roles.map(function (e) { return e.name }), Validators.required);
     this.data = new FormGroup({
       email: this.email
     });

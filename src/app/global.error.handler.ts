@@ -20,17 +20,23 @@ export class GlobalErrorHandler implements ErrorHandler {
     //TO DO: do better logging
     console.log("Error thrown from global error handler");
     console.log(error);
-    //whenever we get 401 status, we force user to login again
-    if (error.rejection.status && error.rejection.status === 401) {
-      console.log("forced to login due to unauthorized token, message: ", error.rejection._body);
-      const loginService = this.injector.get(LoginService);
-      const routeService = this.injector.get(Router);
-      loginService.invalidateSession();
-      routeService.navigate(["/login"]);
-    } else if (error.rejection.status && error.rejection.status===400) {      
-      //shows alert
-      this.showAlert(error.rejection._body, "Error");
-    }
+
+    //error related to REST API responses
+    if (error.rejection && error.rejection.status) {
+      //whenever we get 401 status, we force user to login again
+      if(error.rejection.status === 401) {
+        console.log("forced to login due to unauthorized token, message: ", error.rejection._body);
+        const loginService = this.injector.get(LoginService);
+        const routeService = this.injector.get(Router);
+        loginService.invalidateSession();
+        routeService.navigate(["/login"]);
+      }
+      //whenever we get 400 pop alert
+      else if (error.rejection.status === 400) {
+        //shows alert
+        this.showAlert(error.rejection._body, "Error");
+      }
+    } 
   }
 
   showAlert(message: string, title?: string) {

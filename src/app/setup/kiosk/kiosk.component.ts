@@ -4,6 +4,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
+import { KioskUser, KioskData, Roles } from '../../Interface/interface';
 
 @Component({
   selector: 'app-kiosk',
@@ -34,25 +35,23 @@ export class KioskComponent implements OnInit {
   }
 
 
-  editKiosk(item) {
+  editKiosk(item: KioskUser) {
     console.log("edit kiosk", item);
     this.actionMode = "Edit Kiosk";
-    let data = {
-      objectId: item.objectId,
-      title: this.actionMode,
-      username: item.username,
-      data:item.data,
-      roles: item.roles.map(function (e) { return e.name; }),
-      password: "",
-      confirmPassword: "",
-    }
 
-    this.showCreateEditDialog(data, true);
+    let newData = new KioskUser();    
+    newData.objectId = item.objectId;
+    newData.username = item.username,
+    newData.data = item.data;
+    newData.roles = item.roles;
+    newData.password = "";    
+
+    this.showCreateEditDialog(newData, true);
   }
-  private showCreateEditDialog(data: any, editMode: boolean) {
+  private showCreateEditDialog(data: KioskUser, editMode: boolean) {
     //creates dialog form here
     let newForm = new CreateEditKioskComponent(this.dialogService);
-    newForm.setFormData(data, editMode);
+    newForm.setFormData(data, this.actionMode, editMode);
     let disposable = this.dialogService.addDialog(CreateEditKioskComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -69,16 +68,18 @@ export class KioskComponent implements OnInit {
     var u = ("000" + this.data.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
 
-    let data = {
-      title: this.actionMode,
-      username: u,
-      data: {kioskId:"",kioskName:""},
-      roles: [],
-      password: "",
-      confirmPassword: "",
-    }
+    let newData = new KioskUser();
+    newData.username = u;
+    newData.roles = [];
+    let kioskRole = new Roles();
+    kioskRole.name = "Kiosk";
+    newData.roles.push(kioskRole);
+    newData.data = new KioskData();
+    newData.data.kioskId = "";
+    newData.data.kioskName = "";
+    newData.password = "";
 
-    this.showCreateEditDialog(data, false);
+    this.showCreateEditDialog(newData, false);
   }
   showAlert(message: string, title?: string) {
     let disposable = this.dialogService.addDialog(AlertComponent, {
@@ -111,7 +112,7 @@ export class KioskComponent implements OnInit {
       });
   }
 
-  async saveKiosk(formResult: any) {
+  async saveKiosk(formResult: KioskUser) {
     if (this.actionMode === "New Kiosk") {
       // Create User
       await this.createKiosk(formResult);
@@ -120,15 +121,9 @@ export class KioskComponent implements OnInit {
       await this.updateKiosk(formResult);
     }
   }
-  async createKiosk(formResult: any) {
+  async createKiosk(data: KioskUser) {
     //let formResult = this.child.getFormData();
-    console.log("form result", formResult);
-    let data: any = {
-      username: formResult.username,
-      password: formResult.passwordGroup.password,
-      data: formResult.data,
-      roles: ["Kiosk"]
-    };
+   
     console.log("create kiosk", data);
     var result = await this.userService.createKiosk(data);
     if (result) {
@@ -138,17 +133,14 @@ export class KioskComponent implements OnInit {
   }
 
 
-  async updateKiosk(formResult: any) {
-    console.log("form result", formResult);
-    let data: any = {
-      objectId: formResult.objectId,
-      username: formResult.username,
-      password: formResult.passwordGroup.password,
-      data: formResult.data,
-      roles: ["Kiosk"]
-    };
+  async updateKiosk(data: KioskUser) {
+   
     console.log("update kiosk", data);
-
+    //update data without update password by admin
+    if (data.password === "") {
+      //removes password from object submission
+      delete (data.password);
+    }
     var result = await this.userService.updateKiosk(data);
     var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
     if (result && index > -1) {
