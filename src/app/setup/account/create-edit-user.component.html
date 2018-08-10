@@ -28,21 +28,25 @@
           <p *ngIf="username.errors.required">Username is required</p>
           <p *ngIf="username.errors.minlength">Username must be 3 at least characters long</p>
         </div>
-
-        <div class="input-group mb-1" [ngClass]="{
+        <fieldset formGroupName="data">
+          <div class="input-group mb-1" [ngClass]="{
        'has-danger': email.invalid && (email.dirty || email.touched),
        'has-success': email.valid && (email.dirty || email.touched)}">
-          <span class="input-group-addon">
-            <i class="fa fa-envelope"></i>
-          </span>
-          <input type="email"
-                 class="form-control"
-                 formControlName="email"
-                 placeholder="email" />
-        </div>
-        <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
-          <p *ngIf="email.errors.required">Email is required</p>
-          <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+            <span class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input type="email"
+                   class="form-control"
+                   formControlName="email"
+                   placeholder="email" />
+          </div>
+          <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
+            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+          </div>
+        </fieldset>
+        <div class="modal-footer" *ngIf="editMode">          
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!email.valid && (email.dirty || email.touched)">Update Data</button>
         </div>
         <fieldset formGroupName="passwordGroup">
 
@@ -79,7 +83,7 @@
           </div>
 
           <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="confirmPassword.errors.required">Confirm Password is required</p>            
+            <p *ngIf="confirmPassword.errors.required">Confirm Password is required</p>
           </div>
 
           <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
@@ -92,7 +96,7 @@
        'has-success': roles.valid}">
           <span class="input-group-addon">
             <i class="fa fa-group"></i>
-          </span>          
+          </span>
           <span *ngFor="let role of rolesArray">
             <input type="checkbox"
                    [disabled]="editMode"

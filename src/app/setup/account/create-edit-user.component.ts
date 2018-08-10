@@ -21,6 +21,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   passwordGroup: FormGroup;
   roles: FormControl;
   tempRoles: string[];
+  data: FormGroup;
   
   constructor(dialogService: DialogService) {
     super(dialogService);
@@ -29,7 +30,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
     this.tempRoles = [];
   }
     
-  public setFormData(data: any, rolesArray: string[], editMode: boolean) {
+  public setFormData(userData: any, rolesArray: string[], editMode: boolean) {
     this.myform.reset();
     this.rolesArray = [];
     for (let name of rolesArray) {
@@ -38,20 +39,20 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       role.checked = false;
       this.rolesArray.push(role);
     }
-    this.objectId = data.objectId;
-    this.title = data.title;
+    this.objectId = userData.objectId;
+    this.title = userData.title;
 
     this.editMode = editMode;
-    this.username.setValue(data.username);
+    this.username.setValue(userData.username);
     //set all checked value
     for (let role of this.rolesArray) {
-      let findIndex = data.roles.indexOf(role.name);
+      let findIndex = userData.roles.indexOf(role.name);
       role.checked = findIndex > -1;
     }
     this.confirmPassword.setValue("");
     this.password.setValue("");
-    this.email.setValue(data.email);
-    this.roles.setValue(data.roles);    
+    this.email.setValue(userData.data.email);
+    this.roles.setValue(userData.roles);    
   }
   public getFormData(): any {
     var data = this.myform.value;
@@ -90,7 +91,10 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       confirmPassword: this.confirmPassword
     }, this.passwordMatchValidator);
 
-    this.roles = new FormControl('', Validators.required );
+    this.roles = new FormControl('', Validators.required);
+    this.data = new FormGroup({
+      email: this.email
+    });
   }
   save() {
     // we set dialog result as true on click on confirm button, 
@@ -119,7 +123,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   createForm() {
     this.myform = new FormGroup({      
       username: this.username,    
-      email: this.email,
+      data: this.data,
       passwordGroup: this.passwordGroup,      
       roles: this.roles
     });

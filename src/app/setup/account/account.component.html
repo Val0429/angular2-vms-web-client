@@ -32,8 +32,11 @@
                 <th style="width: 25%">
                   <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
-                <th style="width: 65%">
-                  <mfDefaultSorter by="group">Roles</mfDefaultSorter>
+                <th style="width: 35%">
+                  Roles
+                </th>
+                <th style="width: 30%">
+                  Email
                 </th>
                 <th style=""></th>
               </tr>
@@ -47,6 +50,9 @@
                   <ul>
                     <li *ngFor="let role of item.roles">{{role.name}}</li>
                   </ul>
+                </td>
+                <td>
+                  <span *ngIf="item.data.email">{{item.data.email}}</span>
                 </td>
                 <td>
                   <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);"></a>

@@ -49,6 +49,7 @@ export class AccountComponent implements OnInit {
       title: this.actionMode,
       username: item.username,
       roles: item.roles.map(function (e) { return e.name; }),
+      data:item.data,
       password: "",
       confirmPassword: "",
     }    
@@ -81,6 +82,7 @@ export class AccountComponent implements OnInit {
       roles: [],
       password: "",
       confirmPassword: "",
+      data: {email:""}
     }
 
     this.showCreateEditDialog(data, false);
@@ -131,7 +133,7 @@ export class AccountComponent implements OnInit {
     let data: any = {
       username: formResult.username,
       password: formResult.passwordGroup.password,
-      data: {},
+      data: formResult.data,
       roles: formResult.roles
     };
     console.log("create user", data);
@@ -149,9 +151,16 @@ export class AccountComponent implements OnInit {
         objectId: formResult.objectId,
         username: formResult.username,
         password: formResult.passwordGroup.password,
-        data: {},
+        data: formResult.data,
         roles: formResult.roles
-      };      
+      };
+
+      //update data without update password by admin
+    if (data.password === "") {
+      //removes password from object submission
+      delete (data.password);
+    }
+
       console.log("updateUser", data);      
        
       var result = await this._userService.updateUser(data);
