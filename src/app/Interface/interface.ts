@@ -18,6 +18,8 @@ export class Floor extends BaseClass {
 }
 export class UserData {
   public email: string;
+  public phone: string;
+  public name: string;
 }
 export class User extends BaseUser {
   

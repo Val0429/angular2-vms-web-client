@@ -32,12 +32,19 @@
                 <th style="width: 25%">
                   <mfDefaultSorter by="name">Name</mfDefaultSorter>
                 </th>
-                <th style="width: 35%">
+                <th style="width: 25%">
                   Roles
                 </th>
-                <th style="width: 30%">
+                <th style="width: 10%">
+                  Name
+                </th>
+                <th style="width: 10%">
+                  Phone
+                </th>
+                <th style="width: 15%">
                   Email
                 </th>
+
                 <th style=""></th>
                 <th style=""></th>
               </tr>
@@ -53,7 +60,13 @@
                   </ul>
                 </td>
                 <td>
-                  <span *ngIf="item.data.email">{{item.data.email}}</span>
+                  {{item.data.name}}
+                </td>
+                <td>
+                  {{item.data.phone}}
+                </td>
+                <td>
+                  {{item.data.email}}
                 </td>
                 <td>
                   <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);"></a>
