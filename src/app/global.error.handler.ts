@@ -25,10 +25,11 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (error.rejection && error.rejection.status) {
       //whenever we get 401 status, we force user to login again
       if(error.rejection.status === 401) {
-        console.log("forced to login due to unauthorized token, message: ", error.rejection._body);
-        const loginService = this.injector.get(LoginService);
-        const routeService = this.injector.get(Router);
+        console.log("forced to logout due to unauthorized token, message: ", error.rejection._body);
+        const loginService = this.injector.get(LoginService);        
         loginService.invalidateSession();
+        this.showAlert("Session has been invalidated, please relogin!", "Invalid Session");
+        const routeService = this.injector.get(Router);
         routeService.navigate(["/login"]);
       }
       //whenever we get 400 pop alert
