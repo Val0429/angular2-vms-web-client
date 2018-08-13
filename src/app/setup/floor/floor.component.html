@@ -2,8 +2,11 @@
   <div class="row" *ngIf="isAdmin">
     <div class="col-12">
       <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newFloor(); ">
+        <button type="button" class="btn btn-primary" (click)="newFloor(); ">
           New Floor
+        </button>
+        <button type="button" class="btn btn-primary" (click)="batchUploadFloor(); ">
+          Batch Upload Floor
         </button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { CreateEditFloorComponent } from './create-edit-floor.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor } from '../../Interface/interface';
+import { BatchUploadFloorComponent } from './batch-upload-floor.component';
 
 @Component({
   selector: 'app-floor',
@@ -41,10 +42,10 @@ export class FloorComponent implements OnInit {
     this.actionMode = "Edit Floor";    
     this.showCreateEditDialog(item, true);
   }
-  private showCreateEditDialog(data: Floor, editMode: boolean) {
+  private showCreateEditDialog(floorData: Floor, editMode: boolean) {
     //creates dialog form here
     let newForm = new CreateEditFloorComponent(this.dialogService);
-    newForm.setFormData(data, this.actionMode, editMode);
+    newForm.setFormData(floorData, this.actionMode, editMode);
     let disposable = this.dialogService.addDialog(CreateEditFloorComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -54,7 +55,22 @@ export class FloorComponent implements OnInit {
         }
       });
   }
+  private showBatchUploadDialog() {
+    //creates dialog form here
+    let newForm = new BatchUploadFloorComponent(this.dialogService);
+    newForm.setData("Batch Upload Floor" );
+    let disposable = this.dialogService.addDialog(BatchUploadFloorComponent, newForm)
+      .subscribe((saved) => {
+        //We get dialog result
+        if (saved) {
+          console.log(newForm.getData());
+        }
+      });
+  }
 
+  batchUploadFloor() {
+    this.showBatchUploadDialog();
+  }
   newFloor() {
     this.actionMode = "New Floor";
 
@@ -66,7 +82,7 @@ export class FloorComponent implements OnInit {
     data.phone = [];
     data.unitNo = "";
     data.floor = 0;
-
+    data.objectId = "";
     this.showCreateEditDialog(data, false);
   }
   showAlert(message: string, title?: string) {
@@ -74,10 +90,10 @@ export class FloorComponent implements OnInit {
       title: title,
       message: message
     })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
+    .subscribe(async (isConfirmed) => {
+      //We get dialog result
 
-      });
+    });
   }
   async deleteFloor(item: Floor) {
     console.log("delete floor", item);
@@ -101,17 +117,15 @@ export class FloorComponent implements OnInit {
   }
 
   async saveFloor(formResult: Floor) {
-    if (this.actionMode === "New Floor") {
-      // Create User
+    // Create Floor
+    if (!formResult.objectId || formResult.objectId==="") {      
       await this.createFloor(formResult);
-    } else {
-      // edit User
+    }
+    else {// edit Floor      
       await this.updateFloor(formResult);
     }
   }
-  async createFloor(formResult: Floor) {
-    //let formResult = this.child.getFormData();   
-      
+  async createFloor(formResult: Floor) {         
     console.log("create floor", formResult);
     var result = await this.userService.createFloor(formResult);
     if (result) {
