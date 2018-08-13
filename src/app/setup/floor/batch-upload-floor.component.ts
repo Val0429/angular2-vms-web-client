@@ -21,9 +21,22 @@ export class BatchUploadFloorComponent extends DialogComponent<CreateEditDialog,
   
   fileName: string = 'floor_data.xlsx';
 
-  onFileChange(evt: any) {
-    
+  onFileChange(evt: any): void{    
+
+     var file: File = evt.target.files[0];
+     if (file == null) return;
+     if (file.size > 1024000 * 5) {
+       //TODO: add error message
+       return;
+     }
+    let reader: FileReader = new FileReader();
+    //Converting Binary Data to base 64    
+    reader.readAsDataURL(file);
+    reader.onloadend = (e) => {      
+      console.log("finished reading csv file", reader.result);
+     }     
   }
+
   getData(): any {
     console.log("Get Data", this.data);
     return this.data;
