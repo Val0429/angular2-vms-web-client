@@ -27,7 +27,7 @@ export class FloorComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    let floors = await this.userService.getFloorList();
+    let floors = await this.userService.getFloorList("&paging.all=true");
     for (let floor of floors) {
       this.data.push(floor);
     }
@@ -142,7 +142,19 @@ export class FloorComponent implements OnInit {
     }
   }
 
+  async itemSearch(event) {
+    if (event.keyCode != 13) return;
 
+    console.log("filter query: ", this.filterQuery);
+    let newData = await this.userService.getFloorList("&paging.all=true");
+    let filter = this.filterQuery.toLowerCase();
+    this.data = [];
+    for (let item of newData) {
+      if (item.name.toLowerCase().indexOf(filter) > -1 || item.unitNo.toLowerCase().indexOf(filter) > -1) {
+        this.data.push(item);
+      }
+    }
+  }
   async updateFloor(data: Floor) {
     
     

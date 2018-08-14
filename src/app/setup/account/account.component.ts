@@ -5,6 +5,8 @@ import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
+import { FormControl } from '@angular/forms';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-account',
@@ -16,10 +18,10 @@ export class AccountComponent implements OnInit {
 
   constructor(private userService: UserService, private dialogService: DialogService) {
   }
-
+  
   data = [];
   availableRoles: string[];
-  filterQuery = "";
+  filterQuery = '';
   actionMode = "";
   private srcUser = "";
   private isAdmin = false;
@@ -31,9 +33,9 @@ export class AccountComponent implements OnInit {
     if (roles) {
       this.availableRoles = roles;      
     }
-    let users = await this.userService.getUsersList();
+    let users = await this.userService.getUsersList("&paging.all=true");
     for (let user of users) {
-      this.data.push(user);
+      this.data.push(user);      
     }
     
     this.isAdmin = this.userService.isAdmin();
@@ -108,7 +110,21 @@ export class AccountComponent implements OnInit {
         }
       });    
   }
+  async itemSearch(event) {
+    if (event.keyCode != 13) return;
 
+    console.log("filter query: ", this.filterQuery);
+
+    let newData = await this.userService.getUsersList("&paging.all=true");
+    let filter = this.filterQuery.toLowerCase();
+    this.data = [];
+    for (let item of newData) {      
+      if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
+        this.data.push(item);
+      }
+    }
+    
+  }
   async saveUser(formResult: User) {
     if (this.actionMode==="New User") {
       // Create User

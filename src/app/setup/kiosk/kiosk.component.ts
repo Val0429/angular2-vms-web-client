@@ -23,10 +23,22 @@ export class KioskComponent implements OnInit {
   private srcUser = "";
   private isAdmin = false;
 
+  async itemSearch(event) {
+    if (event.keyCode != 13) return;
 
+    console.log("filter query: ", this.filterQuery);
+    let newData = await this.userService.getKioskUsersList("&paging.all=true");
+    let filter = this.filterQuery.toLowerCase();
+    this.data = [];
+    for (let item of newData) {
+      if (item.username.toLowerCase().indexOf(filter) > -1 || item.data.kioskId.toLowerCase().indexOf(filter) > -1 || item.data.kioskName.toLowerCase().indexOf(filter) > -1) {
+        this.data.push(item);
+      }
+    }
+  }
   async ngOnInit(): Promise<void> {
     
-    let users = await this.userService.getKioskUsersList();
+    let users = await this.userService.getKioskUsersList("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
     }

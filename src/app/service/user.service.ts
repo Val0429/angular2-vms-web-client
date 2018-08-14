@@ -65,11 +65,11 @@ export class UserService {
 
     return roles;
   }
-  async getFloorList(): Promise<Floor[]> {
+  async getFloorList(pagingParams?:string): Promise<Floor[]> {
 
     var token = this.loginService.getCurrentUserToken();
     var data = [];
-    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
     console.log(result);
     if (result && result["results"]) {
       result["results"].forEach(function (newData) {
@@ -79,11 +79,11 @@ export class UserService {
     }
     return data;
   }
-  async getKioskUsersList(): Promise<KioskUser[]> {
+  async getKioskUsersList(pagingParams?: string): Promise<KioskUser[]> {
 
     var token = this.loginService.getCurrentUserToken();
     var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
     console.log(result);
     if (result && result["results"]) {
       result["results"].forEach(function (user) {
@@ -93,11 +93,11 @@ export class UserService {
     }
     return users;
   }
-    async getUsersList(): Promise<User[]> {        
+  async getUsersList(pagingParams?: string): Promise<User[]> {        
 
       var token = this.loginService.getCurrentUserToken();
-      var users = [];
-      var result = await this.coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var users = [];
+    var result = await this.coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
       console.log(result);
       if (result && result["results"]) {        
         result["results"].forEach(function (user) {
