@@ -35,7 +35,7 @@ export class BatchUploadFloorComponent extends DialogComponent<CreateEditDialog,
   onFileChange(evt: any): void{    
 
      var file: File = evt.target.files[0];
-    if (file === null) return;
+    if (!file) return;
     //1024000
 
     let extension = /[^.]+$/.exec(file.name)[0];
