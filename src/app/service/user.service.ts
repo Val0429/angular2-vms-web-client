@@ -11,7 +11,9 @@ export class UserService {
     private uriRoleCrud: string = Globals.cgiRoot + "roles";
     private uriUserCrud: string = Globals.cgiRoot + "users";
   private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
-  private uriFloorCrud: string = Globals.cgiRoot + "floors";  
+  private uriFloorCrud: string = Globals.cgiRoot + "floors";
+  private uriFloorCSVCrud: string = Globals.cgiRoot + "floors/csv";
+  
 
     private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
     private uriCreateGroup: string = Globals.cgiRoot + "frs/cgi/creategroup";
@@ -146,6 +148,16 @@ export class UserService {
 
     return result;
 
+  }
+  async batchUploadFloor(data: any): Promise<any> {
+
+    let token = this.loginService.getCurrentUserToken();
+
+    let result = await this.coreService.postConfig({ path: this.uriFloorCSVCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
+
+    console.log("batch floor upload result: ", result);
+
+    return result;
   }
   async updateUser(data: User): Promise<User> {
 

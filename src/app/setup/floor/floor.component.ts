@@ -63,11 +63,19 @@ export class FloorComponent implements OnInit {
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
-          console.log(newForm.getData());
+          this.submitCSVFile({ data: newForm.getData()});          
         }
       });
   }
-
+  async submitCSVFile(data: any) {
+    var result = await this.userService.batchUploadFloor(data);
+    if (result) {
+      //console.log(result);
+      this.showAlert("Import " + result.paging.count + " data succeded");
+      //refresh list
+      await this.ngOnInit();
+    }
+  }
   batchUploadFloor() {
     this.showBatchUploadDialog();
   }
