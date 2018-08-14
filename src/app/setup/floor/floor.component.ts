@@ -17,7 +17,7 @@ export class FloorComponent implements OnInit {
 
   constructor(private userService: UserService, private dialogService: DialogService) {
   }
-
+  tempData = [];
   data = [];
   filterQuery = "";
   actionMode = "";
@@ -30,6 +30,7 @@ export class FloorComponent implements OnInit {
     let floors = await this.userService.getFloorList("&paging.all=true");
     for (let floor of floors) {
       this.data.push(floor);
+      this.tempData.push(floor);
     }
     this.isAdmin = this.userService.isAdmin();
     
@@ -82,7 +83,7 @@ export class FloorComponent implements OnInit {
   newFloor() {
     this.actionMode = "New Floor";
 
-    var u = ("000" + this.data.length);
+    var u = ("000" + this.tempData.length);
     u = "floor" + u.substr(u.length - 3, 3);
 
     let data = new Floor();
@@ -114,11 +115,13 @@ export class FloorComponent implements OnInit {
         //We get dialog result
         if (isConfirmed) {
           var result = await this.userService.deleteFloor(item.objectId);
-          var index = this.data.indexOf(item, 0);
-          console.log(index);
-          console.log(result);
-          if (result && index > -1) {
+          if (result) {
+            var index = this.data.indexOf(item, 0);
             this.data.splice(index, 1);
+
+            var tempIndex = this.tempData.indexOf(item, 0);
+            this.tempData.splice(tempIndex, 1);
+
           }
         }
       });
@@ -138,18 +141,19 @@ export class FloorComponent implements OnInit {
     var result = await this.userService.createFloor(formResult);
     if (result) {
       this.data.push(result);
+      this.tempData.push(result);
       this.showAlert("New floor has been created");
     }
   }
 
-  async itemSearch(event) {
+  itemSearch(event) {
     if (event.keyCode != 13) return;
 
     console.log("filter query: ", this.filterQuery);
-    let newData = await this.userService.getFloorList("&paging.all=true");
+    
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
-    for (let item of newData) {
+    for (let item of this.tempData) {
       if (item.name.toLowerCase().indexOf(filter) > -1 || item.unitNo.toLowerCase().indexOf(filter) > -1) {
         this.data.push(item);
       }
@@ -161,12 +165,16 @@ export class FloorComponent implements OnInit {
     console.log("update floor", data);
 
     var result = await this.userService.updateFloor(data);
-    var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-    if (result && index > -1) {
-      //TODO: POP update result
+    
+    if (result) {
+      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = result;
+      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.tempData[tempIndex] = result;            
       this.showAlert(data.name + " has been updated");
     }
+
+
 
   }
 

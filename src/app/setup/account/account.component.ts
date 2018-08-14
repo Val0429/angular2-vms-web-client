@@ -18,7 +18,7 @@ export class AccountComponent implements OnInit {
 
   constructor(private userService: UserService, private dialogService: DialogService) {
   }
-  
+  tempData=[]
   data = [];
   availableRoles: string[];
   filterQuery = '';
@@ -35,7 +35,8 @@ export class AccountComponent implements OnInit {
     }
     let users = await this.userService.getUsersList("&paging.all=true");
     for (let user of users) {
-      this.data.push(user);      
+      this.data.push(user);
+      this.tempData.push(user);
     }
     
     this.isAdmin = this.userService.isAdmin();
@@ -67,7 +68,7 @@ export class AccountComponent implements OnInit {
   newUser() {
     this.actionMode = "New User";
     
-    var u = ("000" + this.data.length);
+    var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
 
     let newUser = new User();
@@ -100,25 +101,26 @@ export class AccountComponent implements OnInit {
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteUser(item.objectId);
-          var index = this.data.indexOf(item, 0);
-          console.log(index);
-          console.log(result);
-          if (result && index > -1) {
+          var result = await this.userService.deleteUser(item.objectId);          
+          if (result) {
+            var index = this.data.indexOf(item, 0);                      
             this.data.splice(index, 1);
+            
+            var tempIndex = this.tempData.indexOf(item, 0);            
+            this.tempData.splice(tempIndex, 1);
+            
           }
         }
       });    
   }
-  async itemSearch(event) {
+  itemSearch(event) {
     if (event.keyCode != 13) return;
 
     console.log("filter query: ", this.filterQuery);
-
-    let newData = await this.userService.getUsersList("&paging.all=true");
+    
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
-    for (let item of newData) {      
+    for (let item of this.tempData) {      
       if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
         this.data.push(item);
       }
@@ -141,6 +143,7 @@ export class AccountComponent implements OnInit {
     var result = await this.userService.createUser(data);
     if (result) {
       this.data.push(result);
+      this.tempData.push(result);
       this.showAlert("New user has been created");
     }
   }
@@ -158,10 +161,14 @@ export class AccountComponent implements OnInit {
       console.log("updateUser", data);      
        
       var result = await this.userService.updateUser(data);
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      if (result && index > -1) {        
-        //TODO: POP update result
+    
+    
+      if (result) {        
+        
+        var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.data[index] = result;
+        var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+        this.tempData[tempIndex] = result;        
         this.showAlert(data.username+ " has been updated");
       }
     

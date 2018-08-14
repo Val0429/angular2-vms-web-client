@@ -16,21 +16,21 @@ export class KioskComponent implements OnInit {
 
   constructor(private userService: UserService, private dialogService: DialogService) {
   }
-
+  tempData = [];
   data = [];   
   filterQuery = "";
   actionMode = "";
   private srcUser = "";
   private isAdmin = false;
 
-  async itemSearch(event) {
+  itemSearch(event) {
     if (event.keyCode != 13) return;
 
     console.log("filter query: ", this.filterQuery);
-    let newData = await this.userService.getKioskUsersList("&paging.all=true");
+    
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
-    for (let item of newData) {
+    for (let item of this.tempData) {
       if (item.username.toLowerCase().indexOf(filter) > -1 || item.data.kioskId.toLowerCase().indexOf(filter) > -1 || item.data.kioskName.toLowerCase().indexOf(filter) > -1) {
         this.data.push(item);
       }
@@ -41,6 +41,7 @@ export class KioskComponent implements OnInit {
     let users = await this.userService.getKioskUsersList("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
+      this.tempData.push(user);
     }
     this.isAdmin = this.userService.isAdmin();
     console.log("is admin:", this.isAdmin);
@@ -77,7 +78,7 @@ export class KioskComponent implements OnInit {
   newKiosk() {
     this.actionMode = "New Kiosk";
 
-    var u = ("000" + this.data.length);
+    var u = ("000" + this.tempData.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
 
     let newData = new KioskUser();
@@ -113,12 +114,14 @@ export class KioskComponent implements OnInit {
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteKiosk(item.objectId);
-          var index = this.data.indexOf(item, 0);
-          console.log(index);
-          console.log(result);
-          if (result && index > -1) {
+          var result = await this.userService.deleteKiosk(item.objectId);         
+          
+          if (result) {
+            var index = this.data.indexOf(item, 0);
             this.data.splice(index, 1);
+
+            var tempIndex = this.tempData.indexOf(item, 0);
+            this.tempData.splice(tempIndex, 1);
           }
         }
       });
@@ -140,6 +143,7 @@ export class KioskComponent implements OnInit {
     var result = await this.userService.createKiosk(data);
     if (result) {
       this.data.push(result);
+      this.tempData.push(result);
       this.showAlert("New kiosk has been created");
     }
   }
@@ -154,10 +158,13 @@ export class KioskComponent implements OnInit {
       delete (data.password);
     }
     var result = await this.userService.updateKiosk(data);
-    var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-    if (result && index > -1) {
-      //TODO: POP update result
+    
+    if (result) {
+      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = result;
+      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.tempData[tempIndex] = result;
+
       this.showAlert(data.username + " has been updated");
     }
 
