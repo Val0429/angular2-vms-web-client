@@ -13,80 +13,49 @@
 		"search": "搜索",
 		"userName": "用戶名"
 	},
-	"Page_Attendance": {
-		"Attendance": "出缺勤",
-		"Date": "日期",
-		"Duration": "持續時間",
-		"Employee_No": "員工號",
-		"End_Date": "結束日期",
-		"Export_to_CSV": "導出為CSV",
-		"Full_Name": "全名",
-		"Group": "組",
-		"Location": "位置",
-		"Match": "匹配",
-		"No": "否",
-		"Recognize": "認識",
-		"Result": "結果",
-		"Search": "搜索",
-		"Search_Condition": "搜索條件",
-		"Snapshot": "快照",
-		"Start_Date": "開始日期",
-		"Time": "時間",
-		"Yes": "是"
-	},
 	"pageLayout": {
-		"Actions": {
-			"Email": "電子郵件",
-			"Group": "用戶組別",
-			"HTTP": "HTTP",
-			"Notification": "手機通知",
-			"User": "用戶"
+		"actions": {
+			"email": "電子郵件",
+			"group": "用戶組別",
+			"http": "HTTP",
+			"notification": "手機通知",
+			"user": "用戶"
 		},
-		"ChangePassword": {
-			"Change_Password": "更改密碼",
-			"Close": "關",
-			"New_Password": "新密碼",
-			"Password": "密碼",
-			"Password_incorrect": "密碼錯誤",
-			"Password_mismatch": "密碼不匹配",
-			"Repeat_password": "重複確認密碼",
-			"Save": "保存",
-			"The_New_Password_is_required": "新密碼是必需的",
-			"The_Password_is_required": "密碼是必需的.",
-			"The_Repeat_password_is_required": "重複密碼是必需的",
-			"Username": "用戶名"
+		"changePassword": {
+			"changePassword": "更改密碼",
+			"newPassword": "新密碼",
+			"passwordIncorrect": "密碼錯誤",
+			"passwordMismatch": "密碼不匹配",
+			"confirmPassword": "重複確認密碼"
 		},
-		"Dashboard": {
-			"Foot_Traffic": "足跡",
-			"Notifications": "通知",
-			"System_Status": "系統狀況"
+		"dashboard": {
+			"footTraffic": "足跡",
+			"notifications": "通知",
+			"systemStatus": "系統狀況"
 		},
 		"header": {
 			"account": "帳戶",
 			"changePassword": "更改密碼"
 		},
-		"Menu": {
-			"Actions": "通知操作",
-			"Dashboard": "儀表板",
-			"Face_Capture_Source": "面部捕獲源",
-			"Home": "根",
-			"Persons": "人員",
-			"Report": "報告",
-			"Settings": "設置",
-			"Users": "用戶",
-			"Verification": "驗證"
+		"menu": {
+			"report": "報告",
+			"setup": "Setup",
+			"tenant": "Tenant"
 		},
-		"Report": {
-			"Attendance": "出缺勤",
-			"Inverstigation": "調查"
+		"report": {
+			"attendance": "Attendance",
+			"dashboard": "Dashboard"
 		},
-		"Settings": {
-			"Backup_Restore": "備份和還原",
-			"Firmware": "固件",
-			"License": "執照",
-			"Network": "網絡",
-			"Server_Database": "服務器數據庫",
-			"System": "系統"
+		"setup": {
+			"accountManagement": "Account Management",
+			"emailSetting": "Email Setting",
+			"floorManagement": "Floor Management",
+			"frsSetting": "FRS Setting",
+			"kioskManagement": "Kiosk Management",
+			"smsSetting": "SMS Setting"
+		},
+		"tenant": {
+			"invitation": "Invitation"
 		}
 	},
 	"pageLogin": {

@@ -13,80 +13,49 @@
 		"search": "Search",
 		"userName": "Username"
 	},
-	"Page_Attendance": {
-		"Attendance": "Attendance",
-		"Date": "Date",
-		"Duration": "Duration",
-		"Employee_No": "Employee No",
-		"End_Date": "End Date",
-		"Export_to_CSV": "Export to CSV",
-		"Full_Name": "Full Name",
-		"Group": "Group",
-		"Location": "Location",
-		"Match": "Match",
-		"No": "No",
-		"Recognize": "Recognize",
-		"Result": "Result",
-		"Search": "Search",
-		"Search_Condition": "Search Condition",
-		"Snapshot": "Snapshot",
-		"Start_Date": "Start Date",
-		"Time": "Time",
-		"Yes": "Yes"
-	},
 	"pageLayout": {
-		"Actions": {
-			"Email": "Email",
-			"Group": "Group",
-			"HTTP": "HTTP",
-			"Notification": "Notification",
-			"User": "User"
+		"actions": {
+			"email": "Email",
+			"group": "Group",
+			"http": "HTTP",
+			"notification": "Notification",
+			"user": "User"
 		},
-		"ChangePassword": {
-			"Change_Password": "Change Password",
-			"Close": "Close",
-			"New_Password": "New Password",
-			"Password": "Password",
-			"Password_incorrect": "Password incorrect",
-			"Password_mismatch": "Password mismatch",
-			"Repeat_password": "Repeat password",
-			"Save": "Save",
-			"The_New_Password_is_required": "The New Password is required",
-			"The_Password_is_required": "The Password is required.",
-			"The_Repeat_password_is_required": "The Repeat password is required",
-			"Username": "Username"
+		"changePassword": {
+			"changePassword": "Change Password",
+			"newPassword": "New Password",
+			"passwordIncorrect": "Password incorrect",
+			"passwordMismatch": "Password mismatch",
+			"confirmPassword": "Repeat password"
 		},
-		"Dashboard": {
-			"Foot_Traffic": "Foot Traffic",
-			"Notifications": "Notifications",
-			"System_Status": "System Status"
+		"dashboard": {
+			"footTraffic": "Foot Traffic",
+			"notifications": "Notifications",
+			"systemStatus": "System Status"
 		},
 		"header": {
 			"account": "Account",
 			"changePassword": "Change Password"
 		},
-		"Menu": {
-			"Actions": "Actions",
-			"Dashboard": "Dashboard",
-			"Face_Capture_Source": "Face Capture Source",
-			"Home": "Home",
-			"Persons": "Persons",
-			"Report": "Report",
-			"Settings": "Settings",
-			"Users": "Users",
-			"Verification": "Verification"
+		"menu": {
+			"report": "Report",
+			"setup": "Setup",
+			"tenant": "Tenant"
 		},
-		"Report": {
-			"Attendance": "Attendance",
-			"Inverstigation": "Inverstigation"
+		"report": {
+			"attendance": "Attendance",
+			"dashboard": "Dashboard"
 		},
-		"Settings": {
-			"Backup_Restore": "Backup & Restore",
-			"Firmware": "Firmware",
-			"License": "License",
-			"Network": "Network",
-			"Server_Database": "Server Database",
-			"System": "System"
+		"setup": {
+			"accountManagement": "Account Management",
+			"emailSetting": "Email Setting",
+			"floorManagement": "Floor Management",
+			"frsSetting": "FRS Setting",
+			"kioskManagement": "Kiosk Management",
+			"smsSetting": "SMS Setting"
+		},
+		"tenant": {
+			"invitation": "Invitation"
 		}
 	},
 	"pageLogin": {

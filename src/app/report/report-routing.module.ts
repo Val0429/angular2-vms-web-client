@@ -9,7 +9,9 @@ import { AttendanceComponent } from './attendance.component';
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
-  { path: '', data: { title: 'Report' },
+  {
+    path: '',
+    data: { title: 'pageLayout.menu.report' },
     canActivate: [LoginService],
     children: [
       {
@@ -17,7 +19,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: DashboardComponent,
         data: {
-          title: 'Dashboard Report'
+          title: 'pageLayout.report.dashboard'
         }
       },
       {
@@ -25,7 +27,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: AttendanceComponent,
         data: {
-          title: 'Attendance Report'
+          title: 'pageLayout.report.attendance'
         }
       },
       {
