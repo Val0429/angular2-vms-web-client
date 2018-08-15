@@ -34,7 +34,7 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
   async ngOnInit() {
     //wait to get setting from server
     let setting = await this.setupService.getServerSettings();
-    if (setting) {
+    if (setting && setting.smtp) {
       this.createFormControls(setting.smtp);
       this.createForm();
     }

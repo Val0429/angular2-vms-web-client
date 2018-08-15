@@ -30,7 +30,7 @@ export class FrsComponent extends BaseClassComponent implements OnInit, BaseComp
   async ngOnInit() {
     //wait to get setting from server
     let setting = await this.setupService.getServerSettings();
-    if (setting) {
+    if (setting && setting.frs) {
       this.createFormControls(setting.frs);
       this.createForm();
     }

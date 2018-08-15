@@ -28,7 +28,7 @@ export class SmsComponent extends BaseClassComponent implements OnInit, BaseComp
   async ngOnInit() {
     //wait to get setting from server
     let setting = await this.setupService.getServerSettings();
-    if (setting) {
+    if (setting && setting.sms) {
       this.createFormControls(setting.sms);
       this.createForm();
     }
