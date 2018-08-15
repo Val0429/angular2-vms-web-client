@@ -39,22 +39,22 @@ export class LoginComponent implements OnInit {
   private loading: Boolean = false;
 
   constructor(
-    private _router: Router,
-    private _loginService: LoginService,
-    private _dialogService: DialogService
+    private router: Router,
+    private loginService: LoginService,
+    private dialogService: DialogService
   ) {
 
-    let activeSession = _loginService.checkActiveSession();
+    let activeSession = loginService.checkActiveSession();
     if (activeSession) {    
       //navigate to dashboard
-      this._router.navigate(['/report/dashboard']);
+      this.router.navigate(['/report/dashboard']);
     } else {
       //clear storage and force logout after user closed tab / browser
-      this._loginService.logOut(); 
+      this.loginService.logOut(); 
     }
   }
   showConfirm(message:string, title?:string) {
-    let disposable = this._dialogService.addDialog(AlertComponent, {
+    let disposable = this.dialogService.addDialog(AlertComponent, {
       title: title,
       message: message
     })
@@ -98,15 +98,15 @@ export class LoginComponent implements OnInit {
       username: this.model.username,
       password: this.model.password
     };
-    let ret = await this._loginService.logInByPassword(data);
+    let ret = await this.loginService.logInByPassword(data);
     console.log("login result: "+ret);
-    if (ret == true) {
+    if (ret === true) {
       if (this.model.rememberMe) {
         var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
         localStorage.setItem(Globals.rememberMe, currentUserToken);        
       }
       //redirect to dashboard
-      this._router.navigate(['/report/dashboard']);
+      this.router.navigate(['/report/dashboard']);
     }
     else {
       this.showConfirm('Please check your account and password!', "Login failed");

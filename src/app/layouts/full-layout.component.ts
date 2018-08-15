@@ -28,7 +28,7 @@ export class FullLayoutComponent implements OnInit {
     };
 
 
-  constructor(private _userService: UserService, private _loginService: LoginService, private _router:Router) { }
+  constructor(private userService: UserService, private loginService: LoginService, private router:Router) { }
 
   public disabled: boolean = false;
   public status: { isopen: boolean } = { isopen: false };
@@ -44,7 +44,7 @@ export class FullLayoutComponent implements OnInit {
   }
 
   async ngOnInit() {
-    var user = await this._userService.getCurrentUser();
+    var user = await this.userService.getCurrentUser();
     this.model.objectId = user.objectId;
     this.model.username = user.username;
     //this.model.password = user.password ;
@@ -77,7 +77,7 @@ console.log('form submit');
     data.password= this.model.newpassword;    
 
     console.log(data);
-    var result = await this._userService.updateUser(data)
+    var result = await this.userService.updateUser(data)
       .catch(error => {
         console.log(error);
       });
@@ -90,9 +90,9 @@ console.log('form submit');
   }
 
   public async logout() {
-    var result = await this._loginService.logOut();
+    var result = await this.loginService.logOut();
     if (result) {
-      this._router.navigate(['/login']);
+      this.router.navigate(['/login']);
     }
   }
 }
