@@ -34,8 +34,8 @@
       <!--<pre>{{myform.value | json}}</pre>-->
 
       <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
         </div>
     </div>
   </div>

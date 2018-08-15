@@ -75,7 +75,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     u = "user" + u.substr(u.length - 3, 3);
 
     let newUser = new User();
-      
+    newUser.objectId = "";  
     newUser.username= u;
     newUser.roles = [];
     newUser.password= "";    
@@ -121,7 +121,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     
   }
   async saveUser(formResult: User) {
-    if (this.actionMode==="New User") {
+    if (formResult.objectId === "") {
       // Create User
       await this.createUser(formResult);
     } else {       

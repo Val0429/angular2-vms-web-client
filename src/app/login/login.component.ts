@@ -67,21 +67,7 @@ export class LoginComponent extends BaseClassComponent implements OnInit, BaseCo
     this.model.password = "";
     this.model.rememberMe = false;
 
-
-    var lang = localStorage.getItem(Globals.languageKey);
-    var browserLanguage = window.navigator.language.toLowerCase();
-    console.log(browserLanguage);
-    if (lang === null) {
-      if (browserLanguage === "zh-tw" || browserLanguage === "en-us"){
-        lang = browserLanguage;
-      } else {
-        lang = "en-us";
-      }
-    }
-
-    this.translateService.setDefaultLang(lang);
-
-    this.model.language = lang;
+    this.model.language = this.activeLanguage;
   }
   
   public checkRememberMe(event) {
@@ -125,7 +111,7 @@ export class LoginComponent extends BaseClassComponent implements OnInit, BaseCo
       this.router.navigate(['/report/dashboard']);
     }
     else {
-      this.showAlert('Please check your account and password!', this.getLocaleString("Page_Login.Login_Failed"));
+      this.showAlert('Please check your account and password!', this.getLocaleString("pageLogin.loginFailed"));
       this.loading = false;
     }
   }

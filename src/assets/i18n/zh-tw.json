@@ -1,266 +1,110 @@
 {
-  "Page_Login": {
-    "Title": "登錄",
-    "Subtitle": "登錄您的帳戶",
-    "Username": "用戶名",
-    "Password": "密碼",
-    "RememberMe": "記住我",
-    "Forget": "忘記我",
-    "Login": "登錄",
-    "License": "執照",
-    "Login_Failed": "登錄失敗",
-    "Apply_License": "申請許可",
-    "Close": "關閉",
-    "Apply": "應用"
-  },
-  "Page_Layout": {
-    "Header": {
-      "Account": "帳戶",
-      "Change_Password": "更改密碼"
-    },
-    "ChangePassword": {
-      "Change_Password": "更改密碼",
-      "Username": "用戶名",
-      "Password": "密碼",
-      "New_Password": "新密碼",
-      "Repeat_password": "重複確認密碼",
-      "Close": "關",
-      "Save": "保存",
-      "The_Password_is_required": "密碼是必需的.",
-      "Password_incorrect": "密碼錯誤",
-      "The_New_Password_is_required": "新密碼是必需的",
-      "The_Repeat_password_is_required": "重複密碼是必需的",
-      "Password_mismatch": "密碼不匹配"
-    },
-    "Menu": {
-      "Home": "根",
-      "Dashboard": "儀表板",
-      "Report": "報告",
-      "Verification": "驗證",
-      "Persons": "人員",
-      "Face_Capture_Source": "面部捕獲源",
-      "Users": "用戶",
-      "Actions": "通知操作",
-      "Settings": "設置"
-    },
-    "Dashboard": {
-      "Foot_Traffic": "足跡",
-      "System_Status": "系統狀況",
-      "Notifications": "通知"
-    },
-    "Report": {
-      "Attendance": "出缺勤",
-      "Inverstigation": "調查"
-    },
-    "Verification": {
-      "Compare": "比較",
-      "Image_Search": "圖片搜索"
-    },
-    "Persons": {
-      "Person": "人員",
-      "Group": "人員組別",
-      "Batch_Enrol": "批量註冊"
-    },
-    "Face_Capture_Source": {
-      "Device": "設備",
-      "Face_Capture_Device": "面部捕獲設備"
-    },
-    "Users": {
-      "User": "用戶",
-      "Group": "用戶組別"
-    },
-    "Actions": {
-      "User": "用戶",
-      "Group": "用戶組別",
-      "Email": "電子郵件",
-      "HTTP": "HTTP",
-      "Notification": "手機通知"
-    },
-    "Settings": {
-      "System": "系統",
-      "Network": "網絡",
-      "Firmware": "固件",
-      "License": "執照",
-      "Backup_Restore": "備份和還原",
-      "Server_Database": "服務器數據庫"
-    }
-  },
-  "Page_Attendance": {
-    "Search_Condition": "搜索條件",
-    "Duration": "持續時間",
-    "Start_Date": "開始日期",
-    "End_Date": "結束日期",
-    "Location": "位置",
-    "Match": "匹配",
-    "Yes": "是",
-    "No": "否",
-    "Group": "組",
-    "Full_Name": "全名",
-    "Export_to_CSV": "導出為CSV",
-    "Search": "搜索",
-    "Attendance": "出缺勤",
-    "Date": "日期",
-    "Time": "時間",
-    "Snapshot": "快照",
-    "Result": "結果",
-    "Recognize": "認識",
-    "Employee_No": "員工號"
-  },
-  "Page_Inverstigation": {
-    "Search_Condition": "搜索條件",
-    "Duration": "持續時間",
-    "Start_Date": "開始日期",
-    "End_Date": "結束日期",
-    "Location": "位置",
-    "Group": "組",
-    "Full_Name": "全名",
-    "Export_to_CSV": "導出為CSV",
-    "Search": "搜索",
-    "Inverstigation": "調查",
-    "Employee_No": "員工號",
-    "Date": "日期",
-    "Snapshot": "快照"
-  },
-  "Page_User": {
-    "New_User": "新用戶",
-    "User_List": "用戶列表",
-    "Search_by_name": "按名稱搜索",
-    "No": "No",
-    "Username": "用戶名",
-    "Group": "組",
-    "Modify_User": "修改用戶",
-    "Password": "密碼",
-    "Repeat_password": "重複輸入密碼",
-    "The_Username_is_required": "用戶名是必需的",
-    "The_Password_is_required": "密碼是必需的",
-    "The_Repeat_password_is_required": "重複密碼是必需的",
-    "Password_mismatch": "密碼不匹配",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_Person": {
-    "New_Person": "新人員",
-    "Person_List": "人員名單",
-    "Search_by_name": "按名稱搜索",
-    "No": "No",
-    "Employee_No": "員工號",
-    "Full_Name": "全名",
-    "Groups": "組",
-    "Image": "圖片",
-    "Modify_Person": "修改人員",
-    "The_Full_Name_is_required": "全名是必需的",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_PersonGroup": {
-    "New_Group": "新組別",
-    "Group_List": "組列表",
-    "Search_by_name": "按名稱搜索",
-    "No": "No",
-    "Group_Name": "組別名稱",
-    "Modify_Group": "修改組",
-    "The_Group_Name_is_required": "組別名稱是必需的",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_BatchEnroll": {
-    "Import": "匯入",
-    "Load_Image": "加載圖片",
-    "Each_input_file_maximum_2500_faces": "每個輸入文件最多2500個人臉",
-    "Person_List": "人員名單",
-    "No": "No",
-    "Employee_No": "員工號",
-    "Full_Name": "全名",
-    "Groups": "組",
-    "Image": "圖片",
-    "Result": "結果",
-    "load_image_error": "加載圖像錯誤",
-    "no_image_file": "沒有圖像文件",
-    "face_too_small": "人臉太小了"
-  },
-  "Page_Capture_Source": {
-    "New_Device": "新設備",
-    "Device_List": "設備列表",
-    "Search_by_name": "按名稱搜索",
-    "No": "No",
-    "Source_Type": "來源類型",
-    "Source_Id": "來源ID",
-    "Location": "位置",
-    "RTSP_Path": "RTSP路徑",
-    "Source_IP": "來源IP",
-    "NVR": "NVR",
-    "Channel": "渠道",
-    "Modify_Device": "修改設備",
-    "Source_Port": "源端口",
-    "Source_Username": "來源用戶名",
-    "Source_Password": "源密碼",
-    "Min_Face_Size_Width": "最小面尺寸寬度",
-    "Min_Face_Size_Height": "最小面部尺寸高度",
-    "Face_Verify_Target_Score": "面部驗證目標分數",
-    "Enable_Frontal_Face_Filter": "啟用正面濾鏡",
-    "The_Source_Id_is_required": "源ID是必需的",
-    "The_Location_is_required": "位置是必需的",
-    "The_Source_IP_is_required": "源IP是必需的",
-    "The_Source_Port_is_required": "源端口是必需的",
-    "The_Source_Username_is_required": "源用戶名是必需的",
-    "The_Source_Password_is_required": "源密碼是必需的",
-    "The_RTSP_Path_is_required": "RTSP路徑是必需的",
-    "The_Source_NVR_ID_is_required": "源NVR ID是必需的",
-    "The_Source_Channel_is_required": "源頻道是必需的",
-    "The_Min_Face_Size_Width_is_required": "最小面尺寸寬度是必需的",
-    "The_Min_Face_Size_Height_is_required": "最小面尺寸高度是必需的",
-    "The_Face_Verify_Target_Score_is_required": "面部驗證目標是必需的",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_NotificationDevice": {
-    "New_Device": "新設備",
-    "Notification_Devices_List": "通知設備列表",
-    "Search_by_name": "按名稱搜索",
-    "No": "No",
-    "Type": "類型",
-    "Name": "名稱",
-    "Token": "代幣",
-    "Modify_Device": "修改設備",
-    "The_Device_Name_is_required": "設備名稱是必需的",
-    "The_Device_Token_is_required": "設備代幣是必需的",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_GroupActionSetting": {
-    "Action_Setting": "行動設定",
-    "Http_Commands": "Http命令",
-    "Email_Receiver": "電子郵件接收者",
-    "Notification_Device": "通知設備",
-    "Close": "關",
-    "Apply": "應用"
-  },
-  "Page_System": {
-    "TimeZone": "時區",
-    "DateTime": "時間",
-    "Enable_NTP": "啟用NTP",
-    "NTP_Server": "NTP服務器",
-    "Apply": "應用"
-  },
-  "Page_Network": {
-    "Network": "網絡",
-    "Enable_DHCP": "啟用DHCP",
-    "IP_Address": "IP地址",
-    "Netmask": "子網掩碼",
-    "Gateway": "網關",
-    "DNS": "DNS",
-    "Broadcast": "廣播",
-    "Apply": "應用"
-  },
-  "Page_License": {
-    "License": "執照",
-    "License_Key": "註冊碼",
-    "Activation_Key": "激活碼",
-    "Apply": "應用"
-  },
-  "Page_Firmware": {
-    "Firmware": "固件",
-    "Image_File": "印像文件",
-    "Apply": "應用"
-  }
+	"common": {
+		"alert": "注意",
+		"areYouSure": "你確定？",
+		"cancel": "取消",
+		"confirmation": "注意",
+		"error": "錯誤",
+		"new": "加",
+		"ok": "確認",
+		"password": "密碼",
+		"required": "required",
+		"save": "保存",
+		"search": "搜索",
+		"userName": "用戶名"
+	},
+	"Page_Attendance": {
+		"Attendance": "出缺勤",
+		"Date": "日期",
+		"Duration": "持續時間",
+		"Employee_No": "員工號",
+		"End_Date": "結束日期",
+		"Export_to_CSV": "導出為CSV",
+		"Full_Name": "全名",
+		"Group": "組",
+		"Location": "位置",
+		"Match": "匹配",
+		"No": "否",
+		"Recognize": "認識",
+		"Result": "結果",
+		"Search": "搜索",
+		"Search_Condition": "搜索條件",
+		"Snapshot": "快照",
+		"Start_Date": "開始日期",
+		"Time": "時間",
+		"Yes": "是"
+	},
+	"pageLayout": {
+		"Actions": {
+			"Email": "電子郵件",
+			"Group": "用戶組別",
+			"HTTP": "HTTP",
+			"Notification": "手機通知",
+			"User": "用戶"
+		},
+		"ChangePassword": {
+			"Change_Password": "更改密碼",
+			"Close": "關",
+			"New_Password": "新密碼",
+			"Password": "密碼",
+			"Password_incorrect": "密碼錯誤",
+			"Password_mismatch": "密碼不匹配",
+			"Repeat_password": "重複確認密碼",
+			"Save": "保存",
+			"The_New_Password_is_required": "新密碼是必需的",
+			"The_Password_is_required": "密碼是必需的.",
+			"The_Repeat_password_is_required": "重複密碼是必需的",
+			"Username": "用戶名"
+		},
+		"Dashboard": {
+			"Foot_Traffic": "足跡",
+			"Notifications": "通知",
+			"System_Status": "系統狀況"
+		},
+		"header": {
+			"account": "帳戶",
+			"changePassword": "更改密碼"
+		},
+		"Menu": {
+			"Actions": "通知操作",
+			"Dashboard": "儀表板",
+			"Face_Capture_Source": "面部捕獲源",
+			"Home": "根",
+			"Persons": "人員",
+			"Report": "報告",
+			"Settings": "設置",
+			"Users": "用戶",
+			"Verification": "驗證"
+		},
+		"Report": {
+			"Attendance": "出缺勤",
+			"Inverstigation": "調查"
+		},
+		"Settings": {
+			"Backup_Restore": "備份和還原",
+			"Firmware": "固件",
+			"License": "執照",
+			"Network": "網絡",
+			"Server_Database": "服務器數據庫",
+			"System": "系統"
+		}
+	},
+	"pageLogin": {
+		"login": "登錄",
+		"loginFailed": "登錄失敗",
+		"rememberMe": "記住我",
+		"subTitle": "登錄您的帳戶",
+		"title": "登錄"
+	},
+	"pageAccount": {
+		"roles": "組",
+		"modifyAccount": "修改用戶",
+		"newAccount": "新用戶",
+		"password": "密碼",
+		"passwordMismatch": "密碼不匹配",
+		"confirmPassword": "重複輸入密碼",
+		"required": "密碼是必需的",
+		"userList": "用戶列表",
+		"userName": "用戶名"
+	}
 }

@@ -41,7 +41,7 @@
                    placeholder="name" />
           </div>
           <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
-            <p *ngIf="name.errors.required">Name is required</p>
+            <p *ngIf="name.errors.required">{{'common.required'|translate}}</p>
             <p *ngIf="name.errors.minlength">Name must be 3 at least characters long</p>
           </div>
 
@@ -58,7 +58,7 @@
                    placeholder="phone" />
           </div>
           <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
-            <p *ngIf="phone.errors.required">Phone is required</p>
+            <p *ngIf="phone.errors.required">{{'common.required'|translate}}</p>
             <p *ngIf="phone.errors.pattern">Invalid phone number</p>
           </div>
 
@@ -74,7 +74,7 @@
                    placeholder="email" />
           </div>
           <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
-            <p *ngIf="email.errors.required">Email is required</p>
+            <p *ngIf="email.errors.required">{{'common.required'|translate}}</p>
             <p *ngIf="email.errors.pattern">The phone address must contain at least the @ character</p>
           </div>
         </fieldset>
@@ -119,7 +119,7 @@
                    class="form-control"
                    required
                    formControlName="password"
-                   placeholder="password" />
+                   placeholder="{{'pageAccount.password'|translate}}" />
           </div>
           <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
             <p *ngIf="password.errors.required">Password is required</p>
@@ -136,11 +136,11 @@
                    class="form-control"
                    required
                    formControlName="confirmPassword"
-                   placeholder="Confirm Password" />
+                   placeholder="{{'pageAccount.confirmPassword'|translate}}" />
           </div>
 
           <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="confirmPassword.errors.required">Confirm Password is required</p>
+            <p *ngIf="confirmPassword.errors.required">{{'common.required'|translate}}</p>
           </div>
 
           <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
@@ -148,7 +148,7 @@
           </div>
         </fieldset>
         <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
-          <p *ngIf="roles.errors.required">Roles is required</p>
+          <p *ngIf="roles.errors.required">{{'common.required'|translate}}</p>
         </div>
 
         <!--<pre>{{myform.value | json}}</pre>-->
@@ -156,8 +156,8 @@
       </form>
 
       <div class="modal-footer" >
-        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>

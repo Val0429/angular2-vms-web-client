@@ -25,7 +25,7 @@
                  placeholder="Name" />
         </div>
         <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
-          <p *ngIf="name.errors.required">Name is required</p>
+          <p *ngIf="name.errors.required">{{'common.required'|translate}}</p>
           <p *ngIf="name.errors.minlength">Name must be 3 at least characters long</p>
         </div>
 
@@ -43,7 +43,7 @@
                  placeholder="Unit No" />
         </div>
         <div style="color:red" *ngIf="unitNo.errors && (unitNo.dirty || unitNo.touched )">
-          <p *ngIf="unitNo.errors.required">Unit No is required</p>
+          <p *ngIf="unitNo.errors.required">{{'common.required'|translate}}</p>
           <p *ngIf="unitNo.errors.minlength">Unit No must be 3 at least characters long</p>
         </div>
 
@@ -63,7 +63,7 @@
                  placeholder="Phone" />
         </div>
         <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
-          <p *ngIf="phone.errors.required">Phone is required</p>
+          <p *ngIf="phone.errors.required">{{'common.required'|translate}}</p>
           <p *ngIf="phone.errors.minlength">Phone must be 3 at least characters long<br /> add comma (,) for multiple phone numbers</p>
           <p *ngIf="phone.errors.pattern">Invalid phone pattern</p>
         </div>
@@ -82,7 +82,7 @@
                  placeholder="floor" />
         </div>
         <div style="color:red" *ngIf="floor.errors && (floor.dirty || floor.touched )">
-          <p *ngIf="floor.errors.required">floor is required</p>          
+          <p *ngIf="floor.errors.required">{{'common.required'|translate}}</p>          
         </div>
 
         <!--<pre>{{myform.value | json}}</pre>-->
@@ -90,8 +90,8 @@
       </form>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>

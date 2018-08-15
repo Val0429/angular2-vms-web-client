@@ -1,4 +1,4 @@
-﻿<div class="app flex-row table">
+<div class="app flex-row table">
   <div class="table-cell">
     <div class="container">
       <div class="row justify-content-center">
@@ -7,15 +7,15 @@
             <div class="card p-2">
               
               <div class="card-block">
-                <h1>Login</h1>
-                <p class="text-muted">Sign In to your account</p>
+                <h1>{{ 'pageLogin.title' | translate }}</h1>
+                <p class="text-muted">{{ 'pageLogin.subTitle' | translate }}</p>
                 <div class="input-group mb-1">
 
                   <div class="input-group dropdown" dropdown placement="bottom right">
                     <span class="input-group-addon">
                       <i class="icon-user"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Username" [(ngModel)]="model.username" [attr.disabled]="loading?'':null">
+                    <input type="text" class="form-control" placeholder="{{ 'common.userName' | translate }}" [(ngModel)]="model.username" [attr.disabled]="loading?'':null">
                   </div>
 
                 </div>
@@ -24,12 +24,12 @@
                   <span class="input-group-addon">
                     <i class="icon-lock"></i>
                   </span>
-                  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="model.password" [attr.disabled]="loading?'':null">
+                  <input type="password" class="form-control" placeholder="{{ 'common.password' | translate }}" [(ngModel)]="model.password" [attr.disabled]="loading?'':null">
                 </div>
 
                 <div class="input-group mb-1">
                   <input type="checkbox" id="checkboxRememberMe" name="checkboxRememberMe" [(ngModel)]="model.rememberMe">
-                  <label class="checkbox-inline text-muted" for="checkboxRememberMe">&nbsp; Remember Me</label>
+                  <label class="checkbox-inline text-muted" for="checkboxRememberMe">&nbsp;{{ 'pageLogin.rememberMe' | translate }} </label>
 
                 </div>
                 <div class="input-group mb-1">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <button type="button" class="btn btn-primary px-2" (click)="loginByPassword()">{{ 'Page_Login.Login' | translate }}</button>
+                    <button type="button" class="btn btn-primary px-2" (click)="loginByPassword()">{{ 'pageLogin.login' | translate }}</button>
                   </div>
                 </div>
               </div>

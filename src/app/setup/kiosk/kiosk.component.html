@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newKiosk(); ">
-          New Kiosk
+          {{'common.new' | translate}}
         </button>
       </div>
     </div>
@@ -22,7 +22,7 @@
                 <span class="input-group-addon">
                   <i class="fa fa-search"></i>
                 </span>
-                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search" (keyup)="itemSearch($event)" />
+                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
               </div>
             </div>
           </div>

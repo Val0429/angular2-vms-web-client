@@ -5,9 +5,9 @@
       <div class="card">
         <div class="card-block">
           <div class="row mb-1">
-              <button type="button" class="btn btn-primary col-md-6" (click)="newFloor(); ">
-                New Floor
-              </button>            
+            <button type="button" class="btn btn-primary col-md-6" (click)="newFloor(); ">
+              {{'common.new' | translate}}
+            </button>            
               <button type="button" class="btn btn-primary col-md-6" (click)="batchUploadFloor(); ">
                 Batch Upload Floor
               </button>  
@@ -32,7 +32,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-search"></i>
                   </span>
-                  <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search" (keyup)="itemSearch($event)" />
+                  <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
                 </div>
               </div>
             </div>
