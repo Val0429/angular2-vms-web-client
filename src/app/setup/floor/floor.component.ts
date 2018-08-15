@@ -6,16 +6,19 @@ import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-floor',
   templateUrl: './floor.component.html',
   styleUrls: ['./floor.component.scss']
 })
-export class FloorComponent implements OnInit {
+export class FloorComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
   tempData = [];
   data = [];
@@ -93,16 +96,6 @@ export class FloorComponent implements OnInit {
     data.floor = 0;
     data.objectId = "";
     this.showCreateEditDialog(data, false);
-  }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-    .subscribe(async (isConfirmed) => {
-      //We get dialog result
-
-    });
   }
   async deleteFloor(item: Floor) {
     console.log("delete floor", item);

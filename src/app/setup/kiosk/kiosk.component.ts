@@ -5,16 +5,19 @@ import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { KioskUser, KioskData, Roles } from '../../Interface/interface';
+import { TranslateService } from 'ng2-translate';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
 
 @Component({
   selector: 'app-kiosk',
   templateUrl: './kiosk.component.html',
   styleUrls: ['./kiosk.component.scss']
 })
-export class KioskComponent implements OnInit {
+export class KioskComponent extends BaseClassComponent implements OnInit, BaseComponent{
 
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
   tempData = [];
   data = [];   
@@ -94,16 +97,7 @@ export class KioskComponent implements OnInit {
 
     this.showCreateEditDialog(newData, false);
   }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-
-      });
-  }
+  
   async deleteKiosk(item) {
     console.log("delete kiosk", item);
 

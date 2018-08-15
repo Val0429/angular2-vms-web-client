@@ -4,13 +4,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-frs',
   templateUrl: './frs.component.html',
   styleUrls: ['./frs.component.scss']
 })
-export class FrsComponent implements OnInit {
+export class FrsComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
   wsport: FormControl;
   password: FormControl;
@@ -18,7 +20,8 @@ export class FrsComponent implements OnInit {
   account: FormControl;
 
   myform: FormGroup;
-  constructor(private setupService: SetupService, private dialogService:DialogService) {
+  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
@@ -45,15 +48,10 @@ export class FrsComponent implements OnInit {
     console.log("frs save setting", formData);
     let result = await this.setupService.modifyServerSettings({ data: { frs: formData } });
     console.log("frs save setting result: ", result);
-    let message = (result) ? "Settings has been updated" : "FRS Settings update has been failed";    
+    let message = (result) ? "Settings has been updated" : "FRS Settings update has been failed";
 
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: "Save setting result",
-      message: message
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-      });
+    this.showAlert(message, "Save setting result");
+    
   }
   createFormControls(data:any) {
     this.account = new FormControl(data.account, [

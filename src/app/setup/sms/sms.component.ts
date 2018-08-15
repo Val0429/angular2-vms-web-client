@@ -4,19 +4,22 @@ import { SetupService } from 'app/service/setup.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-sms',
   templateUrl: './sms.component.html',
   styleUrls: ['./sms.component.scss']
 })
-export class SmsComponent implements OnInit {
+export class SmsComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
   comPort: FormControl;  
   enable: FormControl;
   myform: FormGroup;
 
-  constructor(private setupService: SetupService, private dialogService: DialogService) {
+  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
@@ -42,14 +45,7 @@ export class SmsComponent implements OnInit {
     let result = await this.setupService.modifyServerSettings({ data: { sms: formData } });
     console.log("sms save setting result: ", result);
     let message = (result) ? "SMS has been updated" : "SMS Settings update has been failed";
-
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: "Save setting result",
-      message: message
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-      });
+    this.showAlert(message, "Save setting result");
   }
   createFormControls(data: any) {
     this.enable = new FormControl(data.enable, [

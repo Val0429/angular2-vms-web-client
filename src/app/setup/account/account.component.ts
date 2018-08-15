@@ -7,16 +7,19 @@ import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { FormControl } from '@angular/forms';
 import { forEach } from '@angular/router/src/utils/collection';
+import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent extends BaseClassComponent implements OnInit, BaseComponent {
    
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
   tempData=[]
   data = [];
@@ -80,16 +83,6 @@ export class AccountComponent implements OnInit {
     newUser.data.email = "";
 
     this.showCreateEditDialog(newUser, false);
-  }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-        
-      }); 
   }
   async deleteUser(item) {
     console.log("deleteUser", item);

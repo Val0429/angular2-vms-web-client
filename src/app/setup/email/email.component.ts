@@ -6,6 +6,8 @@ import { SetupService } from 'app/service/setup.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-email',
@@ -14,7 +16,7 @@ import * as Globals from 'app/globals';
 })
   
 
-export class EmailComponent implements OnInit {
+export class EmailComponent extends BaseClassComponent implements OnInit, BaseComponent {
   securityOption: string[] = [ "None", "SMTP", "TLS", "SSL"];
   port: FormControl;
   password: FormControl;
@@ -22,7 +24,8 @@ export class EmailComponent implements OnInit {
   account: FormControl;
   security: FormControl;
   myform: FormGroup;
-  constructor(private setupService: SetupService, private dialogService: DialogService) {
+  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
@@ -51,14 +54,7 @@ export class EmailComponent implements OnInit {
     let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
     console.log("smtp save setting result: ", result);
     let message = (result) ? "SMTP Settings has been updated" : "STMP Settings update has been failed";
-
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: "Save setting result",
-      message: message
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-      });
+    this.showAlert(message, "Save setting result");
   }
   createFormControls(data: any) {
     this.account = new FormControl(data.account, [

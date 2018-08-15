@@ -8,6 +8,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from '../dialog/alert/alert.component';
 import  * as Globals from 'app/globals';
 import { TranslateService } from 'ng2-translate';
+import { BaseClassComponent, BaseComponent } from 'app/shared/base-class-component';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -24,7 +25,7 @@ import { TranslateService } from 'ng2-translate';
         }
       `]
 })
-export class LoginComponent implements OnInit {  
+export class LoginComponent extends BaseClassComponent implements OnInit, BaseComponent  {  
 
   model: {
     username?: string,
@@ -39,9 +40,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private dialogService: DialogService,
-    private translateService:TranslateService
+     
+     dialogService: DialogService,
+     translateService:TranslateService
   ) {
+    super(dialogService, translateService);
 
     let activeSession = loginService.checkActiveSession();
     if (activeSession) {    
@@ -52,21 +55,13 @@ export class LoginComponent implements OnInit {
       this.loginService.logOut(); 
     }
   }
-
+  
   onLanguageChange(lang) {
     localStorage.setItem(Globals.languageKey, lang);
     location.reload();
   }
 
-  showConfirm(message:string, title?:string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-      });
-  }
+  
   ngOnInit() {
     this.model.username = "";
     this.model.password = "";
@@ -130,7 +125,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/report/dashboard']);
     }
     else {
-      this.showConfirm('Please check your account and password!', "Login failed");
+      this.showAlert('Please check your account and password!', this.getLocaleString("Page_Login.Login_Failed"));
       this.loading = false;
     }
   }
