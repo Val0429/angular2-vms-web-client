@@ -1,0 +1,268 @@
+{
+  "Page_Login": {
+    "Title": "Login",
+    "Subtitle": "Sing in to your account",
+    "Username": "Username",
+    "Password": "Password",
+    "RememberMe": "Remember Me",
+    "Forget": "Forget",
+    "Login": "Login",
+    "License": "License",
+    "Login_Failed": "Login failed",
+    "Apply_License": "Apply License",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_Layout": {
+    "Header": {
+      "Account": "Account",
+      "Change_Password": "Change Password"
+    },
+    "ChangePassword": {
+      "Change_Password": "Change Password",
+      "Username": "Username",
+      "Password": "Password",
+      "New_Password": "New Password",
+      "Repeat_password": "Repeat password",
+      "Close": "Close",
+      "Save": "Save",
+      "The_Password_is_required": "The Password is required.",
+      "Password_incorrect": "Password incorrect",
+      "The_New_Password_is_required": "The New Password is required",
+      "The_Repeat_password_is_required": "The Repeat password is required",
+      "Password_mismatch": "Password mismatch"
+    },
+    "Menu": {
+      "Home": "Home",
+      "Dashboard": "Dashboard",
+      "Report": "Report",
+      "Verification": "Verification",
+      "Persons": "Persons",
+      "Face_Capture_Source": "Face Capture Source",
+      "Users": "Users",
+      "Actions": "Actions",
+      "Settings": "Settings"
+    },
+    "Dashboard": {
+      "Foot_Traffic": "Foot Traffic",
+      "System_Status": "System Status",
+      "Notifications": "Notifications"
+    },
+    "Report": {
+      "Attendance": "Attendance",
+      "Inverstigation": "Inverstigation"
+    },
+    "Verification": {
+      "Compare": "Compare",
+      "Image_Search": "Image Search"
+    },
+    "Persons": {
+      "Person": "Person",
+      "Group": "Group",
+      "Batch_Enrol": "Batch Enrol"
+    },
+    "Face_Capture_Source": {
+      "Device": "Device",
+      "Face_Capture_Device": "Face_Capture_Device"
+    },
+    "Users": {
+      "User": "User",
+      "Group": "Group"
+    },
+    "Actions": {
+      "User": "User",
+      "Group": "Group",
+      "Email": "Email",
+      "HTTP": "HTTP",
+      "Notification": "Notification"
+    },
+    "Settings": {
+      "System": "System",
+      "Network": "Network",
+      "Firmware": "Firmware",
+      "License": "License",
+      "Backup_Restore": "Backup & Restore",
+      "Server_Database": "Server Database"
+    }
+  },
+  "Page_Attendance": {
+    "Search_Condition": "Search Condition",
+    "Duration": "Duration",
+    "Start_Date": "Start Date",
+    "End_Date": "End Date",
+    "Location": "Location",
+    "Match": "Match",
+    "Yes": "Yes",
+    "No": "No",
+    "Group": "Group",
+    "Full_Name": "Full Name",
+    "Export_to_CSV": "Export to CSV",
+    "Search": "Search",
+    "Attendance": "Attendance",
+    "Date": "Date",
+    "Time": "Time",
+    "Snapshot": "Snapshot",
+    "Result": "Result",
+    "Recognize": "Recognize",
+    "Employee_No": "Employee No"
+  },
+  "Page_Inverstigation": {
+    "Search_Condition": "Search Condition",
+    "Duration": "Duration",
+    "Start_Date": "Start Date",
+    "End_Date": "End Date",
+    "Location": "Location",
+    "Group": "Group",
+    "Full_Name": "Full Name",
+    "Export_to_CSV": "Export to CSV",
+    "Search": "Search",
+    "Inverstigation": "Inverstigation",
+    "Employee_No": "Employee No",
+    "Date": "Date",
+    "Snapshot": "Snapshot"
+  },
+
+  "Page_User": {
+    "New_User": "New User",
+    "User_List": "User List",
+    "Search_by_name": "Search by name",
+    "No": "No",
+    "Username": "Username",
+    "Group": "Group",
+    "Modify_User": "Modify User",
+    "Password": "Password",
+    "Repeat_password": "Repeat password",
+    "The_Username_is_required": "The Username is required",
+    "The_Password_is_required": "The Password is required",
+    "The_Repeat_password_is_required": "The Repeat password is required",
+    "Password_mismatch": "Password mismatch",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_Person": {
+    "New_Person": "New Person",
+    "Person_List": "Person List",
+    "Search_by_name": "Search by name",
+    "No": "No",
+    "Employee_No": "Employee No",
+    "Full_Name": "Full Name",
+    "Groups": "Groups",
+    "Image": "Image",
+    "Modify_Person": "Modify Person",
+    "The_Full_Name_is_required": "The Full Name is required",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_PersonGroup": {
+    "New_Group": "New Group",
+    "Group_List": "Group List",
+    "Search_by_name": "Search by name",
+    "No": "No",
+    "Group_Name": "Group Name",
+    "Modify_Group": "Modify Group",
+    "The_Group_Name_is_required": "The Group Name is required",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_BatchEnroll": {
+    "Import": "Import",
+    "Load_Image": "Load Image",
+    "Each_input_file_maximum_2500_faces": "Each input file maximum 2500 faces",
+    "Person_List": "Person List",
+    "No": "No",
+    "Employee_No": "Employee No",
+    "Full_Name": "Full Name",
+    "Groups": "Groups",
+    "Image": "Image",
+    "Result": "Result",
+    "load_image_error": "load image error",
+    "no_image_file": "no image file",
+    "face_too_small": "face too small"
+  },
+  "Page_Capture_Source": {
+    "New_Device": "New Device",
+    "Device_List": "Device List",
+    "Search_by_name": "Search by name",
+    "No": "No",
+    "Source_Type": "Source Type",
+    "Source_Id": "Source Id",
+    "Location": "Location",
+    "RTSP_Path": "RTSP Path",
+    "Source_IP": "Source IP",
+    "NVR": "NVR",
+    "Channel": "Channel",
+    "Modify_Device": "Modify Device",
+    "Source_Port": "Source Port",
+    "Source_Username": "Source Username",
+    "Source_Password": "Source　Password",
+    "Min_Face_Size_Width": "Min Face Size Width",
+    "Min_Face_Size_Height": "Min Face Size Height",
+    "Face_Verify_Target_Score": "Face Verify Target Score",
+    "Enable_Frontal_Face_Filter": "Enable Frontal Face Filter",
+    "The_Source_Id_is_required": "The Source Id is required",
+    "The_Location_is_required": "The Location is required",
+    "The_Source_IP_is_required": "The Source IP is required",
+    "The_Source_Port_is_required": "The Source Port is required",
+    "The_Source_Username_is_required": "The Source Username is required",
+    "The_Source_Password_is_required": "The Source Password is required",
+    "The_RTSP_Path_is_required": "The RTSP Path is required",
+    "The_Source_NVR_ID_is_required": "The Source NVR ID is required",
+    "The_Source_Channel_is_required": "The Source Channel is required",
+    "The_Min_Face_Size_Width_is_required": "The Min Face Size Width is required",
+    "The_Min_Face_Size_Height_is_required": "The Min Face Size Height is required",
+    "The_Face_Verify_Target_Score_is_required": "The Face Verify Target Score is required",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_NotificationDevice": {
+    "New_Device": "New Device",
+    "Notification_Devices_List": "Notification Devices List",
+    "Search_by_name": "Search by name",
+    "No": "No",
+    "Type": "Type",
+    "Name": "Name",
+    "Token": "Token",
+    "Modify_Device": "Modify Device",
+    "The_Device_Name_is_required": "The Device Name is required",
+    "The_Device_Token_is_required": "The Device Token is required",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_GroupActionSetting": {
+    "Action_Setting": "Action Setting",
+    "Http_Commands": "Http Commands",
+    "Email_Receiver": "Email Receiver",
+    "Notification_Device": "Notification Device",
+    "Close": "Close",
+    "Apply": "Apply"
+  },
+  "Page_System": {
+    "TimeZone": "TimeZone",
+    "DateTime": "DateTime",
+    "Enable_NTP": "Enable NTP",
+    "NTP_Server": "NTP Server",
+    "Apply": "Apply"
+  },
+  "Page_Network": {
+    "Network": "Network",
+    "Enable_DHCP": "Enable DHCP",
+    "IP_Address": "IP Address",
+    "Netmask": "Netmask",
+    "Gateway": "Gateway",
+    "DNS": "DNS",
+    "Broadcast": "Broadcast",
+    "Apply": "Apply"
+  },
+  "Page_License": {
+    "License": "License",
+    "License_Key": "License Key",
+    "Activation_Key": "Activation Key",
+    "Apply": "Apply"
+  },
+  "Page_Firmware": {
+    "Firmware": "Firmware",
+    "Image_File": "Image File",
+    "Apply": "Apply"
+  }
+
+}

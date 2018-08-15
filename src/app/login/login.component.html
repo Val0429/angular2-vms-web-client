@@ -1,4 +1,4 @@
-<div class="app flex-row table">
+﻿<div class="app flex-row table">
   <div class="table-cell">
     <div class="container">
       <div class="row justify-content-center">
@@ -32,10 +32,18 @@
                   <label class="checkbox-inline text-muted" for="checkboxRememberMe">&nbsp; Remember Me</label>
 
                 </div>
-
+                <div class="input-group mb-1">
+                  <span class="input-group-addon">
+                    <i class="icon-home"></i>
+                  </span>
+                  <select class="form-control" #language [(ngModel)]="model.language" (change)="onLanguageChange(language.value)">
+                    <option value="en-us">English</option>
+                    <option value="zh-tw">繁體中文</option>
+                  </select>
+                </div>
                 <div class="row">
                   <div class="col-6">
-                    <button type="button" class="btn btn-primary px-2" (click)="loginByPassword()">Login</button>
+                    <button type="button" class="btn btn-primary px-2" (click)="loginByPassword()">{{ 'Page_Login.Login' | translate }}</button>
                   </div>
                 </div>
               </div>

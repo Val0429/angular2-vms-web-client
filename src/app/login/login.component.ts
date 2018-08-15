@@ -7,11 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from '../dialog/alert/alert.component';
 import  * as Globals from 'app/globals';
-//import * as $ from 'jquery'
-// import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
-// import { NgForm } from '@angular/forms';
-// import {FormControlDirective } from '@angular/forms';
-// import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -33,15 +29,18 @@ export class LoginComponent implements OnInit {
   model: {
     username?: string,
     password?: string,
-    rememberMe?: boolean
-  } = {};
+    rememberMe?: boolean,
+    language?:string
+  } = {
+    };
 
   private loading: Boolean = false;
 
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private translateService:TranslateService
   ) {
 
     let activeSession = loginService.checkActiveSession();
@@ -53,6 +52,12 @@ export class LoginComponent implements OnInit {
       this.loginService.logOut(); 
     }
   }
+
+  onLanguageChange(lang) {
+    localStorage.setItem(Globals.languageKey, lang);
+    location.reload();
+  }
+
   showConfirm(message:string, title?:string) {
     let disposable = this.dialogService.addDialog(AlertComponent, {
       title: title,
@@ -66,6 +71,22 @@ export class LoginComponent implements OnInit {
     this.model.username = "";
     this.model.password = "";
     this.model.rememberMe = false;
+
+
+    var lang = localStorage.getItem(Globals.languageKey);
+    var browserLanguage = window.navigator.language.toLowerCase();
+    console.log(browserLanguage);
+    if (lang === null) {
+      if (browserLanguage === "zh-tw" || browserLanguage === "en-us"){
+        lang = browserLanguage;
+      } else {
+        lang = "en-us";
+      }
+    }
+
+    this.translateService.setDefaultLang(lang);
+
+    this.model.language = lang;
   }
   
   public checkRememberMe(event) {

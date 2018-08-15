@@ -35,10 +35,22 @@ import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { AlertComponent } from './dialog/alert/alert.component';
 import { SetupModule } from './setup/setup.module';
 
+//multi languages
+import { Http } from '@angular/http';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
+export function translateLoader(http: Http) {
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+}
+
 @NgModule({
   imports: [
     BrowserModule,
-    //HttpModule,
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: translateLoader,
+      deps: [Http]
+    }),
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
