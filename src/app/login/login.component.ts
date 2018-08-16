@@ -9,6 +9,7 @@ import { AlertComponent } from '../dialog/alert/alert.component';
 import  * as Globals from 'app/globals';
 import { TranslateService } from 'ng2-translate';
 import { BaseClassComponent, BaseComponent } from 'app/shared/base-class-component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -25,16 +26,13 @@ import { BaseClassComponent, BaseComponent } from 'app/shared/base-class-compone
         }
       `]
 })
-export class LoginComponent extends BaseClassComponent implements OnInit, BaseComponent  {  
-
-  model: {
-    username?: string,
-    password?: string,
-    rememberMe?: boolean,
-    language?:string
-  } = {};
+export class LoginComponent extends BaseClassComponent implements BaseComponent  {
+  myform: FormGroup;
+  username: FormControl;
+  password: FormControl;
+  rememberMe: FormControl;
+  language: FormControl;
   
-
   constructor(
     private router: Router,
     private loginService: LoginService,
@@ -52,56 +50,53 @@ export class LoginComponent extends BaseClassComponent implements OnInit, BaseCo
       //clear storage and force logout after user closed tab / browser
       this.loginService.logOut(); 
     }
+
+    this.createForm();
   }
   
+  createForm() {
+    this.username = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(64)
+    ]);
+    this.password = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(64)
+    ]);
+    this.rememberMe = new FormControl('');
+    this.language = new FormControl(this.activeLanguage);
+    this.myform = new FormGroup({
+      username: this.username,
+      password: this.password,
+      language: this.language,
+      rememberMe: this.rememberMe
+    });
+  }
+
   onLanguageChange(lang) {
     localStorage.setItem(Globals.languageKey, lang);
     location.reload();
   }
 
   
-  ngOnInit() {
-    this.model.username = "";
-    this.model.password = "";
-    this.model.rememberMe = false;
-
-    this.model.language = this.activeLanguage;
-  }
-  
-  public checkRememberMe(event) {
-    this.model.rememberMe = event;
-  }
-
-  private removeRememberMe() {
-    localStorage.clear();
-  }
-  public forget() {
-    this.removeRememberMe();
-    this.model.username = "";
-    this.model.password = "";
+  async doLogin(event) {
+    if (event.keyCode !== 13 || !this.myform.valid) return;
+    await this.loginByPassword();
   }
 
   async loginByPassword() {
     this.loading = true;
-
-    if (this.model.username && this.model.username.length > 64) {
-      this.model.username = this.model.username.substr(0, 64);
-    }
-
-    if (this.model.password && this.model.password.length > 64) {
-      this.model.password = this.model.password.substr(0, 64);
-    }
-    console.log(this.model.username);
-    console.log(this.model.password);
-
-    let data: object = {
-      username: this.model.username,
-      password: this.model.password
+    let formResult = this.myform.value;
+    
+    let data = {
+      username: formResult.username,
+      password: formResult.password
     };
+    console.log("login data", data);
     let ret = await this.loginService.logInByPassword(data);
     console.log("login result: "+ret);
     if (ret === true) {
-      if (this.model.rememberMe) {
+      if (this.rememberMe) {
         var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
         localStorage.setItem(Globals.rememberMe, currentUserToken);        
       }

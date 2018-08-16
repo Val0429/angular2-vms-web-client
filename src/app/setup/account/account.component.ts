@@ -6,7 +6,6 @@ import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Inte
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { FormControl } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
 import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
 import { TranslateService } from 'ng2-translate';
 
