@@ -108,15 +108,19 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
 
     console.log("filter query: ", this.filterQuery);
     
+    this.doSearch();    
+  }
+
+  doSearch() {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
-    for (let item of this.tempData) {      
+    for (let item of this.tempData) {
       if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
         this.data.push(item);
       }
     }
-    
   }
+
   async saveUser(formResult: User) {
     if (formResult.objectId === "") {
       // Create User

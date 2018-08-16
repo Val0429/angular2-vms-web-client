@@ -142,6 +142,9 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
 
     console.log("filter query: ", this.filterQuery);
     
+    this.doSearch();
+  }
+  doSearch() {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
@@ -150,6 +153,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
       }
     }
   }
+
   async updateFloor(data: Floor) {
     
     

@@ -31,6 +31,9 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
 
     console.log("filter query: ", this.filterQuery);
     
+    this.doSearch();
+  }
+  doSearch() {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
@@ -39,6 +42,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       }
     }
   }
+
   async ngOnInit(): Promise<void> {
     
     let users = await this.userService.getKioskUsersList("&paging.all=true");
