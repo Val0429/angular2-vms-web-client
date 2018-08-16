@@ -8,9 +8,9 @@
             <button type="button" class="btn btn-primary col-md-6" (click)="newFloor(); ">
               {{'common.new' | translate}}
             </button>            
-              <button type="button" class="btn btn-primary col-md-6" (click)="batchUploadFloor(); ">
-                Batch Upload Floor
-              </button>  
+            <button type="button" class="btn btn-primary col-md-6" (click)="batchUploadFloor(); ">
+              {{'pageFloor.batchUploadFloor' | translate}}
+            </button>  
           </div>
         </div>
       </div>
@@ -21,7 +21,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>Floors
+          <i class="fa fa-align-justify"></i>{{'pageFloor.floors' | translate}}
         </div>
         <div class="card-block">
 
@@ -42,17 +42,20 @@
                 <tr>
                   <th style="width: 5%">No</th>
                   <th style="width: 25%">
-                    <mfDefaultSorter by="name">Floor Name</mfDefaultSorter>
+                    <mfDefaultSorter by="name">
+
+                      {{'pageFloor.floorName' | translate}}
+                    </mfDefaultSorter>
                   </th>
                   <th style="width: 5%">
-                    Floor
+                    {{'pageFloor.floor' | translate}}
                   </th>
                   <th style="width: 25%">
-                    Phone
+                    {{'pageFloor.phone' | translate}}
                   </th>
                   <th style="width: 25%">
-                    Unit No
-                    
+                    {{'pageFloor.unitNo' | translate}} 
+
                   </th>
                   <th style=""></th>
                   <th style=""></th>

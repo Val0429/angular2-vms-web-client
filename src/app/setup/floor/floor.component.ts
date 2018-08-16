@@ -43,7 +43,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
 
   editFloor(item) {
     console.log("edit floor", item);
-    this.actionMode = "Edit Floor";    
+    this.actionMode = this.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
   }
   private showCreateEditDialog(floorData: Floor, editMode: boolean) {
@@ -62,7 +62,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   private showBatchUploadDialog() {
     //creates dialog form here
     let newForm = new BatchUploadFloorComponent(this.dialogService);
-    newForm.setData("Batch Upload Floor" );
+    newForm.setData(this.getLocaleString("pageFloor.batchUploadFloor"));
     let disposable = this.dialogService.addDialog(BatchUploadFloorComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -75,7 +75,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     var result = await this.userService.batchUploadFloor(data);
     if (result) {
       //console.log(result);
-      this.showAlert("Import " + result.paging.count + " data succeded");
+      this.showAlert(result.paging.count + this.getLocaleString("pageFloor.haveBeenImported"));
       //refresh list
       await this.ngOnInit();
     }
@@ -84,12 +84,12 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     this.showBatchUploadDialog();
   }
   newFloor() {
-    this.actionMode = "New Floor";
+    this.actionMode = this.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "floor" + u.substr(u.length - 3, 3);
 
-    let data = new Floor();
+    let data = new Floor();    
     data.name = u;
     data.phone = [];
     data.unitNo = "";
@@ -101,8 +101,6 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     console.log("delete floor", item);
 
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
@@ -135,7 +133,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert("New floor has been created");
+      this.showAlert(formResult.name + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -163,8 +161,8 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
       var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = result;
       var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.tempData[tempIndex] = result;            
-      this.showAlert(data.name + " has been updated");
+      this.tempData[tempIndex] = result;
+      this.showAlert(data.name + this.getLocaleString("common.hasBeenUpdated"));
     }
 
 

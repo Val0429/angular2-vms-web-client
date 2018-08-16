@@ -22,12 +22,12 @@
                  class="form-control"
                  required
                  formControlName="csvFile"
-                 placeholder="csvFile" />
+                 placeholder="{{'pageFloor.csvFile'|translate}}" />
         </div>
         <div style="color:red" *ngIf="csvFile.errors && (csvFile.dirty || csvFile.touched )">
-          <p *ngIf="csvFile.errors.required">CSV File is required</p>
-          <p *ngIf="csvFile.errors.invalidSize">CSV File must not exceeed 5MB</p>
-          <p *ngIf="csvFile.errors.invalidExt">Only csv file allowed</p>
+          <p *ngIf="csvFile.errors.required">{{'pageFloor.csvFile'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidSize">{{'pageFloor.csvFile'|translate}}{{'pageFloor.sizeOverLimit'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidExt">{{'pageFloor.onlyCsvAllowed'|translate}}</p>
         </div>
       </form>
 

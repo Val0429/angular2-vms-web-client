@@ -58,7 +58,8 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
       Validators.minLength(3)
     ]);
     this.floor = new FormControl(this.formData.floor, [
-      Validators.required      
+      Validators.required,
+      Validators.pattern(Globals.numberRegex)
     ]);
 
   }
