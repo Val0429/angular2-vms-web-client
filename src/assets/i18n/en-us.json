@@ -7,6 +7,7 @@
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
 		"edit": "Edit",
+		"email": "Email",
 		"enabled": "Enabled",
 		"error": "Error",
 		"failedToCreate": " failed to create",
@@ -21,6 +22,7 @@
 		"new": "New",
 		"ok": "OK",
 		"password": "Password",
+		"phone": "Phone",
 		"required": "required",
 		"isRequired": " is required",
 		"save": "Save",
@@ -43,7 +45,6 @@
 		"floors": "Floors",
 		"haveBeenImported": " records have been imported",
 		"onlyCsvAllowed": "Only CSV file allowed",
-		"phone": "Phone",
 		"sizeOverLimit": " must not exceeed 5MB",
 		"unitNo": "Unit No"
 	},
@@ -97,7 +98,8 @@
 	},
 	"pageAccount": {
 		"roles": "Roles",
-		"userList": "User List"
+		"userList": "User List",
+		"users": "Users"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number"

@@ -60,12 +60,12 @@
                  
                  required
                  formControlName="phone"
-                 placeholder="{{'pageFloor.phone'|translate}}" />
+                 placeholder="{{'common.phone'|translate}}" />
         </div>
         <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
-          <p *ngIf="phone.errors.required">{{'pageFloor.phone'|translate}}{{'common.isRequired'|translate}}</p>
-          <p *ngIf="phone.errors.minlength">{{'pageFloor.phone'|translate}}{{'common.minLength'|translate:phone.errors}}<br />{{'pageFloor.addComma'|translate}} </p>
-          <p *ngIf="phone.errors.pattern">{{'pageFloor.phone'|translate}}{{'common.isInvalid'|translate}}</p>
+          <p *ngIf="phone.errors.required">{{'common.phone'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="phone.errors.minlength">{{'common.phone'|translate}}{{'common.minLength'|translate:phone.errors}}<br />{{'pageFloor.addComma'|translate}} </p>
+          <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
         </div>
 
         <div class="input-group mb-1"

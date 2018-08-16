@@ -49,7 +49,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
 
   editUser(item) {
     console.log("edit item", item);
-    this.actionMode = "Edit User";    
+    this.actionMode = this.getLocaleString("common.edit");;    
     
     this.showCreateEditDialog(item, true); 
   }
@@ -69,7 +69,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   }
 
   newUser() {
-    this.actionMode = "New User";
+    this.actionMode = this.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
@@ -87,10 +87,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   async deleteUser(item) {
     console.log("deleteUser", item);
     
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
-    })
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
@@ -137,7 +134,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert("New user has been created");
+      this.showAlert(data.username + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -162,7 +159,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
         this.data[index] = result;
         var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.tempData[tempIndex] = result;        
-        this.showAlert(data.username+ " has been updated");
+        this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
       }
     
   }
