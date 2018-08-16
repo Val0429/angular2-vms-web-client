@@ -21,6 +21,7 @@
 		"name": "Name",
 		"new": "New",
 		"ok": "OK",
+		"newPassword": "New Password",
 		"password": "Password",
 		"phone": "Phone",
 		"required": "required",
@@ -66,7 +67,8 @@
 		},
 		"header": {
 			"account": "Account",
-			"changePassword": "Change Password"
+			"changePassword": "Change Password",
+			"logout": "Logout"
 		},
 		"menu": {
 			"report": "Report",

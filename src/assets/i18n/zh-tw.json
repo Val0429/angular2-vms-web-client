@@ -21,6 +21,7 @@
 		"name": "Name",
 		"new": "加",
 		"ok": "確認",
+		"newPassword": "New Password",
 		"password": "密碼",
 		"phone": "Phone",
 		"required": "required",
@@ -66,7 +67,8 @@
 		},
 		"header": {
 			"account": "帳戶",
-			"changePassword": "更改密碼"
+			"changePassword": "更改密碼",
+			"logout": "Logout"
 		},
 		"menu": {
 			"report": "報告",
