@@ -90,8 +90,11 @@
 		}
 	},
 	"pageLogin": {
+		"invalidSession": "Invalid session",
+		"invalidUserNameOrPassword": "Invalid username or password",
 		"login": "登錄",
 		"loginFailed": "登錄失敗",
+		"pleaseRelogin": "Please relogin!",
 		"rememberMe": "記住我",
 		"subTitle": "登錄您的帳戶",
 		"title": "登錄"

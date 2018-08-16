@@ -32,10 +32,8 @@ export class LoginComponent extends BaseClassComponent implements OnInit, BaseCo
     password?: string,
     rememberMe?: boolean,
     language?:string
-  } = {
-    };
-
-  private loading: Boolean = false;
+  } = {};
+  
 
   constructor(
     private router: Router,
@@ -111,7 +109,7 @@ export class LoginComponent extends BaseClassComponent implements OnInit, BaseCo
       this.router.navigate(['/report/dashboard']);
     }
     else {
-      this.showAlert('Please check your account and password!', this.getLocaleString("pageLogin.loginFailed"));
+      this.showAlert(this.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.getLocaleString("pageLogin.loginFailed"));
       this.loading = false;
     }
   }

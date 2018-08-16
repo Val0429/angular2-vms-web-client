@@ -105,7 +105,7 @@
           <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
         </div>
         <div class="modal-footer" *ngIf="editMode">
-          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">Update Data</button>
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
         </div>
 
         <fieldset formGroupName="passwordGroup">
