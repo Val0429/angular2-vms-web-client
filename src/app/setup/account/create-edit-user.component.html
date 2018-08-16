@@ -91,7 +91,7 @@
             <input type="checkbox"
                    [disabled]="editMode"
                    [checked]="role.checked"
-                   name="{{role.name}}" value="{{role.name}}" (click)="addRemoveRole($event.srcElement.checked, $event.srcElement.value)" />
+                   name="{{role.name}}" value="{{role.name}}" (click)="addRemoveRole(($event.srcElement ||$event.target ).checked, ($event.srcElement ||$event.target ).value)" />
             <label for="role">{{role.name}}</label>
           </span>
           <input type="text"
