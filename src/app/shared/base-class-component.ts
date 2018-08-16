@@ -10,6 +10,7 @@ export interface BaseComponent {
 
 export class BaseClassComponent implements BaseComponent {
   activeLanguage: string;
+  loading: boolean;
   constructor(public dialogService: DialogService, public translateService: TranslateService) {
     //activate language service
     this.activeLanguage = localStorage.getItem(Globals.languageKey);
@@ -21,9 +22,9 @@ export class BaseClassComponent implements BaseComponent {
       } else {
         this.activeLanguage = "en-us";
       }
-    }
-
+    }    
     this.translateService.setDefaultLang(this.activeLanguage);
+    this.loading = false;
   }
   showAlert(message: string, title?: string) {
     let disposable = this.dialogService.addDialog(AlertComponent, {

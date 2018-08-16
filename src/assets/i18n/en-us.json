@@ -1,12 +1,20 @@
 {
 	"common": {
+		"account": "Account",
 		"alert": "Attention",
 		"areYouSure": "Are you sure?",
 		"cancel": "Cancel",
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
+		"edit": "Edit",
+		"enabled": "Enabled",
 		"error": "Error",
-		"invalid": "invalid",
+		"failedToCreate": " failed to create",
+		"failedToUpdate": " failed to update",
+		"hasBeenCreated": " has been created",
+		"hasBeenUpdated": " has been updated",
+		"invalid": "Invalid",
+		"isInvalid": " is invalid",
 		"mismatch": "mismatch",
 		"mismatchWith": " mismatch with ",
 		"new": "New",
@@ -14,28 +22,28 @@
 		"password": "Password",
 		"required": "required",
 		"isRequired": " is required",
-		"passwordMinLength": "Password must be {{minlength.requiredLength}} characters long",
 		"save": "Save",
 		"search": "Search",
 		"updateData": "Update Data",
 		"userName": "Username",
-		"userNameMinLength": "Username must be {{minlength.requiredLength}} at least characters long"
+		"minLength": " must be {{minlength.requiredLength}} at least characters long"
+	},
+	"pageEmail": {
+		"port": "Port Number",
+		"security": "Security Protocol",
+		"smtpHost": "Smtp Host"
+	},
+	"pageFrs": {
+		"ipAddress": "IP Address",
+		"wsPort": "WS Port"
 	},
 	"pageKiosk": {
+		"kiosk": "Kiosk",
 		"kioskId": "Kiosk Id",
-		"kioskIdMinLength": "Kiosk Id must be at least {{minlength.requiredLength}} characters long",
-		"kioskNameMinLength": "Kiosk name  must be at least {{minlength.requiredLength}} characters long",
 		"kioskName": "Kiosk Name",
 		"kiosks": "Kiosks"
 	},
 	"pageLayout": {
-		"changePassword": {
-			"changePassword": "Change Password",
-			"newPassword": "New Password",
-			"passwordIncorrect": "Password incorrect",
-			"passwordMismatch": "Password mismatch",
-			"confirmPassword": "Repeat password"
-		},
 		"dashboard": {
 			"footTraffic": "Foot Traffic",
 			"notifications": "Notifications",
@@ -76,5 +84,8 @@
 	"pageAccount": {
 		"roles": "Roles",
 		"userList": "User List"
+	},
+	"pageSms": {
+		"comPort": "COM Port Number"
 	}
 }

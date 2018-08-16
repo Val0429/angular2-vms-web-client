@@ -7,14 +7,15 @@
     <span class="input-group-addon">
       <i class="fa fa-envelope"></i>
     </span>
-    <input type="number"
+    <input type="text"
            class="form-control"
+           required
            formControlName="comPort"
-           placeholder="comPort" />
+           placeholder="{{'pageSms.comPort'|translate}}" />
   </div>
   <div style="color:red" *ngIf="comPort.errors && (comPort.dirty || comPort.touched )">
-    <p *ngIf="comPort.errors.required">{{'common.required'|translate}}</p>
-    <p *ngIf="comPort.errors.pattern">only number is allowed</p>
+    <p *ngIf="comPort.errors.required">{{'pageSms.comPort'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="comPort.errors.pattern">{{'pageSms.comPort'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
   <div class="input-group mb-1"
@@ -25,18 +26,19 @@
       <i class="fa fa-user"></i>
     </span>
     <input type="checkbox"
+           required
            class="form-control"           
            formControlName="enable"
            />
-    <label for="enabled">Enabled</label>
+    <label for="enabled">{{'common.enabled'|translate}}</label>
   </div>
   <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
-    <p *ngIf="enable.errors.required">{{'common.required'|translate}}</p>
+    <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>
   </div>
 
   <!--<pre>{{myform.value | json}}</pre>-->
 </form>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
 </div>

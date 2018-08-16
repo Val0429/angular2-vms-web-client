@@ -17,7 +17,7 @@ import { TranslateService } from 'ng2-translate';
   
 
 export class EmailComponent extends BaseClassComponent implements OnInit, BaseComponent {
-  securityOption: string[] = [ "None", "SMTP", "TLS", "SSL"];
+  securityOption: string[] = [ "None", "TLS", "SSL"];
   port: FormControl;
   password: FormControl;
   ip: FormControl;
@@ -49,12 +49,14 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
     });
   }
   async save() {
+    this.loading = true;
     var formData = this.myform.value;
     console.log("smtp save setting", formData);
     let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
     console.log("smtp save setting result: ", result);
-    let message = (result) ? "SMTP Settings has been updated" : "STMP Settings update has been failed";
-    this.showAlert(message, "Save setting result");
+    let message = (result) ? this.getLocaleString("common.hasBeenUpdated") : this.getLocaleString("common.failedToUpdate");
+    this.showAlert(this.getLocaleString("pageLayout.setup.emailSetting") + message);
+    this.loading = false;
   }
   createFormControls(data: any) {
     this.account = new FormControl(data.account, [

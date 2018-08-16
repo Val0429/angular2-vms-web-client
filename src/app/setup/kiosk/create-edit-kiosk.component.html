@@ -26,7 +26,7 @@
         </div>
         <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
           <p *ngIf="username.errors.required">{{'common.userName'|translate}} {{'common.isRequired'|translate}}</p>
-          <p *ngIf="username.errors.minlength">{{'common.userNameMinLength'|translate:username.errors}}</p>
+          <p *ngIf="username.errors.minlength">{{'common.userName'|translate}}{{'common.minLength'|translate:username.errors}}</p>
         </div>
 
         <fieldset formGroupName="data">
@@ -45,7 +45,7 @@
           </div>
           <div style="color:red" *ngIf="kioskId.errors && (kioskId.dirty || kioskId.touched )">
             <p *ngIf="kioskId.errors.required">{{'pageKiosk.kioskId'|translate}}{{'common.isRequired'|translate}}</p>
-            <p *ngIf="kioskId.errors.minlength">{{'pageKiosk.kioskIdMinLength'|translate:kioskId.errors}} </p>
+            <p *ngIf="kioskId.errors.minlength">{{'pageKiosk.kioskId'|translate}}{{'common.minLength'|translate:kioskId.errors}} </p>
           </div>
 
           <div class="input-group mb-1"
@@ -64,7 +64,7 @@
 
           <div style="color:red" *ngIf="kioskName.errors && (kioskName.dirty || kioskName.touched)">
             <p *ngIf="kioskName.errors.required">{{'pageKiosk.kioskName'|translate}}{{'common.isRequired'|translate}}</p>
-            <p *ngIf="kioskName.errors.minlength">{{'pageKiosk.kioskNameMinLength'|translate:kioskName.errors}}</p>
+            <p *ngIf="kioskName.errors.minlength">{{'pageKiosk.kioskName'|translate}}{{'common.minLength'|translate:kioskName.errors}}</p>
           </div>
 
         </fieldset>
@@ -87,7 +87,7 @@
           </div>
           <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
             <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
-            <p *ngIf="password.errors.minlength">{{'common.passwordMinLength'|translate:password.errors}}</p>
+            <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
           </div>
           <div class="input-group mb-1"
                [ngClass]="{

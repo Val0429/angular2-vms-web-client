@@ -44,14 +44,14 @@ export class FrsComponent extends BaseClassComponent implements OnInit, BaseComp
     });
   }
   async save() {
+    this.loading = true;
     var formData = this.myform.value;
     console.log("frs save setting", formData);
     let result = await this.setupService.modifyServerSettings({ data: { frs: formData } });
     console.log("frs save setting result: ", result);
-    let message = (result) ? "Settings has been updated" : "FRS Settings update has been failed";
-
-    this.showAlert(message, "Save setting result");
-    
+    let message = (result) ? this.getLocaleString("common.hasBeenUpdated") : this.getLocaleString("common.failedToUpdate");
+    this.showAlert(this.getLocaleString("pageLayout.setup.frsSetting") + message);
+    this.loading = false;
   }
   createFormControls(data:any) {
     this.account = new FormControl(data.account, [

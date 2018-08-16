@@ -53,7 +53,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
 
   editKiosk(item: KioskUser) {
     console.log("edit kiosk", item);
-    this.actionMode = "Edit Kiosk";
+    this.actionMode = this.getLocaleString("common.edit") ;
 
     let newData = new KioskUser();    
     newData.objectId = item.objectId;
@@ -79,12 +79,13 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
   newKiosk() {
-    this.actionMode = "New Kiosk";
+    this.actionMode = this.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
 
     let newData = new KioskUser();
+    newData.objectId = "";
     newData.username = u;
     newData.roles = [];
     let kioskRole = new Roles();
@@ -101,9 +102,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   async deleteKiosk(item) {
     console.log("delete kiosk", item);
 
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {            
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
@@ -122,7 +121,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
   async saveKiosk(formResult: KioskUser) {
-    if (this.actionMode === "New Kiosk") {
+    if (formResult.objectId === "") {
       // Create User
       await this.createKiosk(formResult);
     } else {
@@ -138,7 +137,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert("New kiosk has been created");
+      this.showAlert(data.data.kioskName + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -159,7 +158,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.tempData[tempIndex] = result;
 
-      this.showAlert(data.username + " has been updated");
+      this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
     }
 
   }
