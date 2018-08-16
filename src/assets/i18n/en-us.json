@@ -3,24 +3,32 @@
 		"alert": "Attention",
 		"areYouSure": "Are you sure?",
 		"cancel": "Cancel",
+		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
 		"error": "Error",
+		"invalid": "invalid",
+		"mismatch": "mismatch",
+		"mismatchWith": " mismatch with ",
 		"new": "New",
 		"ok": "OK",
 		"password": "Password",
 		"required": "required",
+		"isRequired": " is required",
+		"passwordMinLength": "Password must be {{minlength.requiredLength}} characters long",
 		"save": "Save",
 		"search": "Search",
-		"userName": "Username"
+		"updateData": "Update Data",
+		"userName": "Username",
+		"userNameMinLength": "Username must be {{minlength.requiredLength}} at least characters long"
+	},
+	"pageKiosk": {
+		"kioskId": "Kiosk Id",
+		"kioskIdMinLength": "Kiosk Id must be at least {{minlength.requiredLength}} characters long",
+		"kioskNameMinLength": "Kiosk name  must be at least {{minlength.requiredLength}} characters long",
+		"kioskName": "Kiosk Name",
+		"kiosks": "Kiosks"
 	},
 	"pageLayout": {
-		"actions": {
-			"email": "Email",
-			"group": "Group",
-			"http": "HTTP",
-			"notification": "Notification",
-			"user": "User"
-		},
 		"changePassword": {
 			"changePassword": "Change Password",
 			"newPassword": "New Password",
@@ -66,14 +74,7 @@
 		"title": "Login"
 	},
 	"pageAccount": {
-		"roles": "Group",
-		"modifyAccount": "Modify User",
-		"newAccount": "New User",
-		"password": "Password",
-		"passwordMismatch": "Password mismatch",
-		"confirmPassword": "Repeat password",
-		"required": "The Password is required",
-		"userList": "User List",
-		"userName": "Username"
+		"roles": "Roles",
+		"userList": "User List"
 	}
 }

@@ -22,11 +22,11 @@
                  [readonly]="editMode"
                  required
                  formControlName="username"
-                 placeholder="Username" />
+                 placeholder="{{'common.userName'|translate}}" />
         </div>
         <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
-          <p *ngIf="username.errors.required">{{'common.required'|translate}}</p>
-          <p *ngIf="username.errors.minlength">Username must be 3 at least characters long</p>
+          <p *ngIf="username.errors.required">{{'common.userName'|translate}} {{'common.isRequired'|translate}}</p>
+          <p *ngIf="username.errors.minlength">{{'common.userNameMinLength'|translate:username.errors}}</p>
         </div>
 
         <fieldset formGroupName="data">
@@ -41,11 +41,11 @@
                    class="form-control"
                    required
                    formControlName="kioskId"
-                   placeholder="Kiosk Id" />
+                   placeholder="{{'pageKiosk.kioskId'|translate}}" />
           </div>
           <div style="color:red" *ngIf="kioskId.errors && (kioskId.dirty || kioskId.touched )">
-            <p *ngIf="kioskId.errors.required">{{'common.required'|translate}}</p>
-            <p *ngIf="kioskId.errors.minlength">Kiosk Id must be at least 3 characters long </p>
+            <p *ngIf="kioskId.errors.required">{{'pageKiosk.kioskId'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="kioskId.errors.minlength">{{'pageKiosk.kioskIdMinLength'|translate:kioskId.errors}} </p>
           </div>
 
           <div class="input-group mb-1"
@@ -59,17 +59,17 @@
                    class="form-control"
                    required
                    formControlName="kioskName"
-                   placeholder="Kiosk Name" />
+                   placeholder="{{'pageKiosk.kioskName'|translate}}" />
           </div>
 
           <div style="color:red" *ngIf="kioskName.errors && (kioskName.dirty || kioskName.touched)">
-            <p *ngIf="kioskName.errors.required">{{'common.required'|translate}}</p>
-            <p *ngIf="kioskName.errors.minlength">Kiosk Name must be at least 3 characters long</p>
+            <p *ngIf="kioskName.errors.required">{{'pageKiosk.kioskName'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="kioskName.errors.minlength">{{'pageKiosk.kioskNameMinLength'|translate:kioskName.errors}}</p>
           </div>
 
         </fieldset>
         <div class="modal-footer" *ngIf="editMode">
-          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">Update Data</button>
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData'|translate}}</button>
         </div>
         <fieldset formGroupName="passwordGroup">
           <div class="input-group mb-1"
@@ -83,11 +83,11 @@
                    class="form-control"
                    required
                    formControlName="password"
-                   placeholder="password" />
+                   placeholder="{{'common.password'|translate}}" />
           </div>
           <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
-            <p *ngIf="password.errors.required">{{'common.required'|translate}}</p>
-            <p *ngIf="password.errors.minlength">Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+            <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="password.errors.minlength">{{'common.passwordMinLength'|translate:password.errors}}</p>
           </div>
           <div class="input-group mb-1"
                [ngClass]="{
@@ -100,16 +100,15 @@
                    class="form-control"
                    required
                    formControlName="confirmPassword"
-                   placeholder="Confirm Password" />
+                   placeholder="{{'common.confirmPassword'|translate}}" />
           </div>
 
           <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="confirmPassword.errors.required">{{'common.required'|translate}}</p>
-            <p *ngIf="confirmPassword.errors?.mismatch">Confirm Password is not the same with password</p>
+            <p *ngIf="confirmPassword.errors.required">{{'common.confirmPassword'|translate}}{{'common.isRequired'|translate}}</p>            
           </div>
 
           <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="passwordGroup.errors.mismatch">Confirm Password is not the same with password</p>
+            <p *ngIf="passwordGroup.errors.mismatch">{{'common.confirmPassword'|translate}}{{'common.mismatchWith'|translate}}{{'common.password'|translate}}</p>
           </div>
         </fieldset>
 

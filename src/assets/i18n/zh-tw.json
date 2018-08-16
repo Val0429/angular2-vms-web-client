@@ -3,24 +3,32 @@
 		"alert": "注意",
 		"areYouSure": "你確定？",
 		"cancel": "取消",
+		"confirmPassword": "Confirm Password",
 		"confirmation": "注意",
 		"error": "錯誤",
+		"invalid": "invalid",
+		"mismatch": "mismatch",
+		"mismatchWith": " mismatch with ",
 		"new": "加",
 		"ok": "確認",
 		"password": "密碼",
 		"required": "required",
+		"isRequired": " is required",
+		"passwordMinLength": "Password must be {{minlength.requiredLength}} characters long",
 		"save": "保存",
 		"search": "搜索",
-		"userName": "用戶名"
+		"updateData": "Update Data",
+		"userName": "用戶名",
+		"userNameMinLength": "Username must be {{minlength.requiredLength}} at least characters long"
+	},
+	"pageKiosk": {
+		"kioskId": "Kiosk Id",
+		"kioskIdMinLength": "Kiosk Id must be at least {{minlength.requiredLength}} characters long",
+		"kioskNameMinLength": "Kiosk name  must be at least {{minlength.requiredLength}} characters long",
+		"kioskName": "Kiosk Name",
+		"kiosks": "Kiosks"
 	},
 	"pageLayout": {
-		"actions": {
-			"email": "電子郵件",
-			"group": "用戶組別",
-			"http": "HTTP",
-			"notification": "手機通知",
-			"user": "用戶"
-		},
 		"changePassword": {
 			"changePassword": "更改密碼",
 			"newPassword": "新密碼",
@@ -67,13 +75,6 @@
 	},
 	"pageAccount": {
 		"roles": "組",
-		"modifyAccount": "修改用戶",
-		"newAccount": "新用戶",
-		"password": "密碼",
-		"passwordMismatch": "密碼不匹配",
-		"confirmPassword": "重複輸入密碼",
-		"required": "密碼是必需的",
-		"userList": "用戶列表",
-		"userName": "用戶名"
+		"userList": "用戶列表"
 	}
 }
