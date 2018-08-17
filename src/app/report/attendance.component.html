@@ -5,22 +5,28 @@
         </div>
         <div class="card-block row">
             <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false" (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{model.startdate | date:'yyyy/MM/dd'}}"/>
-                    <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker"><i class="fa fa-calendar"></i></span>
-                    <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker name="startDate" [showWeeks]="false" [(ngModel)]="model.startdate" (selectionDone)="showStartDatePicker = false"></datepicker>
-                    </div>
+              <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false"
+         (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{model.startdate | date:'yyyy/MM/dd'}}"/>-->
+                <input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false"
+                       (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="" />
+                <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker"><i class="fa fa-calendar"></i></span>
+                <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <!--<datepicker name="startDate" [showWeeks]="false" [(ngModel)]="model.startdate" (selectionDone)="showStartDatePicker = false"></datepicker>-->
+                  <datepicker name="startDate" [showWeeks]="false" (selectionDone)="showStartDatePicker = false"></datepicker>
                 </div>
+              </div>
             </div>
             <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="{{model.enddate | date:'yyyy/MM/dd'}}"/>
-                    <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker"><i class="fa fa-calendar"></i></span>
-                    <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.enddate" (selectionDone)="showEndDatePicker = false"></datepicker>
-                    </div>
+              <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="{{model.enddate | date:'yyyy/MM/dd'}}"/>-->
+                <input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="" />
+                <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker"><i class="fa fa-calendar"></i></span>
+                <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <!--<datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.enddate" (selectionDone)="showEndDatePicker = false"></datepicker>-->
+                  <datepicker name="endDate" [showWeeks]="false" (selectionDone)="showEndDatePicker = false"></datepicker>
                 </div>
+              </div>
             </div>
             <div class="col-md-4">
                 <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button> 
@@ -54,7 +60,7 @@
                 <td>{{item["person_info"]["employeeno"]}}</td>
                 <td>
                     <div ngif="item.snapshot != null">
-                        <img src="{{item.snapshot}}" width="100px" height="100px">
+                        <img src="{{item.snapshot}}" style="width:100px;height:100px">
                     </div>
                 </td>
             </tr>

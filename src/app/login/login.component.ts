@@ -7,11 +7,9 @@ import { Observable } from 'rxjs/Rx';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { AlertComponent } from '../dialog/alert/alert.component';
 import  * as Globals from 'app/globals';
-//import * as $ from 'jquery'
-// import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
-// import { NgForm } from '@angular/forms';
-// import {FormControlDirective } from '@angular/forms';
-// import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { TranslateService } from 'ng2-translate';
+import { BaseClassComponent, BaseComponent } from 'app/shared/base-class-component';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -28,88 +26,85 @@ import  * as Globals from 'app/globals';
         }
       `]
 })
-export class LoginComponent implements OnInit {  
-
-  model: {
-    username?: string,
-    password?: string,
-    rememberMe?: boolean
-  } = {};
-
-  private loading: Boolean = false;
-
+export class LoginComponent extends BaseClassComponent implements BaseComponent  {
+  myform: FormGroup;
+  username: FormControl;
+  password: FormControl;
+  rememberMe: FormControl;
+  language: FormControl;
+  
   constructor(
-    private _router: Router,
-    private _loginService: LoginService,
-    private _dialogService: DialogService
+    private router: Router,
+    private loginService: LoginService,
+     
+     dialogService: DialogService,
+     translateService:TranslateService
   ) {
+    super(dialogService, translateService);
 
-    let activeSession = _loginService.checkActiveSession();
+    let activeSession = loginService.checkActiveSession();
     if (activeSession) {    
       //navigate to dashboard
-      this._router.navigate(['/report/dashboard']);
+      this.router.navigate(['/report/dashboard']);
     } else {
       //clear storage and force logout after user closed tab / browser
-      this._loginService.logOut(); 
+      this.loginService.logOut(); 
     }
-  }
-  showConfirm(message:string, title?:string) {
-    let disposable = this._dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-      });
-  }
-  ngOnInit() {
-    this.model.username = "";
-    this.model.password = "";
-    this.model.rememberMe = false;
+
+    this.createForm();
   }
   
-  public checkRememberMe(event) {
-    this.model.rememberMe = event;
+  createForm() {
+    this.username = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(64)
+    ]);
+    this.password = new FormControl('', [
+      Validators.required,
+      Validators.maxLength(64)
+    ]);
+    this.rememberMe = new FormControl('');
+    this.language = new FormControl(this.activeLanguage);
+    this.myform = new FormGroup({
+      username: this.username,
+      password: this.password,
+      language: this.language,
+      rememberMe: this.rememberMe
+    });
   }
 
-  private removeRememberMe() {
-    localStorage.clear();
+  onLanguageChange(lang) {
+    localStorage.setItem(Globals.languageKey, lang);
+    location.reload();
   }
-  public forget() {
-    this.removeRememberMe();
-    this.model.username = "";
-    this.model.password = "";
+
+  
+  async doLogin(event) {
+    if (event.keyCode !== 13 || !this.myform.valid) return;
+    await this.loginByPassword();
   }
 
   async loginByPassword() {
     this.loading = true;
-
-    if (this.model.username && this.model.username.length > 64) {
-      this.model.username = this.model.username.substr(0, 64);
-    }
-
-    if (this.model.password && this.model.password.length > 64) {
-      this.model.password = this.model.password.substr(0, 64);
-    }
-    console.log(this.model.username);
-    console.log(this.model.password);
-
-    let data: object = {
-      username: this.model.username,
-      password: this.model.password
+    let formResult = this.myform.value;
+    
+    let data = {
+      username: formResult.username,
+      password: formResult.password
     };
-    let ret = await this._loginService.logInByPassword(data);
+    console.log("login data", data);
+    let ret = await this.loginService.logInByPassword(data);
     console.log("login result: "+ret);
-    if (ret == true) {
-      if (this.model.rememberMe) {
+    if (ret === true) {
+      if (this.rememberMe) {
         var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
         localStorage.setItem(Globals.rememberMe, currentUserToken);        
       }
       //redirect to dashboard
-      this._router.navigate(['/report/dashboard']);
+      this.router.navigate(['/report/dashboard']);
     }
     else {
-      this.showConfirm('Please check your account and password!', "Login failed");
+      this.showAlert(this.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.getLocaleString("pageLogin.loginFailed"));
       this.loading = false;
     }
   }

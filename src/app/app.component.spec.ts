@@ -1,9 +1,11 @@
 /* tslint:disable:no-unused-variable */
 import { AppComponent } from './app.component';
-
 import { TestBed } from '@angular/core/testing';
 
+import { Http } from '@angular/http';
 import { By }             from '@angular/platform-browser';
+import { AppTestModule } from './app.module.test';
+
 
 ////////  SPECS  /////////////
 
@@ -16,7 +18,10 @@ describe('Smoke test', () => {
 
 describe('AppComponent with TCB', function () {
   beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [AppComponent]});
+    TestBed.configureTestingModule({
+      imports: [AppTestModule],
+      declarations: [AppComponent]
+    });
   });
 
   it('should instantiate component', () => {
@@ -24,14 +29,4 @@ describe('AppComponent with TCB', function () {
     expect(fixture.componentInstance instanceof AppComponent).toBe(true, 'should create AppComponent');
   });
 
-  it('should have expected <h1> text', () => {
-    let fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-
-    let h1 = fixture.debugElement.query(el => el.name === 'h1').nativeElement;  // it works
-
-        h1 = fixture.debugElement.query(By.css('h1')).nativeElement;            // preferred
-
-    expect(h1.innerText).toMatch(/angular 2 app/i, '<h1> should say something about "Angular 2 App"');
-  });
 });

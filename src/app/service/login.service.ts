@@ -19,8 +19,8 @@ export class LoginService implements CanActivate {
   private uriLogout: string = Globals.cgiRoot + "users/logout";
 
   constructor(
-    private _router: Router,
-    private _coreService: CoreService,
+    private router: Router,
+    private coreService: CoreService,
   ) {
 
   }
@@ -42,7 +42,7 @@ export class LoginService implements CanActivate {
     console.log("can activate result:  ", result);
     if (!result) {
       //redirect to login
-      this._router.navigate["/login"];
+      this.router.navigate["/login"];
     }
     return result;
   }
@@ -53,7 +53,7 @@ export class LoginService implements CanActivate {
     var ret: boolean = false;
     console.log("logInByPassword");
     console.log(data);
-    await this._coreService.postConfig({ path: this.uriLogin, data: data })
+    await this.coreService.postConfig({ path: this.uriLogin, data: data })
       .do(
         function (result) {
           // result Handle
@@ -110,7 +110,7 @@ export class LoginService implements CanActivate {
       var ret: boolean = false;
       console.log("logout function call");
       console.log(data);
-      await this._coreService.postConfig({ path: this.uriLogout, data: data })
+      await this.coreService.postConfig({ path: this.uriLogout, data: data })
         .do(
           function (result) {
             ret = true;

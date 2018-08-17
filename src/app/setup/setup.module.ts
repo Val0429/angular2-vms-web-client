@@ -21,11 +21,15 @@ import { FrsComponent } from './frs/frs.component';
 import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
 import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
+import { BatchUploadFloorComponent } from './floor/batch-upload-floor.component';
 
+//translate
+import { TranslateModule } from 'ng2-translate';
 
 @NgModule({
   imports: [
     SetupRoutingModule,
+    TranslateModule,
     ModalModule.forRoot(),
     CommonModule,
     DataTableModule,
@@ -37,7 +41,8 @@ import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
   entryComponents: [
     CreateEditUserComponent,
     CreateEditKioskComponent,
-    CreateEditFloorComponent
+    CreateEditFloorComponent,
+    BatchUploadFloorComponent
   ],
   declarations: [
     EmailComponent,
@@ -48,7 +53,8 @@ import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
     FrsComponent,
     CreateEditUserComponent,    
     CreateEditKioskComponent,
-    CreateEditFloorComponent
+    CreateEditFloorComponent,
+    BatchUploadFloorComponent
   ]
 })
 export class SetupModule { }

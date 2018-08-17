@@ -22,13 +22,46 @@
                  [readonly]="editMode"
                  required
                  formControlName="username"
-                 placeholder="Username" />
+                 placeholder="{{'common.userName'|translate}}" />
         </div>
         <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
-          <p *ngIf="username.errors.required">Username is required</p>
-          <p *ngIf="username.errors.minlength">Username must be 3 at least characters long</p>
+          <p *ngIf="username.errors.required">{{'common.userName'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="username.errors.minlength">{{'common.userName'|translate}}{{'common.minLength'|translate:username.errors}}</p>
         </div>
         <fieldset formGroupName="data">
+          <div class="input-group mb-1" [ngClass]="{
+       'has-danger': name.invalid && (name.dirty || name.touched),
+       'has-success': name.valid && (name.dirty || name.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   formControlName="name"
+                   placeholder="{{'common.name'|translate}}" />
+          </div>
+          <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
+            <p *ngIf="name.errors.required">{{'common.name'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="name.errors.minlength">{{'common.name'|translate}}{{'common.minLength'|translate:name.errors}}</p>
+          </div>
+
+
+          <div class="input-group mb-1" [ngClass]="{
+       'has-danger': phone.invalid && (phone.dirty || phone.touched),
+       'has-success': phone.valid && (phone.dirty || phone.touched)}">
+            <span class="input-group-addon">
+              <i class="fa fa-envelope"></i>
+            </span>
+            <input type="text"
+                   class="form-control"
+                   formControlName="phone"
+                   placeholder="{{'common.phone'|translate}}" />
+          </div>
+          <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
+            <p *ngIf="phone.errors.required">{{'common.phone'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
+          </div>
+
           <div class="input-group mb-1" [ngClass]="{
        'has-danger': email.invalid && (email.dirty || email.touched),
        'has-success': email.valid && (email.dirty || email.touched)}">
@@ -38,11 +71,11 @@
             <input type="email"
                    class="form-control"
                    formControlName="email"
-                   placeholder="email" />
+                   placeholder="{{'common.email'|translate}}" />
           </div>
           <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
-            <p *ngIf="email.errors.required">Email is required</p>
-            <p *ngIf="email.errors.pattern">The email address must contain at least the @ character</p>
+            <p *ngIf="email.errors.required">{{'common.email'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="email.errors.pattern">{{'common.email'|translate}}{{'common.isInvalid'|translate}}</p>
           </div>
         </fieldset>
 
@@ -58,7 +91,7 @@
             <input type="checkbox"
                    [disabled]="editMode"
                    [checked]="role.checked"
-                   name="{{role.name}}" value="{{role.name}}" (click)="addRemoveRole($event.srcElement.checked, $event.srcElement.value)" />
+                   name="{{role.name}}" value="{{role.name}}" (click)="addRemoveRole(($event.srcElement ||$event.target ).checked, ($event.srcElement ||$event.target ).value)" />
             <label for="role">{{role.name}}</label>
           </span>
           <input type="text"
@@ -68,13 +101,14 @@
                  style="display:none" />
 
         </div>
+        <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
+          <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
+        </div>
         <div class="modal-footer" *ngIf="editMode">
-          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">Update Data</button>
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
         </div>
 
         <fieldset formGroupName="passwordGroup">
-
-
           <div class="input-group mb-1"
                [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
@@ -86,11 +120,11 @@
                    class="form-control"
                    required
                    formControlName="password"
-                   placeholder="password" />
+                   placeholder="{{'common.password'|translate}}" />
           </div>
           <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
-            <p *ngIf="password.errors.required">Password is required</p>
-            <p *ngIf="password.errors.minlength">Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+            <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
+            <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
           </div>
           <div class="input-group mb-1"
                [ngClass]="{
@@ -103,25 +137,17 @@
                    class="form-control"
                    required
                    formControlName="confirmPassword"
-                   placeholder="Confirm Password" />
+                   placeholder="{{'common.confirmPassword'|translate}}" />
           </div>
 
           <div style="color:red" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="confirmPassword.errors.required">Confirm Password is required</p>
+            <p *ngIf="confirmPassword.errors.required">{{'common.confirmPassword'|translate}}{{'common.isRequired'|translate}}</p>
           </div>
 
           <div style="color:red" *ngIf="passwordGroup.errors && (password.dirty || password.touched) && (confirmPassword.dirty || confirmPassword.touched)">
-            <p *ngIf="passwordGroup.errors.mismatch">Confirm Password is not the same with password</p>
+            <p *ngIf="passwordGroup.errors.mismatch">{{'common.confirmPassword'|translate}}{{'common.mismatchWith'|translate}}{{'common.password'|translate}}</p>
           </div>
         </fieldset>
-        <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
-          <p *ngIf="roles.errors.required">Roles is required</p>
-        </div>
-
-
-
-
-
 
 
         <!--<pre>{{myform.value | json}}</pre>-->
@@ -129,8 +155,8 @@
       </form>
 
       <div class="modal-footer" >
-        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>

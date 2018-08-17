@@ -5,21 +5,25 @@ import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
+import { FormControl } from '@angular/forms';
+import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent extends BaseClassComponent implements OnInit, BaseComponent {
    
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
-
+  tempData=[]
   data = [];
   availableRoles: string[];
-  filterQuery = "";
+  filterQuery = '';
   actionMode = "";
   private srcUser = "";
   private isAdmin = false;
@@ -31,9 +35,10 @@ export class AccountComponent implements OnInit {
     if (roles) {
       this.availableRoles = roles;      
     }
-    let users = await this.userService.getUsersList();
+    let users = await this.userService.getUsersList("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
+      this.tempData.push(user);
     }
     
     this.isAdmin = this.userService.isAdmin();
@@ -43,7 +48,7 @@ export class AccountComponent implements OnInit {
 
   editUser(item) {
     console.log("edit item", item);
-    this.actionMode = "Edit User";    
+    this.actionMode = this.getLocaleString("common.edit");;    
     
     this.showCreateEditDialog(item, true); 
   }
@@ -63,13 +68,13 @@ export class AccountComponent implements OnInit {
   }
 
   newUser() {
-    this.actionMode = "New User";
+    this.actionMode = this.getLocaleString("common.new");
     
-    var u = ("000" + this.data.length);
+    var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
 
     let newUser = new User();
-      
+    newUser.objectId = "";  
     newUser.username= u;
     newUser.roles = [];
     newUser.password= "";    
@@ -78,39 +83,45 @@ export class AccountComponent implements OnInit {
 
     this.showCreateEditDialog(newUser, false);
   }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-        
-      }); 
-  }
   async deleteUser(item) {
     console.log("deleteUser", item);
     
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
-    })
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteUser(item.objectId);
-          var index = this.data.indexOf(item, 0);
-          console.log(index);
-          console.log(result);
-          if (result && index > -1) {
+          var result = await this.userService.deleteUser(item.objectId);          
+          if (result) {
+            var index = this.data.indexOf(item, 0);                      
             this.data.splice(index, 1);
+            
+            var tempIndex = this.tempData.indexOf(item, 0);            
+            this.tempData.splice(tempIndex, 1);
+            
           }
         }
       });    
   }
+  itemSearch(event) {
+    if (event.keyCode != 13) return;
+
+    console.log("filter query: ", this.filterQuery);
+    
+    this.doSearch();    
+  }
+
+  doSearch() {
+    let filter = this.filterQuery.toLowerCase();
+    this.data = [];
+    for (let item of this.tempData) {
+      if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
+        this.data.push(item);
+      }
+    }
+  }
 
   async saveUser(formResult: User) {
-    if (this.actionMode==="New User") {
+    if (formResult.objectId === "") {
       // Create User
       await this.createUser(formResult);
     } else {       
@@ -125,7 +136,8 @@ export class AccountComponent implements OnInit {
     var result = await this.userService.createUser(data);
     if (result) {
       this.data.push(result);
-      this.showAlert("New user has been created");
+      this.tempData.push(result);
+      this.showAlert(data.username + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -142,11 +154,15 @@ export class AccountComponent implements OnInit {
       console.log("updateUser", data);      
        
       var result = await this.userService.updateUser(data);
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      if (result && index > -1) {        
-        //TODO: POP update result
+    
+    
+      if (result) {        
+        
+        var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.data[index] = result;
-        this.showAlert(data.username+ " has been updated");
+        var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+        this.tempData[tempIndex] = result;        
+        this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
       }
     
   }

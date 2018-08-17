@@ -5,7 +5,7 @@ import { LoginService } from 'app/service/login.service';
 import { InvitationComponent } from './invitation/invitation.component';
 
 const routes: Routes = [{
-  path: '', data: { title: 'Tenant' },
+  path: '', data: { title: 'pageLayout.menu.tenant' },
   canActivate: [LoginService],
   children: [
     {
@@ -13,7 +13,7 @@ const routes: Routes = [{
       canActivate: [LoginService],
       component: InvitationComponent,
       data: {
-        title: 'Invitation Page'
+        title: 'pageLayout.tenant.invitation'
       }
     },
     {

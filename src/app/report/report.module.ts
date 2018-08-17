@@ -26,7 +26,7 @@ import { ReportRoutingModule } from './report-routing.module';
     HttpModule,
     ChartsModule, 
     DatepickerModule.forRoot()
-  ],
+  ],  
   declarations: [ DashboardComponent, AttendanceComponent ]
 })
 export class ReportModule { }

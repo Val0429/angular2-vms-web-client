@@ -5,30 +5,50 @@ import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { KioskUser, KioskData, Roles } from '../../Interface/interface';
+import { TranslateService } from 'ng2-translate';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
 
 @Component({
   selector: 'app-kiosk',
   templateUrl: './kiosk.component.html',
   styleUrls: ['./kiosk.component.scss']
 })
-export class KioskComponent implements OnInit {
+export class KioskComponent extends BaseClassComponent implements OnInit, BaseComponent{
 
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
-
+  tempData = [];
   data = [];   
   filterQuery = "";
   actionMode = "";
   private srcUser = "";
   private isAdmin = false;
 
+  itemSearch(event) {
+    if (event.keyCode != 13) return;
+
+    console.log("filter query: ", this.filterQuery);
+    
+    this.doSearch();
+  }
+  doSearch() {
+    let filter = this.filterQuery.toLowerCase();
+    this.data = [];
+    for (let item of this.tempData) {
+      if (item.username.toLowerCase().indexOf(filter) > -1 || item.data.kioskId.toLowerCase().indexOf(filter) > -1 || item.data.kioskName.toLowerCase().indexOf(filter) > -1) {
+        this.data.push(item);
+      }
+    }
+  }
 
   async ngOnInit(): Promise<void> {
     
-    let users = await this.userService.getKioskUsersList();
+    let users = await this.userService.getKioskUsersList("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
+      this.tempData.push(user);
     }
     this.isAdmin = this.userService.isAdmin();
     console.log("is admin:", this.isAdmin);
@@ -37,7 +57,7 @@ export class KioskComponent implements OnInit {
 
   editKiosk(item: KioskUser) {
     console.log("edit kiosk", item);
-    this.actionMode = "Edit Kiosk";
+    this.actionMode = this.getLocaleString("common.edit") ;
 
     let newData = new KioskUser();    
     newData.objectId = item.objectId;
@@ -63,12 +83,13 @@ export class KioskComponent implements OnInit {
   }
 
   newKiosk() {
-    this.actionMode = "New Kiosk";
+    this.actionMode = this.getLocaleString("common.new") ;
 
-    var u = ("000" + this.data.length);
+    var u = ("000" + this.tempData.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
 
     let newData = new KioskUser();
+    newData.objectId = "";
     newData.username = u;
     newData.roles = [];
     let kioskRole = new Roles();
@@ -81,39 +102,30 @@ export class KioskComponent implements OnInit {
 
     this.showCreateEditDialog(newData, false);
   }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-
-      });
-  }
+  
   async deleteKiosk(item) {
     console.log("delete kiosk", item);
 
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {            
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteKiosk(item.objectId);
-          var index = this.data.indexOf(item, 0);
-          console.log(index);
-          console.log(result);
-          if (result && index > -1) {
+          var result = await this.userService.deleteKiosk(item.objectId);         
+          
+          if (result) {
+            var index = this.data.indexOf(item, 0);
             this.data.splice(index, 1);
+
+            var tempIndex = this.tempData.indexOf(item, 0);
+            this.tempData.splice(tempIndex, 1);
           }
         }
       });
   }
 
   async saveKiosk(formResult: KioskUser) {
-    if (this.actionMode === "New Kiosk") {
+    if (formResult.objectId === "") {
       // Create User
       await this.createKiosk(formResult);
     } else {
@@ -128,7 +140,8 @@ export class KioskComponent implements OnInit {
     var result = await this.userService.createKiosk(data);
     if (result) {
       this.data.push(result);
-      this.showAlert("New kiosk has been created");
+      this.tempData.push(result);
+      this.showAlert(data.data.kioskName + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -142,11 +155,14 @@ export class KioskComponent implements OnInit {
       delete (data.password);
     }
     var result = await this.userService.updateKiosk(data);
-    var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-    if (result && index > -1) {
-      //TODO: POP update result
+    
+    if (result) {
+      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = result;
-      this.showAlert(data.username + " has been updated");
+      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.tempData[tempIndex] = result;
+
+      this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
     }
 
   }

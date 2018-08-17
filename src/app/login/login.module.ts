@@ -4,18 +4,19 @@ import { RouterModule } from '@angular/router';
 
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-//import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from 'ng2-translate';
 import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
   imports: [
     CommonModule,
     LoginRoutingModule,
-    //TranslateModule,
     FormsModule,
+    TranslateModule,
+    ReactiveFormsModule,
     BsDropdownModule.forRoot(),
   ],
   declarations: [

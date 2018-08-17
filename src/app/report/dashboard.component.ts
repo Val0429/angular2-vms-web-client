@@ -45,7 +45,7 @@ export class DashboardComponent {
   public groupPieChartData: number[] = [1];
   public groupPieChartType: string = 'pie';
 
-  constructor(private _reportService: ReportService) {
+  constructor(private reportService: ReportService) {
     // var me = this;
     // setTimeout(async () => {
 
@@ -81,35 +81,35 @@ export class DashboardComponent {
 
   //public data = [];
   public async changeDuration(duration: string) {
-    var _start = 0, _end = 0, _parts = 0;
+    var start = 0, end = 0, parts = 0;
     var today = new Date();
 
     switch (duration) {
       case "day":
-        _start = today.setHours(0, 0, 0, 0);
-        _end = _start + 86399999;
-        _parts = 3600000;
+        start = today.setHours(0, 0, 0, 0);
+        end = start + 86399999;
+        parts = 3600000;
         break;
       case "week":
         var wday = today.getDate() - today.getDay();
         var w1stDay = new Date(today.setDate(wday));
 
-        _start = w1stDay.setHours(0, 0, 0, 0);
-        _end = _start + (86400000 * 7) - 1;
-        _parts = 86400000;
+        start = w1stDay.setHours(0, 0, 0, 0);
+        end = start + (86400000 * 7) - 1;
+        parts = 86400000;
         break;
       case "month":
         var y = today.getFullYear(), m = today.getMonth();
         var m1stDay = new Date(y, m, 1);
         var m31ndDay = new Date(y, m + 1, 0);
 
-        _start = m1stDay.getTime();
-        _end = m31ndDay.getTime() + 86399999;
-        _parts = 86400000;
+        start = m1stDay.getTime();
+        end = m31ndDay.getTime() + 86399999;
+        parts = 86400000;
     }
 
-    _start = 1526227200000;
-    _end = 1526313599999;
+    start = 1526227200000;
+    end = 1526313599999;
 
     this.timeBarChartLabels = [];
     this.timeBarChartData = [{ data: [], label: 'Registered' }, { data: [], label: 'Unregistered' }];
@@ -122,12 +122,12 @@ export class DashboardComponent {
 
     // timeBarChart
     var timeBarChartData = [];
-    for (var i = 0; _start + (i * _parts) < _end; i++) {
-      var s = _start + (i * _parts);
-      var e = s + _parts;
+    for (var i = 0; start + (i * parts) < end; i++) {
+      var s = start + (i * parts);
+      var e = s + parts;
 
-      var vNumber = await this._reportService.getVerifyResultCount(s, e);
-      var nNumber = await this._reportService.getNonverifyResultCount(s, e);
+      var vNumber = await this.reportService.getVerifyResultCount(s, e);
+      var nNumber = await this.reportService.getNonverifyResultCount(s, e);
 
       timeBarChartData.push(JSON.parse(`{ "label": "` + this.TimecodeToTimeString(s) + `", "verify": "` + vNumber + `", "nonverify": "` + nNumber + `" }`));
     }
@@ -151,9 +151,9 @@ export class DashboardComponent {
     var rData = [];
     var uData = [];
 
-    let cc = await this._reportService.getFcsSttings();
-    var Verify = await this._reportService.getVerifyResultList(_start, _end);
-    var Nonverify = await this._reportService.geNonverifyResultList(_start, _end);
+    let cc = await this.reportService.getFcsSttings();
+    var Verify = await this.reportService.getVerifyResultList(start, end);
+    var Nonverify = await this.reportService.geNonverifyResultList(start, end);
 
     for (var c of cc) {
       var sourceid = c["video_source_sourceid"];

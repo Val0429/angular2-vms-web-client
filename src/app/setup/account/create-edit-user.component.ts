@@ -1,7 +1,8 @@
 import { Component} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { RoleOption, CreateEditDialog, User} from "app/Interface/interface";
+import { RoleOption, CreateEditDialog, User, UserData} from "app/Interface/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
+import * as Globals from 'app/globals';
 
 @Component({
   selector: 'create-edit-user',
@@ -9,6 +10,8 @@ import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
   styles: []
 })
 export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
+  phone: FormControl;
+  name: FormControl;
   title: string;  
   editMode:boolean;
   tempRoles: string[];
@@ -49,7 +52,12 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
   constructor(dialogService: DialogService) {
     super(dialogService);
-    
+
+    //initialization
+    let initForm = new User();
+    initForm.data = new UserData();
+    initForm.roles = [];
+    this.setFormData(initForm, "Init Form", [], true);
   }
   
   public getFormData(): User {
@@ -68,6 +76,14 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
 
   createFormControls() {
+    this.name = new FormControl(this.formData.data.name, [
+      Validators.required,
+      Validators.minLength(3)
+    ]);
+    this.phone = new FormControl(this.formData.data.phone, [
+      Validators.required,
+      Validators.pattern(Globals.singlePhoneRegex)
+    ]);
     this.username = new FormControl(this.formData.username, [
       Validators.required,
       Validators.minLength(3)
@@ -94,7 +110,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
 
     this.roles = new FormControl(this.formData.roles.map(function (e) { return e.name }), Validators.required);
     this.data = new FormGroup({
-      email: this.email
+      email: this.email,
+      name: this.name,
+      phone: this.phone
     });
   }
   save() {

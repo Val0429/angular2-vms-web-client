@@ -1,0 +1,42 @@
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form novalidate
+            [formGroup]="myform">
+
+        <div class="input-group mb-1"
+             [ngClass]="{
+       'has-danger': csvFile.invalid && (csvFile.dirty || csvFile.touched),
+       'has-success': csvFile.valid && (csvFile.dirty || csvFile.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </span>
+          
+          <input 
+                 type="file" (change)="onFileChange($event)" 
+                 class="form-control"
+                 required
+                 formControlName="csvFile"
+                 placeholder="{{'pageFloor.csvFile'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="csvFile.errors && (csvFile.dirty || csvFile.touched )">
+          <p *ngIf="csvFile.errors.required">{{'pageFloor.csvFile'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidSize">{{'pageFloor.csvFile'|translate}}{{'pageFloor.sizeOverLimit'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidExt">{{'pageFloor.onlyCsvAllowed'|translate}}</p>
+        </div>
+      </form>
+
+      <!--<pre>{{myform.value | json}}</pre>-->
+
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+        </div>
+    </div>
+  </div>
+</div>

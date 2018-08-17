@@ -15,9 +15,9 @@ export const webRoot: string = "http://localhost:4200/";
 /*
  * string literals
  * */
-export const rememberMe: string = "rememberMe";
-export const currentUserToken: string = "currentUserToken";
-
+export const rememberMe: string = "IsapVisitorManagementServiceRememberMe";
+export const currentUserToken: string = "IsapVisitorManagementServiceCurrentUserToken";
+export const languageKey: string = "IsapVisitorManagementServiceLanguage";
 
 /*
  * constants
@@ -25,3 +25,4 @@ export const currentUserToken: string = "currentUserToken";
 export const emailRegex: string = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)+$";
 export const numberRegex: string = "^[0-9]+$";
 export const multiPhoneRegex: string = "^[0-9\-,\(\)]+$";
+export const singlePhoneRegex: string = "^[0-9\-\(\)]+$";

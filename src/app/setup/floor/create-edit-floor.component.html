@@ -22,11 +22,11 @@
                  
                  required
                  formControlName="name"
-                 placeholder="Name" />
+                 placeholder="{{'pageFloor.floorName'|translate}}" />
         </div>
         <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
-          <p *ngIf="name.errors.required">Name is required</p>
-          <p *ngIf="name.errors.minlength">Name must be 3 at least characters long</p>
+          <p *ngIf="name.errors.required">{{'pageFloor.floorName'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="name.errors.minlength">{{'pageFloor.floorName'|translate}}{{'common.minLength'|translate:name.errors}}</p>
         </div>
 
         <div class="input-group mb-1"
@@ -40,11 +40,11 @@
                  class="form-control"                 
                  required
                  formControlName="unitNo"
-                 placeholder="Unit No" />
+                 placeholder="{{'pageFloor.unitNo'|translate}}" />
         </div>
-        <div style="color:red" *ngIf="unitNo.errors && (unitNo.dirty || unitNo.touched )">
-          <p *ngIf="unitNo.errors.required">Unit No is required</p>
-          <p *ngIf="unitNo.errors.minlength">Unit No must be 3 at least characters long</p>
+        <div style="color:red" *ngIf="unitNo.errors && (unitNo.dirty || unitNo.touched )">          
+          <p *ngIf="unitNo.errors.required">{{'pageFloor.unitNo'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="unitNo.errors.minlength">{{'pageFloor.unitNo'|translate}}{{'common.minLength'|translate:unitNo.errors}}</p>
         </div>
 
 
@@ -60,12 +60,12 @@
                  
                  required
                  formControlName="phone"
-                 placeholder="Phone" />
+                 placeholder="{{'common.phone'|translate}}" />
         </div>
         <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
-          <p *ngIf="phone.errors.required">Phone is required</p>
-          <p *ngIf="phone.errors.minlength">Phone must be 3 at least characters long<br /> add comma (,) for multiple phone numbers</p>
-          <p *ngIf="phone.errors.pattern">Invalid phone pattern</p>
+          <p *ngIf="phone.errors.required">{{'common.phone'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="phone.errors.minlength">{{'common.phone'|translate}}{{'common.minLength'|translate:phone.errors}}<br />{{'pageFloor.addComma'|translate}} </p>
+          <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
         </div>
 
         <div class="input-group mb-1"
@@ -75,14 +75,16 @@
           <span class="input-group-addon">
             <i class="fa fa-user"></i>
           </span>
-          <input type="number"
+          <input type="text"
                  class="form-control"
                  required
+                 inputmode="numeric"
                  formControlName="floor"
-                 placeholder="floor" />
+                 placeholder="{{'pageFloor.floor'|translate}}" />
         </div>
         <div style="color:red" *ngIf="floor.errors && (floor.dirty || floor.touched )">
-          <p *ngIf="floor.errors.required">floor is required</p>          
+          <p *ngIf="floor.errors.required">{{'pageFloor.floor'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="floor.errors.pattern">{{'pageFloor.floor'|translate}}{{'common.isInvalid'|translate}}</p>
         </div>
 
         <!--<pre>{{myform.value | json}}</pre>-->
@@ -90,8 +92,8 @@
       </form>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>
