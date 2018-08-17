@@ -29,31 +29,6 @@ export const routes: Routes = [
         loadChildren: './setup/setup.module#SetupModule'
       },
       {
-        path: 'user',
-        canActivate: [LoginService],
-        loadChildren: './user/user.module#UserModule'
-      },
-      {
-        path: 'recognition',
-        canActivate: [LoginService],
-        loadChildren: './recognition/recognition.module#RecognitionModule'
-      },
-      {
-        path: 'action',
-        canActivate: [LoginService],
-        loadChildren: './action/action.module#ActionModule'
-      },
-      {
-        path: 'stream',
-        canActivate: [LoginService],
-        loadChildren: './stream/stream.module#StreamModule'
-      },
-      {
-        path: 'license',
-        canActivate: [LoginService],
-        loadChildren: './license/license.module#LicenseModule'
-      },
-      {
         path: 'tenant',
         canActivate: [LoginService],
         loadChildren: './tenant/tenant.module#TenantModule'
