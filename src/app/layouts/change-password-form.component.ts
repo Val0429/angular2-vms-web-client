@@ -27,7 +27,8 @@ export class ChangePasswordFormComponent extends DialogComponent<any, boolean>  
   }
   constructor(dialogService: DialogService) {
     super(dialogService);
-
+    this.createFormControls("Init Form");
+    this.createForm();
   }
 
   public getFormData(): any {

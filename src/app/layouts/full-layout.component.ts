@@ -34,7 +34,11 @@ export class FullLayoutComponent implements OnInit {
 
   ngOnInit() {
     var user = this.userService.getCurrentUser();
-    this.username = user.username;
+    if (user) {
+      this.username = user.username;
+    } else {
+      this.username = "InitUser";
+    }
   }
 
 
