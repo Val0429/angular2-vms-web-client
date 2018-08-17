@@ -1,22 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangePasswordFormComponent } from './change-password-form.component';
+import { FullLayoutComponent } from './full-layout.component';
 import { AppTestModule } from '../app.module.test';
+import { BreadcrumbsComponent } from '../shared/breadcrumb.component';
 
-describe('ChangePasswordFormComponent', () => {
-  let component: ChangePasswordFormComponent;
-  let fixture: ComponentFixture<ChangePasswordFormComponent>;
+describe('FullLayoutComponent', () => {
+  let component: FullLayoutComponent;
+  let fixture: ComponentFixture<FullLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppTestModule],
-      declarations: [ ChangePasswordFormComponent ]
+      declarations: [FullLayoutComponent, BreadcrumbsComponent]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChangePasswordFormComponent);
+    fixture = TestBed.createComponent(FullLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
