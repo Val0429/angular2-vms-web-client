@@ -15,8 +15,8 @@ export const webRoot: string = "http://localhost:4200/";
 /*
  * string literals
  * */
-export const rememberMe: string = "rememberMe";
-export const currentUserToken: string = "currentUserToken";
+export const rememberMe: string = "IsapVisitorManagementServiceRememberMe";
+export const currentUserToken: string = "IsapVisitorManagementServiceCurrentUserToken";
 
 
 /*
