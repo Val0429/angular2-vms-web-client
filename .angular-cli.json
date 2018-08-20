@@ -53,7 +53,7 @@
   "defaults": {
     "serve": {
       "port": 4200,
-      "host": "localhost"
+      "host": "0.0.0.0"
     },
     "styleExt": "scss",
     "prefixInterfaces": false
