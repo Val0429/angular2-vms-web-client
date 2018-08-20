@@ -6,16 +6,19 @@ import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
+import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-floor',
   templateUrl: './floor.component.html',
   styleUrls: ['./floor.component.scss']
 })
-export class FloorComponent implements OnInit {
+export class FloorComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
   tempData = [];
   data = [];
@@ -40,7 +43,7 @@ export class FloorComponent implements OnInit {
 
   editFloor(item) {
     console.log("edit floor", item);
-    this.actionMode = "Edit Floor";    
+    this.actionMode = this.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
   }
   private showCreateEditDialog(floorData: Floor, editMode: boolean) {
@@ -59,7 +62,7 @@ export class FloorComponent implements OnInit {
   private showBatchUploadDialog() {
     //creates dialog form here
     let newForm = new BatchUploadFloorComponent(this.dialogService);
-    newForm.setData("Batch Upload Floor" );
+    newForm.setData(this.getLocaleString("pageFloor.batchUploadFloor"));
     let disposable = this.dialogService.addDialog(BatchUploadFloorComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -72,7 +75,7 @@ export class FloorComponent implements OnInit {
     var result = await this.userService.batchUploadFloor(data);
     if (result) {
       //console.log(result);
-      this.showAlert("Import " + result.paging.count + " data succeded");
+      this.showAlert(result.paging.count + this.getLocaleString("pageFloor.haveBeenImported"));
       //refresh list
       await this.ngOnInit();
     }
@@ -81,12 +84,12 @@ export class FloorComponent implements OnInit {
     this.showBatchUploadDialog();
   }
   newFloor() {
-    this.actionMode = "New Floor";
+    this.actionMode = this.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "floor" + u.substr(u.length - 3, 3);
 
-    let data = new Floor();
+    let data = new Floor();    
     data.name = u;
     data.phone = [];
     data.unitNo = "";
@@ -94,22 +97,10 @@ export class FloorComponent implements OnInit {
     data.objectId = "";
     this.showCreateEditDialog(data, false);
   }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-    .subscribe(async (isConfirmed) => {
-      //We get dialog result
-
-    });
-  }
   async deleteFloor(item: Floor) {
     console.log("delete floor", item);
 
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
@@ -142,7 +133,7 @@ export class FloorComponent implements OnInit {
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert("New floor has been created");
+      this.showAlert(formResult.name + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -151,6 +142,9 @@ export class FloorComponent implements OnInit {
 
     console.log("filter query: ", this.filterQuery);
     
+    this.doSearch();
+  }
+  doSearch() {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
@@ -159,6 +153,7 @@ export class FloorComponent implements OnInit {
       }
     }
   }
+
   async updateFloor(data: Floor) {
     
     
@@ -170,8 +165,8 @@ export class FloorComponent implements OnInit {
       var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = result;
       var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.tempData[tempIndex] = result;            
-      this.showAlert(data.name + " has been updated");
+      this.tempData[tempIndex] = result;
+      this.showAlert(data.name + this.getLocaleString("common.hasBeenUpdated"));
     }
 
 

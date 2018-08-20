@@ -22,20 +22,20 @@
                  class="form-control"
                  required
                  formControlName="csvFile"
-                 placeholder="csvFile" />
+                 placeholder="{{'pageFloor.csvFile'|translate}}" />
         </div>
         <div style="color:red" *ngIf="csvFile.errors && (csvFile.dirty || csvFile.touched )">
-          <p *ngIf="csvFile.errors.required">CSV File is required</p>
-          <p *ngIf="csvFile.errors.invalidSize">CSV File must not exceeed 5MB</p>
-          <p *ngIf="csvFile.errors.invalidExt">Only csv file allowed</p>
+          <p *ngIf="csvFile.errors.required">{{'pageFloor.csvFile'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidSize">{{'pageFloor.csvFile'|translate}}{{'pageFloor.sizeOverLimit'|translate}}</p>
+          <p *ngIf="csvFile.errors.invalidExt">{{'pageFloor.onlyCsvAllowed'|translate}}</p>
         </div>
       </form>
 
       <!--<pre>{{myform.value | json}}</pre>-->
 
       <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
         </div>
     </div>
   </div>

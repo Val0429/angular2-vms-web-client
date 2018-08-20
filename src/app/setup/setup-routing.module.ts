@@ -12,8 +12,14 @@ import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
 
+
+
 const routes: Routes = [
-  { path: '', data: { title: 'Setup' },
+  {
+    path: '',
+    data: {
+      title: 'pageLayout.menu.setup'
+    },
     canActivate: [LoginService],
     children: [
       {
@@ -21,7 +27,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: AccountComponent,
         data: {
-          title: 'Account Management'
+          title: 'pageLayout.setup.accountManagement'
         }
       },
       {
@@ -29,7 +35,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: FrsComponent,
         data: {
-          title: 'FRS Settings'
+          title: 'pageLayout.setup.frsSetting'
         }
       },
       {
@@ -37,7 +43,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: EmailComponent,
         data: {
-          title: 'Email Settings'
+          title: 'pageLayout.setup.emailSetting'
         }
       },
       {
@@ -45,7 +51,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: SmsComponent,
         data: {
-          title: 'SMS Settings'
+          title: 'pageLayout.setup.smsSetting'
         }
       },
       {
@@ -53,7 +59,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: KioskComponent,
         data: {
-          title: 'Kiosk Management'
+          title: 'pageLayout.setup.kioskManagement'
         }
       },
       {
@@ -61,7 +67,7 @@ const routes: Routes = [
         canActivate: [LoginService],
         component: FloorComponent,
         data: {
-          title: 'Floor Management'
+          title: 'pageLayout.setup.floorManagement'
         }
       },
       {
@@ -76,4 +82,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SetupRoutingModule { }
+export class SetupRoutingModule {}

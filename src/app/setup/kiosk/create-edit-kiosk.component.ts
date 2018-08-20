@@ -24,7 +24,12 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
   passwordGroup: FormGroup;
   
   constructor(dialogService: DialogService) {
-    super(dialogService);  
+    super(dialogService);
+    //initialization
+    let initForm = new KioskUser();
+    initForm.data = new KioskData();
+    initForm.roles = [];
+    this.setFormData(initForm, "Init Form", true);
   }
 
   public setFormData(kioskData: KioskUser, title:string, editMode: boolean) {

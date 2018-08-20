@@ -3,9 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 //Service
 import { LoginService } from 'app/service/login.service';
 import { InvitationComponent } from './invitation/invitation.component';
+import { TenantUserComponent } from './tenant-user/tenant-user.component';
 
 const routes: Routes = [{
-  path: '', data: { title: 'Tenant' },
+  path: '', data: { title: 'pageLayout.menu.tenant' },
   canActivate: [LoginService],
   children: [
     {
@@ -13,7 +14,15 @@ const routes: Routes = [{
       canActivate: [LoginService],
       component: InvitationComponent,
       data: {
-        title: 'Invitation Page'
+        title: 'pageLayout.tenant.invitation'
+      }
+    },
+    {
+      path: 'tenant-user',
+      canActivate: [LoginService],
+      component: TenantUserComponent,
+      data: {
+        title: 'pageLayout.tenant.tenantUser'
       }
     },
     {

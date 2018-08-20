@@ -8,12 +8,13 @@
     </span>
     <input type="text"
            class="form-control"
+           required
            formControlName="ip"
-           placeholder="ip" />
+           placeholder="{{'pageFrs.ipAddress'|translate}}" />
   </div>
   <div style="color:red" *ngIf="ip.errors && (ip.dirty || ip.touched )">
-    <p *ngIf="ip.errors.required">ip is required</p>
-    <p *ngIf="ip.errors.pattern">The ip address must follow this format 0.0.0.0</p>
+    <p *ngIf="ip.errors.required">{{'pageFrs.ipAddress'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="ip.errors.pattern">{{'pageFrs.ipAddress'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
   <div class="input-group mb-1" [ngClass]="{
@@ -22,14 +23,16 @@
     <span class="input-group-addon">
       <i class="fa fa-envelope"></i>
     </span>
-    <input type="number"
+    <input type="text"
            class="form-control"
+           required
+           inputmode="numeric"
            formControlName="wsport"
-           placeholder="wsport" />
+           placeholder="{{'pageFrs.wsPort'|translate}}" />
   </div>
   <div style="color:red" *ngIf="wsport.errors && (wsport.dirty || wsport.touched )">
-    <p *ngIf="wsport.errors.required">port is required</p>
-    <p *ngIf="wsport.errors.pattern">only number is allowed</p>
+    <p *ngIf="wsport.errors.required">{{'pageFrs.wsPort' | translate}}{{'common.isRequired' | translate}}</p>
+    <p *ngIf="wsport.errors.pattern">{{'pageFrs.wsPort' | translate}}{{ 'common.isInvalid' | translate}}</p>
   </div>
 
   <div class="input-group mb-1"
@@ -44,10 +47,11 @@
            [readonly]="editMode"
            required
            formControlName="account"
-           placeholder="account" />
+           placeholder="{{'common.account'|translate}}" />
   </div>
   <div style="color:red" *ngIf="account.errors && (account.dirty || account.touched )">
-    <p *ngIf="account.errors.required">account is required</p>
+    <p *ngIf="account.errors.required">{{'common.account'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="account.errors.minlength">{{'common.account'|translate}}{{'common.minLength'|translate:account.errors}} </p>
   </div>
 
     <div class="input-group mb-1"
@@ -61,15 +65,15 @@
              class="form-control"
              required
              formControlName="password"
-             placeholder="password" />
+             placeholder="{{'common.password'|translate}}" />
     </div>
     <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
-      <p *ngIf="password.errors.required">Password is required</p>
-      <p *ngIf="password.errors.minlength">Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+      <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
+      <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}} </p>
     </div>
     <!--<pre>{{myform.value | json}}</pre>-->
 </form>
 
 <div class="modal-footer">  
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">Save</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
 </div>

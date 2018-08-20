@@ -1,0 +1,113 @@
+{
+	"common": {
+		"account": "Account",
+		"alert": "Attention",
+		"areYouSure": "Are you sure?",
+		"cancel": "Cancel",
+		"confirmPassword": "Confirm Password",
+		"confirmation": "Confirmation",
+		"edit": "Edit",
+		"email": "Email",
+		"enabled": "Enabled",
+		"error": "Error",
+		"failedToCreate": " failed to create",
+		"failedToUpdate": " failed to update",
+		"hasBeenCreated": " has been created",
+		"hasBeenUpdated": " has been updated",
+		"invalid": "Invalid",
+		"isInvalid": " is invalid",
+		"isRequired": " is required",
+		"minLength": " must be {{minlength.requiredLength}} at least characters long",
+		"mismatch": "mismatch",
+		"mismatchWith": " mismatch with ",
+		"name": "Name",
+		"new": "New",
+		"newPassword": "New Password",
+		"ok": "OK",
+		"password": "Password",
+		"phone": "Phone",
+		"required": "required",
+		"save": "Save",
+		"search": "Search",
+		"updateData": "Update Data",
+		"userName": "Username"
+	},
+	"pageAccount": {
+		"roles": "Roles",
+		"userList": "User List",
+		"users": "Users"
+	},
+	"pageEmail": {
+		"port": "Port Number",
+		"security": "Security Protocol",
+		"smtpHost": "Smtp Host"
+	},
+	"pageFloor": {
+		"addComma": "add comma (,) for multiple phone numbers",
+		"batchUploadFloor": "Batch upload floor",
+		"csvFile": "CSV File",
+		"floor": "Floor",
+		"floorName": "Floor Name",
+		"floors": "Floors",
+		"haveBeenImported": " records have been imported",
+		"onlyCsvAllowed": "Only CSV file allowed",
+		"sizeOverLimit": " must not exceeed 5MB",
+		"unitNo": "Unit No"
+	},
+	"pageFrs": {
+		"ipAddress": "IP Address",
+		"wsPort": "WS Port"
+	},
+	"pageKiosk": {
+		"kiosk": "Kiosk",
+		"kioskId": "Kiosk Id",
+		"kioskName": "Kiosk Name",
+		"kiosks": "Kiosks"
+	},
+	"pageLayout": {
+		"dashboard": {
+			"footTraffic": "Foot Traffic",
+			"notifications": "Notifications",
+			"systemStatus": "System Status"
+		},
+		"header": {
+			"account": "Account",
+			"changePassword": "Change Password",
+			"logout": "Logout"
+		},
+		"menu": {
+			"report": "Report",
+			"setup": "Setup",
+			"tenant": "Tenant"
+		},
+		"report": {
+			"attendance": "Attendance",
+			"dashboard": "Dashboard"
+		},
+		"setup": {
+			"accountManagement": "Account Management",
+			"emailSetting": "Email Setting",
+			"floorManagement": "Floor Management",
+			"frsSetting": "FRS Setting",
+			"kioskManagement": "Kiosk Management",
+			"smsSetting": "SMS Setting"
+		},
+		"tenant": {
+			"invitation": "Invitation",
+			"tenantUser": "Tenant User"
+		}
+	},
+	"pageLogin": {
+		"invalidSession": "Invalid session",
+		"invalidUserNameOrPassword": "Invalid username or password",
+		"login": "Login",
+		"loginFailed": "Login failed",
+		"pleaseRelogin": "Please relogin!",
+		"rememberMe": "Remember Me",
+		"subTitle": "Sing in to your account",
+		"title": "Login"
+	},
+	"pageSms": {
+		"comPort": "COM Port Number"
+	}
+}

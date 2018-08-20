@@ -17,28 +17,44 @@ import { BreadcrumbsComponent } from './shared/breadcrumb.component';
 import { AppRoutingModule } from './app.routing';
 
 // Form Control  FormsModule => ngForm
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Selection Dropdown
 import { ModalModule } from 'ng2-bootstrap/modal';
 
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
+import { ChangePasswordFormComponent } from './layouts/change-password-form.component';
 
 // Services
 import { ServiceModule } from './service/service.module';
-
-import { TenantModule } from './tenant/tenant.module';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
+//dialog 
 import { ConfirmComponent } from './dialog/confirm/confirm.component';
 import { AlertComponent } from './dialog/alert/alert.component';
+
+//other modules
 import { SetupModule } from './setup/setup.module';
+import { TenantModule } from './tenant/tenant.module';
+
+//multi languages
+import { Http } from '@angular/http';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
+
+export function translateLoader(http: Http) {
+  return new TranslateStaticLoader(http, 'assets/i18n', '.json');
+}
 
 @NgModule({
   imports: [
     BrowserModule,
-    //HttpModule,
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: translateLoader,
+      deps: [Http]
+    }),
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
@@ -49,11 +65,13 @@ import { SetupModule } from './setup/setup.module';
     ServiceModule,
     TenantModule,
     SetupModule,
-    BootstrapModalModule
+    BootstrapModalModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     ConfirmComponent,
-    AlertComponent
+    AlertComponent,
+    ChangePasswordFormComponent
   ],
   declarations: [
     AppComponent,
@@ -64,7 +82,8 @@ import { SetupModule } from './setup/setup.module';
     SIDEBAR_TOGGLE_DIRECTIVES,
     //AsideToggleDirective,    
     ConfirmComponent,
-    AlertComponent
+    AlertComponent,
+    ChangePasswordFormComponent
   ],
   providers: [{
     provide: ErrorHandler,

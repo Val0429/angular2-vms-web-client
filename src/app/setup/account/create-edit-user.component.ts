@@ -1,6 +1,6 @@
 import { Component} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { RoleOption, CreateEditDialog, User} from "app/Interface/interface";
+import { RoleOption, CreateEditDialog, User, UserData} from "app/Interface/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
 import * as Globals from 'app/globals';
 
@@ -52,7 +52,12 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
   constructor(dialogService: DialogService) {
     super(dialogService);
-    
+
+    //initialization
+    let initForm = new User();
+    initForm.data = new UserData();
+    initForm.roles = [];
+    this.setFormData(initForm, "Init Form", [], true);
   }
   
   public getFormData(): User {

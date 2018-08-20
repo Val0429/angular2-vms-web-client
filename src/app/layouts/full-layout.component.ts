@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
-import { NgForm } from '@angular/forms';
 import { UserService } from 'app/service/user.service';
 import { LoginService } from 'app/service/login.service';
 import { Router } from '@angular/router';
-import { User } from 'app/Interface/interface';
+import { User, RoleEnum } from 'app/Interface/interface';
+import { ChangePasswordFormComponent } from './change-password-form.component';
+import { DialogService } from 'ng2-bootstrap-modal';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,86 +13,75 @@ import { User } from 'app/Interface/interface';
 })
 
 export class FullLayoutComponent implements OnInit {
-  model: {
-    "title"?: string, "action": string, "username"?: string, "password"?: string, "newpassword"?: string, "repeatpassword"?: string, "buttom"?: string, "objectId":string
-  } =
-    {
-      "objectId":"",
-      "title": "Change Password",
-      "action": "Modify",
-      "username": "",
-      "password": "",
-      "newpassword": "",
-      "repeatpassword": "",
-      "buttom": "Save"
-    };
+  
 
+  constructor(private userService: UserService, private loginService: LoginService, private router: Router, private dialogService: DialogService) {
+    
+  }
 
-  constructor(private _userService: UserService, private _loginService: LoginService, private _router:Router) { }
-
-  public disabled: boolean = false;
+  username: string;
   public status: { isopen: boolean } = { isopen: false };
 
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);
   }
-
+  userIsTenant(): boolean{
+    return this.userService.userIs(RoleEnum.Tenant);
+  }
+  userIsSysAdmin(): boolean {
+    return this.userService.userIs(RoleEnum.SystemAdministrator);
+  }
+  userIsAdmin(): boolean {
+    return this.userService.userIs(RoleEnum.Administrator);
+  }
+  userIsKiosk(): boolean {
+    return this.userService.userIs(RoleEnum.Kiosk);
+  }
   public toggleDropdown($event: MouseEvent): void {
     $event.preventDefault();
     $event.stopPropagation();
     this.status.isopen = !this.status.isopen;
   }
 
-  async ngOnInit() {
-    var user = await this._userService.getCurrentUser();
-    this.model.objectId = user.objectId;
-    this.model.username = user.username;
-    //this.model.password = user.password ;
-  }
-
-  onFormSubmit(form: NgForm) {
-    if (form.invalid) {
-       return;
+  ngOnInit() {
+    var user = this.userService.getCurrentUser();
+    if (user) {
+      this.username = user.username;
+    } else {
+      this.username = "InitUser";
     }
-console.log('form submit');
-
-    this.saveChangePassword();
- }
+    console.log("user is admin:", this.userIsAdmin());
+    console.log("user is tenant:", this.userIsTenant());
+    console.log("user is kiosk:", this.userIsKiosk());
+    console.log("user is sysadmin:", this.userIsSysAdmin());
+  }
 
 
   public changePassword() {
-    this.model.title = "Modify Person";
-    this.model.action = "Modify";
-    this.model.newpassword = "";
-    this.model.repeatpassword = "";
-    this.model.buttom = "Save";
+    //creates dialog form here
+    let newForm = new ChangePasswordFormComponent(this.dialogService);
+    //sets form data
+    newForm.setFormData(this.username);
+    let disposable = this.dialogService.addDialog(ChangePasswordFormComponent, newForm)
+      .subscribe((saved) => {
+        //We get dialog result
+        if (saved) {
+          let formData = newForm.getFormData();
+          this.saveChangePassword(formData);
+        }
+      });
   }
 
-  async saveChangePassword() {    
+  saveChangePassword(formData:any) {    
     // Update password User
-    console.log("update Password Current User");
-    let data: User = new User();
-    
-    data.objectId= this.model.objectId;
-    data.password= this.model.newpassword;    
-
-    console.log(data);
-    var result = await this._userService.updateUser(data)
-      .catch(error => {
-        console.log(error);
-      });
-
-    if (result) {
-      //TODO: POP update result
-      this.ngOnInit();
-    }
-    
+    console.log("update Password Current User", formData);
+    //TODO: fix update password current user once the API is ready    
   }
 
   public async logout() {
-    var result = await this._loginService.logOut();
+    var result = await this.loginService.logOut();
     if (result) {
-      this._router.navigate(['/login']);
+      this.router.navigate(['/login']);
     }
   }
 }

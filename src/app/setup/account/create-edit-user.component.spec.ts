@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateEditUserComponent } from './create-edit-user.component';
+import { AppTestModule } from '../../app.module.test';
 
 describe('CreateEditUserComponent', () => {
   let component: CreateEditUserComponent;
@@ -8,6 +9,7 @@ describe('CreateEditUserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppTestModule],
       declarations: [ CreateEditUserComponent ]
     })
     .compileComponents();

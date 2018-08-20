@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newKiosk(); ">
-          New Kiosk
+          {{'common.new' | translate}}
         </button>
       </div>
     </div>
@@ -13,16 +13,16 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>Kiosks
+          <i class="fa fa-align-justify"></i> {{'pageKiosk.kiosks' | translate}}
         </div>
         <div class="card-block">
           <div class="row mb-1">
             <div class="col-md-4 offset-md-8">
               <div class="input-group">
-                <span class="input-group-addon">
+                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+                <span class="input-group-addon" (click)="doSearch()">
                   <i class="fa fa-search"></i>
                 </span>
-                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search" (keyup)="itemSearch($event)" />
               </div>
             </div>
           </div>
@@ -31,13 +31,13 @@
               <tr>
                 <th style="width: 5%">No</th>
                 <th style="width: 25%">
-                  <mfDefaultSorter by="name">User Name</mfDefaultSorter>
+                  <mfDefaultSorter by="updatedAt">{{'common.userName' | translate}} </mfDefaultSorter>
                 </th>
                 <th style="width: 35%">
-                  Kiosk Id
+                  {{'pageKiosk.kioskId' | translate}}
                 </th>
                 <th style="width: 30%">
-                  Kiosk Name
+                  {{'pageKiosk.kioskName' | translate}}
                 </th>
                 <th style=""></th>
                 <th style=""></th>

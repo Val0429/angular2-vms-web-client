@@ -1,0 +1,113 @@
+{
+	"common": {
+		"account": "Account",
+		"alert": "注意",
+		"areYouSure": "你確定嗎？",
+		"cancel": "取消",
+		"confirmPassword": "Confirm Password",
+		"confirmation": "注意",
+		"edit": "Edit",
+		"email": "Email",
+		"enabled": "Enabled",
+		"error": "錯誤",
+		"failedToCreate": " failed to create",
+		"failedToUpdate": " failed to update",
+		"hasBeenCreated": " has been created",
+		"hasBeenUpdated": " has been updated",
+		"invalid": "Invalid",
+		"isInvalid": " is invalid",
+		"isRequired": " is required",
+		"minLength": " must be {{minlength.requiredLength}} at least characters long",
+		"mismatch": "mismatch",
+		"mismatchWith": " mismatch with ",
+		"name": "Name",
+		"new": "加",
+		"newPassword": "New Password",
+		"ok": "確認",
+		"password": "密碼",
+		"phone": "Phone",
+		"required": "required",
+		"save": "保存",
+		"search": "搜索",
+		"updateData": "Update Data",
+		"userName": "用戶名"
+	},
+	"pageAccount": {
+		"roles": "組",
+		"userList": "用戶列表",
+		"users": "Users"
+	},
+	"pageEmail": {
+		"port": "Port Number",
+		"security": "Security Protocol",
+		"smtpHost": "Smtp Host"
+	},
+	"pageFloor": {
+		"addComma": "add comma (,) for multiple phone numbers",
+		"batchUploadFloor": "Batch upload floor",
+		"csvFile": "CSV File",
+		"floor": "Floor",
+		"floorName": "Floor Name",
+		"floors": "Floors",
+		"haveBeenImported": " records have been imported",
+		"onlyCsvAllowed": "Only CSV file allowed",
+		"sizeOverLimit": " must not exceeed 5MB",
+		"unitNo": "Unit No"
+	},
+	"pageFrs": {
+		"ipAddress": "IP Address",
+		"wsPort": "WS Port"
+	},
+	"pageKiosk": {
+		"kiosk": "Kiosk",
+		"kioskId": "Kiosk Id",
+		"kioskName": "Kiosk Name",
+		"kiosks": "Kiosks"
+	},
+	"pageLayout": {
+		"dashboard": {
+			"footTraffic": "足跡",
+			"notifications": "通知",
+			"systemStatus": "系統狀況"
+		},
+		"header": {
+			"account": "帳戶",
+			"changePassword": "更改密碼",
+			"logout": "Logout"
+		},
+		"menu": {
+			"report": "報告",
+			"setup": "Setup",
+			"tenant": "Tenant"
+		},
+		"report": {
+			"attendance": "Attendance",
+			"dashboard": "Dashboard"
+		},
+		"setup": {
+			"accountManagement": "Account Management",
+			"emailSetting": "Email Setting",
+			"floorManagement": "Floor Management",
+			"frsSetting": "FRS Setting",
+			"kioskManagement": "Kiosk Management",
+			"smsSetting": "SMS Setting"
+		},
+		"tenant": {
+			"invitation": "Invitation",
+			"tenantUser": "Tenant User"
+		}
+	},
+	"pageLogin": {
+		"invalidSession": "Invalid session",
+		"invalidUserNameOrPassword": "Invalid username or password",
+		"login": "登錄",
+		"loginFailed": "登錄失敗",
+		"pleaseRelogin": "Please relogin!",
+		"rememberMe": "記住我",
+		"subTitle": "登錄您的帳戶",
+		"title": "登錄"
+	},
+	"pageSms": {
+		"comPort": "COM Port Number"
+	}
+}

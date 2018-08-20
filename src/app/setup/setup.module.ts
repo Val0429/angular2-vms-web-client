@@ -23,10 +23,13 @@ import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
 import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
 import { BatchUploadFloorComponent } from './floor/batch-upload-floor.component';
 
+//translate
+import { TranslateModule } from 'ng2-translate';
 
 @NgModule({
   imports: [
     SetupRoutingModule,
+    TranslateModule,
     ModalModule.forRoot(),
     CommonModule,
     DataTableModule,

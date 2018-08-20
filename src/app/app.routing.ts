@@ -24,39 +24,9 @@ export const routes: Routes = [
         loadChildren: './report/report.module#ReportModule'
       },
       {
-        path: 'invitation',
-        canActivate: [LoginService],        
-        loadChildren: './invitation/invitation.module#InvitationModule'
-      },
-      {
         path: 'setup',
         canActivate: [LoginService],
         loadChildren: './setup/setup.module#SetupModule'
-      },
-      {
-        path: 'user',
-        canActivate: [LoginService],
-        loadChildren: './user/user.module#UserModule'
-      },
-      {
-        path: 'recognition',
-        canActivate: [LoginService],
-        loadChildren: './recognition/recognition.module#RecognitionModule'
-      },
-      {
-        path: 'action',
-        canActivate: [LoginService],
-        loadChildren: './action/action.module#ActionModule'
-      },
-      {
-        path: 'stream',
-        canActivate: [LoginService],
-        loadChildren: './stream/stream.module#StreamModule'
-      },
-      {
-        path: 'license',
-        canActivate: [LoginService],
-        loadChildren: './license/license.module#LicenseModule'
       },
       {
         path: 'tenant',
@@ -73,7 +43,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true, useHash: true })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true, useHash: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

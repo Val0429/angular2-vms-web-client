@@ -6,17 +6,19 @@ import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Inte
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { FormControl } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
+import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent extends BaseClassComponent implements OnInit, BaseComponent {
    
 
-  constructor(private userService: UserService, private dialogService: DialogService) {
+  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+    super(dialogService, translateService);
   }
   tempData=[]
   data = [];
@@ -46,7 +48,7 @@ export class AccountComponent implements OnInit {
 
   editUser(item) {
     console.log("edit item", item);
-    this.actionMode = "Edit User";    
+    this.actionMode = this.getLocaleString("common.edit");;    
     
     this.showCreateEditDialog(item, true); 
   }
@@ -66,13 +68,13 @@ export class AccountComponent implements OnInit {
   }
 
   newUser() {
-    this.actionMode = "New User";
+    this.actionMode = this.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
 
     let newUser = new User();
-      
+    newUser.objectId = "";  
     newUser.username= u;
     newUser.roles = [];
     newUser.password= "";    
@@ -81,23 +83,10 @@ export class AccountComponent implements OnInit {
 
     this.showCreateEditDialog(newUser, false);
   }
-  showAlert(message: string, title?: string) {
-    let disposable = this.dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-        
-      }); 
-  }
   async deleteUser(item) {
     console.log("deleteUser", item);
     
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Confirmation",
-      message: "Are you sure?"
-    })
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
@@ -118,17 +107,21 @@ export class AccountComponent implements OnInit {
 
     console.log("filter query: ", this.filterQuery);
     
+    this.doSearch();    
+  }
+
+  doSearch() {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
-    for (let item of this.tempData) {      
+    for (let item of this.tempData) {
       if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
         this.data.push(item);
       }
     }
-    
   }
+
   async saveUser(formResult: User) {
-    if (this.actionMode==="New User") {
+    if (formResult.objectId === "") {
       // Create User
       await this.createUser(formResult);
     } else {       
@@ -144,7 +137,7 @@ export class AccountComponent implements OnInit {
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert("New user has been created");
+      this.showAlert(data.username + this.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -169,7 +162,7 @@ export class AccountComponent implements OnInit {
         this.data[index] = result;
         var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.tempData[tempIndex] = result;        
-        this.showAlert(data.username+ " has been updated");
+        this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
       }
     
   }

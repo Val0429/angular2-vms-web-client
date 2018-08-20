@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmComponent } from './confirm.component';
+import { AppTestModule } from '../../app.module.test';
 
 describe('ConfirmComponent', () => {
   let component: ConfirmComponent;
@@ -8,6 +9,7 @@ describe('ConfirmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppTestModule],
       declarations: [ ConfirmComponent ]
     })
     .compileComponents();

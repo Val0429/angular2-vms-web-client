@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newUser(); ">
-          New User
+          {{'common.new' | translate}}
         </button>
       </div>
 
@@ -14,16 +14,16 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>Users
+          <i class="fa fa-align-justify"></i>{{'pageAccount.users' | translate}}
         </div>
         <div class="card-block">
           <div class="row mb-1">
             <div class="col-md-4 offset-md-8">
               <div class="input-group">
-                <span class="input-group-addon">
+                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+                <span class="input-group-addon" (click)="doSearch()">
                   <i class="fa fa-search"></i>
                 </span>
-                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search" (keyup)="itemSearch($event)" />
               </div>
             </div>
           </div>          
@@ -32,19 +32,19 @@
               <tr>
                 <th style="width: 5%">No</th>
                 <th style="width: 25%">
-                  <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                  <mfDefaultSorter by="updatedAt">{{'common.userName' | translate}}</mfDefaultSorter>
                 </th>
                 <th style="width: 25%">
-                  Roles
+                  {{'pageAccount.roles' | translate}}
                 </th>
                 <th style="width: 10%">
-                  Name
+                  {{'common.name' | translate}}
                 </th>
                 <th style="width: 10%">
-                  Phone
+                  {{'common.phone' | translate}}
                 </th>
                 <th style="width: 15%">
-                  Email
+                  {{'common.email' | translate}}
                 </th>
 
                 <th style=""></th>
@@ -52,7 +52,7 @@
               </tr>
             </thead>
             <tbody>
-              <!--<tr *ngFor="let item of mf.data; let i = index" (click)="modifyUser(item); largeModal.show()">-->
+              
               <tr *ngFor="let item of mf.data; let i = index">
                 <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
 
