@@ -53,6 +53,19 @@
             </li>
 
             <li class="nav-item nav-dropdown" routerLinkActive="open">
+              <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/invitation']">
+                <i class="icon-menu"></i> Invitation
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/invitation/visitor']">
+                    <i class="icon-link"></i> Visitor
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown" routerLinkActive="open">
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> Setup
               </a>
