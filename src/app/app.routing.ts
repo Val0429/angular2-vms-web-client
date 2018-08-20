@@ -24,6 +24,11 @@ export const routes: Routes = [
         loadChildren: './report/report.module#ReportModule'
       },
       {
+        path: 'invitation',
+        canActivate: [LoginService],        
+        loadChildren: './invitation/invitation.module#InvitationModule'
+      },
+      {
         path: 'setup',
         canActivate: [LoginService],
         loadChildren: './setup/setup.module#SetupModule'
