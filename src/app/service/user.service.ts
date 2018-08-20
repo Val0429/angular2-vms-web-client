@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles, KioskUser, Floor, UserData } from 'app/Interface/interface';
+import { User, Person, Group, Roles, KioskUser, Floor, UserData, RoleEnum } from 'app/Interface/interface';
 import * as Globals from '../globals';
 
 @Injectable()
@@ -45,7 +45,15 @@ export class UserService {
 
   isAdmin(): boolean {
     var currUser = this.getCurrentUser();
-    return currUser.roles.map(function (e) { return e.name }).indexOf("Administrator") > -1;
+    return currUser.roles.map(function (e) { return e.name }).indexOf(RoleEnum[RoleEnum.Administrator]) > -1;
+  }
+  /**   
+   * @param role   
+   */
+  userIs(role: RoleEnum): boolean {
+    return this.getCurrentUser() &&
+      this.getCurrentUser().roles &&
+      this.getCurrentUser().roles.map(function (e) { return e.name }).indexOf(RoleEnum[role]) > -1;;
   }
   async getUserRole(): Promise<string[]> {
     var me = this;
@@ -56,7 +64,7 @@ export class UserService {
     console.log(result);
     if (result) {
       //removes kiosk from roles (according to Val)
-      var index = result.indexOf("Kiosk", 0);      
+      var index = result.indexOf(RoleEnum[RoleEnum.Kiosk], 0);      
       if (index > -1) {
         result.splice(index, 1);
       }

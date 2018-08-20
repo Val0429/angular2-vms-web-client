@@ -33,7 +33,8 @@
     <div class="sidebar">
         <nav class="sidebar-nav">
           <ul class="nav">
-            <li class="nav-item nav-dropdown" routerLinkActive="open">
+            <!--Sys Admin Menu-->
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsSysAdmin()">
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/report']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.report'|translate}}
               </a>
@@ -53,8 +54,8 @@
                 </li>
               </ul>
             </li>
-
-            <li class="nav-item nav-dropdown" routerLinkActive="open">
+            <!--Admin Menu-->
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin()">
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.setup'|translate}}
               </a>
@@ -91,7 +92,8 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item nav-dropdown" routerLinkActive="open">
+            <!--Tenant Admin Menu-->
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsTenant()">
               <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i>{{'pageLayout.menu.tenant'|translate}} </a>
               <ul class="nav-dropdown-items">
                 <li class="nav-item">

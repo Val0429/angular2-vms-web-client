@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { LoginService } from 'app/service/login.service';
 import { Router } from '@angular/router';
-import { User } from 'app/Interface/interface';
+import { User, RoleEnum } from 'app/Interface/interface';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 
@@ -25,7 +25,18 @@ export class FullLayoutComponent implements OnInit {
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);
   }
-
+  userIsTenant(): boolean{
+    return this.userService.userIs(RoleEnum.Tenant);
+  }
+  userIsSysAdmin(): boolean {
+    return this.userService.userIs(RoleEnum.SystemAdministrator);
+  }
+  userIsAdmin(): boolean {
+    return this.userService.userIs(RoleEnum.Administrator);
+  }
+  userIsKiosk(): boolean {
+    return this.userService.userIs(RoleEnum.Kiosk);
+  }
   public toggleDropdown($event: MouseEvent): void {
     $event.preventDefault();
     $event.stopPropagation();
@@ -39,6 +50,10 @@ export class FullLayoutComponent implements OnInit {
     } else {
       this.username = "InitUser";
     }
+    console.log("user is admin:", this.userIsAdmin());
+    console.log("user is tenant:", this.userIsTenant());
+    console.log("user is kiosk:", this.userIsKiosk());
+    console.log("user is sysadmin:", this.userIsSysAdmin());
   }
 
 
