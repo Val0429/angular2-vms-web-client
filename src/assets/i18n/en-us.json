@@ -16,21 +16,26 @@
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
+		"isRequired": " is required",
+		"minLength": " must be {{minlength.requiredLength}} at least characters long",
 		"mismatch": "mismatch",
 		"mismatchWith": " mismatch with ",
 		"name": "Name",
 		"new": "New",
-		"ok": "OK",
 		"newPassword": "New Password",
+		"ok": "OK",
 		"password": "Password",
 		"phone": "Phone",
 		"required": "required",
-		"isRequired": " is required",
 		"save": "Save",
 		"search": "Search",
 		"updateData": "Update Data",
-		"userName": "Username",
-		"minLength": " must be {{minlength.requiredLength}} at least characters long"
+		"userName": "Username"
+	},
+	"pageAccount": {
+		"roles": "Roles",
+		"userList": "User List",
+		"users": "Users"
 	},
 	"pageEmail": {
 		"port": "Port Number",
@@ -88,7 +93,8 @@
 			"smsSetting": "SMS Setting"
 		},
 		"tenant": {
-			"invitation": "Invitation"
+			"invitation": "Invitation",
+			"tenantUser": "Tenant User"
 		}
 	},
 	"pageLogin": {
@@ -100,11 +106,6 @@
 		"rememberMe": "Remember Me",
 		"subTitle": "Sing in to your account",
 		"title": "Login"
-	},
-	"pageAccount": {
-		"roles": "Roles",
-		"userList": "User List",
-		"users": "Users"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number"
