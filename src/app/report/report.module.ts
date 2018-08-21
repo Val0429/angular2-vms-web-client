@@ -15,9 +15,12 @@ import { DashboardComponent } from './dashboard.component';
 import { AttendanceComponent } from './attendance.component';
 
 import { ReportRoutingModule } from './report-routing.module';
+import { TranslateModule } from 'ng2-translate';
+import { VisitorStatisticComponent } from './visitor-statistic.component';
 
 @NgModule({
   imports: [
+    TranslateModule,
     ReportRoutingModule,
     ModalModule.forRoot(),
     CommonModule,
@@ -26,7 +29,7 @@ import { ReportRoutingModule } from './report-routing.module';
     HttpModule,
     ChartsModule, 
     DatepickerModule.forRoot()
-  ],  
-  declarations: [ DashboardComponent, AttendanceComponent ]
+  ],
+  declarations: [DashboardComponent, AttendanceComponent, VisitorStatisticComponent]
 })
 export class ReportModule { }

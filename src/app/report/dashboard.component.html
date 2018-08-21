@@ -1,92 +1,116 @@
+
 <div class="animated fadeIn">
+  <app-visitor-statistic></app-visitor-statistic>
+
   <div class="row">
     <div class="col text-right mb-1">
-      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">Today</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">This Week</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">This Month</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'dashboardPage.today' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">{{'dashboardPage.thisWeek' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'dashboardPage.thisMonth' | translate}} </button>
     </div>
   </div>
+  <div class="card">
+    <div class="card-block">
+      <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+        <thead>
+          <tr>
+            <th style="width: 5%">No</th>
+            <th style="width: 25%">
+              {{'dashboardPage.visitorName' | translate}}
+            </th>
+            <th style="width: 25%">
+              {{'dashboardPage.purpose' | translate}}
+            </th>
+            <th style="width: 10%">
+              {{'dashboardPage.kioskName' | translate}}
+            </th>
+            <th style="width: 10%">
+              {{'dashboardPage.eventTime' | translate}}
+            </th>
+            <th style="width: 15%">
+              {{'dashboardPage.status' | translate}}
+            </th>
 
+            <th style=""></th>
+            <th style=""></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let item of mf.data; let i = index">
+            <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
+
+            <td>{{item.visitorName}}</td>
+            <td>
+              {{item.purpose}}
+            </td>
+            <td>
+              {{item.kioskName}}
+            </td>
+            <td>
+              {{item.eventTime}}
+            </td>
+            <td>
+              {{item.status}}
+            </td>
+
+            <td>
+              <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);"></a>
+            </td>
+            <td>
+              <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+
+    </div>
+  </div>
   <div class="card-columns cols-2">
     <div class="card">
       <div class="card-header">
-        Bar Chart
+        {{'dashboardPage.checkInStatistic' | translate}}
       </div>
       <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #timeBarChart="base-chart" class="chart" 
-          [datasets]="timeBarChartData" 
-          [labels]="timeBarChartLabels" 
-          [options]="barChartOptions"
-          [legend]="barChartLegend" 
-          [chartType]="barChartTypeV" 
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
+
+        <canvas baseChart #timeBarChart="base-chart" class="chart"
+                [datasets]="timeBarChartData"
+                [labels]="timeBarChartLabels"
+                [colors]="timeBarChartColors"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartTypeV"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+
       </div>
     </div>
     <div class="card">
       <div class="card-header">
-        Bar Chart
+        {{'dashboardPage.recurringVisitor' | translate}}
       </div>
       <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #entryBarChart="base-chart" class="chart" 
-          [datasets]="entryBarChartData" 
-          [labels]="entryBarChartLabels" 
-          [options]="barChartOptions"
-          [legend]="barChartLegend" 
-          [chartType]="barChartTypeH" 
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
+
+        <canvas baseChart #entryBarChart="base-chart" class="chart"
+                [datasets]="entryBarChartData"
+                [labels]="entryBarChartLabels"
+                [options]="barChartOptions"
+                [colors]="entryBarChartColors"
+                [legend]="barChartLegend"
+                [chartType]="barChartTypeH"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+
       </div>
     </div>
 
-  </div>
-  <div class="card-columns cols-2">
-    <div class="card">
-      <div class="card-header">
-        Pie Chart
-      </div>
-      <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #groupPieChart="base-chart" class="chart" 
-          [data]="groupPieChartData" 
-          [labels]="groupPieChartLabels" 
-          [chartType]="groupPieChartType"
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        Foot Traffic Breakdown
-      </div>
-      <div class="card-block">
-        <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
-          <thead>
-            <tr>
-                <th style="width: 80%" colspan="2">Registered</th>
-                <th style="width: 20%">{{210}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>vip</td>
-              <td>210</td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-                <th style="width: 80%" colspan="2">Unregistered</th>
-                <th style="width: 20%">0</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
   </div>
 </div>
