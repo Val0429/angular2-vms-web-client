@@ -14,6 +14,10 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'registration',
+    loadChildren: './registration/registration.module#RegistrationModule',
+  },
+  {
     path: '', component: FullLayoutComponent,
     data: { title: 'Home' },
     canActivate: [LoginService],

@@ -323,25 +323,27 @@ export interface CreateEditDialog {
   title: string;
 }
 
-export class Visitor_Profile {
-    public mobile_no: String = "" ;
-    public visitor_name: String = "" ;
-    public email_address: String = "" ;
-    public begin_datetime: String = "" ;
-    public end_datetime: String = "" ;
-    public purpose_of_visit: String = "" ;
+export class visitorProfile {
+    public mobileNo: String = "" ;
+    public visitorName: String = "" ;
+    public emailAddress: String = "" ;
+    public beginDatetime: String = "" ;
+    public endDatetime: String = "" ;
+    public purposeOfVisit: String = "" ;
     public photo: String = "" ;
-    public vehicle_registration_number: String = "" ;
+    public status: String = "" ;
+    public vehicleRegistrationNumber: String = "" ;
 
-    public fromJSON(json: any): Visitor_Profile {
-        this.mobile_no = json["mobile_no"];
-        this.visitor_name = json["visitor_name"];
-        this.email_address = json["email_address"];
-        this.begin_datetime = json["begin_datetime"];
-        this.end_datetime = json["end_datetime"];
-        this.purpose_of_visit = json["purpose_of_visit"];
+    public fromJSON(json: any): visitorProfile {
+        this.mobileNo = json["mobileNo"];
+        this.visitorName = json["visitorName"];
+        this.emailAddress = json["emailAddress"];
+        this.beginDatetime = json["beginDatetime"];
+        this.endDatetime = json["endDatetime"];
+        this.purposeOfVisit = json["purposeOfVisit"];
         this.photo = json["photo"];
-        this.vehicle_registration_number = json["vehicle_registration_number"];
+        this.status = json["status"];
+        this.vehicleRegistrationNumber = json["vehicleRegistrationNumber"];
 
         return this;
     }
