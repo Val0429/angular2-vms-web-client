@@ -10,7 +10,7 @@
       <form novalidate
             [formGroup]="myform">
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'pageFloor.floorName'|translate}}"
              [ngClass]="{
        'has-danger': name.invalid && (name.dirty || name.touched),
        'has-success': name.valid && (name.dirty || name.touched)}">
@@ -29,7 +29,7 @@
           <p *ngIf="name.errors.minlength">{{'pageFloor.floorName'|translate}}{{'common.minLength'|translate:name.errors}}</p>
         </div>
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'pageFloor.unitNo'|translate}}"
              [ngClass]="{
        'has-danger': unitNo.invalid && (unitNo.dirty || unitNo.touched),
        'has-success': unitNo.valid && (unitNo.dirty || unitNo.touched)}">
@@ -48,7 +48,7 @@
         </div>
 
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'common.phone'|translate}}" 
              [ngClass]="{
        'has-danger': phone.invalid && (phone.dirty || phone.touched),
        'has-success': phone.valid && (phone.dirty || phone.touched)}">
@@ -68,7 +68,7 @@
           <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
         </div>
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'pageFloor.floor'|translate}}" 
              [ngClass]="{
        'has-danger': floor.invalid && (floor.dirty || floor.touched),
        'has-success': floor.valid && (floor.dirty || floor.touched)}">

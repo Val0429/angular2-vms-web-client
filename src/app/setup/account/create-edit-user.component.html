@@ -10,7 +10,7 @@
       <form novalidate
             [formGroup]="myform">
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'common.userName'|translate}}"
              [ngClass]="{
        'has-danger': username.invalid && (username.dirty || username.touched),
        'has-success': username.valid && (username.dirty || username.touched)}">
@@ -22,6 +22,7 @@
                  [readonly]="editMode"
                  required
                  formControlName="username"
+                 
                  placeholder="{{'common.userName'|translate}}" />
         </div>
         <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
@@ -29,7 +30,7 @@
           <p *ngIf="username.errors.minlength">{{'common.userName'|translate}}{{'common.minLength'|translate:username.errors}}</p>
         </div>
         <fieldset formGroupName="data">
-          <div class="input-group mb-1" [ngClass]="{
+          <div class="input-group mb-1" title="{{'common.name'|translate}}" [ngClass]="{
        'has-danger': name.invalid && (name.dirty || name.touched),
        'has-success': name.valid && (name.dirty || name.touched)}">
             <span class="input-group-addon">
@@ -38,6 +39,7 @@
             <input type="text"
                    class="form-control"
                    formControlName="name"
+                   
                    placeholder="{{'common.name'|translate}}" />
           </div>
           <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
@@ -46,7 +48,7 @@
           </div>
 
 
-          <div class="input-group mb-1" [ngClass]="{
+          <div class="input-group mb-1" title="{{'common.phone'|translate}}" [ngClass]="{
        'has-danger': phone.invalid && (phone.dirty || phone.touched),
        'has-success': phone.valid && (phone.dirty || phone.touched)}">
             <span class="input-group-addon">
@@ -55,6 +57,7 @@
             <input type="text"
                    class="form-control"
                    formControlName="phone"
+                   
                    placeholder="{{'common.phone'|translate}}" />
           </div>
           <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
@@ -62,7 +65,7 @@
             <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
           </div>
 
-          <div class="input-group mb-1" [ngClass]="{
+          <div class="input-group mb-1" title="{{'common.email'|translate}}" [ngClass]="{
        'has-danger': email.invalid && (email.dirty || email.touched),
        'has-success': email.valid && (email.dirty || email.touched)}">
             <span class="input-group-addon">
@@ -71,6 +74,7 @@
             <input type="email"
                    class="form-control"
                    formControlName="email"
+                   
                    placeholder="{{'common.email'|translate}}" />
           </div>
           <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
@@ -80,7 +84,7 @@
         </fieldset>
 
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'pageAccount.roles'|translate}}"
              [ngClass]="{
        'has-danger': roles.invalid && (roles.dirty || roles.touched ),
        'has-success': roles.valid}">
@@ -109,34 +113,36 @@
         </div>
 
         <fieldset formGroupName="passwordGroup">
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'common.password'|translate}}"
                [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
        'has-success': password.valid && (password.dirty || password.touched)}">
             <span class="input-group-addon">
-              <i class="fa fa-key"></i>
+              <i class="fa fa-key" ></i>
             </span>
             <input type="password"
                    class="form-control"
                    required
                    formControlName="password"
+                   
                    placeholder="{{'common.password'|translate}}" />
           </div>
           <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
             <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
             <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
           </div>
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'common.confirmPassword'|translate}}"
                [ngClass]="{
        'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched),
        'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}">
             <span class="input-group-addon">
-              <i class="fa fa-key"></i>
+              <i class="fa fa-key" ></i>
             </span>
             <input type="password"
                    class="form-control"
                    required
                    formControlName="confirmPassword"
+                   
                    placeholder="{{'common.confirmPassword'|translate}}" />
           </div>
 

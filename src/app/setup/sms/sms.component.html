@@ -1,7 +1,10 @@
+<div class="animated fadeIn">
+    <div class="card col-md-4">
+        <div class="card-block">
 <form novalidate
       [formGroup]="myform">
 
-  <div class="input-group mb-1" [ngClass]="{
+  <div class="input-group mb-1" title="{{'pageSms.comPort'|translate}}" [ngClass]="{
        'has-danger': comPort.invalid && (comPort.dirty || comPort.touched),
        'has-success': comPort.valid && (comPort.dirty || comPort.touched)}">
     <span class="input-group-addon">
@@ -12,6 +15,7 @@
            required
            inputmode="numeric"
            formControlName="comPort"
+          
            placeholder="{{'pageSms.comPort'|translate}}" />
   </div>
   <div style="color:red" *ngIf="comPort.errors && (comPort.dirty || comPort.touched )">
@@ -19,19 +23,19 @@
     <p *ngIf="comPort.errors.pattern">{{'pageSms.comPort'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
-  <div class="input-group mb-1"
+  <div class="input-group mb-1" title="{{'common.enabled'|translate}}"
        [ngClass]="{
        'has-danger': enable.invalid && (enable.dirty || enable.touched),
        'has-success': enable.valid && (enable.dirty || enable.touched)}">
     <span class="input-group-addon">
       <i class="fa fa-user"></i>
     </span>
-    <input type="checkbox"
-           required
+    <input type="checkbox"           
            class="form-control"           
            formControlName="enable"
+          
            />
-    <label for="enabled">{{'common.enabled'|translate}}</label>
+    <label for="enable">{{'common.enabled'|translate}}</label>
   </div>
   <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
     <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>
@@ -42,4 +46,7 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
+</div>
+</div>
+</div>
 </div>
