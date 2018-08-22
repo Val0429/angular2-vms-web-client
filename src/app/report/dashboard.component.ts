@@ -11,8 +11,6 @@ import { DialogService } from 'ng2-bootstrap-modal';
 })
 export class DashboardComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
-  data: any[] = [];
-
   ngOnInit():void {
     this.initGraphs();
   }
@@ -110,7 +108,7 @@ export class DashboardComponent extends BaseClassComponent implements OnInit, Ba
     this.entryBarChartData = [
       {
         data: [65, 59, 40, 31, 26],
-        label: this.getLocaleString("dashboardPage.totalVisit")
+        label: this.getLocaleString("pageDashboard.totalVisit")
       }];
   }
 
@@ -120,11 +118,11 @@ export class DashboardComponent extends BaseClassComponent implements OnInit, Ba
     this.timeBarChartData = [
     {
         data: [65, 59, 80, 81, 56, 55, 40],
-        label: this.getLocaleString("dashboardPage.success")
+        label: this.getLocaleString("pageDashboard.success")
     },
     {
       data: [28, 48, 40, 19, 86, 27, 90],
-      label: this.getLocaleString("dashboardPage.exception")
+      label: this.getLocaleString("pageDashboard.exception")
     }];
   }
 

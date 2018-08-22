@@ -23,6 +23,7 @@
 		"name": "Name",
 		"new": "New",
 		"newPassword": "New Password",
+		"no": "No",
 		"ok": "OK",
 		"password": "Password",
 		"phone": "Phone",
@@ -32,21 +33,16 @@
 		"updateData": "Update Data",
 		"userName": "Username"
 	},
-	"dashboardPage": {
+	"pageDashboard": {
 		"checkInStatistic": "Check In Statistic",
 		"dailyTotalVisitor": "Daily Total Visitor",
-		"eventTime": "Event Time",
 		"exception": "Exception",
-		"kioskName": "Kiosk Name",
-		"purpose": "Purpose",
 		"recurringVisitor": "Recurring Visitor",
-		"status": "Status",
 		"success": "Success",
 		"thisMonth": "This Month",
 		"thisWeek": "This Week",
 		"today": "Today",
 		"totalVisit": "Total Visit",
-		"visitorName": "Visitor Name",
 		"visitorOnSite": "Visitor On Site"
 	},
 	"pageAccount": {
@@ -75,6 +71,13 @@
 		"ipAddress": "IP Address",
 		"wsPort": "WS Port"
 	},
+	"pageInvestigation": {
+		"eventTime": "Event Time",
+		"kioskName": "Kiosk Name",
+		"purpose": "Purpose",
+		"status": "Status",
+		"visitorName": "Visitor Name"
+	},
 	"pageKiosk": {
 		"kiosk": "Kiosk",
 		"kioskId": "Kiosk Id",
@@ -99,7 +102,8 @@
 		},
 		"report": {
 			"attendance": "Attendance",
-			"dashboard": "Dashboard"
+			"dashboard": "Dashboard",
+			"investigation": "Investigation"
 		},
 		"setup": {
 			"accountManagement": "Account Management",

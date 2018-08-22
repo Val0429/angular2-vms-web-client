@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 
 //Layouts
-import { AttendanceComponent } from './attendance.component';
+import { InvestigationComponent } from './investigation.component';
 import { DashboardComponent } from './dashboard.component';
 
 const routes: Routes = [
@@ -23,11 +23,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'attendance',
+        path: 'investigation',
         canActivate: [LoginService],
-        component: AttendanceComponent,
+        component: InvestigationComponent,
         data: {
-          title: 'pageLayout.report.attendance'
+          title: 'pageLayout.report.investigation'
         }
       },
       {

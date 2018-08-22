@@ -3,81 +3,17 @@
   <app-visitor-statistic></app-visitor-statistic>
 
   <div class="row">
-    <div class="col text-right mb-1">
-      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'dashboardPage.today' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">{{'dashboardPage.thisWeek' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'dashboardPage.thisMonth' | translate}} </button>
+    <div class="col mb-1">
+      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'pageDashboard.today' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">{{'pageDashboard.thisWeek' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'pageDashboard.thisMonth' | translate}} </button>
     </div>
   </div>
-  <div class="card">
-    <div class="card-block">
-      <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
-        <thead>
-          <tr>
-            <th style="width: 5%">No</th>
-            <th style="width: 25%">
-              {{'dashboardPage.visitorName' | translate}}
-            </th>
-            <th style="width: 25%">
-              {{'dashboardPage.purpose' | translate}}
-            </th>
-            <th style="width: 10%">
-              {{'dashboardPage.kioskName' | translate}}
-            </th>
-            <th style="width: 10%">
-              {{'dashboardPage.eventTime' | translate}}
-            </th>
-            <th style="width: 15%">
-              {{'dashboardPage.status' | translate}}
-            </th>
-
-            <th style=""></th>
-            <th style=""></th>
-          </tr>
-        </thead>
-        <tbody>
-
-          <tr *ngFor="let item of mf.data; let i = index">
-            <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
-
-            <td>{{item.visitorName}}</td>
-            <td>
-              {{item.purpose}}
-            </td>
-            <td>
-              {{item.kioskName}}
-            </td>
-            <td>
-              {{item.eventTime}}
-            </td>
-            <td>
-              {{item.status}}
-            </td>
-
-            <td>
-              <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);"></a>
-            </td>
-            <td>
-              <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="4">
-              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-
-
-    </div>
-  </div>
+  
   <div class="card-columns cols-2">
     <div class="card">
       <div class="card-header">
-        {{'dashboardPage.checkInStatistic' | translate}}
+        {{'pageDashboard.checkInStatistic' | translate}}
       </div>
       <div class="card-block">
 
@@ -95,7 +31,7 @@
     </div>
     <div class="card">
       <div class="card-header">
-        {{'dashboardPage.recurringVisitor' | translate}}
+        {{'pageDashboard.recurringVisitor' | translate}}
       </div>
       <div class="card-block">
 
