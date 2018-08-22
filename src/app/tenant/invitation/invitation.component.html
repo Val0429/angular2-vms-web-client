@@ -1,3 +1,301 @@
-<p>
-  invitation works!
-</p>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newInvitation(); largeModal.show()">
+          New Invitation
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>Search Condition
+        </div>
+        <div class="card-block">
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label">Visitor Mobile No. </label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <input type="text" class="form-control" id="mobileNo" name="mobileNo" #mobileNo="ngModel" placeholder="Visitor Mobile No."
+                  [(ngModel)]="condition.mobileNo">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label"> Visitor Name </label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <input type="text" class="form-control" id="visitorName" name="visitorName" #visitorName="ngModel" placeholder=" Visitor Name"
+                  [(ngModel)]="condition.visitorName">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label"> Invitation Validity Period </label>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Invitation Validity Period" (onfocusout)="showStartDatePicker = false"
+                  (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{condition.beginDatetime | date:'yyyy/MM/dd'}}"
+                />
+                <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <datepicker name="beginDatetime" [showWeeks]="false" [(ngModel)]="condition.beginDatetime" (selectionDone)="showStartDatePicker = false"></datepicker>
+                </div>
+
+                <input type="text" class="form-control" placeholder="Invitation Validity Period" (focus)="showEndDatePicker = !showEndDatePicker"
+                  name="endDatetime" value="{{condition.endDatetime | date:'yyyy/MM/dd'}}" />
+                <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <datepicker name="endDatetime" [showWeeks]="false" [(ngModel)]="condition.endDatetime" (selectionDone)="showEndDatePicker = false"></datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label"> Invitation Status </label>
+            <div class="col-md-7">
+              <div class="input-group">
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Pending">
+                  <input type="checkbox" id="Pending" name="purposeOfVisit" (change)="checkboxInvitationStatus('Pending', $event);">&nbsp; Pending
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Complete">
+                  <input type="checkbox" id="Complete" name="purposeOfVisit" (change)="checkboxInvitationStatus('Complete', $event);">&nbsp; Complete
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Expired">
+                  <input type="checkbox" id="Expired" name="purposeOfVisit" (change)="checkboxInvitationStatus('Expired', $event);">&nbsp; Expired
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Canceled">
+                  <input type="checkbox" id="Canceled" name="purposeOfVisit" (change)="checkboxInvitationStatus('Canceled', $event);">&nbsp; Canceled
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary px-2 pull-right" (click)="validateSearch()">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i>Invitations
+      </div>
+      <div class="card-block">
+        <div class="row mb-1">
+          <div class="col-md-4 offset-md-8">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+              </span>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search by name" (keyup)="itemSearch($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [mfActivePage]="activePage"
+          [(mfAmountOfRows)]="itemsTotal" [mfIsServerPagination]="true" (mfOnPageChange)="onPageChange($event)">
+          <thead>
+            <tr>
+              <th style="width: 5%">No</th>
+              <th style="width: 10%">Mobile No</th>
+              <th style="width: 15%">Name</th>
+              <th style="width: 20%">Email</th>
+              <th style="width: 10%">Status</th>
+              <th style="width: 10%">Begin Date</th>
+              <th style="width: 10%">End Date</th>
+              <th style="width: 15%">Image</th>
+              <th style="width: 5%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data; let i = index;">
+              <td>{{i + 1}}</td>
+              <td>{{item.visitor.mobile_no}}</td>
+              <td>{{item.visitor.visitor_name}}</td>
+              <td>{{item.visitor.email_address}}</td>
+              <td>{{item.visitor.status}}</td>
+              <td>{{item.visitor.begin_datetime}}</td>
+              <td>{{item.visitor.end_datetime}}</td>
+              <td>{{item.visitor.photo}}</td>
+              <td>
+                <a class="fa fa-pencil fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();modifyInvitation(item); largeModal.show()"></a>
+                <a class="fa fa-remove fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();deleteInvitation(item)"></a>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="9">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">{{model.title}}</h4>
+            <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form #visitorForm="ngForm" action="javascript:void(0);" (ngSubmit)="visitorForm.valid && onFormSubmit(visitorForm); largeModal.hide();">
+            <div class="modal-body">
+              <div class="card mx-2">
+                <div class="card-block p-2 row">
+                  <div class="col-md-12">
+                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': mobileNo.invalid && (mobileNo.dirty || mobileNo.touched), 'has-success': mobileNo.valid && (mobileNo.dirty || mobileNo.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-user"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="mobileNo" name="mobileNo" #mobileNo="ngModel" (keyup)="mobileNoSearch($event)"
+                        [ngClass]="{ 'form-control-danger': mobileNo.invalid && (mobileNo.dirty ||mobileNo.touched), 'form-control-success': mobileNo.valid && (mobileNo.dirty || mobileNo.touched)}"
+                        placeholder="Visitor Mobile No." [(ngModel)]="model.visitor.mobileNo">
+                    </div>
+                    <div style="color:red" *ngIf="mobileNo.errors && (mobileNo.dirty || mobileNo.touched || mobileNo.submitted)">
+                      <p *ngIf="mobileNo.errors.required">
+                        The Visitor Mobile No. is required
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': visitorName.invalid && (visitorName.dirty || visitorName.touched), 'has-success': visitorName.valid && (visitorName.dirty || visitorName.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="visitorName" name="visitorName" #visitorName="ngModel" [ngClass]="{ 'form-control-danger': visitorName.invalid && (visitorName.dirty ||visitorName.touched), 'form-control-success': visitorName.valid && (visitorName.dirty || visitorName.touched)}"
+                        placeholder="Visitor Name" [(ngModel)]="model.visitor.visitorName">
+                    </div>
+                    <div style="color:red" *ngIf="visitorName.errors && (visitorName.dirty || visitorName.touched || visitorName.submitted)">
+                      <p *ngIf="visitorName.errors.required">
+                        The Visitor Name is required
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': emailAddress.invalid && (emailAddress.dirty || emailAddress.touched), 'has-success': emailAddress.valid && (emailAddress.dirty || emailAddress.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="emailAddress" name="emailAddress" #emailAddress="ngModel" [ngClass]="{ 'form-control-danger': emailAddress.invalid && (emailAddress.dirty ||emailAddress.touched), 'form-control-success': emailAddress.valid && (emailAddress.dirty || emailAddress.touched)}"
+                        placeholder="Visitor's Email Address" [(ngModel)]="model.visitor.emailAddress">
+                    </div>
+                    <div style="color:red" *ngIf="emailAddress.errors && (emailAddress.dirty || emailAddress.touched || emailAddress.submitted)">
+                      <p *ngIf="emailAddress.errors.required">
+                        The Visitor's Email Address is required
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="Validtity of Invite begin date" (onfocusout)="showStartDatePicker = false"
+                        (focus)="showStartDatePicker = !showStartDatePicker" name="beginDatetime" value="{{model.visitor.beginDatetime | date:'yyyy/MM/dd'}}"
+                      />
+                      <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="beginDatetime" [showWeeks]="false" [(ngModel)]="model.visitor.beginDatetime" (selectionDone)="showStartDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+
+                    <div class="input-group mb-1">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="Validtity of Invite end date" (focus)="showEndDatePicker = !showEndDatePicker"
+                        name="inputEndDate" value="{{model.visitor.endDatetime | date:'yyyy/MM/dd'}}" />
+                      <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.visitor.endDatetime" (selectionDone)="showEndDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+
+                    <div class="input-group mb-1">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <!-- <span *ngFor="let location of videoLocation"></span>
+                        <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="{{location}}">
+                          <input type="checkbox" id="{{location}}" name="{{location}}" (change)="checkboxLocations(location, $event);">&nbsp; {{location.video_source_location}}
+                        </label>
+                      </span> -->
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Visit">
+                        <input type="radio" id="Visit" name="purposeOfVisit" (change)="checkboxPurpose('Visit', $event);">&nbsp; Visit
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Meeting">
+                        <input type="radio" id="Meeting" name="purposeOfVisit" (change)="checkboxPurpose('Meeting', $event);">&nbsp; Meeting
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Delivery">
+                        <input type="radio" id="Delivery" name="purposeOfVisit" (change)="checkboxPurpose('Delivery', $event);">&nbsp; Delivery
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Others">
+                        <input type="radio" id="Others" name="purposeOfVisit" (change)="checkboxPurpose('Others', $event);">&nbsp; Others
+                      </label>
+
+                    </div>
+
+                    <div class="input-group mb-1">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="eamil">
+                        <input type="radio" id="eamil" name="sendInvitationBy" (change)="checkboxSendBy('eamil', $event);">&nbsp; eamil
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="sms">
+                        <input type="radio" id="sms" name="sendInvitationBy" (change)="checkboxSendBy('sms', $event);">&nbsp; sms
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!visitorForm.valid">{{model.buttom}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
