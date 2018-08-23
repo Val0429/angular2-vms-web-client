@@ -111,7 +111,8 @@
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
-			"smsSetting": "SMS Setting"
+			"smsSetting": "SMS Setting",
+			"companyManagement":"Company Management"
 		},
 		"tenant": {
 			"invitation": "Invitation",

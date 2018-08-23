@@ -25,6 +25,8 @@ import { BatchUploadFloorComponent } from './floor/batch-upload-floor.component'
 
 //translate
 import { TranslateModule } from 'ng2-translate';
+import { CompanyComponent } from './company/company.component';
+import { CreateEditCompanyComponent } from './company/create-edit-company.component';
 
 @NgModule({
   imports: [
@@ -54,7 +56,9 @@ import { TranslateModule } from 'ng2-translate';
     CreateEditUserComponent,    
     CreateEditKioskComponent,
     CreateEditFloorComponent,
-    BatchUploadFloorComponent
+    BatchUploadFloorComponent,
+    CompanyComponent,
+    CreateEditCompanyComponent
   ]
 })
 export class SetupModule { }
