@@ -49,15 +49,8 @@
                   <th style="width: 5%">
                     {{'pageFloor.floor' | translate}}
                   </th>
-                  <th style="width: 25%">
-                    {{'common.phone' | translate}}
-                  </th>
-                  <th style="width: 25%">
-                    {{'pageFloor.unitNo' | translate}} 
-
-                  </th>
-                  <th style=""></th>
-                  <th style=""></th>
+                  <th ></th>
+                  <th ></th>
                 </tr>
               </thead>
               <tbody>                
@@ -67,16 +60,7 @@
                   <td>
                     {{item.floor}}
                   </td>
-                  <td>
-                    <ul>
-                      <li *ngFor="let p of item.phone">
-                        {{p}}
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    {{item.unitNo}}
-                  </td>
+                  
                   <td>
                     <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editFloor(item);"></a>
                   </td>

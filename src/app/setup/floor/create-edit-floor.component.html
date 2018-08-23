@@ -29,45 +29,6 @@
           <p *ngIf="name.errors.minlength">{{'pageFloor.floorName'|translate}}{{'common.minLength'|translate:name.errors}}</p>
         </div>
 
-        <div class="input-group mb-1" title="{{'pageFloor.unitNo'|translate}}"
-             [ngClass]="{
-       'has-danger': unitNo.invalid && (unitNo.dirty || unitNo.touched),
-       'has-success': unitNo.valid && (unitNo.dirty || unitNo.touched)}">
-          <span class="input-group-addon">
-            <i class="fa fa-user"></i>
-          </span>
-          <input type="text"
-                 class="form-control"                 
-                 required
-                 formControlName="unitNo"
-                 placeholder="{{'pageFloor.unitNo'|translate}}" />
-        </div>
-        <div style="color:red" *ngIf="unitNo.errors && (unitNo.dirty || unitNo.touched )">          
-          <p *ngIf="unitNo.errors.required">{{'pageFloor.unitNo'|translate}}{{'common.isRequired'|translate}}</p>
-          <p *ngIf="unitNo.errors.minlength">{{'pageFloor.unitNo'|translate}}{{'common.minLength'|translate:unitNo.errors}}</p>
-        </div>
-
-
-        <div class="input-group mb-1" title="{{'common.phone'|translate}}" 
-             [ngClass]="{
-       'has-danger': phone.invalid && (phone.dirty || phone.touched),
-       'has-success': phone.valid && (phone.dirty || phone.touched)}">
-          <span class="input-group-addon">
-            <i class="fa fa-user"></i>
-          </span>
-          <input type="text"
-                 class="form-control"
-                 
-                 required
-                 formControlName="phone"
-                 placeholder="{{'common.phone'|translate}}" />
-        </div>
-        <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
-          <p *ngIf="phone.errors.required">{{'common.phone'|translate}}{{'common.isRequired'|translate}}</p>
-          <p *ngIf="phone.errors.minlength">{{'common.phone'|translate}}{{'common.minLength'|translate:phone.errors}}<br />{{'pageFloor.addComma'|translate}} </p>
-          <p *ngIf="phone.errors.pattern">{{'common.phone'|translate}}{{'common.isInvalid'|translate}}</p>
-        </div>
-
         <div class="input-group mb-1" title="{{'pageFloor.floor'|translate}}" 
              [ngClass]="{
        'has-danger': floor.invalid && (floor.dirty || floor.touched),

@@ -1,27 +1,43 @@
-export class BaseClass {
-  public objectId: string;
-  public createdAt: string;
-  public updatedAt: string;
+export interface BaseInterface{
+  objectId: string;
+  createdAt: string;
+  updatedAt: string;
 }
-export class BaseUser extends BaseClass {
-  public username: string;
-  public password: string;
-  public roles: Roles[];
+export class BaseClass implements BaseInterface {
+    public objectId: string;
+    public createdAt: string;
+    public updatedAt: string;
 }
 
-export class Floor extends BaseClass {
+export class Floor extends BaseClass{
   
-  public name: string;
-  public unitNo: string;
-  public phone: string[];
-  public floor: number;
+    public name: string;
+    public floor: number;
 }
+
+export class BaseUser extends BaseClass {
+public username: string;
+public password: string;
+public roles: Roles[];
+}
+
+
+export class Company extends BaseClass{
+    public contactNumber:string[];
+    public floor:Floor[];
+    public name:string;
+    public unitNumber:string;
+    public contactPerson:string;
+}
+
+
+
 export class UserData {
   public email: string;
   public phone: string;
   public name: string;
 }
-export class User extends BaseUser {
+export class User extends BaseUser{
   
   public data: UserData;
 }
@@ -58,6 +74,9 @@ export class Roles extends BaseClass{
 export class RoleOption extends Roles {
   public checked: boolean;
 }
+
+
+///legacy code
 export class Person {
     public id: string;
     public fullname: string;

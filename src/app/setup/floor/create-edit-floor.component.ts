@@ -14,9 +14,7 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
   myform: FormGroup;
 
   name: FormControl;
-  unitNo: FormControl;
   floor: FormControl;
-  phone: FormControl;
 
   constructor(dialogService: DialogService) {
     super(dialogService);
@@ -36,8 +34,6 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
   }
   public getFormData(): Floor {    
     this.formData.name = this.name.value;
-    this.formData.phone = this.phone.value.split(',');
-    this.formData.unitNo = this.unitNo.value;
     this.formData.floor = this.floor.value;
     return this.formData;
   }
@@ -49,17 +45,6 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
       Validators.minLength(3)
     ]);
 
-    this.phone = new FormControl(this.formData.phone ? this.formData.phone.toString(): '', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.pattern(Globals.multiPhoneRegex)
-    ]);
-
-
-    this.unitNo = new FormControl(this.formData.unitNo, [
-      Validators.required,
-      Validators.minLength(3)
-    ]);
     this.floor = new FormControl(this.formData.floor, [
       Validators.required,
       Validators.pattern(Globals.numberRegex)
@@ -76,8 +61,6 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
   createForm() {
     this.myform = new FormGroup({
       name: this.name,
-      unitNo: this.unitNo,
-      phone: this.phone,
       floor: this.floor
     });
   }

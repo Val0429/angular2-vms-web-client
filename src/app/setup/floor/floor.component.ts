@@ -20,8 +20,8 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
-  tempData = [];
-  data = [];
+  tempData :Floor[] = [];
+  data :Floor[]= [];
   filterQuery = "";
   actionMode = "";
   private srcUser = "";
@@ -91,8 +91,6 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
 
     let data = new Floor();    
     data.name = u;
-    data.phone = [];
-    data.unitNo = "";
     data.floor = 0;
     data.objectId = "";
     this.showCreateEditDialog(data, false);
@@ -148,7 +146,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
-      if (item.name.toLowerCase().indexOf(filter) > -1 || item.unitNo.toLowerCase().indexOf(filter) > -1) {
+      if (item.name.toLowerCase().indexOf(filter) > -1 ) {
         this.data.push(item);
       }
     }
