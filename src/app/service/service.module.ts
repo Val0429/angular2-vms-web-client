@@ -14,6 +14,7 @@ import { SetupService } from 'app/service/setup.service';
 import { UserService } from 'app/service/user.service';
 import { ActionService } from 'app/service/action.service';
 import { RecognitionService} from 'app/service/recognition.service';
+import { CompanyService } from './company.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { RecognitionService} from 'app/service/recognition.service';
     RouterModule
   ],
   declarations: [],
-  providers: [CoreService, CryptoService, LoginService, ReportService, SetupService, UserService, RecognitionService, ActionService  ]
+  providers: [CoreService, CryptoService, LoginService, ReportService, SetupService, UserService, RecognitionService, ActionService, CompanyService  ]
 })
 export class ServiceModule { }

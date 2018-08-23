@@ -12,6 +12,7 @@ import { SetupService } from "./service/setup.service";
 import { ChartsModule } from "ng2-charts";
 import { DatepickerModule } from "ng2-bootstrap";
 import { ReportService } from "./service/report.service";
+import { CompanyService } from "./service/company.service";
 
 @NgModule({
   imports: [
@@ -36,6 +37,6 @@ import { ReportService } from "./service/report.service";
     ChartsModule,
     DatepickerModule
   ],
-  providers: [UserService, CoreService, LoginService, DialogService, SetupService, ReportService],
+  providers: [UserService, CoreService, LoginService, DialogService, SetupService, ReportService, CompanyService]
 })
 export class AppTestModule { }

@@ -1,38 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles, KioskUser, Floor, UserData, RoleEnum } from 'app/Interface/interface';
-import * as Globals from '../globals';
+import { User, KioskUser, Floor,  RoleEnum, Company } from 'app/Interface/interface';
+import * as Globals from 'app/globals';
 
 @Injectable()
 export class UserService {
   
     private uriRoleCrud: string = Globals.cgiRoot + "roles";
     private uriUserCrud: string = Globals.cgiRoot + "users";
-  private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
-  private uriFloorCrud: string = Globals.cgiRoot + "floors";
-  private uriFloorCSVCrud: string = Globals.cgiRoot + "floors/csv";
   
-
-    private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
-    private uriCreateGroup: string = Globals.cgiRoot + "frs/cgi/creategroup";
-    //private uriModifyGroup: string = Globals.cgiRoot + "frs/cgi/modifygroupinfo";
-    private uriDeleteGroup: string = Globals.cgiRoot + "frs/cgi/deletegroups";
-
-
-    private uriGetPersonList: string = Globals.cgiRoot + "frs/cgi/getpersonlist";
-    private uriCreatePerson: string = Globals.cgiRoot + "frs/cgi/createperson";
-    private uriModifyPerson: string = Globals.cgiRoot + "frs/cgi/modifypersoninfo";
-    private uriDeletePerson: string = Globals.cgiRoot + "frs/cgi/deleteperson";
-
-
-    private uriApplyPersonToGroups: string = Globals.cgiRoot + "frs/cgi/applypersontogroups";
-
-    private uriGetFaceImage: string = Globals.cgiRoot + "frs/cgi/getfaceimage";
-    private uriGetFaceSnapshot: string = Globals.cgiRoot + "frs/cgi/snapshot/session_id={0}&image={1}";
-
-
+    private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
+    private uriFloorCrud: string = Globals.cgiRoot + "floors";
+    private uriFloorCSVCrud: string = Globals.cgiRoot + "floors/csv";
 
     constructor(
         private coreService: CoreService,
@@ -101,6 +81,7 @@ export class UserService {
     }
     return users;
   }
+  
   async getUsersList(pagingParams?: string): Promise<User[]> {        
 
       var token = this.loginService.getCurrentUserToken();

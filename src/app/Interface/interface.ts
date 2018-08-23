@@ -341,7 +341,13 @@ export enum RoleEnum{
 export interface CreateEditDialog {
   title: string;
 }
-
+export interface CrudInterface <T>{
+    uriCrud:string;
+    create(data:T):Promise<T>;
+    update(data:T):Promise<T>;
+    read(filter:string):Promise<T[]>;
+    delete(objectId:string):Promise<T>;
+}
 export class Visitor_Profile {
     public mobile_no: String = "" ;
     public visitor_name: String = "" ;

@@ -33,6 +33,18 @@
 		"updateData": "Update Data",
 		"userName": "Username"
 	},
+	"pageAccount": {
+		"roles": "Roles",
+		"userList": "User List",
+		"users": "Users"
+	},
+	"pageCompany": {
+		"company": "Company",
+		"contactNumber": "Contact Number",
+		"contactPerson": "Contact Person",
+		"floor": "Floor",
+		"unitNumber": "Unit Number"
+	},
 	"pageDashboard": {
 		"checkInStatistic": "Check In Statistic",
 		"dailyTotalVisitor": "Daily Total Visitor",
@@ -44,11 +56,6 @@
 		"today": "Today",
 		"totalVisit": "Total Visit",
 		"visitorOnSite": "Visitor On Site"
-	},
-	"pageAccount": {
-		"roles": "Roles",
-		"userList": "User List",
-		"users": "Users"
 	},
 	"pageEmail": {
 		"port": "Port Number",
@@ -107,12 +114,12 @@
 		},
 		"setup": {
 			"accountManagement": "Account Management",
+			"companyManagement": "Company Management",
 			"emailSetting": "Email Setting",
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
-			"smsSetting": "SMS Setting",
-			"companyManagement":"Company Management"
+			"smsSetting": "SMS Setting"
 		},
 		"tenant": {
 			"invitation": "Invitation",

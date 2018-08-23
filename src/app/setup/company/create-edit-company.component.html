@@ -1,3 +1,103 @@
-<p>
-  create-edit-company works!
-</p>
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <form novalidate
+            [formGroup]="myform">
+
+            <div class="input-group mb-1" title="{{'common.name'|translate}}"
+            [ngClass]="{
+      'has-danger': name.invalid && (name.dirty || name.touched),
+      'has-success': name.valid && (name.dirty || name.touched)}">
+         <span class="input-group-addon">
+           <i class="fa fa-user"></i>
+         </span>
+         <input type="text"
+                class="form-control"
+                [readonly]="editMode"
+                required
+                formControlName="name"
+                
+                placeholder="{{'common.name'|translate}}" />
+       </div>
+       <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
+         <p *ngIf="name.errors.required">{{'common.name'|translate}}{{'common.isRequired'|translate}}</p>
+         <p *ngIf="name.errors.minlength">{{'common.name'|translate}}{{'common.minLength'|translate:name.errors}}</p>
+       </div>
+
+       <div class="input-group mb-1" title="{{'pageCompany.unitNumber'|translate}}"
+             [ngClass]="{
+       'has-danger': unitNumber.invalid && (unitNumber.dirty || unitNumber.touched),
+       'has-success': unitNumber.valid && (unitNumber.dirty || unitNumber.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 [readonly]="editMode"
+                 required
+                 formControlName="unitNumber"
+                 
+                 placeholder="{{'pageCompany.unitNumber'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="unitNumber.errors && (unitNumber.dirty || unitNumber.touched )">
+          <p *ngIf="unitNumber.errors.required">{{'common.unitNumber'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="unitNumber.errors.minlength">{{'common.unitNumber'|translate}}{{'common.minLength'|translate:unitNumber.errors}}</p>
+        </div>
+
+        <div class="input-group mb-1" title="{{'pageCompany.contactPerson'|translate}}"
+             [ngClass]="{
+       'has-danger': contactPerson.invalid && (contactPerson.dirty || contactPerson.touched),
+       'has-success': contactPerson.valid && (contactPerson.dirty || contactPerson.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-user"></i>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 [readonly]="editMode"
+                 required
+                 formControlName="contactPerson"
+                 
+                 placeholder="{{'pageCompany.contactPerson'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="contactPerson.errors && (contactPerson.dirty || contactPerson.touched )">
+          <p *ngIf="contactPerson.errors.required">{{'common.contactPerson'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="contactPerson.errors.minlength">{{'common.contactPerson'|translate}}{{'common.minLength'|translate:contactPerson.errors}}</p>
+        </div>
+
+        <div class="input-group mb-1" title="{{'pageCompany.contactNumber'|translate}}"
+        [ngClass]="{
+  'has-danger': contactNumber.invalid && (contactNumber.dirty || contactNumber.touched),
+  'has-success': contactNumber.valid && (contactNumber.dirty || contactNumber.touched)}">
+     <span class="input-group-addon">
+       <i class="fa fa-user"></i>
+     </span>
+     <input type="text"
+            class="form-control"
+            [readonly]="editMode"
+            required
+            formControlName="contactNumber"
+            
+            placeholder="{{'pageCompany.contactNumber'|translate}}" />
+   </div>
+   <div style="color:red" *ngIf="contactNumber.errors && (contactNumber.dirty || contactNumber.touched )">
+     <p *ngIf="contactNumber.errors.required">{{'common.contactNumber'|translate}}{{'common.isRequired'|translate}}</p>
+     <p *ngIf="contactNumber.errors.minlength">{{'common.contactNumber'|translate}}{{'common.minLength'|translate:contactNumber.errors}}</p>
+   </div>
+
+        <pre>{{myform.value | json}}</pre>
+
+      </form>
+
+      <div class="modal-footer" >
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

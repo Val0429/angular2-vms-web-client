@@ -44,7 +44,8 @@ import { CreateEditCompanyComponent } from './company/create-edit-company.compon
     CreateEditUserComponent,
     CreateEditKioskComponent,
     CreateEditFloorComponent,
-    BatchUploadFloorComponent
+    BatchUploadFloorComponent,
+    CreateEditCompanyComponent
   ],
   declarations: [
     EmailComponent,
