@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { User, KioskUser, Floor,  RoleEnum, Company } from 'app/Interface/interface';
+import { User, RoleEnum, UserServiceInterface } from 'app/Interface/interface';
 import * as Globals from 'app/globals';
+import { CrudService } from './crud.service';
 
 @Injectable()
-export class UserService {
-  
-    private uriRoleCrud: string = Globals.cgiRoot + "roles";
-    private uriUserCrud: string = Globals.cgiRoot + "users";
-  
-    private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
-    private uriFloorCrud: string = Globals.cgiRoot + "floors";
-    private uriFloorCSVCrud: string = Globals.cgiRoot + "floors/csv";
-
+export class UserService extends CrudService<User> implements UserServiceInterface<User>{
+  uriRoleCrud: string;
     constructor(
-        private coreService: CoreService,
-        private loginService: LoginService
-    ) { }
+        coreService: CoreService,
+        loginService: LoginService
+    ) { 
+      super(coreService, loginService);
+      this.uriCrud = Globals.cgiRoot + "users";
+      this.uriRoleCrud = Globals.cgiRoot + "roles";
+    }
 
     getCurrentUser(): User {
         return this.loginService.getCurrentUser();
     }
 
-  isAdmin(): boolean {
-    var currUser = this.getCurrentUser();
-    return currUser.roles.map(function (e) { return e.name }).indexOf(RoleEnum[RoleEnum.Administrator]) > -1;
-  }
   /**   
    * @param role   
    */
@@ -53,45 +47,4 @@ export class UserService {
 
     return roles;
   }
-  async getUsersList(pagingParams?: string): Promise<User[]> {        
-
-      var token = this.loginService.getCurrentUserToken();
-    var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-      console.log(result);
-      if (result && result["results"]) {        
-        result["results"].forEach(function (user) {
-          if (user["objectId"])
-            users.push(user);
-        });
-      }
-      return users;
-  }
-  async updateUser(data: User): Promise<User> {
-
-    let token = this.loginService.getCurrentUserToken();
-    
-    let result = await this.coreService.putConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update user result: ", result);
-        
-    return result;
-  }
-  async createUser(userData: User): Promise<User> {
-      
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: userData }).toPromise();
-
-    console.log("create user result: ", result);
-
-    return result;
-
-  }
-  async deleteUser(objectId: string): Promise<User> {
-      var token = this.loginService.getCurrentUserToken();
-      var result = await this.coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-      return result;
-  }
-
 }

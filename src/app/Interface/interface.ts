@@ -352,6 +352,11 @@ export interface FloorServiceInterface<T> extends CrudInterface<T>{
     uriBatchFloor:string;
     batchUploadFloor(data: any): Promise<any>;
 }
+export interface UserServiceInterface<T> extends CrudInterface<T>{
+    uriRoleCrud: string;
+    userIs(role: RoleEnum): boolean ;
+    getUserRole(): Promise<string[]>;
+}
 export class Visitor_Profile {
     public mobile_no: String = "" ;
     public visitor_name: String = "" ;

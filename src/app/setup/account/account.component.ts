@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Interface/interface';
+import { Roles, RoleOption, User, BaseUser, BaseClass, UserData, RoleEnum } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { FormControl } from '@angular/forms';
@@ -25,7 +25,6 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   availableRoles: string[];
   filterQuery = '';
   actionMode = "";
-  private srcUser = "";
   private isAdmin = false;
   
 
@@ -35,18 +34,18 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     if (roles) {
       this.availableRoles = roles;      
     }
-    let users = await this.userService.getUsersList("&paging.all=true");
+    let users = await this.userService.read("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
       this.tempData.push(user);
     }
     
-    this.isAdmin = this.userService.isAdmin();
+    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
     console.log("is admin:", this.isAdmin);
   }
   
 
-  editUser(item) {
+  edit(item: User) {
     console.log("edit item", item);
     this.actionMode = this.getLocaleString("common.edit");;    
     
@@ -57,17 +56,17 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     let newForm = new CreateEditUserComponent(this.dialogService);
     //sets form data
     newForm.setFormData(data, this.actionMode, this.availableRoles, editMode);
-    let disposable = this.dialogService.addDialog(CreateEditUserComponent, newForm)
+    this.dialogService.addDialog(CreateEditUserComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
           let formData = newForm.getFormData();
-          this.saveUser(formData);
+          this.save(formData);
         }
       });
   }
 
-  newUser() {
+  createNew() {
     this.actionMode = this.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
@@ -83,14 +82,13 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
 
     this.showCreateEditDialog(newUser, false);
   }
-  async deleteUser(item) {
+  async delete(item : User) {
     console.log("deleteUser", item);
-    
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {})
+    this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteUser(item.objectId);          
+          var result = await this.userService.delete(item.objectId);          
           if (result) {
             var index = this.data.indexOf(item, 0);                      
             this.data.splice(index, 1);
@@ -120,20 +118,20 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     }
   }
 
-  async saveUser(formResult: User) {
-    if (formResult.objectId === "") {
+  async save(formResult: User) {
+    formResult.objectId === ""?
       // Create User
-      await this.createUser(formResult);
-    } else {       
+      await this.create(formResult):
+     
       // edit User
-      await this.updateUser(formResult);
-    }
+      await this.update(formResult);
+    
   }
-  async createUser(data:User) {
+  async create(data:User) {
     //let formResult = this.child.getFormData();
     
     console.log("create user", data);
-    var result = await this.userService.createUser(data);
+    var result = await this.userService.create(data);
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
@@ -142,7 +140,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   }
 
   
-  async updateUser(data:User) {      
+  async update(data:User) {      
       console.log("form result", data);      
 
       //update data without update password by admin
@@ -153,7 +151,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
 
       console.log("updateUser", data);      
        
-      var result = await this.userService.updateUser(data);
+      var result = await this.userService.update(data);
     
     
       if (result) {        
