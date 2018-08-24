@@ -348,6 +348,10 @@ export interface CrudInterface <T>{
     read(filter:string):Promise<T[]>;
     delete(objectId:string):Promise<T>;
 }
+export interface FloorServiceInterface<T> extends CrudInterface<T>{
+    uriBatchFloor:string;
+    batchUploadFloor(data: any): Promise<any>;
+}
 export class Visitor_Profile {
     public mobile_no: String = "" ;
     public visitor_name: String = "" ;

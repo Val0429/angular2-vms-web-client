@@ -14,6 +14,7 @@ import { DatepickerModule } from "ng2-bootstrap";
 import { ReportService } from "./service/report.service";
 import { CompanyService } from "./service/company.service";
 import { KioskService } from "./service/kiosk.service";
+import { FloorService } from "./service/floor.service";
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { KioskService } from "./service/kiosk.service";
     SetupService, 
     ReportService, 
     CompanyService,
-    KioskService
+    KioskService,
+    FloorService
   ]
 })
 export class AppTestModule { }

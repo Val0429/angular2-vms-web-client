@@ -8,6 +8,7 @@ import { Floor } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
 import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
 import { TranslateService } from 'ng2-translate';
+import { FloorService } from '../../service/floor.service';
 
 @Component({
   selector: 'app-floor',
@@ -17,20 +18,19 @@ import { TranslateService } from 'ng2-translate';
 export class FloorComponent extends BaseClassComponent implements OnInit, BaseComponent {
 
 
-  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+  constructor(private userService: UserService, private floorService:FloorService,dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
   tempData :Floor[] = [];
   data :Floor[]= [];
   filterQuery = "";
   actionMode = "";
-  private srcUser = "";
   private isAdmin = false;
 
 
   async ngOnInit(): Promise<void> {
 
-    let floors = await this.userService.getFloorList("&paging.all=true");
+    let floors = await this.floorService.read("&paging.all=true");
     for (let floor of floors) {
       this.data.push(floor);
       this.tempData.push(floor);
@@ -41,7 +41,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
 
-  editFloor(item) {
+  edit(item) {
     console.log("edit floor", item);
     this.actionMode = this.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
@@ -55,7 +55,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
         //We get dialog result
         if (saved) {
           let data = newForm.getFormData();
-          this.saveFloor(data);
+          this.save(data);
         }
       });
   }
@@ -72,7 +72,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
       });
   }
   async submitCSVFile(data: any) {
-    var result = await this.userService.batchUploadFloor(data);
+    var result = await this.floorService.batchUploadFloor(data);
     if (result) {
       //console.log(result);
       this.showAlert(result.paging.count + this.getLocaleString("pageFloor.haveBeenImported"));
@@ -83,7 +83,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   batchUploadFloor() {
     this.showBatchUploadDialog();
   }
-  newFloor() {
+  createNew() {
     this.actionMode = this.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
@@ -95,15 +95,15 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     data.objectId = "";
     this.showCreateEditDialog(data, false);
   }
-  async deleteFloor(item: Floor) {
+  async delete(item: Floor) {
     console.log("delete floor", item);
 
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteFloor(item.objectId);
+          var result = await this.floorService.delete(item.objectId);
           if (result) {
             var index = this.data.indexOf(item, 0);
             this.data.splice(index, 1);
@@ -116,18 +116,16 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
       });
   }
 
-  async saveFloor(formResult: Floor) {
+  async save(formResult: Floor) {
     // Create Floor
-    if (!formResult.objectId || formResult.objectId==="") {      
-      await this.createFloor(formResult);
-    }
-    else {// edit Floor      
-      await this.updateFloor(formResult);
-    }
+    formResult.objectId==="" ?
+      await this.create(formResult):
+    // update
+      await this.update(formResult);    
   }
-  async createFloor(formResult: Floor) {         
+  async create(formResult: Floor) {         
     console.log("create floor", formResult);
-    var result = await this.userService.createFloor(formResult);
+    var result = await this.floorService.create(formResult);
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
@@ -152,12 +150,12 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     }
   }
 
-  async updateFloor(data: Floor) {
+  async update(data: Floor) {
     
     
     console.log("update floor", data);
 
-    var result = await this.userService.updateFloor(data);
+    var result = await this.floorService.update(data);
     
     if (result) {
       var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);

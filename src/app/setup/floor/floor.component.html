@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-block">
           <div class="row mb-1">
-            <button type="button" class="btn btn-primary col-md-6" (click)="newFloor(); ">
+            <button type="button" class="btn btn-primary col-md-6" (click)="createNew(); ">
               {{'common.new' | translate}}
             </button>            
             <button type="button" class="btn btn-primary col-md-6" (click)="batchUploadFloor(); ">
@@ -62,10 +62,10 @@
                   </td>
                   
                   <td>
-                    <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editFloor(item);"></a>
+                    <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                   </td>
                   <td>
-                    <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteFloor(item)"></a>
+                    <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                   </td>
                 </tr>
               </tbody>

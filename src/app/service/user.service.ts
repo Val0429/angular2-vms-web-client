@@ -53,20 +53,6 @@ export class UserService {
 
     return roles;
   }
-  async getFloorList(pagingParams?:string): Promise<Floor[]> {
-
-    var token = this.loginService.getCurrentUserToken();
-    var data = [];
-    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-    console.log(result);
-    if (result && result["results"]) {
-      result["results"].forEach(function (newData) {
-        if (newData["objectId"])
-          data.push(newData);
-      });
-    }
-    return data;
-  }
   async getUsersList(pagingParams?: string): Promise<User[]> {        
 
       var token = this.loginService.getCurrentUserToken();
@@ -80,37 +66,6 @@ export class UserService {
         });
       }
       return users;
-  }
-  async updateFloor(data: Floor): Promise<Floor> {
-
-    var token = this.loginService.getCurrentUserToken();
-
-    var result = await this.coreService.putConfig({ path: this.uriFloorCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update floor result: ", result);
-
-    return result;
-  }
-  async createFloor(data: Floor): Promise<Floor> {
-
-    var token = this.loginService.getCurrentUserToken();
-
-    var result = await this.coreService.postConfig({ path: this.uriFloorCrud +"?sessionId="+token.sessionId, data: data }).toPromise();
-
-    console.log("create floor result: ", result);
-
-    return result;
-
-  }
-  async batchUploadFloor(data: any): Promise<any> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriFloorCSVCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("batch floor upload result: ", result);
-
-    return result;
   }
   async updateUser(data: User): Promise<User> {
 
@@ -132,11 +87,6 @@ export class UserService {
 
     return result;
 
-  }
-  async deleteFloor(objectId: string): Promise<Floor> {
-    var token = this.loginService.getCurrentUserToken();
-    var result = await this.coreService.deleteConfig({ path: this.uriFloorCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-    return result;
   }
   async deleteUser(objectId: string): Promise<User> {
       var token = this.loginService.getCurrentUserToken();

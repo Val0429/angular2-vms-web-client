@@ -16,6 +16,7 @@ import { ActionService } from 'app/service/action.service';
 import { RecognitionService} from 'app/service/recognition.service';
 import { CompanyService } from './company.service';
 import { KioskService } from './kiosk.service';
+import { FloorService } from './floor.service';
 
 @NgModule({
   imports: [
@@ -34,6 +35,8 @@ import { KioskService } from './kiosk.service';
     RecognitionService, 
     ActionService, 
     CompanyService,
-    KioskService  ]
+    KioskService,
+    FloorService
+    ]
 })
 export class ServiceModule { }

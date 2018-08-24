@@ -5,11 +5,15 @@ import { CrudInterface } from 'app/Interface/interface';
 
 export class CrudService<T> implements CrudInterface<T>{
   public uriCrud: string;
+  public coreService: CoreService;
+  public loginService:LoginService;
   constructor(
-      private coreService: CoreService,
-      private loginService:LoginService
+      coreService: CoreService,
+      loginService:LoginService
   ) { 
     this.uriCrud="";
+    this.coreService = coreService;
+    this.loginService = loginService;
   }
 
   public async create(data: T): Promise<T> {
