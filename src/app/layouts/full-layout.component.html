@@ -15,9 +15,9 @@
                     <strong>{{'pageLayout.header.account'|translate}}</strong>
                 </div>
                 <div class="divider"></div>
-                <!--<a class="dropdown-item" style="cursor: pointer;" (click)="changePassword()">
+                <a class="dropdown-item" style="cursor: pointer;" (click)="changePassword()">
                   <i class="fa fa-shield"></i> {{'pageLayout.header.changePassword'|translate}}
-                </a>-->
+                </a>
                 <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">
                   <i class="fa fa-lock"></i>{{'pageLayout.header.logout'|translate}} 
                 </a>
@@ -34,7 +34,7 @@
         <nav class="sidebar-nav">
           <ul class="nav">
             <!--Sys Admin Menu-->
-            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsSysAdmin()">
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin()">
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/report']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.report'|translate}}
               </a>
@@ -55,21 +55,32 @@
               </ul>
             </li>
             <!--Admin Menu-->
-            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin()">
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsSysAdmin()">
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.setup'|translate}}
               </a>
-              <ul class="nav-dropdown-items">
+              <ul class="nav-dropdown-items">  
+                  <li class="nav-item">
+                      <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/floor']">
+                        <i class="icon-settings"></i> {{'pageLayout.setup.floorManagement'|translate}}
+                      </a>
+                    </li>              
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/company']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.companyManagement'|translate}}
+                    </a>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/account']">
                     <i class="icon-link"></i> {{'pageLayout.setup.accountManagement'|translate}}
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/company']">
-                    <i class="icon-settings"></i> {{'pageLayout.setup.companyManagement'|translate}}
-                  </a>
-                </li>
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/kiosk']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.kioskManagement'|translate}}
+                    </a>
+                  </li>
+                  
                 <li class="nav-item">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/frs']">
                     <i class="icon-settings"></i> {{'pageLayout.setup.frsSetting'|translate}}
@@ -85,16 +96,7 @@
                     <i class="icon-settings"></i> {{'pageLayout.setup.smsSetting'|translate}}
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/kiosk']">
-                    <i class="icon-settings"></i> {{'pageLayout.setup.kioskManagement'|translate}}
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/floor']">
-                    <i class="icon-settings"></i> {{'pageLayout.setup.floorManagement'|translate}}
-                  </a>
-                </li>
+                
               </ul>
             </li>
             <!--Tenant Admin Menu-->
