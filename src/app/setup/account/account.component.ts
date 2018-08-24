@@ -20,8 +20,8 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
-  tempData=[]
-  data = [];
+  tempData:User[]=[];
+  data:User[] = [];
   availableRoles: string[];
   filterQuery = '';
   actionMode = "";

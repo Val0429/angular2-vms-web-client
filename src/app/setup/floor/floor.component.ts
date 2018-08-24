@@ -41,7 +41,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
 
-  edit(item) {
+  edit(item:Floor) {
     console.log("edit floor", item);
     this.actionMode = this.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);

@@ -19,7 +19,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
   constructor(private companyService: CompanyService, private userService:UserService,dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
-  tempData:Company[] = []
+  tempData:Company[] = [];
   data:Company[] = [];
   filterQuery = '';
   actionMode = "";
@@ -67,7 +67,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
     u = "company" + u.substr(u.length - 3, 3);
     let newItem = new Company();
     newItem.objectId = "";  
-    newItem.name= "";
+    newItem.name= u;
     newItem.unitNumber= "";
     newItem.contactPerson= "";
     newItem.contactNumber=[];

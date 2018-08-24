@@ -19,8 +19,8 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   constructor(private kioskService: KioskService, private userService: UserService,dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
-  tempData = [];
-  data = [];   
+  tempData :KioskUser[] = [];
+  data:KioskUser[]= [];   
   filterQuery = "";
   actionMode = "";
   private isAdmin = false;
@@ -102,7 +102,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     this.showCreateEditDialog(newData, false);
   }
   
-  async delete(item) {
+  async delete(item:KioskUser) {
     console.log("delete kiosk", item);
 
     let disposable = this.dialogService.addDialog(ConfirmComponent, {            

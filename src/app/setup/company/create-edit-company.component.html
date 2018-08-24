@@ -19,8 +19,6 @@
          </span>
          <input type="text"
                 class="form-control"
-                [readonly]="editMode"
-                required
                 formControlName="name"
                 
                 placeholder="{{'common.name'|translate}}" />
@@ -38,16 +36,13 @@
             <i class="fa fa-user"></i>
           </span>
           <input type="text"
-                 class="form-control"
-                 [readonly]="editMode"
-                 required
-                 formControlName="unitNumber"
-                 
+                 class="form-control"                 
+                 formControlName="unitNumber"                 
                  placeholder="{{'pageCompany.unitNumber'|translate}}" />
         </div>
         <div style="color:red" *ngIf="unitNumber.errors && (unitNumber.dirty || unitNumber.touched )">
-          <p *ngIf="unitNumber.errors.required">{{'common.unitNumber'|translate}}{{'common.isRequired'|translate}}</p>
-          <p *ngIf="unitNumber.errors.minlength">{{'common.unitNumber'|translate}}{{'common.minLength'|translate:unitNumber.errors}}</p>
+          <p *ngIf="unitNumber.errors.required">{{'pageCompany.unitNumber'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="unitNumber.errors.minlength">{{'pageCompany.unitNumber'|translate}}{{'common.minLength'|translate:unitNumber.errors}}</p>
         </div>
 
         <div class="input-group mb-1" title="{{'pageCompany.contactPerson'|translate}}"
@@ -59,15 +54,13 @@
           </span>
           <input type="text"
                  class="form-control"
-                 [readonly]="editMode"
-                 required
                  formControlName="contactPerson"
                  
                  placeholder="{{'pageCompany.contactPerson'|translate}}" />
         </div>
         <div style="color:red" *ngIf="contactPerson.errors && (contactPerson.dirty || contactPerson.touched )">
-          <p *ngIf="contactPerson.errors.required">{{'common.contactPerson'|translate}}{{'common.isRequired'|translate}}</p>
-          <p *ngIf="contactPerson.errors.minlength">{{'common.contactPerson'|translate}}{{'common.minLength'|translate:contactPerson.errors}}</p>
+          <p *ngIf="contactPerson.errors.required">{{'pageCompany.contactPerson'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="contactPerson.errors.minlength">{{'pageCompany.contactPerson'|translate}}{{'common.minLength'|translate:contactPerson.errors}}</p>
         </div>
 
         <div class="input-group mb-1" title="{{'pageCompany.contactNumber'|translate}}"
@@ -79,15 +72,14 @@
      </span>
      <input type="text"
             class="form-control"
-            [readonly]="editMode"
-            required
             formControlName="contactNumber"
             
             placeholder="{{'pageCompany.contactNumber'|translate}}" />
    </div>
    <div style="color:red" *ngIf="contactNumber.errors && (contactNumber.dirty || contactNumber.touched )">
-     <p *ngIf="contactNumber.errors.required">{{'common.contactNumber'|translate}}{{'common.isRequired'|translate}}</p>
-     <p *ngIf="contactNumber.errors.minlength">{{'common.contactNumber'|translate}}{{'common.minLength'|translate:contactNumber.errors}}</p>
+     <p *ngIf="contactNumber.errors.required">{{'pageCompany.contactNumber'|translate}}{{'common.isRequired'|translate}}</p>
+     <p *ngIf="contactNumber.errors.minlength">{{'pageCompany.contactNumber'|translate}}{{'common.minLength'|translate:contactNumber.errors}}</p>
+     <p *ngIf="contactNumber.errors.pattern">{{'pageCompany.contactNumber'|translate}}{{'common.isInvalid'|translate}}</p>
    </div>
 
         <pre>{{myform.value | json}}</pre>
