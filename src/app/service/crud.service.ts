@@ -5,11 +5,9 @@ import { CrudInterface } from 'app/Interface/interface';
 
 export class CrudService<T> implements CrudInterface<T>{
   public uriCrud: string;
-  public coreService: CoreService;
-  public loginService:LoginService;
   constructor(
-      coreService: CoreService,
-      loginService:LoginService
+    public coreService: CoreService,
+    public loginService:LoginService
   ) { 
     this.uriCrud="";
     this.coreService = coreService;
@@ -39,7 +37,7 @@ export class CrudService<T> implements CrudInterface<T>{
     var token = this.loginService.getCurrentUserToken();
     var items : T[]= [];
     var result = await this.coreService.getConfig({ path: this.uriCrud, query: "?sessionId=" + token.sessionId + filter }).toPromise();
-      console.log(result);
+      console.log("read result: ",result);
       if (result && result["results"]) {        
         result["results"].forEach(function (item) {
           if (item["objectId"])

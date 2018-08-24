@@ -333,10 +333,11 @@ export class Face_Settings {
     }
 }
 export enum RoleEnum{
-  SystemAdministrator = 1,
-  Administrator = 10,
-  Kiosk = 20,
-  Tenant = 30
+  SystemAdministrator = 0,
+  Administrator = 1,  
+  TenantAdministrator = 20,
+  TenantUser = 21,
+  Kiosk = 80
 }
 export interface CreateEditDialog {
   title: string;

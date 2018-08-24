@@ -30,7 +30,7 @@ export class FullLayoutComponent extends BaseClassComponent implements OnInit,Ba
     console.log('Dropdown is now: ', open);
   }
   userIsTenant(): boolean{
-    return this.userService.userIs(RoleEnum.Tenant);
+    return this.userService.userIs(RoleEnum.TenantAdministrator);
   }
   userIsSysAdmin(): boolean {
     return this.userService.userIs(RoleEnum.SystemAdministrator);
