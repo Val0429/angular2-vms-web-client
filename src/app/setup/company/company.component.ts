@@ -7,6 +7,7 @@ import { CreateEditCompanyComponent } from './create-edit-company.component';
 import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
 import { TranslateService } from 'ng2-translate';
 import { CompanyService } from '../../service/company.service';
+import { FloorService } from '../../service/floor.service';
 
 @Component({
   selector: 'app-company',
@@ -16,23 +17,30 @@ import { CompanyService } from '../../service/company.service';
 export class CompanyComponent extends BaseClassComponent implements OnInit, BaseComponent {
    
 
-  constructor(private companyService: CompanyService, private userService:UserService,dialogService: DialogService, translateService: TranslateService) {
+  constructor(private companyService: CompanyService, 
+    private userService:UserService, 
+    private floorService:FloorService,
+    dialogService: DialogService, 
+    translateService: TranslateService) {
     super(dialogService, translateService);
   }
   tempData:Company[] = [];
   data:Company[] = [];
+  floorData:Floor[]=[];
   filterQuery = '';
   actionMode = "";
   private isAdmin = false;
   
 
   async ngOnInit(): Promise<void> { 
-    
+    //gets all data
     let items = await this.companyService.read("&paging.all=true");
-    for (let item of items) {
+    for(let item of items){
       this.data.push(item);
       this.tempData.push(item);
-    }
+    }   
+    //gets floor data
+    this.floorData = await this.floorService.read("&paging.all=true");
     
     this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
     console.log("is admin:", this.isAdmin);
@@ -49,7 +57,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
     //creates dialog form here
     let newForm = new CreateEditCompanyComponent(this.dialogService);
     //sets form data
-    newForm.setFormData(data, [],this.actionMode, editMode);
+    newForm.setFormData(data, this.floorData, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditCompanyComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result

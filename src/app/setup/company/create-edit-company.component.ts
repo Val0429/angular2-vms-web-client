@@ -12,21 +12,31 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
   title: string;  
   editMode:boolean;
   formData: Company; 
-  tempCheckBoxData:string[];
-
   myform: FormGroup;
   unitNumber: FormControl;  
   contactNumber: FormControl;
   contactPerson: FormControl;
   name: FormControl;
-  //floor: FormControl;
-  floorOptions : Floor[];
+  floor: FormControl;
+  floorOptions : Floor[]=[];  
+  showFloor:boolean=false;
 
   public setFormData(formData: Company, floorOptions:Floor[], title: string, editMode: boolean) {
-    this.formData = formData;
+    this.formData = new Company();
+    
+    //copy this object to prevent back reference
+    this.formData = Object.assign({}, formData);   
+    this.formData.floor = Object.assign([], formData.floor);   
+    //copy array of floor options
+    for(let item of floorOptions){
+      let findIndex = formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
+      //push if it's not already selected
+      if(findIndex < 0) this.floorOptions.push(item);
+    }
+
     this.title = title;
     this.editMode = editMode;
-    this.floorOptions = floorOptions;
+    
     //binding data
     this.createFormControls();
     this.createForm();
@@ -36,6 +46,7 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
 
     //initialization
     let initForm = new Company();
+    initForm.contactNumber=[];
     this.setFormData(initForm, [], "Init Form", true);
   }
   
@@ -44,16 +55,50 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     this.formData.name=formResult.name;
     this.formData.contactPerson=formResult.contactPerson;
     this.formData.unitNumber=formResult.unitNumber;
-    this.formData.contactNumber=formResult.contactNumber.split(',');
-    
-    this.formData.floor= [];
-    this.formData.floor.push("8UTZJ7APdv" as any);
-    this.formData.floor.push("K4yesDCDRH" as any);
-
+    this.formData.contactNumber=formResult.contactNumber.split(',');    
+    //set this value back the way backend wants it
+    this.formData.floor= formResult.floor;
     return this.formData;
   }
 
+toggleFloor(){
+  this.showFloor=!this.showFloor;
+}
+removeFloor(item:Floor){
+  //assume there's always this option index
+  let findIndex = this.formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
+  
+  let findOptionIndex = this.floorOptions.map(function(e){return e.objectId}).indexOf(item.objectId);
 
+  if(findOptionIndex < 0){
+    this.floorOptions.push(item);
+    this.formData.floor.splice(findIndex, 1);
+  }
+  else{
+    this.floorOptions.splice(findOptionIndex, 1);
+    this.formData.floor.push(item);
+  }
+  
+    //formats it the way backend wants it
+  this.floor.setValue(this.formData.floor.map(function(e){return e.objectId}));
+}
+addFloor(item:Floor){
+  let findIndex = this.formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
+  //assume there's always this option index
+  let findOptionIndex = this.floorOptions.map(function(e){return e.objectId}).indexOf(item.objectId);
+
+  if(findIndex < 0){
+    this.formData.floor.push(item);
+    this.floorOptions.splice(findOptionIndex, 1);
+  }
+  else{
+    this.formData.floor.splice(findIndex, 1);
+    this.floorOptions.push(item);
+  }
+  
+    //formats it the way backend wants it
+  this.floor.setValue(this.formData.floor.map(function(e){return e.objectId}));
+}
   createFormControls() {
     this.name = new FormControl(this.formData.name, [
       Validators.required,
@@ -71,27 +116,12 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
       Validators.required,
       Validators.minLength(3)
     ]);
-    //this.floor = new FormControl(this.formData.floor.map(function(e){return e.objectId}));
-    this.contactNumber = new FormControl(this.formData.contactNumber, [
-      Validators.required,
-      Validators.minLength(3),
+    this.floor = new FormControl(this.formData.floor);
+    this.contactNumber = new FormControl(this.formData.contactNumber.toString(), [
+      Validators.required,      
       Validators.pattern(Globals.multiPhoneRegex)
     ]);
-
-  }
-
-  addRemoveCheckBox(checked: boolean, value:string) {
-    console.log("clicked checkbox:", checked, value);
-    //assign checked value to temp role 
-    if (checked) {
-      this.tempCheckBoxData.push(value);
-    }      
-    else {
-      let findIndex = this.tempCheckBoxData.indexOf(value);
-      if (findIndex>-1)
-        this.tempCheckBoxData.splice(findIndex, 1);
-    }
-
+    
   }
 
   save() {
@@ -105,7 +135,8 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
       name: this.name,    
       unitNumber: this.unitNumber,
       contactPerson: this.contactPerson,
-      contactNumber:this.contactNumber
+      contactNumber:this.contactNumber,
+      floor:this.floor
     });
   }
 
