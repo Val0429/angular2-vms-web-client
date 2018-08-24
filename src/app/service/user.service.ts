@@ -67,21 +67,6 @@ export class UserService {
     }
     return data;
   }
-  async getKioskUsersList(pagingParams?: string): Promise<KioskUser[]> {
-
-    var token = this.loginService.getCurrentUserToken();
-    var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-    console.log(result);
-    if (result && result["results"]) {
-      result["results"].forEach(function (user) {
-        if (user["objectId"])
-          users.push(user);
-      });
-    }
-    return users;
-  }
-  
   async getUsersList(pagingParams?: string): Promise<User[]> {        
 
       var token = this.loginService.getCurrentUserToken();
@@ -95,27 +80,6 @@ export class UserService {
         });
       }
       return users;
-  }
-  async updateKiosk(data: KioskUser): Promise<KioskUser> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.putConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update kiosk result: ", result);
-
-    return result;
-  }
-  async createKiosk(data: KioskUser): Promise<KioskUser> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("create kiosk result: ", result);
-
-    return result;
-
   }
   async updateFloor(data: Floor): Promise<Floor> {
 
@@ -172,11 +136,6 @@ export class UserService {
   async deleteFloor(objectId: string): Promise<Floor> {
     var token = this.loginService.getCurrentUserToken();
     var result = await this.coreService.deleteConfig({ path: this.uriFloorCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-    return result;
-  }
-  async deleteKiosk(objectId: string): Promise<KioskUser> {
-    var token = this.loginService.getCurrentUserToken();
-    var result = await this.coreService.deleteConfig({ path: this.uriKioskCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
     return result;
   }
   async deleteUser(objectId: string): Promise<User> {

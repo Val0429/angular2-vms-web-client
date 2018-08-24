@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { KioskUser, KioskData, Roles } from '../../Interface/interface';
+import { KioskUser, KioskData, Roles, RoleEnum } from '../../Interface/interface';
 import { TranslateService } from 'ng2-translate';
 import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { KioskService } from '../../service/kiosk.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-kiosk',
@@ -16,14 +16,13 @@ import { BaseComponent, BaseClassComponent } from '../../shared/base-class-compo
 export class KioskComponent extends BaseClassComponent implements OnInit, BaseComponent{
 
 
-  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
+  constructor(private kioskService: KioskService, private userService: UserService,dialogService: DialogService, translateService: TranslateService) {
     super(dialogService, translateService);
   }
   tempData = [];
   data = [];   
   filterQuery = "";
   actionMode = "";
-  private srcUser = "";
   private isAdmin = false;
 
   itemSearch(event) {
@@ -45,17 +44,17 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
 
   async ngOnInit(): Promise<void> {
     
-    let users = await this.userService.getKioskUsersList("&paging.all=true");
+    let users = await this.kioskService.read("&paging.all=true");
     for (let user of users) {
       this.data.push(user);
       this.tempData.push(user);
     }
-    this.isAdmin = this.userService.isAdmin();
+    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
     console.log("is admin:", this.isAdmin);
   }
 
 
-  editKiosk(item: KioskUser) {
+  edit(item: KioskUser) {
     console.log("edit kiosk", item);
     this.actionMode = this.getLocaleString("common.edit") ;
 
@@ -77,12 +76,12 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
         //We get dialog result
         if (saved) {
           let data = newForm.getFormData();
-          this.saveKiosk(data);
+          this.save(data);
         }
       });
   }
 
-  newKiosk() {
+  createNew() {
     this.actionMode = this.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
@@ -103,7 +102,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     this.showCreateEditDialog(newData, false);
   }
   
-  async deleteKiosk(item) {
+  async delete(item) {
     console.log("delete kiosk", item);
 
     let disposable = this.dialogService.addDialog(ConfirmComponent, {            
@@ -111,7 +110,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       .subscribe(async (isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
-          var result = await this.userService.deleteKiosk(item.objectId);         
+          var result = await this.kioskService.delete(item.objectId);         
           
           if (result) {
             var index = this.data.indexOf(item, 0);
@@ -124,20 +123,19 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       });
   }
 
-  async saveKiosk(formResult: KioskUser) {
-    if (formResult.objectId === "") {
+  async save(formResult: KioskUser) {
+    formResult.objectId === ""?
       // Create User
-      await this.createKiosk(formResult);
-    } else {
+      await this.create(formResult):   
       // edit User
-      await this.updateKiosk(formResult);
-    }
+      await this.update(formResult);
+    
   }
-  async createKiosk(data: KioskUser) {
+  async create(data: KioskUser) {
     //let formResult = this.child.getFormData();
    
     console.log("create kiosk", data);
-    var result = await this.userService.createKiosk(data);
+    var result = await this.kioskService.create(data);
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
@@ -146,7 +144,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
 
-  async updateKiosk(data: KioskUser) {
+  async update(data: KioskUser) {
    
     console.log("update kiosk", data);
     //update data without update password by admin
@@ -154,7 +152,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       //removes password from object submission
       delete (data.password);
     }
-    var result = await this.userService.updateKiosk(data);
+    var result = await this.kioskService.update(data);
     
     if (result) {
       var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);

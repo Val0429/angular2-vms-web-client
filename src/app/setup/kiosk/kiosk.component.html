@@ -2,7 +2,7 @@
   <div class="row" *ngIf="isAdmin">
     <div class="col-12">
       <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newKiosk(); ">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); ">
           {{'common.new' | translate}}
         </button>
       </div>
@@ -56,10 +56,10 @@
                   {{item.data.kioskName}}
                 </td>
                 <td>
-                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editKiosk(item);"></a>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteKiosk(item)"></a>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>
