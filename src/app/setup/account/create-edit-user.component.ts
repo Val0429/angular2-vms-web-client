@@ -27,7 +27,8 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   roles: FormControl;  
   data: FormGroup;  
   public setFormData(userData: User, title: string, rolesArray: string[], editMode: boolean) {
-    this.formData = userData;
+    this.formData = Object.assign({}, userData);
+    this.formData.data = Object.assign({}, userData.data);
 
     this.rolesArray = [];
     for (let name of rolesArray) {

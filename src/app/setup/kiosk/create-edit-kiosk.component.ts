@@ -34,7 +34,8 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
 
   public setFormData(kioskData: KioskUser, title:string, editMode: boolean) {
 
-    this.formData = kioskData;
+    this.formData = Object.assign({}, kioskData);
+    this.formData.data = Object.assign({}, kioskData.data);
     
     this.title = title;
     this.editMode = editMode;

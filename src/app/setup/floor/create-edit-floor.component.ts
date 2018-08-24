@@ -25,7 +25,7 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
 
   public setFormData(floorData: Floor, title:string, editMode: boolean) {
     
-    this.formData = floorData;
+    this.formData = Object.assign({}, floorData);
     this.title = title;
     this.editMode = editMode;
     this.createFormControls();
