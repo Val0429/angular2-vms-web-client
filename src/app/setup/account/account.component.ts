@@ -1,24 +1,21 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
-import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Roles, RoleOption, User, BaseUser, BaseClass, UserData, RoleEnum } from 'app/Interface/interface';
+import { User,UserData, RoleEnum } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
-import { FormControl } from '@angular/forms';
-import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from '../../service/common.service';
+import { DialogService } from 'ng2-bootstrap-modal';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class AccountComponent  implements OnInit {
    
 
-  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  constructor(private userService: UserService, private commonService:CommonService, private dialogService:DialogService) {
+    
   }
   tempData:User[]=[];
   data:User[] = [];
@@ -47,7 +44,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
 
   edit(item: User) {
     console.log("edit item", item);
-    this.actionMode = this.getLocaleString("common.edit");;    
+    this.actionMode = this.commonService.getLocaleString("common.edit");;    
     
     this.showCreateEditDialog(item, true); 
   }
@@ -67,7 +64,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
   }
 
   createNew() {
-    this.actionMode = this.getLocaleString("common.new");
+    this.actionMode = this.commonService.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
@@ -135,7 +132,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert(data.username + this.getLocaleString("common.hasBeenCreated"));
+      this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -160,7 +157,7 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
         this.data[index] = result;
         var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.tempData[tempIndex] = result;        
-        this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
+        this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenUpdated"));
       }
     
   }

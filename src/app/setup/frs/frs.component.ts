@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { SetupService } from '../../service/setup.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-frs',
   templateUrl: './frs.component.html',
   styleUrls: ['./frs.component.scss']
 })
-export class FrsComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class FrsComponent implements OnInit {
 
   wsport: FormControl;
   password: FormControl;
@@ -20,8 +17,8 @@ export class FrsComponent extends BaseClassComponent implements OnInit, BaseComp
   account: FormControl;
 
   myform: FormGroup;
-  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  loading: boolean;
+  constructor(private setupService: SetupService, private commonService: CommonService) {
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
@@ -49,8 +46,8 @@ export class FrsComponent extends BaseClassComponent implements OnInit, BaseComp
     console.log("frs save setting", formData);
     let result = await this.setupService.modifyServerSettings({ data: { frs: formData } });
     console.log("frs save setting result: ", result);
-    let message = (result) ? this.getLocaleString("common.hasBeenUpdated") : this.getLocaleString("common.failedToUpdate");
-    this.showAlert(this.getLocaleString("pageLayout.setup.frsSetting") + message);
+    let message = (result) ? this.commonService.getLocaleString("common.hasBeenUpdated") : this.commonService.getLocaleString("common.failedToUpdate");
+    this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.frsSetting") + message);
     this.loading = false;
   }
   createFormControls(data:any) {

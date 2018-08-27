@@ -2,24 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditFloorComponent } from './create-edit-floor.component';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor, RoleEnum } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
 import { TranslateService } from 'ng2-translate';
 import { FloorService } from '../../service/floor.service';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-floor',
   templateUrl: './floor.component.html',
   styleUrls: ['./floor.component.scss']
 })
-export class FloorComponent extends BaseClassComponent implements OnInit, BaseComponent {
-
-
-  constructor(private userService: UserService, private floorService:FloorService,dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+export class FloorComponent implements OnInit {
+  constructor(private userService: UserService, private floorService:FloorService, private dialogService: DialogService, private commonService: CommonService) {
+    
   }
   tempData :Floor[] = [];
   data :Floor[]= [];
@@ -43,7 +40,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
 
   edit(item:Floor) {
     console.log("edit floor", item);
-    this.actionMode = this.getLocaleString("common.edit");    
+    this.actionMode = this.commonService.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
   }
   private showCreateEditDialog(floorData: Floor, editMode: boolean) {
@@ -62,7 +59,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
   private showBatchUploadDialog() {
     //creates dialog form here
     let newForm = new BatchUploadFloorComponent(this.dialogService);
-    newForm.setData(this.getLocaleString("pageFloor.batchUploadFloor"));
+    newForm.setData(this.commonService.getLocaleString("pageFloor.batchUploadFloor"));
     this.dialogService.addDialog(BatchUploadFloorComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -75,7 +72,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     var result = await this.floorService.batchUploadFloor(data);
     if (result) {
       //console.log(result);
-      this.showAlert(result.paging.count + this.getLocaleString("pageFloor.haveBeenImported"));
+      this.commonService.showAlert(result.paging.count + this.commonService.getLocaleString("pageFloor.haveBeenImported"));
       //refresh list
       await this.ngOnInit();
     }
@@ -84,7 +81,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     this.showBatchUploadDialog();
   }
   createNew() {
-    this.actionMode = this.getLocaleString("common.new") ;
+    this.actionMode = this.commonService.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "floor" + u.substr(u.length - 3, 3);
@@ -129,7 +126,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert(formResult.name + this.getLocaleString("common.hasBeenCreated"));
+      this.commonService.showAlert(formResult.name + this.commonService.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -162,7 +159,7 @@ export class FloorComponent extends BaseClassComponent implements OnInit, BaseCo
       this.data[index] = result;
       var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.tempData[tempIndex] = result;
-      this.showAlert(data.name + this.getLocaleString("common.hasBeenUpdated"));
+      this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenUpdated"));
     }
 
 

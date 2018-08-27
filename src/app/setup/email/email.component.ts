@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
-
-
 import { SetupService } from 'app/service/setup.service';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-email',
@@ -16,7 +11,7 @@ import { TranslateService } from 'ng2-translate';
 })
   
 
-export class EmailComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class EmailComponent  implements OnInit {
   securityOption: string[] = [ "None", "TLS", "SSL"];
   port: FormControl;
   password: FormControl;
@@ -24,8 +19,9 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
   account: FormControl;
   security: FormControl;
   myform: FormGroup;
-  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  loading: boolean;
+  constructor(private setupService: SetupService, private commonService: CommonService) {
+
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
@@ -54,8 +50,8 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
     console.log("smtp save setting", formData);
     let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
     console.log("smtp save setting result: ", result);
-    let message = (result) ? this.getLocaleString("common.hasBeenUpdated") : this.getLocaleString("common.failedToUpdate");
-    this.showAlert(this.getLocaleString("pageLayout.setup.emailSetting") + message);
+    let message = (result) ? this.commonService.getLocaleString("common.hasBeenUpdated") : this.commonService.getLocaleString("common.failedToUpdate");
+    this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + message);
     this.loading = false;
   }
   createFormControls(data: any) {

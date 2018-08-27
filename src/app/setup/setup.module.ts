@@ -16,17 +16,18 @@ import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
+import { CompanyComponent } from './company/company.component';
 
 //dialog components
 import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
 import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
 import { BatchUploadFloorComponent } from './floor/batch-upload-floor.component';
+import { CreateEditCompanyComponent } from './company/create-edit-company.component';
 
 //translate
 import { TranslateModule } from 'ng2-translate';
-import { CompanyComponent } from './company/company.component';
-import { CreateEditCompanyComponent } from './company/create-edit-company.component';
+
 
 @NgModule({
   imports: [

@@ -2,27 +2,25 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { User, UserData, Company, RoleEnum, Floor } from 'app/Interface/interface';
+import { Company, RoleEnum, Floor } from 'app/Interface/interface';
 import { CreateEditCompanyComponent } from './create-edit-company.component';
-import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
 import { CompanyService } from '../../service/company.service';
 import { FloorService } from '../../service/floor.service';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss']
 })
-export class CompanyComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class CompanyComponent implements OnInit{
    
 
   constructor(private companyService: CompanyService, 
     private userService:UserService, 
     private floorService:FloorService,
-    dialogService: DialogService, 
-    translateService: TranslateService) {
-    super(dialogService, translateService);
+    private dialogService: DialogService, 
+    private commonService: CommonService) {
   }
   tempData:Company[] = [];
   data:Company[] = [];
@@ -49,7 +47,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
 
   edit(item : Company) {
     console.log("edit item", item);
-    this.actionMode = this.getLocaleString("common.edit");;    
+    this.actionMode = this.commonService.getLocaleString("common.edit");;    
     
     this.showCreateEditDialog(item, true); 
   }
@@ -69,7 +67,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
   }
 
   createNew() {
-    this.actionMode = this.getLocaleString("common.new");
+    this.actionMode = this.commonService.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
     u = "company" + u.substr(u.length - 3, 3);
@@ -136,7 +134,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert(data.name + this.getLocaleString("common.hasBeenCreated"));
+      this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -149,7 +147,7 @@ export class CompanyComponent extends BaseClassComponent implements OnInit, Base
         this.data[index] = result;
         var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
         this.tempData[tempIndex] = result;        
-        this.showAlert(data.name + this.getLocaleString("common.hasBeenUpdated"));
+        this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenUpdated"));
       }
     
   }

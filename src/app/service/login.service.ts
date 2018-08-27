@@ -1,19 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-
 import { CoreService } from 'app/service/core.service';
-import { Observable } from 'rxjs/Rx';
 import { SessionToken, User } from 'app/Interface/interface';
-import { promise } from 'selenium-webdriver';
 import * as Globals from '../globals';
 
 
 @Injectable()
 export class LoginService implements CanActivate {
-
-  //private webRoot: string = "http://172.16.10.88:8088/";
-  //private webRoot: string = "http://203.69.170.41:8088/";
-  //private webRoot: string = document.location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '') + '/';
 
   private uriLogin: string = Globals.cgiRoot + "users/login";
   private uriLogout: string = Globals.cgiRoot + "users/logout";

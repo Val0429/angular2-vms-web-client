@@ -30,6 +30,10 @@ import { VisitorStatisticComponent } from './visitor-statistic.component';
     ChartsModule, 
     DatepickerModule.forRoot()
   ],
-  declarations: [DashboardComponent, InvestigationComponent, VisitorStatisticComponent]
+  declarations: [
+    DashboardComponent, 
+    InvestigationComponent, 
+    VisitorStatisticComponent
+  ]
 })
 export class ReportModule { }

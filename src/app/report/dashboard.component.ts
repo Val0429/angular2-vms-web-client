@@ -1,15 +1,13 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
-import { BaseClassComponent, BaseComponent } from '../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
-import { DialogService } from 'ng2-bootstrap-modal';
+import { CommonService } from '../service/common.service';
 //import * as Chart from 'chart.js';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
-export class DashboardComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class DashboardComponent implements OnInit {
 
   ngOnInit():void {
     this.initGraphs();
@@ -37,8 +35,8 @@ export class DashboardComponent extends BaseClassComponent implements OnInit, Ba
   public entryBarChartColors: Array<any>;
   
 
-  constructor(private reportService: ReportService, dialogService:DialogService, translateService:TranslateService) {
-    super(dialogService, translateService);
+  constructor(private reportService: ReportService, private commonService:CommonService) {
+    
   }
   initGraphs(): void {
     this.barChartOptions = {
@@ -108,7 +106,7 @@ export class DashboardComponent extends BaseClassComponent implements OnInit, Ba
     this.entryBarChartData = [
       {
         data: [65, 59, 40, 31, 26],
-        label: this.getLocaleString("pageDashboard.totalVisit")
+        label: this.commonService.getLocaleString("pageDashboard.totalVisit")
       }];
   }
 
@@ -118,11 +116,11 @@ export class DashboardComponent extends BaseClassComponent implements OnInit, Ba
     this.timeBarChartData = [
     {
         data: [65, 59, 80, 81, 56, 55, 40],
-        label: this.getLocaleString("pageDashboard.success")
+        label: this.commonService.getLocaleString("pageDashboard.success")
     },
     {
       data: [28, 48, 40, 19, 86, 27, 90],
-      label: this.getLocaleString("pageDashboard.exception")
+      label: this.commonService.getLocaleString("pageDashboard.exception")
     }];
   }
 

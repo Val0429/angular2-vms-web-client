@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { User, RoleEnum } from 'app/Interface/interface';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { TranslateService } from 'ng2-translate';
-import { BaseClassComponent, BaseComponent } from '../shared/base-class-component';
+import { CommonService } from '../service/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +13,14 @@ import { BaseClassComponent, BaseComponent } from '../shared/base-class-componen
   encapsulation: ViewEncapsulation.None  
 })
 
-export class FullLayoutComponent extends BaseClassComponent implements OnInit,BaseComponent {
-  
+export class FullLayoutComponent   implements OnInit {
 
-  constructor(private userService: UserService, private loginService: LoginService, private router: Router, 
-    dialogService: DialogService, 
-    translateService:TranslateService) {
-    super(dialogService,translateService);
+  constructor(private userService: UserService, 
+    private loginService: LoginService, 
+    private router: Router, 
+    private dialogService:DialogService,
+    private commonService:CommonService
+    ) {
   }
 
   username: string;
@@ -85,10 +85,10 @@ export class FullLayoutComponent extends BaseClassComponent implements OnInit,Ba
     console.log("update Password Current User", data);
     var result = this.userService.update(data);
     if(result){
-      this.showAlert(this.getLocaleString("common.password")+
-      " "+this.getLocaleString("common.hasBeenUpdated")+", "+
-      this.getLocaleString("pageLogin.pleaseRelogin"),
-    this.getLocaleString("common.alert"));
+      this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
+      " "+this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
+      this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
+    this.commonService.getLocaleString("common.alert"));
       await this.logout();
     }
   }

@@ -3,21 +3,20 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { KioskUser, KioskData, Roles, RoleEnum } from '../../Interface/interface';
-import { TranslateService } from 'ng2-translate';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
 import { KioskService } from '../../service/kiosk.service';
 import { UserService } from '../../service/user.service';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-kiosk',
   templateUrl: './kiosk.component.html',
   styleUrls: ['./kiosk.component.scss']
 })
-export class KioskComponent extends BaseClassComponent implements OnInit, BaseComponent{
+export class KioskComponent implements OnInit{
 
 
-  constructor(private kioskService: KioskService, private userService: UserService,dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  constructor(private kioskService: KioskService, private userService: UserService, private commonService: CommonService, private dialogService:DialogService) {
+    
   }
   tempData :KioskUser[] = [];
   data:KioskUser[]= [];   
@@ -56,7 +55,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
 
   edit(item: KioskUser) {
     console.log("edit kiosk", item);
-    this.actionMode = this.getLocaleString("common.edit") ;
+    this.actionMode = this.commonService.getLocaleString("common.edit") ;
 
     let newData = new KioskUser();    
     newData.objectId = item.objectId;
@@ -71,7 +70,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     //creates dialog form here
     let newForm = new CreateEditKioskComponent(this.dialogService);
     newForm.setFormData(data, this.actionMode, editMode);
-    let disposable = this.dialogService.addDialog(CreateEditKioskComponent, newForm)
+    this.dialogService.addDialog(CreateEditKioskComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
@@ -82,7 +81,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
   createNew() {
-    this.actionMode = this.getLocaleString("common.new") ;
+    this.actionMode = this.commonService.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
@@ -139,7 +138,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     if (result) {
       this.data.push(result);
       this.tempData.push(result);
-      this.showAlert(data.data.kioskName + this.getLocaleString("common.hasBeenCreated"));
+      this.commonService.showAlert(data.data.kioskName + this.commonService.getLocaleString("common.hasBeenCreated"));
     }
   }
 
@@ -160,7 +159,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
       var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.tempData[tempIndex] = result;
 
-      this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
+      this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenUpdated"));
     }
 
   }
