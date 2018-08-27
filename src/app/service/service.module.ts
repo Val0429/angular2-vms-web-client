@@ -12,8 +12,6 @@ import { LoginService } from 'app/service/login.service';
 import { ReportService } from 'app/service/report.service';
 import { SetupService } from 'app/service/setup.service';
 import { UserService } from 'app/service/user.service';
-import { ActionService } from 'app/service/action.service';
-import { RecognitionService} from 'app/service/recognition.service';
 import { CompanyService } from './company.service';
 import { KioskService } from './kiosk.service';
 import { FloorService } from './floor.service';
@@ -32,8 +30,6 @@ import { FloorService } from './floor.service';
     ReportService, 
     SetupService, 
     UserService, 
-    RecognitionService, 
-    ActionService, 
     CompanyService,
     KioskService,
     FloorService
