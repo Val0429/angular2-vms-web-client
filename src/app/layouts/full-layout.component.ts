@@ -29,18 +29,11 @@ export class FullLayoutComponent extends BaseClassComponent implements OnInit,Ba
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);
   }
-  userIsTenant(): boolean{
-    return this.userService.userIs(RoleEnum.TenantAdministrator);
-  }
-  userIsSysAdmin(): boolean {
-    return this.userService.userIs(RoleEnum.SystemAdministrator);
-  }
-  userIsAdmin(): boolean {
-    return this.userService.userIs(RoleEnum.Administrator);
-  }
-  userIsKiosk(): boolean {
-    return this.userService.userIs(RoleEnum.Kiosk);
-  }
+  userIsTenantAdmin: boolean;
+  userIsTenantUser: boolean;
+  userIsSysAdmin: boolean;
+  userIsAdmin: boolean ;
+  userIsKiosk: boolean;
   public toggleDropdown($event: MouseEvent): void {
     $event.preventDefault();
     $event.stopPropagation();
@@ -54,10 +47,17 @@ export class FullLayoutComponent extends BaseClassComponent implements OnInit,Ba
     } else {
       this.username = "InitUser";
     }
-    console.log("user is admin:", this.userIsAdmin());
-    console.log("user is tenant:", this.userIsTenant());
-    console.log("user is kiosk:", this.userIsKiosk());
-    console.log("user is sysadmin:", this.userIsSysAdmin());
+    this.userIsTenantAdmin=this.userService.userIs(RoleEnum.TenantAdministrator);
+    this.userIsKiosk=this.userService.userIs(RoleEnum.Kiosk);
+    this.userIsAdmin=this.userService.userIs(RoleEnum.Administrator);
+    this.userIsTenantUser=this.userService.userIs(RoleEnum.TenantUser);
+    this.userIsSysAdmin=this.userService.userIs(RoleEnum.SystemAdministrator);
+
+    console.log("user is admin:", this.userIsAdmin);
+    console.log("user is tenant admin:", this.userIsTenantAdmin);
+    console.log("user is tenant user:", this.userIsTenantUser);
+    console.log("user is kiosk:", this.userIsKiosk);
+    console.log("user is sysadmin:", this.userIsSysAdmin);
   }
 
 
