@@ -59,7 +59,7 @@
                 <td>{{item.username}}</td>
                 <td>
                   <ul>
-                    <li *ngFor="let role of item.roles">{{role.name}}</li>
+                    <li *ngFor="let role of item.roles">{{('roleEnum.'+role.name) | translate}}</li>
                   </ul>
                 </td>
                 <td>

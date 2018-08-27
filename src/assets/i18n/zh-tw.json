@@ -138,5 +138,11 @@
 	},
 	"pageSms": {
 		"comPort": "COM Port Number"
+	},
+	"roleEnum": {
+		"Administrator": "Administrator",
+		"SystemAdministrator": "System Administrator",
+		"TenantAdministrator": "Tenant Administrator",
+		"TenantUser": "Tenant User"
 	}
 }
