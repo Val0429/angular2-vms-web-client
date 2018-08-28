@@ -30,7 +30,7 @@
           <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
             <thead>
               <tr>
-                <th style="width: 5%">No</th>
+                <th style="width: 5%">{{'common.no' | translate}}</th>
                 <th style="width: 25%">
                   <mfDefaultSorter by="updatedAt">{{'common.userName' | translate}}</mfDefaultSorter>
                 </th>
@@ -38,10 +38,10 @@
                   {{'pageAccount.roles' | translate}}
                 </th>
                 <th style="width: 10%">
-                  {{'common.name' | translate}}
+                  {{'pageAccount.companyName' | translate}}
                 </th>
                 <th style="width: 10%">
-                  {{'common.phone' | translate}}
+                  {{'pageAccount.floorName' | translate}}
                 </th>
                 <th style="width: 15%">
                   {{'common.email' | translate}}
@@ -63,10 +63,12 @@
                   </ul>
                 </td>
                 <td>
-                  {{item.data.name}}
+                    <span *ngIf="item.data.company">{{item.data.company.name}}</span>
                 </td>
                 <td>
-                  {{item.data.phone}}
+                    <ul *ngIf="item.data">
+                        <li *ngFor="let floor of item.data.floor">{{floor.name}}</li>
+                    </ul>
                 </td>
                 <td>
                   {{item.data.email}}

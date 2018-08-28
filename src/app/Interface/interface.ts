@@ -3,44 +3,44 @@ export interface BaseInterface{
   createdAt: string;
   updatedAt: string;
 }
+
 export class BaseClass implements BaseInterface {
     public objectId: string;
     public createdAt: string;
     public updatedAt: string;
+    public name: string;
 }
 
 export class Floor extends BaseClass{
-  
-    public name: string;
+    
     public floor: number;
 }
 
 export class BaseUser extends BaseClass {
-public username: string;
-public password: string;
-public roles: Roles[];
+    public email: string;
+    public username: string;
+    public password: string;
+    public roles: Role[];
 }
-
 
 export class Company extends BaseClass{
     public contactNumber:string[];
     public floor:Floor[];
-    public name:string;
     public unitNumber:string;
     public contactPerson:string;
 }
 
-
-
 export class UserData {
-  public email: string;
-  public phone: string;
-  public name: string;
-}
-export class User extends BaseUser{
+    public floor:Floor[];
+    public company:Company;
   
+}
+
+export class User extends BaseUser{
+  public phone :string;
   public data: UserData;
 }
+
 export class SessionToken {
 
   public sessionId: string;
@@ -59,22 +59,21 @@ export class SessionToken {
     return this;
   }
 }
+
 export class KioskData {
   public kioskId: string;
   public kioskName: string;
 }
+
 export class KioskUser extends BaseUser {
   
   public data: KioskData;
 }
-export class Roles extends BaseClass{
+
+export class Role extends BaseClass{
   
   public name: string;
 }
-export class RoleOption extends Roles {
-  public checked: boolean;
-}
-
 
 export enum RoleEnum{
   SystemAdministrator = 0,
@@ -83,9 +82,11 @@ export enum RoleEnum{
   TenantUser = 21,
   Kiosk = 80
 }
+
 export interface CreateEditDialog {
   title: string;
 }
+
 export interface CrudInterface <T>{
     uriCrud:string;
     create(data:T):Promise<T>;
@@ -93,15 +94,18 @@ export interface CrudInterface <T>{
     read(filter:string):Promise<T[]>;
     delete(objectId:string):Promise<T>;
 }
+
 export interface FloorServiceInterface<T> extends CrudInterface<T>{
     uriBatchFloor:string;
     batchUploadFloor(data: any): Promise<any>;
 }
+
 export interface UserServiceInterface<T> extends CrudInterface<T>{
     uriRoleCrud: string;
     userIs(role: RoleEnum): boolean ;
     getUserRole(): Promise<string[]>;
 }
+
 export class Visitor_Profile {
     public mobile_no: String = "" ;
     public visitor_name: String = "" ;

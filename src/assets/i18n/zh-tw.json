@@ -34,6 +34,8 @@
 		"userName": "用戶名"
 	},
 	"pageAccount": {
+		"companyName": "Company Name",
+		"floorName": "Floor Name",
 		"roles": "組",
 		"userList": "用戶列表",
 		"users": "Users"

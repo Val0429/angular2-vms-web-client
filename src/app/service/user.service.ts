@@ -30,11 +30,10 @@ export class UserService extends CrudService<User> implements UserServiceInterfa
       this.getCurrentUser().roles.map(function (e) { return e.name }).indexOf(RoleEnum[role]) > -1;;
   }
   async getUserRole(): Promise<string[]> {
-    var me = this;
-    var token = me.loginService.getCurrentUserToken();
+    var token = this.loginService.getCurrentUserToken();
 
     var roles = [];
-    var result = await me.coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await this.coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result) {
       //removes kiosk from roles (according to Val)

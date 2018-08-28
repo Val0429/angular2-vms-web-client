@@ -34,6 +34,8 @@
 		"userName": "Username"
 	},
 	"pageAccount": {
+		"companyName": "Company Name",
+		"floorName": "Floor Name",
 		"roles": "Roles",
 		"userList": "User List",
 		"users": "Users"

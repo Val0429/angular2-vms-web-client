@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { User,UserData, RoleEnum } from 'app/Interface/interface';
+import { User,UserData, RoleEnum, Company } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { CommonService } from '../../service/common.service';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { FloorService } from '../../service/floor.service';
+import { CompanyService } from '../../service/company.service';
 
 @Component({
   selector: 'app-account',
@@ -14,28 +16,30 @@ import { DialogService } from 'ng2-bootstrap-modal';
 export class AccountComponent  implements OnInit {
    
 
-  constructor(private userService: UserService, private commonService:CommonService, private dialogService:DialogService) {
+  constructor(
+    private userService: UserService, 
+    private commonService:CommonService, 
+    private floorService:FloorService, 
+    private companyService:CompanyService, 
+    private dialogService:DialogService
+  ) {
     
   }
   tempData:User[]=[];
   data:User[] = [];
-  availableRoles: string[];
   filterQuery = '';
   actionMode = "";
   private isAdmin = false;
   
 
   async ngOnInit(): Promise<void> {    
-    this.availableRoles = [];
-    let roles = await this.userService.getUserRole();
-    if (roles) {
-      this.availableRoles = roles;      
-    }
+    
+    
+    
     let users = await this.userService.read("&paging.all=true");
-    for (let user of users) {
-      this.data.push(user);
-      this.tempData.push(user);
-    }
+    
+    this.data = Object.assign([], users);
+    this.tempData = Object.assign([], users);
     
     this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
     console.log("is admin:", this.isAdmin);
@@ -44,15 +48,15 @@ export class AccountComponent  implements OnInit {
 
   edit(item: User) {
     console.log("edit item", item);
-    this.actionMode = this.commonService.getLocaleString("common.edit");;    
+    this.actionMode = this.commonService.getLocaleString("common.edit");    
     
     this.showCreateEditDialog(item, true); 
   }
   private showCreateEditDialog(data: User, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditUserComponent(this.dialogService);
+    let newForm = new CreateEditUserComponent(this.userService, this.floorService, this.commonService, this.companyService, this.dialogService);
     //sets form data
-    newForm.setFormData(data, this.actionMode, this.availableRoles, editMode);
+    newForm.setFormData(data, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditUserComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
@@ -69,15 +73,16 @@ export class AccountComponent  implements OnInit {
     var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
 
-    let newUser = new User();
-    newUser.objectId = "";  
-    newUser.username= u;
-    newUser.roles = [];
-    newUser.password= "";    
-    newUser.data = new UserData();
-    newUser.data.email = "";
+    let newItem = new User();
+    newItem.objectId = "";  
+    newItem.username= u;
+    newItem.roles = [];    
+    newItem.password= "";    
+    newItem.data = new UserData();
+    newItem.data.floor=[]
+    newItem.data.company = new Company();
 
-    this.showCreateEditDialog(newUser, false);
+    this.showCreateEditDialog(newItem, false);
   }
   async delete(item : User) {
     console.log("deleteUser", item);
@@ -109,7 +114,8 @@ export class AccountComponent  implements OnInit {
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
-      if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
+      //TODO: improve this filter
+      if (item.username.toLowerCase().indexOf(filter) > -1 ) {
         this.data.push(item);
       }
     }

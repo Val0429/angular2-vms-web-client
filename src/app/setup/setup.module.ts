@@ -6,7 +6,7 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatepickerModule } from 'ng2-bootstrap';
+import { DatepickerModule, BsDropdownModule } from 'ng2-bootstrap';
 
 //sub menu components
 import { SetupRoutingModule } from './setup-routing.module';
@@ -39,7 +39,8 @@ import { TranslateModule } from 'ng2-translate';
     FormsModule,
     HttpModule,
     ReactiveFormsModule,    
-    DatepickerModule.forRoot()
+    DatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
   ],
   entryComponents: [
     CreateEditUserComponent,
