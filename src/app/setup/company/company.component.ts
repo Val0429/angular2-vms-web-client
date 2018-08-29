@@ -24,7 +24,6 @@ export class CompanyComponent implements OnInit{
   }
   tempData:Company[] = [];
   data:Company[] = [];
-  floorData:Floor[]=[];
   filterQuery = '';
   actionMode = "";
   private isAdmin = false;
@@ -37,8 +36,7 @@ export class CompanyComponent implements OnInit{
       this.data.push(item);
       this.tempData.push(item);
     }   
-    //gets floor data
-    this.floorData = await this.floorService.read("&paging.all=true");
+    
     
     this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
     console.log("is admin:", this.isAdmin);
@@ -53,9 +51,9 @@ export class CompanyComponent implements OnInit{
   }
   private showCreateEditDialog(data: Company, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditCompanyComponent(this.dialogService);
+    let newForm = new CreateEditCompanyComponent(this.floorService, this.commonService, this.dialogService);
     //sets form data
-    newForm.setFormData(data, this.floorData, this.actionMode, editMode);
+    newForm.setFormData(data, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditCompanyComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result

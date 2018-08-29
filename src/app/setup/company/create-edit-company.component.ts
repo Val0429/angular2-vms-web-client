@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, Company, Floor } from '../../Interface/interface';
+import { CreateEditDialog, Company, Floor, BaseClass } from '../../Interface/interface';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
+import { FloorService } from '../../service/floor.service';
+import { CommonService } from '../../service/common.service';
 @Component({
   selector: 'app-create-edit-company',
   templateUrl: './create-edit-company.component.html'
 })
-export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
+export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog, OnInit{
   
   title: string;  
   editMode:boolean;
@@ -21,19 +23,11 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
   floorOptions : Floor[]=[];  
   showFloor:boolean=false;
 
-  public setFormData(formData: Company, floorOptions:Floor[], title: string, editMode: boolean) {
-    this.formData = new Company();
-    
+  public setFormData(formData: Company, title: string, editMode: boolean) {       
     //copy this object to prevent back reference
     this.formData = Object.assign({}, formData);   
     this.formData.floor = Object.assign([], formData.floor);   
-    //copy array of floor options
-    for(let item of floorOptions){
-      let findIndex = formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
-      //push if it's not already selected
-      if(findIndex < 0) this.floorOptions.push(item);
-    }
-
+    
     this.title = title;
     this.editMode = editMode;
     
@@ -41,13 +35,23 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     this.createFormControls();
     this.createForm();
   }
-  constructor(dialogService: DialogService) {
+  constructor(private floorService:FloorService, private commonService:CommonService, dialogService: DialogService) {
     super(dialogService);
 
     //initialization
     let initForm = new Company();
     initForm.contactNumber=[];
-    this.setFormData(initForm, [], "Init Form", true);
+    this.setFormData(initForm, "Init Form", true);
+  }
+  async ngOnInit(): Promise<void> {
+    //gets floor data
+    this.floorOptions = await this.floorService.read("&paging.all=true");
+    //remove selected floor from floor options
+    for(let floor of this.formData.floor){
+      let index = this.floorOptions.map(function(e){return e.objectId}).indexOf(floor.objectId);
+      if(index<0) continue;
+      this.floorOptions.splice(index,1);
+    }
   }
   
   public getFormData(): Company {
@@ -61,44 +65,14 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     return this.formData;
   }
 
-toggleFloor(){
-  this.showFloor=!this.showFloor;
-}
-removeFloor(item:Floor){
-  //assume there's always this option index
-  let findIndex = this.formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
-  
-  let findOptionIndex = this.floorOptions.map(function(e){return e.objectId}).indexOf(item.objectId);
-
-  if(findOptionIndex < 0){
-    this.floorOptions.push(item);
-    this.formData.floor.splice(findIndex, 1);
+  add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
+    console.log("add item:", item);
+    this.commonService.addItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
   }
-  else{
-    this.floorOptions.splice(findOptionIndex, 1);
-    this.formData.floor.push(item);
+  remove(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {
+    console.log("remove item:", item);
+    this.commonService.removeItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
   }
-  
-    //formats it the way backend wants it
-  this.floor.setValue(this.formData.floor.map(function(e){return e.objectId}));
-}
-addFloor(item:Floor){
-  let findIndex = this.formData.floor.map(function(e){return e.objectId}).indexOf(item.objectId);
-  //assume there's always this option index
-  let findOptionIndex = this.floorOptions.map(function(e){return e.objectId}).indexOf(item.objectId);
-
-  if(findIndex < 0){
-    this.formData.floor.push(item);
-    this.floorOptions.splice(findOptionIndex, 1);
-  }
-  else{
-    this.formData.floor.splice(findIndex, 1);
-    this.floorOptions.push(item);
-  }
-  
-    //formats it the way backend wants it
-  this.floor.setValue(this.formData.floor.map(function(e){return e.objectId}));
-}
   createFormControls() {
     this.name = new FormControl(this.formData.name, [
       Validators.required,
