@@ -1,6 +1,6 @@
 import { Component, OnInit} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { CreateEditDialog, User, UserData, Role, Floor, BaseClass, Company} from "app/Interface/interface";
+import { CreateEditDialog, User, UserData, Role, Floor, BaseClass, Company, RoleEnum} from "app/Interface/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
 import * as Globals from 'app/globals';
 import { UserService } from "../../service/user.service";
@@ -33,6 +33,8 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   passwordGroup: FormGroup;
   roles: FormControl;  
   data: FormGroup;  
+
+  userIsSystemAdmin:boolean=false;
   public setFormData(userData: User, title: string, editMode: boolean) {
     console.log("setFormData");
     this.formData = Object.assign({}, userData);
@@ -73,8 +75,22 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       role.name=item;
       this.roleOptions.push(role);
     }
-    this.companyOptions = await this.companyService.read("&paging.all=true");
-    this.floorOptions = await this.floorService.read("&paging.all=true");
+    
+    //options restriction
+    if(this.userService.userIs(RoleEnum.Administrator) || this.userService.userIs(RoleEnum.SystemAdministrator)){
+      this.companyOptions = await this.companyService.read("&paging.all=true");
+      this.floorOptions = await this.floorService.read("&paging.all=true");
+    }else{
+      let currentUser = this.userService.getCurrentUser();
+      console.log("current user", currentUser);
+      this.companyOptions = [];
+      if(currentUser.data && currentUser.data.company){
+        this.companyOptions.push(currentUser.data.company);
+      }
+      this.floorOptions = Object.assign([], currentUser.data && currentUser.data.floor ? currentUser.data.floor : []);
+    }
+    
+    
 
     //remove selected role from role options
     for(let role of this.formData.roles){
@@ -88,7 +104,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       if(index<0) continue;
       this.floorOptions.splice(index,1);
     }
-
+    this.userIsSystemAdmin = this.userService.userIs(RoleEnum.SystemAdministrator);
 
   }
   
@@ -97,6 +113,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
     this.formData.username = formResult.username;
     this.formData.password = formResult.passwordGroup.password;
     this.formData.data = formResult.data;
+    this.formData.email = formResult.email;
     //reformat
     this.formData.roles = formResult.roles;
     return this.formData;
@@ -110,7 +127,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   createFormControls() {
     this.floor = new FormControl(this.formData.data.floor);
     this.phone = new FormControl(this.formData.phone, [
-      Validators.required,
+      //Validators.required,
       Validators.pattern(Globals.singlePhoneRegex)
     ]);
     this.username = new FormControl(this.formData.username, [
@@ -122,7 +139,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       Validators.pattern("[^ @]*@[^ @]*")
       
     ]);
-    this.company = new FormControl(this.formData.data.company.objectId);
+    this.company = new FormControl(this.formData.data.company.objectId,
+      [Validators.required
+    ]);
     this.password = new FormControl('', [
       Validators.required,
       Validators.minLength(6)      

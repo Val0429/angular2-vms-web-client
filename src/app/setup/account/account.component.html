@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="row" *ngIf="isAdmin">
+  <div class="row" >
     <div class="col-12">
       <div class="card">
         <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); ">
@@ -77,7 +77,7 @@
                   <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
+                  <a *ngIf="item.objectId !== currentUser.objectId" class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>

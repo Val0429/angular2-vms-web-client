@@ -159,10 +159,11 @@
           <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
         </div>
         <div class="modal-footer" *ngIf="editMode">
-          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
+            <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
         </div>
 
-        <fieldset formGroupName="passwordGroup">
+        <fieldset formGroupName="passwordGroup" *ngIf="(userIsSystemAdmin && editMode) || !editMode">
           <div class="input-group mb-1" title="{{'common.password'|translate}}"
                [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
@@ -209,7 +210,7 @@
 
       </form>
 
-      <div class="modal-footer" >
+      <div class="modal-footer" *ngIf="(editMode && userIsSystemAdmin) || !editMode">
         <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
         <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
       </div>

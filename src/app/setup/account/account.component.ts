@@ -29,8 +29,7 @@ export class AccountComponent  implements OnInit {
   data:User[] = [];
   filterQuery = '';
   actionMode = "";
-  private isAdmin = false;
-  
+  currentUser:User;
 
   async ngOnInit(): Promise<void> {    
     
@@ -40,9 +39,7 @@ export class AccountComponent  implements OnInit {
     
     this.data = Object.assign([], users);
     this.tempData = Object.assign([], users);
-    
-    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
-    console.log("is admin:", this.isAdmin);
+    this.currentUser = this.userService.getCurrentUser();
   }
   
 
@@ -81,6 +78,7 @@ export class AccountComponent  implements OnInit {
     newItem.data = new UserData();
     newItem.data.floor=[]
     newItem.data.company = new Company();
+    newItem.data.company.objectId="";
 
     this.showCreateEditDialog(newItem, false);
   }
