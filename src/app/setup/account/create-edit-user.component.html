@@ -130,8 +130,7 @@
                          *ngFor="let item of formData.roles" 
                          (click)="remove(item, formData.roles, roleOptions, roles)">{{('roleEnum.'+item.name) | translate}}
                       <span class="fa fa-remove fa-lg" ></span>
-                    </div>   
-                    <div  class="selected-dropdown-item" *ngFor="let item of formData.roles">{{('roleEnum.'+item.name) | translate}} </div>         
+                    </div>                            
                   </div>
               <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="overflow-y:auto; height:200px;">
                 <a class="dropdown-item" style="cursor: pointer;" *ngFor="let item of roleOptions" (click)="add(item, formData.roles, roleOptions, roles)">
