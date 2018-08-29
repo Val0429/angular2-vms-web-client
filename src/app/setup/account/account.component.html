@@ -63,15 +63,15 @@
                   </ul>
                 </td>
                 <td>
-                    <span *ngIf="item.data.company">{{item.data.company.name}}</span>
+                    {{item.data && item.data.company && item.data.company.name ? item.data.company.name : ""}}
                 </td>
                 <td>
-                    <ul *ngIf="item.data">
+                    <ul *ngIf="item.data && item.data.floor">
                         <li *ngFor="let floor of item.data.floor">{{floor.name}}</li>
                     </ul>
                 </td>
                 <td>
-                  {{item.data.email}}
+                  {{item.email ? item.email : ""}}
                 </td>
                 <td>
                   <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>

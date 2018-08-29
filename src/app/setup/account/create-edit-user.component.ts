@@ -10,22 +10,8 @@ import { CompanyService } from "../../service/company.service";
 
 @Component({
   selector: 'create-edit-user',
-  templateUrl: './create-edit-user.component.html',
-  styles: [`
-  .selected-dropdown{
-    display:block;
-  }
-    .selected-dropdown-item{
-      cursor: pointer;
-      max-width: 180px;
-      float:left;
-      margin:2px;
-      background-color:#36a9e1;
-      color:white;
-      padding:5px 10px;
-      border-radius:2px;
-    }
-  `]
+  templateUrl: './create-edit-user.component.html'
+ 
 })
 export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog, OnInit{
   
@@ -50,10 +36,10 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   public setFormData(userData: User, title: string, editMode: boolean) {
     console.log("setFormData");
     this.formData = Object.assign({}, userData);
-    this.formData.data = Object.assign({}, userData.data);
+    this.formData.data = Object.assign({}, userData.data ? userData.data : new UserData());
     this.formData.roles = Object.assign([], userData.roles);
-    this.formData.data.floor = Object.assign([], userData.data.floor);
-    this.formData.data.company = Object.assign({}, userData.data.company);
+    this.formData.data.floor = Object.assign([], userData.data && userData.data.floor ? userData.data.floor : []);
+    this.formData.data.company = Object.assign({}, userData.data && userData.data.company ? userData.data.company : new Company());
 
     this.title = title;
     this.editMode = editMode;
@@ -136,7 +122,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       Validators.pattern("[^ @]*@[^ @]*")
       
     ]);
-    this.company = new FormControl(this.formData.data.company.name);
+    this.company = new FormControl(this.formData.data.company.objectId);
     this.password = new FormControl('', [
       Validators.required,
       Validators.minLength(6)      

@@ -36,9 +36,8 @@
             </span>
             <select 
               class="form-control"                 
-              formControlName="company"
-              *ngIf="formData.data.company">  
-              <option *ngFor="let item of companyOptions" value="{{item.objectId}}" >{{item.name}}</option>
+              formControlName="company">  
+              <option *ngFor="let item of companyOptions" [ngValue]="item.objectId" >{{item.name}}</option>
               </select>
           </div>
           <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
@@ -119,7 +118,7 @@
           <span class="input-group-addon">
             <i class="fa fa-group"></i>
           </span>
-          <div class="input-group dropdown" dropdown placement="bottom right">        
+          <div class="input-group dropdown" dropdown placement="bottom right" *ngIf="!editMode" >        
           <input type="text"
                  class="form-control"                 
                  formControlName="roles"
@@ -127,20 +126,34 @@
                  *ngIf="formData.roles.length==0"
                   />  
                   <div class="form-control selected-dropdown" *ngIf="formData.roles.length>0">
-                  <div class="selected-dropdown-item" *ngFor="let item of formData.roles" (click)="remove(item, formData.roles, roleOptions, roles)">{{('roleEnum.'+item.name) | translate}}
+                    <div class="selected-dropdown-item" 
+                         *ngFor="let item of formData.roles" 
+                         (click)="remove(item, formData.roles, roleOptions, roles)">{{('roleEnum.'+item.name) | translate}}
                       <span class="fa fa-remove fa-lg" ></span>
-                    </div>               
+                    </div>   
+                    <div  class="selected-dropdown-item" *ngFor="let item of formData.roles">{{('roleEnum.'+item.name) | translate}} </div>         
                   </div>
               <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="overflow-y:auto; height:200px;">
                 <a class="dropdown-item" style="cursor: pointer;" *ngFor="let item of roleOptions" (click)="add(item, formData.roles, roleOptions, roles)">
                   {{('roleEnum.'+item.name) | translate}}
                 </a>
-              </div>
+              </div>              
               <span role="button" style="width:40px" class="input-group-addon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                 dropdownToggle>
                 <span class="caret"></span>
               </span>
-            </div>  
+            </div> 
+            <div class="input-group dropdown" dropdown placement="bottom right" *ngIf="editMode" >   
+                <input type="text"
+                class="form-control"                 
+                formControlName="roles"
+                placeholder="{{'pageAccount.roles'|translate}}"
+                *ngIf="formData.roles.length==0"
+                 />  
+                 <div class="form-control selected-dropdown" *ngIf="formData.roles.length>0">                    
+                   <div  class="selected-dropdown-item" *ngFor="let item of formData.roles">{{('roleEnum.'+item.name) | translate}} </div>         
+                 </div>
+              </div> 
         </div> 
 
         <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
@@ -192,8 +205,8 @@
         </fieldset>
         
 
-
-        <pre>{{myform.value | json}}</pre>
+        <!-- <pre>{{formData | json}}</pre> -->
+        <!-- <pre>{{myform.value | json}}</pre> -->
 
       </form>
 
