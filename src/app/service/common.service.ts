@@ -30,8 +30,8 @@ export class CommonService{
       }
       addItemFromSelectedDropDown(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
         
-        let index = selected.map(function(e){return e.name}).indexOf(item.name);
-        let optionIndex = options.map(function(e){return e.name}).indexOf(item.name);    
+        let index = selected.map(function(e){return e.objectId}).indexOf(item.objectId);
+        let optionIndex = options.map(function(e){return e.objectId}).indexOf(item.objectId);    
         //assign checked value to temp role 
         if (index==-1) {
           selected.push(item);
@@ -41,8 +41,8 @@ export class CommonService{
         endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
       }
       removeItemFromSelectedDropDown(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {        
-        let index = selected.map(function (e) { return e.name }).indexOf(item.name);
-        let optionIndex = options.map(function (e) { return e.name }).indexOf(item.name);    
+        let index = selected.map(function (e) { return e.objectId }).indexOf(item.objectId);
+        let optionIndex = options.map(function (e) { return e.objectId }).indexOf(item.objectId);    
         //assign checked value  
         if (optionIndex==-1) {
           options.push(item);

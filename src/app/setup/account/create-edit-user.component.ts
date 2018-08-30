@@ -7,13 +7,14 @@ import { UserService } from "../../service/user.service";
 import { FloorService } from "../../service/floor.service";
 import { CommonService } from "../../service/common.service";
 import { CompanyService } from "../../service/company.service";
+import { NgProgress } from "ngx-progressbar";
 
 @Component({
   selector: 'create-edit-user',
   templateUrl: './create-edit-user.component.html'
  
 })
-export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog, OnInit{
+export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, User> implements CreateEditDialog, OnInit{
   
   title: string;  
   editMode:boolean;
@@ -52,8 +53,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
   }
   constructor(private userService:UserService, 
     private floorService:FloorService, 
-    private  commonService:CommonService, 
-    private  companyService:CompanyService, 
+    private commonService:CommonService, 
+    private companyService:CompanyService, 
+    private progressService:NgProgress,
     dialogService: DialogService) {
     super(dialogService);
 
@@ -69,9 +71,12 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
     console.log("init dialog");
     let roles = await this.userService.getUserRole();
     //copy to role options
+    let id=0;
     for(let item of roles){
       //format it to role object first
+      //TODO: ask Backend to return object instead of string array
       let role = new Role();
+      role.objectId = (id++).toString();
       role.name=item;
       this.roleOptions.push(role);
     }
@@ -106,17 +111,6 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
     }
     this.userIsSystemAdmin = this.userService.userIs(RoleEnum.SystemAdministrator);
 
-  }
-  
-  public getFormData(): User {
-    let formResult = this.myform.value;    
-    this.formData.username = formResult.username;
-    this.formData.password = formResult.passwordGroup.password;
-    this.formData.data = formResult.data;
-    this.formData.email = formResult.email;
-    //reformat
-    this.formData.roles = formResult.roles;
-    return this.formData;
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -162,11 +156,41 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       company: this.company
     });
   }
-  save() {
-    // we set dialog result as true on click on confirm button, 
-    // then we can get dialog result from caller code 
-    this.result = true;
-    this.close();
+  async update(data:User) {             
+    //update data without update password by admin
+    if (data.password === "") {
+      //removes password from object submission
+      delete (data.password);
+    }
+    console.log("update", data);           
+    return await this.userService.update(data);
+  }
+  async create(data:User):Promise<User>  {    
+    console.log("create", data);
+    return await this.userService.create(data);
+  }
+  async save():Promise<void> {
+    try{      
+      this.progressService.start();    
+      //build data that will be sent to backend
+      let formResult: User = new User(); 
+      formResult.objectId = this.formData.objectId;     
+      formResult.username = this.myform.value.username;
+      formResult.password = this.myform.value.passwordGroup.password;
+      formResult.data = this.myform.value.data;
+      formResult.email = this.myform.value.email;
+      if(formResult.email.trim()===""){
+        //delete this otherwise server will throw error
+        delete(formResult.email);
+      }
+      formResult.roles = this.myform.value.roles;      
+      //close form with success
+      this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
+      this.close();  
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
     console.log("add item:", item);

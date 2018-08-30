@@ -56,18 +56,17 @@ export class AccountComponent  implements OnInit {
     
     this.showCreateEditDialog(item, true); 
   }
-  private showCreateEditDialog(data: User, editMode: boolean) {
+  showCreateEditDialog(data: User, editMode: boolean) {
+    
     //creates dialog form here
-    let newForm = new CreateEditUserComponent(this.userService, this.floorService, this.commonService, this.companyService, this.dialogService);
+    let newForm = new CreateEditUserComponent(this.userService, this.floorService, this.commonService, this.companyService, this.progressService, this.dialogService);
     //sets form data
     newForm.setFormData(data, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditUserComponent, newForm)
-      .subscribe((saved) => {
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let formData = newForm.getFormData();
-          
-          this.save(formData);
+        if (result) {              
+          this.updateList(result);
         }
       });
   }
@@ -131,51 +130,21 @@ export class AccountComponent  implements OnInit {
       }
     }
   }
-
-  async save(formResult: User) {
-    try{
-      this.progressService.start();    
-      formResult.objectId === ""? await this.create(formResult): await this.update(formResult);
-    }//no catch, global error handle handles it
-    finally{      
-      this.progressService.done();
-    }
-  }
-
-  async create(data:User) {    
-    console.log("create user", data);
-    var result = await this.userService.create(data);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenCreated"));
-    }
-  }
-
   
-  async update(data:User) {      
-      console.log("form result", data);      
-
-      //update data without update password by admin
-    if (data.password === "") {
-      //removes password from object submission
-      delete (data.password);
+  updateList(data:User) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
     }
-
-      console.log("updateUser", data);      
-       
-      var result = await this.userService.update(data);
-    
-    
-      if (result) {        
-        
-        var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.data[index] = result;
-        var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.tempData[tempIndex] = result;        
-        this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenUpdated"));
-      }
-    
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
+    }
   }
 
 
