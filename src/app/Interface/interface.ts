@@ -17,7 +17,7 @@ export class Floor extends BaseClass{
 }
 
 export class BaseUser extends BaseClass {
-    public email: string;
+    public publicEmailAddress: string;
     public username: string;
     public password: string;
     public roles: Role[];
@@ -72,7 +72,6 @@ export class KioskUser extends BaseUser {
 
 export class Role extends BaseClass{
   
-  public name: string;
 }
 
 export enum RoleEnum{

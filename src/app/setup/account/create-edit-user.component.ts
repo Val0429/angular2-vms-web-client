@@ -128,7 +128,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       Validators.required,
       Validators.minLength(3)
     ]);
-    this.email = new FormControl(this.formData.email?this.formData.email:"", [
+    this.email = new FormControl(this.formData.publicEmailAddress?this.formData.publicEmailAddress:"", [
       //Validators.required,
       Validators.pattern("[^ @]*@[^ @]*")
       
@@ -178,11 +178,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       formResult.username = this.myform.value.username;
       formResult.password = this.myform.value.passwordGroup.password;
       formResult.data = this.myform.value.data;
-      formResult.email = this.myform.value.email;
-      if(formResult.email.trim()===""){
-        //delete this otherwise server will throw error
-        delete(formResult.email);
-      }
+      formResult.publicEmailAddress = this.myform.value.email;  
       formResult.roles = this.myform.value.roles;      
       //close form with success
       this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
