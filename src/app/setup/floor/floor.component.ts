@@ -56,14 +56,13 @@ export class FloorComponent implements OnInit {
   }
   private showCreateEditDialog(floorData: Floor, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditFloorComponent(this.dialogService);
+    let newForm = new CreateEditFloorComponent(this.floorService, this.progressService, this.dialogService);
     newForm.setFormData(floorData, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditFloorComponent, newForm)
-      .subscribe((saved) => {
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let data = newForm.getFormData();
-          this.save(data);
+        if (result) {          
+          this.updateList(result);
         }
       });
   }
@@ -111,7 +110,7 @@ export class FloorComponent implements OnInit {
   }
   async delete(item: Floor) {
     if(this.isLoading())return;
-    console.log("delete floor", item);
+    console.log("delete", item);
 
     this.dialogService.addDialog(ConfirmComponent, {
     })
@@ -134,24 +133,6 @@ export class FloorComponent implements OnInit {
       });
   }
 
-  async save(formResult: Floor) {
-    try{
-      this.progressService.start();    
-      formResult.objectId==="" ? await this.create(formResult):  await this.update(formResult);    
-    }//no catch, global error handle handles it
-    finally{      
-      this.progressService.done();
-    }
-  }
-  async create(formResult: Floor) {         
-    console.log("create floor", formResult);
-    var result = await this.floorService.create(formResult);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.commonService.showAlert(formResult.name + this.commonService.getLocaleString("common.hasBeenCreated"));
-    }
-  }
 
   itemSearch(event) {
     if (event.keyCode != 13) return;
@@ -169,24 +150,20 @@ export class FloorComponent implements OnInit {
       }
     }
   }
-
-  async update(data: Floor) {
-    
-    
-    console.log("update floor", data);
-
-    var result = await this.floorService.update(data);
-    
-    if (result) {
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.data[index] = result;
-      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.tempData[tempIndex] = result;
-      this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenUpdated"));
+  updateList(data:Floor) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
     }
-
-
-
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
+    }
   }
 
 
