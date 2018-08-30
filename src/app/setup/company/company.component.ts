@@ -7,6 +7,7 @@ import { CreateEditCompanyComponent } from './create-edit-company.component';
 import { CompanyService } from '../../service/company.service';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-company',
@@ -20,7 +21,8 @@ export class CompanyComponent implements OnInit{
     private userService:UserService, 
     private floorService:FloorService,
     private dialogService: DialogService, 
-    private commonService: CommonService) {
+    private commonService: CommonService,
+    private progressService:NgProgress) {
   }
   tempData:Company[] = [];
   data:Company[] = [];
@@ -30,20 +32,29 @@ export class CompanyComponent implements OnInit{
   
 
   async ngOnInit(): Promise<void> { 
-    //gets all data
-    let items = await this.companyService.read("&paging.all=true");
-    for(let item of items){
-      this.data.push(item);
-      this.tempData.push(item);
-    }   
-    
-    
-    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
-    console.log("is admin:", this.isAdmin);
+    try{
+      this.progressService.start();
+      //gets all data
+      let items = await this.companyService.read("&paging.all=true");
+      for(let item of items){
+        this.data.push(item);
+        this.tempData.push(item);
+      }   
+      
+      
+      this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
+      console.log("is admin:", this.isAdmin);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
-  
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
 
   edit(item : Company) {
+    if(this.isLoading())return;
     console.log("edit item", item);
     this.actionMode = this.commonService.getLocaleString("common.edit");;    
     
@@ -79,21 +90,26 @@ export class CompanyComponent implements OnInit{
     this.showCreateEditDialog(newItem, false);
   }
   async delete(item: Company) {
+    if(this.isLoading())return;
     console.log("delete item", item);    
     this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.companyService.delete(item.objectId);          
-          if (result) {
-            var index = this.data.indexOf(item, 0);                      
-            this.data.splice(index, 1);
-            
-            var tempIndex = this.tempData.indexOf(item, 0);            
-            this.tempData.splice(tempIndex, 1);
-            
-          }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.companyService.delete(item.objectId);                    
+          //deletes data from array
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
         }
+        
       });    
   }
   itemSearch(event) {
@@ -117,12 +133,17 @@ export class CompanyComponent implements OnInit{
   }
 
   async save(formResult: Company) {
-    formResult.objectId === "" ?
-    // Create 
-    await this.create(formResult):
-    // Update 
-    await this.update(formResult);
-    
+    try{
+      this.progressService.start();
+      formResult.objectId === "" ?
+      // Create 
+      await this.create(formResult):
+      // Update 
+      await this.update(formResult);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   async create(data:Company) {
     

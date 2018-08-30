@@ -1,8 +1,9 @@
+<ng-progress></ng-progress>
 <div class="animated fadeIn">
   <div class="row" *ngIf="isAdmin">
     <div class="col-12">
       <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); ">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew();" [disabled]="isLoading()">
           {{'common.new' | translate}}
         </button>
       </div>
@@ -69,7 +70,7 @@
                   {{item.unitNumber}}
                 </td>
                 <td>
-                  <ul>
+                  <ul *ngIf="item.contactNumber">
                     <li *ngFor="let phone of item.contactNumber">{{phone}}</li>
                   </ul>
                 </td>
