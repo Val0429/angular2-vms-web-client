@@ -8,6 +8,7 @@ import { BatchUploadFloorComponent } from './batch-upload-floor.component';
 import { TranslateService } from 'ng2-translate';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-floor',
@@ -15,7 +16,12 @@ import { CommonService } from '../../service/common.service';
   styleUrls: ['./floor.component.scss']
 })
 export class FloorComponent implements OnInit {
-  constructor(private userService: UserService, private floorService:FloorService, private dialogService: DialogService, private commonService: CommonService) {
+  constructor(
+    private userService: UserService, 
+    private floorService:FloorService, 
+    private dialogService: DialogService, 
+    private commonService: CommonService,
+    private progressService:NgProgress) {
     
   }
   tempData :Floor[] = [];
@@ -26,19 +32,26 @@ export class FloorComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-
-    let floors = await this.floorService.read("&paging.all=true");
-    for (let floor of floors) {
-      this.data.push(floor);
-      this.tempData.push(floor);
+    try{
+      this.progressService.start();
+      let floors = await this.floorService.read("&paging.all=true");
+      for (let floor of floors) {
+        this.data.push(floor);
+        this.tempData.push(floor);
+      }
+      this.isAdmin = this.userService.userIs(RoleEnum.Administrator);      
+      console.log("is admin:", this.isAdmin);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
     }
-    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
-    
-    console.log("is admin:", this.isAdmin);
   }
 
-
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
   edit(item:Floor) {
+    if(this.isLoading())return;
     console.log("edit floor", item);
     this.actionMode = this.commonService.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
@@ -69,12 +82,18 @@ export class FloorComponent implements OnInit {
       });
   }
   async submitCSVFile(data: any) {
-    var result = await this.floorService.batchUploadFloor(data);
-    if (result) {
-      //console.log(result);
-      this.commonService.showAlert(result.paging.count + this.commonService.getLocaleString("pageFloor.haveBeenImported"));
-      //refresh list
-      await this.ngOnInit();
+    try{
+      this.progressService.start();
+      var result = await this.floorService.batchUploadFloor(data);
+      if (result) {
+        //console.log(result);
+        this.commonService.showAlert(result.paging.count + this.commonService.getLocaleString("pageFloor.haveBeenImported"));
+        //refresh list
+        await this.ngOnInit();
+      }
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
     }
   }
   batchUploadFloor() {
@@ -93,32 +112,38 @@ export class FloorComponent implements OnInit {
     this.showCreateEditDialog(data, false);
   }
   async delete(item: Floor) {
+    if(this.isLoading())return;
     console.log("delete floor", item);
 
     this.dialogService.addDialog(ConfirmComponent, {
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.floorService.delete(item.objectId);
-          if (result) {
-            var index = this.data.indexOf(item, 0);
-            this.data.splice(index, 1);
-
-            var tempIndex = this.tempData.indexOf(item, 0);
-            this.tempData.splice(tempIndex, 1);
-
-          }
-        }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.floorService.delete(item.objectId);                    
+          //deletes data from array
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
+        }        
       });
   }
 
   async save(formResult: Floor) {
-    // Create Floor
-    formResult.objectId==="" ?
-      await this.create(formResult):
-    // update
-      await this.update(formResult);    
+    try{
+      this.progressService.start();    
+      formResult.objectId==="" ? await this.create(formResult):  await this.update(formResult);    
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   async create(formResult: Floor) {         
     console.log("create floor", formResult);
