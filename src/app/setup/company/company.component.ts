@@ -60,15 +60,14 @@ export class CompanyComponent implements OnInit{
   }
   private showCreateEditDialog(data: Company, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditCompanyComponent(this.floorService, this.commonService, this.dialogService);
+    let newForm = new CreateEditCompanyComponent(this.floorService, this.commonService, this.companyService, this.progressService, this.dialogService);
     //sets form data
     newForm.setFormData(data, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditCompanyComponent, newForm)
-      .subscribe((saved) => {
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let formData = newForm.getFormData();
-          this.save(formData);
+        if (result) {          
+          this.updateList(result);
         }
       });
   }
@@ -130,44 +129,20 @@ export class CompanyComponent implements OnInit{
     }
   }
 
-  async save(formResult: Company) {
-    try{
-      this.progressService.start();
-      formResult.objectId === "" ?
-      // Create 
-      await this.create(formResult):
-      // Update 
-      await this.update(formResult);
-    }//no catch, global error handle handles it
-    finally{      
-      this.progressService.done();
+  updateList(data:Company) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
+    }
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
     }
   }
-  async create(data:Company) {
-    
-    console.log("create ", data);
-
-    var result = await this.companyService.create(data);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenCreated"));
-    }
-  }
-
-  
-  async update(data:Company) { 
-      console.log("update", data);             
-      var result = await this.companyService.update(data);    
-      if (result) {
-        var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.data[index] = result;
-        var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.tempData[tempIndex] = result;        
-        this.commonService.showAlert(data.name + this.commonService.getLocaleString("common.hasBeenUpdated"));
-      }
-    
-  }
-
 
 }

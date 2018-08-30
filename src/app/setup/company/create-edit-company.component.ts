@@ -5,11 +5,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
+import { CompanyService } from '../../service/company.service';
 @Component({
   selector: 'app-create-edit-company',
   templateUrl: './create-edit-company.component.html'
 })
-export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog, OnInit{
+export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialog, Company> implements CreateEditDialog, OnInit{
   
   title: string;  
   editMode:boolean;
@@ -35,7 +37,11 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     this.createFormControls();
     this.createForm();
   }
-  constructor(private floorService:FloorService, private commonService:CommonService, dialogService: DialogService) {
+  constructor(private floorService:FloorService, 
+    private commonService:CommonService,
+    private companyService:CompanyService,
+    private progressService:NgProgress, 
+    dialogService: DialogService) {
     super(dialogService);
 
     //initialization
@@ -54,16 +60,6 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     }
   }
   
-  public getFormData(): Company {
-    let formResult = this.myform.value;  
-    this.formData.name=formResult.name;
-    this.formData.contactPerson=formResult.contactPerson;
-    this.formData.unitNumber=formResult.unitNumber;
-    this.formData.contactNumber=formResult.contactNumber.split(',');    
-    //set this value back the way backend wants it
-    this.formData.floor= formResult.floor;
-    return this.formData;
-  }
 
   add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
     console.log("add item:", item);
@@ -97,12 +93,32 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     ]);
     
   }
-
-  save() {
-    // we set dialog result as true on click on confirm button, 
-    // then we can get dialog result from caller code 
-    this.result = true;
-    this.close();
+  async update(data:Company) {
+    console.log("update", data);    
+    return await this.companyService.update(data);
+  }
+  async create(data:Company):Promise<Company>  {    
+    console.log("create", data);
+    return await this.companyService.create(data);
+  }
+  async save():Promise<void> {
+    try{      
+      this.progressService.start();    
+      //build data that will be sent to backend
+      let formResult: Company = new Company(); 
+      formResult.objectId = this.formData.objectId;     
+      formResult.name = this.myform.value.name;
+      formResult.contactPerson = this.myform.value.contactPerson;
+      formResult.unitNumber = this.myform.value.unitNumber;
+      formResult.contactNumber = this.myform.value.contactNumber.split(',');
+      formResult.floor = this.myform.value.floor;
+      //close form with success
+      this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
+      this.close();  
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   createForm() {
     this.myform = new FormGroup({      
