@@ -51,11 +51,9 @@ export class KioskComponent implements OnInit{
   async ngOnInit(): Promise<void> {
     try{
       this.progressService.start();
-      let users = await this.kioskService.read("&paging.all=true");
-      for (let user of users) {
-        this.data.push(user);
-        this.tempData.push(user);
-      }
+      let items = await this.kioskService.read("&paging.all=true");      
+      this.data= Object.assign([],items);
+      this.tempData= Object.assign([],items);      
       this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
       console.log("is admin:", this.isAdmin);
     }//no catch, global error handle handles it
@@ -116,7 +114,7 @@ export class KioskComponent implements OnInit{
   
   async delete(item:KioskUser) {
     if(this.isLoading())return;
-    
+
     console.log("delete kiosk", item);
     this.dialogService.addDialog(ConfirmComponent, {            
     })

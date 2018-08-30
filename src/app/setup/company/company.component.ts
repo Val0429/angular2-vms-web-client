@@ -36,11 +36,9 @@ export class CompanyComponent implements OnInit{
       this.progressService.start();
       //gets all data
       let items = await this.companyService.read("&paging.all=true");
-      for(let item of items){
-        this.data.push(item);
-        this.tempData.push(item);
-      }   
       
+      this.data= Object.assign([],items);
+      this.tempData= Object.assign([],items);
       
       this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
       console.log("is admin:", this.isAdmin);

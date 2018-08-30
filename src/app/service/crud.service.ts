@@ -9,9 +9,7 @@ export class CrudService<T> implements CrudInterface<T>{
     public coreService: CoreService,
     public loginService:LoginService
   ) { 
-    this.uriCrud="";
-    this.coreService = coreService;
-    this.loginService = loginService;
+    this.uriCrud="";    
   }
 
   public async create(data: T): Promise<T> {
@@ -33,7 +31,7 @@ export class CrudService<T> implements CrudInterface<T>{
 
     return result;
   }
-  public async read(filter: string): Promise<T[]> {
+  public async read(filter: string): Promise<T[]> {    
     var token = this.loginService.getCurrentUserToken();
     var items : T[]= [];
     var result = await this.coreService.getConfig({ path: this.uriCrud, query: "?sessionId=" + token.sessionId + filter }).toPromise();

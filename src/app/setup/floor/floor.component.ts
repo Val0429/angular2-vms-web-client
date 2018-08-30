@@ -24,21 +24,19 @@ export class FloorComponent implements OnInit {
     private progressService:NgProgress) {
     
   }
-  tempData :Floor[] = [];
-  data :Floor[]= [];
+  tempData :Floor[]=[];
+  data :Floor[]=[];
   filterQuery = "";
   actionMode = "";
   private isAdmin = false;
 
 
   async ngOnInit(): Promise<void> {
-    try{
+    try{      
       this.progressService.start();
-      let floors = await this.floorService.read("&paging.all=true");
-      for (let floor of floors) {
-        this.data.push(floor);
-        this.tempData.push(floor);
-      }
+      let items = await this.floorService.read("&paging.all=true");
+      this.data = Object.assign([],items);
+      this.tempData= Object.assign([],items);      
       this.isAdmin = this.userService.userIs(RoleEnum.Administrator);      
       console.log("is admin:", this.isAdmin);
     }//no catch, global error handle handles it
