@@ -1,3 +1,4 @@
+<ng-progress></ng-progress>
 <div class="animated fadeIn">
     <div class="card col-md-6">
         <div class="card-block">
@@ -82,7 +83,7 @@
 </form>
 
 <div class="modal-footer">  
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || isLoading()">{{'common.save'|translate}}</button>
 </div>
 </div>
 </div>

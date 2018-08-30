@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FrsComponent } from './frs.component';
 import { AppTestModule } from '../../app.module.test';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FrsComponent', () => {
   let component: FrsComponent;
@@ -9,6 +10,7 @@ describe('FrsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [AppTestModule],
       declarations: [ FrsComponent ]
     })
