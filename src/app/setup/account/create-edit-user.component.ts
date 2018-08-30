@@ -134,7 +134,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, b
       Validators.required,
       Validators.minLength(3)
     ]);
-    this.email = new FormControl(this.formData.email, [
+    this.email = new FormControl(this.formData.email?this.formData.email:"", [
       //Validators.required,
       Validators.pattern("[^ @]*@[^ @]*")
       
