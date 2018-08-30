@@ -1,15 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 import { Router } from '@angular/router';
-import { User } from 'app/Interface/interface';
 import { LoginService } from 'app/service/login.service';
-import { Observable } from 'rxjs/Rx';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { AlertComponent } from '../dialog/alert/alert.component';
 import  * as Globals from 'app/globals';
 import { TranslateService } from 'ng2-translate';
-import { BaseClassComponent, BaseComponent } from 'app/shared/base-class-component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CommonService } from '../service/common.service';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -26,22 +21,37 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
         }
       `]
 })
-export class LoginComponent extends BaseClassComponent implements BaseComponent  {
+export class LoginComponent  {
   myform: FormGroup;
   username: FormControl;
   password: FormControl;
   rememberMe: FormControl;
   language: FormControl;
+  activeLanguage: string;
+  loading: boolean;
   
   constructor(
     private router: Router,
     private loginService: LoginService,
      
-     dialogService: DialogService,
-     translateService:TranslateService
+     public commonService: CommonService,
+     public translateService:TranslateService
   ) {
-    super(dialogService, translateService);
+    //activate language service
+    this.activeLanguage = localStorage.getItem(Globals.languageKey);
+    var browserLanguage = window.navigator.language.toLowerCase();
+    
+    if (this.activeLanguage === null) {
+      if (browserLanguage === "zh-tw" || browserLanguage === "en-us") {
+        this.activeLanguage = browserLanguage;
+      } else {
+        this.activeLanguage = "en-us";
+      }
+    }    
+    this.translateService.setDefaultLang(this.activeLanguage);
+    this.loading = false;
 
+    //prevents user to access this page if user alread login
     let activeSession = loginService.checkActiveSession();
     if (activeSession) {    
       //navigate to dashboard
@@ -104,7 +114,7 @@ export class LoginComponent extends BaseClassComponent implements BaseComponent 
       this.router.navigate(['/report/dashboard']);
     }
     else {
-      this.showAlert(this.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.getLocaleString("pageLogin.loginFailed"));
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.commonService.getLocaleString("pageLogin.loginFailed"));
       this.loading = false;
     }
   }

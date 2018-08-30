@@ -1,92 +1,50 @@
+
 <div class="animated fadeIn">
+  <app-visitor-statistic></app-visitor-statistic>
+
   <div class="row">
-    <div class="col text-right mb-1">
-      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">Today</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">This Week</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">This Month</button>
+    <div class="col mb-1">
+      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'pageDashboard.today' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">{{'pageDashboard.thisWeek' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'pageDashboard.thisMonth' | translate}} </button>
     </div>
   </div>
+  
+    <div class="card col-lg-6 col-md-9">
+      <div class="card-header">
+        {{'pageDashboard.checkInStatistic' | translate}}
+      </div>
+      <div class="card-block">
 
-  <div class="card-columns cols-2">
-    <div class="card">
-      <div class="card-header">
-        Bar Chart
-      </div>
-      <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #timeBarChart="base-chart" class="chart" 
-          [datasets]="timeBarChartData" 
-          [labels]="timeBarChartLabels" 
-          [options]="barChartOptions"
-          [legend]="barChartLegend" 
-          [chartType]="barChartTypeV" 
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        Bar Chart
-      </div>
-      <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #entryBarChart="base-chart" class="chart" 
-          [datasets]="entryBarChartData" 
-          [labels]="entryBarChartLabels" 
-          [options]="barChartOptions"
-          [legend]="barChartLegend" 
-          [chartType]="barChartTypeH" 
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    </div>
+        <canvas baseChart #timeBarChart="base-chart" class="chart"
+                [datasets]="timeBarChartData"
+                [labels]="timeBarChartLabels"
+                [colors]="timeBarChartColors"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartTypeV"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
 
-  </div>
-  <div class="card-columns cols-2">
-    <div class="card">
-      <div class="card-header">
-        Pie Chart
-      </div>
-      <div class="card-block">
-        <div class="chart-wrapper">
-          <canvas baseChart #groupPieChart="base-chart" class="chart" 
-          [data]="groupPieChartData" 
-          [labels]="groupPieChartLabels" 
-          [chartType]="groupPieChartType"
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
       </div>
     </div>
-    <div class="card">
+    <div class="card col-lg-6 col-md-9">
       <div class="card-header">
-        Foot Traffic Breakdown
+        {{'pageDashboard.recurringVisitor' | translate}}
       </div>
       <div class="card-block">
-        <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
-          <thead>
-            <tr>
-                <th style="width: 80%" colspan="2">Registered</th>
-                <th style="width: 20%">{{210}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>vip</td>
-              <td>210</td>
-            </tr>
-          </tbody>
-          <thead>
-            <tr>
-                <th style="width: 80%" colspan="2">Unregistered</th>
-                <th style="width: 20%">0</th>
-            </tr>
-          </thead>
-        </table>
+
+        <canvas baseChart #entryBarChart="base-chart" class="chart"
+                [datasets]="entryBarChartData"
+                [labels]="entryBarChartLabels"
+                [options]="barChartOptions"
+                [colors]="entryBarChartColors"
+                [legend]="barChartLegend"
+                [chartType]="barChartTypeH"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+
       </div>
-    </div>
+
   </div>
 </div>

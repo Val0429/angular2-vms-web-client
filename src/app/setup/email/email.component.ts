@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
-
-
 import { SetupService } from 'app/service/setup.service';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import * as Globals from 'app/globals';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-email',
@@ -16,7 +12,7 @@ import { TranslateService } from 'ng2-translate';
 })
   
 
-export class EmailComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class EmailComponent  implements OnInit {
   securityOption: string[] = [ "None", "TLS", "SSL"];
   port: FormControl;
   password: FormControl;
@@ -24,20 +20,30 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
   account: FormControl;
   security: FormControl;
   myform: FormGroup;
-  constructor(private setupService: SetupService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  
+  constructor(private setupService: SetupService, private commonService: CommonService, private progressService:NgProgress) {
+
     //instantiate empty form
     this.createFormControls({});
     this.createForm();
   }
 
   async ngOnInit() {
-    //wait to get setting from server
-    let setting = await this.setupService.getServerSettings();
-    if (setting && setting.smtp) {
-      this.createFormControls(setting.smtp);
-      this.createForm();
+    try{
+      this.progressService.start();
+      //wait to get setting from server
+      let setting = await this.setupService.getServerSettings();
+      if (setting && setting.smtp) {
+        this.createFormControls(setting.smtp);
+        this.createForm();
+      }
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
     }
+  }
+  isLoading():boolean{
+    return this.progressService.isStarted();
   }
   createForm() {
     this.myform = new FormGroup({
@@ -49,14 +55,17 @@ export class EmailComponent extends BaseClassComponent implements OnInit, BaseCo
     });
   }
   async save() {
-    this.loading = true;
-    var formData = this.myform.value;
-    console.log("smtp save setting", formData);
-    let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
-    console.log("smtp save setting result: ", result);
-    let message = (result) ? this.getLocaleString("common.hasBeenUpdated") : this.getLocaleString("common.failedToUpdate");
-    this.showAlert(this.getLocaleString("pageLayout.setup.emailSetting") + message);
-    this.loading = false;
+    try{
+      this.progressService.start();
+      var formData = this.myform.value;
+      console.log("smtp save setting", formData);
+      let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
+      console.log("smtp save setting result: ", result);
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") );
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   createFormControls(data: any) {
     this.account = new FormControl(data.account, [

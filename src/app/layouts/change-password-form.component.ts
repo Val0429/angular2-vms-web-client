@@ -14,7 +14,7 @@ export class ChangePasswordFormComponent extends DialogComponent<any, boolean>  
   myform: FormGroup;
   username: FormControl;
   newPassword: FormControl;
-  password: FormControl;
+  // password: FormControl;
   confirmPassword: FormControl;
   passwordGroup: FormGroup;
   
@@ -49,9 +49,9 @@ export class ChangePasswordFormComponent extends DialogComponent<any, boolean>  
       Validators.minLength(6)  
     ]);
 
-    this.password = new FormControl('', [
-      Validators.required
-    ]);
+    // this.password = new FormControl('', [
+    //   Validators.required
+    // ]);
     this.confirmPassword = new FormControl('', [
       Validators.required,
       Validators.minLength(6)
@@ -75,7 +75,7 @@ export class ChangePasswordFormComponent extends DialogComponent<any, boolean>  
     this.myform = new FormGroup({
       username: this.username,      
       passwordGroup: this.passwordGroup,
-      password: this.password
+      // password: this.password
     });
   }
 }

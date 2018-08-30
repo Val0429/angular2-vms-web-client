@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Http, Response, RequestOptions, Headers, ResponseType } from '@angular/http';
-import { Promise } from 'q';
-import { throttle } from 'rxjs/operator/throttle';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
 @Injectable()
 export class CoreService {

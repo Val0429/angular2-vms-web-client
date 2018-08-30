@@ -1,14 +1,19 @@
+<ng-progress></ng-progress>
+<div class="animated fadeIn">
+  <div class="card col-md-6">
+      <div class="card-block">
 <form novalidate
-      [formGroup]="myform">
-  <div class="input-group mb-1" [ngClass]="{
+      [formGroup]="myform" >
+  <div class="input-group mb-1" title="{{'pageEmail.smtpHost'|translate}}" [ngClass]="{
        'has-danger': ip.invalid && (ip.dirty || ip.touched),
        'has-success': ip.valid && (ip.dirty || ip.touched)}">
-    <span class="input-group-addon">
+    <span class="input-group-addon" >
       <i class="fa fa-envelope"></i>
     </span>
     <input type="text"
            class="form-control"
            required
+           
            formControlName="ip"
            placeholder="{{'pageEmail.smtpHost'|translate}}" />
   </div>
@@ -17,7 +22,7 @@
     <p *ngIf="ip.errors.pattern">{{'pageEmail.smtpHost'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
-  <div class="input-group mb-1" [ngClass]="{
+  <div class="input-group mb-1" title="{{'pageEmail.port'|translate}}" [ngClass]="{
        'has-danger': port.invalid && (port.dirty || port.touched),
        'has-success': port.valid && (port.dirty || port.touched)}">
     <span class="input-group-addon">
@@ -27,6 +32,7 @@
            class="form-control"
            inputmode="numeric"
            required
+           
            formControlName="port"
            placeholder="{{'pageEmail.port'|translate}}" />
   </div>
@@ -35,7 +41,7 @@
     <p *ngIf="port.errors.pattern">{{'pageEmail.port'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
-  <div class="input-group mb-1"
+  <div class="input-group mb-1" title="{{'common.account'|translate}}"
        [ngClass]="{
        'has-danger': account.invalid && (account.dirty || account.touched),
        'has-success': account.valid && (account.dirty || account.touched)}">
@@ -46,6 +52,7 @@
            class="form-control"
            [readonly]="editMode"
            required
+           
            formControlName="account"
            placeholder="{{'common.account'|translate}}" />
   </div>
@@ -54,7 +61,7 @@
     <p *ngIf="account.errors.minlength">{{'common.account'|translate}}{{'common.minLength'|translate:account.errors}}</p>
   </div>
 
-  <div class="input-group mb-1"
+  <div class="input-group mb-1" title="{{'common.password'|translate}}"
        [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
        'has-success': password.valid && (password.dirty || password.touched)}">
@@ -65,13 +72,14 @@
            class="form-control"
            required
            formControlName="password"
+           
            placeholder="{{'common.password'|translate}}" />
   </div>
   <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
     <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
     <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
   </div>
-  <div class="input-group mb-1"
+  <div class="input-group mb-1" title="{{'pageEmail.security'|translate}}"
        [ngClass]="{
        'has-danger': security.invalid && (security.dirty || security.touched),
        'has-success': security.valid && (security.dirty || security.touched)}">
@@ -80,6 +88,7 @@
     </span>
     <select class="form-control"
             required
+            
             formControlName="security">      
       <option *ngFor="let option of securityOption"
               [value]="option">
@@ -95,5 +104,8 @@
 </form>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || isLoading()">{{'common.save'|translate}}</button>
+</div>
+</div>
+</div>
 </div>

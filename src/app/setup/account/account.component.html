@@ -1,8 +1,12 @@
+<!-- Progress bar -->
+<ng-progress>
+</ng-progress>
+
 <div class="animated fadeIn">
-  <div class="row" *ngIf="isAdmin">
+  <div class="row" >
     <div class="col-12">
       <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newUser(); ">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
           {{'common.new' | translate}}
         </button>
       </div>
@@ -30,25 +34,25 @@
           <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
             <thead>
               <tr>
-                <th style="width: 5%">No</th>
-                <th style="width: 25%">
+                <th style="width: 5%">{{'common.no' | translate}}</th>
+                <th style="width: 18%">
                   <mfDefaultSorter by="updatedAt">{{'common.userName' | translate}}</mfDefaultSorter>
                 </th>
-                <th style="width: 25%">
+                <th style="width: 15%">
                   {{'pageAccount.roles' | translate}}
                 </th>
-                <th style="width: 10%">
-                  {{'common.name' | translate}}
+                <th style="width: 18%">
+                  {{'pageAccount.companyName' | translate}}
                 </th>
-                <th style="width: 10%">
-                  {{'common.phone' | translate}}
+                <th style="width: 18%">
+                  {{'pageAccount.floorName' | translate}}
                 </th>
                 <th style="width: 15%">
                   {{'common.email' | translate}}
                 </th>
 
-                <th style=""></th>
-                <th style=""></th>
+                <th ></th>
+                <th ></th>
               </tr>
             </thead>
             <tbody>
@@ -59,23 +63,25 @@
                 <td>{{item.username}}</td>
                 <td>
                   <ul>
-                    <li *ngFor="let role of item.roles">{{role.name}}</li>
+                    <li *ngFor="let role of item.roles">{{('roleEnum.'+role.name) | translate}}</li>
                   </ul>
                 </td>
                 <td>
-                  {{item.data.name}}
+                    {{item.data && item.data.company && item.data.company.name ? item.data.company.name : ""}}
                 </td>
                 <td>
-                  {{item.data.phone}}
+                    <ul *ngIf="item.data && item.data.floor">
+                        <li *ngFor="let floor of item.data.floor">{{floor.name}}</li>
+                    </ul>
                 </td>
                 <td>
-                  {{item.data.email}}
+                  {{item.publicEmailAddress ? item.publicEmailAddress : ""}}
                 </td>
                 <td>
-                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();editUser(item);"></a>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();deleteUser(item)"></a>
+                  <a *ngIf="item.objectId !== currentUser.objectId" class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>

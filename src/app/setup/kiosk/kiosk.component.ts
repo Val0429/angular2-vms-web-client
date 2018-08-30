@@ -1,29 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { KioskUser, KioskData, Roles } from '../../Interface/interface';
-import { TranslateService } from 'ng2-translate';
-import { BaseComponent, BaseClassComponent } from '../../shared/base-class-component';
+import { KioskUser, KioskData, Role, RoleEnum } from '../../Interface/interface';
+import { KioskService } from '../../service/kiosk.service';
+import { UserService } from '../../service/user.service';
+import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-kiosk',
   templateUrl: './kiosk.component.html',
   styleUrls: ['./kiosk.component.scss']
 })
-export class KioskComponent extends BaseClassComponent implements OnInit, BaseComponent{
+export class KioskComponent implements OnInit{
 
 
-  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  constructor(
+    private kioskService: KioskService, 
+    private userService: UserService, 
+    private commonService: CommonService, 
+    private dialogService:DialogService,
+    private progressService:NgProgress
+  ) {
+    
   }
-  tempData = [];
-  data = [];   
+  tempData :KioskUser[] = [];
+  data:KioskUser[]= [];   
   filterQuery = "";
   actionMode = "";
-  private srcUser = "";
   private isAdmin = false;
 
   itemSearch(event) {
@@ -44,20 +49,24 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
 
   async ngOnInit(): Promise<void> {
-    
-    let users = await this.userService.getKioskUsersList("&paging.all=true");
-    for (let user of users) {
-      this.data.push(user);
-      this.tempData.push(user);
-    }
-    this.isAdmin = this.userService.isAdmin();
-    console.log("is admin:", this.isAdmin);
+    try{
+      this.progressService.start();
+      let items = await this.kioskService.read("&paging.all=true");      
+      this.data= Object.assign([],items);
+      this.tempData= Object.assign([],items);      
+      this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
+      console.log("is admin:", this.isAdmin);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    } 
   }
 
 
-  editKiosk(item: KioskUser) {
-    console.log("edit kiosk", item);
-    this.actionMode = this.getLocaleString("common.edit") ;
+  edit(item: KioskUser) {
+    if(this.isLoading())return;
+    console.log("edit", item);
+    this.actionMode = this.commonService.getLocaleString("common.edit") ;
 
     let newData = new KioskUser();    
     newData.objectId = item.objectId;
@@ -70,20 +79,19 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
   }
   private showCreateEditDialog(data: KioskUser, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditKioskComponent(this.dialogService);
+    let newForm = new CreateEditKioskComponent(this.kioskService, this.progressService, this.dialogService);
     newForm.setFormData(data, this.actionMode, editMode);
-    let disposable = this.dialogService.addDialog(CreateEditKioskComponent, newForm)
-      .subscribe((saved) => {
+    this.dialogService.addDialog(CreateEditKioskComponent, newForm)
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let data = newForm.getFormData();
-          this.saveKiosk(data);
+        if (result) {          
+          this.updateList(result);
         }
       });
   }
 
-  newKiosk() {
-    this.actionMode = this.getLocaleString("common.new") ;
+  createNew() {
+    this.actionMode = this.commonService.getLocaleString("common.new") ;
 
     var u = ("000" + this.tempData.length);
     u = "kiosk" + u.substr(u.length - 3, 3);
@@ -92,7 +100,7 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     newData.objectId = "";
     newData.username = u;
     newData.roles = [];
-    let kioskRole = new Roles();
+    let kioskRole = new Role();
     kioskRole.name = "Kiosk";
     newData.roles.push(kioskRole);
     newData.data = new KioskData();
@@ -103,69 +111,47 @@ export class KioskComponent extends BaseClassComponent implements OnInit, BaseCo
     this.showCreateEditDialog(newData, false);
   }
   
-  async deleteKiosk(item) {
-    console.log("delete kiosk", item);
+  async delete(item:KioskUser) {
+    if(this.isLoading())return;
 
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {            
+    console.log("delete", item);
+    this.dialogService.addDialog(ConfirmComponent, {            
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.userService.deleteKiosk(item.objectId);         
-          
-          if (result) {
-            var index = this.data.indexOf(item, 0);
-            this.data.splice(index, 1);
-
-            var tempIndex = this.tempData.indexOf(item, 0);
-            this.tempData.splice(tempIndex, 1);
-          }
-        }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.kioskService.delete(item.objectId);                    
+          //deletes data from array
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
+        }    
       });
   }
-
-  async saveKiosk(formResult: KioskUser) {
-    if (formResult.objectId === "") {
-      // Create User
-      await this.createKiosk(formResult);
-    } else {
-      // edit User
-      await this.updateKiosk(formResult);
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
+  updateList(data:KioskUser) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
+    }
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
     }
   }
-  async createKiosk(data: KioskUser) {
-    //let formResult = this.child.getFormData();
-   
-    console.log("create kiosk", data);
-    var result = await this.userService.createKiosk(data);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.showAlert(data.data.kioskName + this.getLocaleString("common.hasBeenCreated"));
-    }
-  }
-
-
-  async updateKiosk(data: KioskUser) {
-   
-    console.log("update kiosk", data);
-    //update data without update password by admin
-    if (data.password === "") {
-      //removes password from object submission
-      delete (data.password);
-    }
-    var result = await this.userService.updateKiosk(data);
-    
-    if (result) {
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.data[index] = result;
-      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.tempData[tempIndex] = result;
-
-      this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
-    }
-
-  }
-
 
 }

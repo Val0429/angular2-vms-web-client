@@ -6,7 +6,7 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatepickerModule } from 'ng2-bootstrap';
+import { DatepickerModule, BsDropdownModule } from 'ng2-bootstrap';
 
 //sub menu components
 import { SetupRoutingModule } from './setup-routing.module';
@@ -16,15 +16,20 @@ import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
+import { CompanyComponent } from './company/company.component';
 
 //dialog components
 import { CreateEditUserComponent } from './account/create-edit-user.component';
 import { CreateEditKioskComponent } from './kiosk/create-edit-kiosk.component';
 import { CreateEditFloorComponent } from './floor/create-edit-floor.component';
 import { BatchUploadFloorComponent } from './floor/batch-upload-floor.component';
+import { CreateEditCompanyComponent } from './company/create-edit-company.component';
 
 //translate
 import { TranslateModule } from 'ng2-translate';
+//progess
+import { NgProgressModule } from 'ngx-progressbar';
+
 
 @NgModule({
   imports: [
@@ -36,13 +41,16 @@ import { TranslateModule } from 'ng2-translate';
     FormsModule,
     HttpModule,
     ReactiveFormsModule,    
-    DatepickerModule.forRoot()
+    DatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    NgProgressModule
   ],
   entryComponents: [
     CreateEditUserComponent,
     CreateEditKioskComponent,
     CreateEditFloorComponent,
-    BatchUploadFloorComponent
+    BatchUploadFloorComponent,
+    CreateEditCompanyComponent
   ],
   declarations: [
     EmailComponent,
@@ -54,7 +62,9 @@ import { TranslateModule } from 'ng2-translate';
     CreateEditUserComponent,    
     CreateEditKioskComponent,
     CreateEditFloorComponent,
-    BatchUploadFloorComponent
+    BatchUploadFloorComponent,
+    CompanyComponent,
+    CreateEditCompanyComponent
   ]
 })
 export class SetupModule { }

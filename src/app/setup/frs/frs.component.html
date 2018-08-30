@@ -1,6 +1,10 @@
+<ng-progress></ng-progress>
+<div class="animated fadeIn">
+    <div class="card col-md-6">
+        <div class="card-block">
 <form novalidate 
       [formGroup]="myform">
-  <div class="input-group mb-1" [ngClass]="{
+  <div class="input-group mb-1" title="{{'pageFrs.ipAddress'|translate}}" [ngClass]="{
        'has-danger': ip.invalid && (ip.dirty || ip.touched),
        'has-success': ip.valid && (ip.dirty || ip.touched)}">
     <span class="input-group-addon">
@@ -10,6 +14,7 @@
            class="form-control"
            required
            formControlName="ip"
+          
            placeholder="{{'pageFrs.ipAddress'|translate}}" />
   </div>
   <div style="color:red" *ngIf="ip.errors && (ip.dirty || ip.touched )">
@@ -17,7 +22,7 @@
     <p *ngIf="ip.errors.pattern">{{'pageFrs.ipAddress'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
-  <div class="input-group mb-1" [ngClass]="{
+  <div class="input-group mb-1" title="{{'pageFrs.wsPort'|translate}}" [ngClass]="{
        'has-danger': wsport.invalid && (wsport.dirty || wsport.touched),
        'has-success': wsport.valid && (wsport.dirty || wsport.touched)}">
     <span class="input-group-addon">
@@ -28,6 +33,7 @@
            required
            inputmode="numeric"
            formControlName="wsport"
+          
            placeholder="{{'pageFrs.wsPort'|translate}}" />
   </div>
   <div style="color:red" *ngIf="wsport.errors && (wsport.dirty || wsport.touched )">
@@ -35,7 +41,7 @@
     <p *ngIf="wsport.errors.pattern">{{'pageFrs.wsPort' | translate}}{{ 'common.isInvalid' | translate}}</p>
   </div>
 
-  <div class="input-group mb-1"
+  <div class="input-group mb-1" title="{{'common.account'|translate}}"
        [ngClass]="{
        'has-danger': account.invalid && (account.dirty || account.touched),
        'has-success': account.valid && (account.dirty || account.touched)}">
@@ -47,6 +53,7 @@
            [readonly]="editMode"
            required
            formControlName="account"
+          
            placeholder="{{'common.account'|translate}}" />
   </div>
   <div style="color:red" *ngIf="account.errors && (account.dirty || account.touched )">
@@ -54,7 +61,7 @@
     <p *ngIf="account.errors.minlength">{{'common.account'|translate}}{{'common.minLength'|translate:account.errors}} </p>
   </div>
 
-    <div class="input-group mb-1"
+    <div class="input-group mb-1" title="{{'common.password'|translate}}"
          [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
        'has-success': password.valid && (password.dirty || password.touched)}">
@@ -65,6 +72,7 @@
              class="form-control"
              required
              formControlName="password"
+            
              placeholder="{{'common.password'|translate}}" />
     </div>
     <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
@@ -75,5 +83,8 @@
 </form>
 
 <div class="modal-footer">  
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || loading">{{'common.save'|translate}}</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || isLoading()">{{'common.save'|translate}}</button>
+</div>
+</div>
+</div>
 </div>

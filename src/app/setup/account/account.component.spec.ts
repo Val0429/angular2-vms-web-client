@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountComponent } from './account.component';
 import { AppTestModule } from '../../app.module.test';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -9,6 +10,7 @@ describe('AccountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports:[AppTestModule],
       declarations: [ AccountComponent ]
     })

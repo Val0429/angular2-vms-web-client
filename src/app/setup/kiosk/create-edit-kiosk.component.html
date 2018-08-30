@@ -10,7 +10,7 @@
       <form novalidate
             [formGroup]="myform">
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'common.userName'|translate}}"
              [ngClass]="{
        'has-danger': username.invalid && (username.dirty || username.touched),
        'has-success': username.valid && (username.dirty || username.touched)}">
@@ -30,7 +30,7 @@
         </div>
 
         <fieldset formGroupName="data">
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'pageKiosk.kioskId'|translate}}"
                [ngClass]="{
        'has-danger': kioskId.invalid && (kioskId.dirty || kioskId.touched),
        'has-success': kioskId.valid && (kioskId.dirty || kioskId.touched)}">
@@ -48,7 +48,7 @@
             <p *ngIf="kioskId.errors.minlength">{{'pageKiosk.kioskId'|translate}}{{'common.minLength'|translate:kioskId.errors}} </p>
           </div>
 
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'pageKiosk.kioskName'|translate}}"
                [ngClass]="{
        'has-danger': kioskName.invalid && (kioskName.dirty || kioskName.touched),
        'has-success': kioskName.valid && (kioskName.dirty || kioskName.touched)}">
@@ -72,7 +72,7 @@
           <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData'|translate}}</button>
         </div>
         <fieldset formGroupName="passwordGroup">
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'common.password'|translate}}"
                [ngClass]="{
        'has-danger': password.invalid && (password.dirty || password.touched),
        'has-success': password.valid && (password.dirty || password.touched)}">
@@ -89,7 +89,7 @@
             <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
             <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
           </div>
-          <div class="input-group mb-1"
+          <div class="input-group mb-1" title="{{'common.confirmPassword'|translate}}"
                [ngClass]="{
        'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched),
        'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}">

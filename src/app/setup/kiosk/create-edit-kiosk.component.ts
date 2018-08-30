@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditDialog, KioskUser, KioskData } from 'app/Interface/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgProgress } from 'ngx-progressbar';
+import { KioskService } from '../../service/kiosk.service';
 
 @Component({
   selector: 'app-create-edit-kiosk',
   templateUrl: './create-edit-kiosk.component.html'  
 })
-export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog
+export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, KioskUser> implements CreateEditDialog
 {
   roles: FormControl;
   title: string;
@@ -23,7 +25,7 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
   confirmPassword: FormControl;
   passwordGroup: FormGroup;
   
-  constructor(dialogService: DialogService) {
+  constructor(private kioskService:KioskService,private progressService:NgProgress, dialogService: DialogService) {
     super(dialogService);
     //initialization
     let initForm = new KioskUser();
@@ -34,7 +36,8 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
 
   public setFormData(kioskData: KioskUser, title:string, editMode: boolean) {
 
-    this.formData = kioskData;
+    this.formData = Object.assign({}, kioskData);
+    this.formData.data = Object.assign({}, kioskData.data);
     
     this.title = title;
     this.editMode = editMode;
@@ -42,17 +45,6 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
     this.createForm();
     
   }
-  public getFormData(): KioskUser {
-    var result = this.myform.value;
-
-    this.formData.username = result.username;      
-    this.formData.password = result.passwordGroup.password;
-    this.formData.data = result.data;
-    this.formData.roles = result.roles;
-    
-    return this.formData;
-  }
-
   passwordMatchValidator(g: FormGroup) {
     return g.get('password').value === g.get('confirmPassword').value
       ? null : { 'mismatch': true };
@@ -93,11 +85,37 @@ export class CreateEditKioskComponent extends DialogComponent<CreateEditDialog, 
       kioskName:this.kioskName
     });
   }
-  save() {
-    // we set dialog result as true on click on confirm button, 
-    // then we can get dialog result from caller code 
-    this.result = true;
-    this.close();
+  async update(data:KioskUser) {             
+    //update data without update password by admin
+    if (data.password === "") {
+      //removes password from object submission
+      delete (data.password);
+    }
+    console.log("update", data);           
+    return await this.kioskService.update(data);
+  }
+  async create(data:KioskUser):Promise<KioskUser>  {    
+    console.log("create", data);
+    return await this.kioskService.create(data);
+  }
+  async save():Promise<void> {
+    try{      
+      this.progressService.start();    
+      //build data that will be sent to backend
+      let formResult: KioskUser = new KioskUser(); 
+      formResult.objectId = this.formData.objectId;     
+      formResult.username = this.myform.value.username;
+      formResult.password = this.myform.value.passwordGroup.password;
+      formResult.data = this.myform.value.data;  
+      formResult.roles=[];    
+      formResult.roles.push("Kiosk" as any);      
+      //close form with success
+      this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
+      this.close();  
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   
   createForm() {

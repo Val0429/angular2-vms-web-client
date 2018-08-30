@@ -6,14 +6,18 @@ import { RouterModule } from '@angular/router';
 
 import { CoreService } from 'app/service/core.service';
 import { CryptoService } from 'app/service/crypto.service';
-
+import { CommonService } from 'app/service/common.service';
 import { LoginService } from 'app/service/login.service';
 
 import { ReportService } from 'app/service/report.service';
 import { SetupService } from 'app/service/setup.service';
 import { UserService } from 'app/service/user.service';
-import { ActionService } from 'app/service/action.service';
-import { RecognitionService} from 'app/service/recognition.service';
+import { CompanyService } from './company.service';
+import { KioskService } from './kiosk.service';
+import { FloorService } from './floor.service';
+import { DialogService } from 'ng2-bootstrap-modal';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +26,18 @@ import { RecognitionService} from 'app/service/recognition.service';
     RouterModule
   ],
   declarations: [],
-  providers: [CoreService, CryptoService, LoginService, ReportService, SetupService, UserService, RecognitionService, ActionService ]
+  providers: [
+    CoreService, 
+    CryptoService, 
+    LoginService, 
+    ReportService, 
+    SetupService, 
+    UserService, 
+    CompanyService,
+    KioskService,
+    FloorService,
+    CommonService,
+    DialogService
+    ]
 })
 export class ServiceModule { }
