@@ -3,6 +3,7 @@ import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SetupService } from 'app/service/setup.service';
 import * as Globals from 'app/globals';
 import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-email',
@@ -19,8 +20,8 @@ export class EmailComponent  implements OnInit {
   account: FormControl;
   security: FormControl;
   myform: FormGroup;
-  loading: boolean;
-  constructor(private setupService: SetupService, private commonService: CommonService) {
+  
+  constructor(private setupService: SetupService, private commonService: CommonService, private progressService:NgProgress) {
 
     //instantiate empty form
     this.createFormControls({});
@@ -28,12 +29,21 @@ export class EmailComponent  implements OnInit {
   }
 
   async ngOnInit() {
-    //wait to get setting from server
-    let setting = await this.setupService.getServerSettings();
-    if (setting && setting.smtp) {
-      this.createFormControls(setting.smtp);
-      this.createForm();
+    try{
+      this.progressService.start();
+      //wait to get setting from server
+      let setting = await this.setupService.getServerSettings();
+      if (setting && setting.smtp) {
+        this.createFormControls(setting.smtp);
+        this.createForm();
+      }
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
     }
+  }
+  isLoading():boolean{
+    return this.progressService.isStarted();
   }
   createForm() {
     this.myform = new FormGroup({
@@ -45,14 +55,17 @@ export class EmailComponent  implements OnInit {
     });
   }
   async save() {
-    this.loading = true;
-    var formData = this.myform.value;
-    console.log("smtp save setting", formData);
-    let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
-    console.log("smtp save setting result: ", result);
-    let message = (result) ? this.commonService.getLocaleString("common.hasBeenUpdated") : this.commonService.getLocaleString("common.failedToUpdate");
-    this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + message);
-    this.loading = false;
+    try{
+      this.progressService.start();
+      var formData = this.myform.value;
+      console.log("smtp save setting", formData);
+      let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
+      console.log("smtp save setting result: ", result);
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") );
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
   createFormControls(data: any) {
     this.account = new FormControl(data.account, [
