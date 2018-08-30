@@ -7,6 +7,7 @@ import { CommonService } from '../../service/common.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { FloorService } from '../../service/floor.service';
 import { CompanyService } from '../../service/company.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-account',
@@ -21,7 +22,8 @@ export class AccountComponent  implements OnInit {
     private commonService:CommonService, 
     private floorService:FloorService, 
     private companyService:CompanyService, 
-    private dialogService:DialogService
+    private dialogService:DialogService,
+    private progressService:NgProgress
   ) {
     
   }
@@ -30,20 +32,25 @@ export class AccountComponent  implements OnInit {
   filterQuery = '';
   actionMode = "";
   currentUser:User;
-
-  async ngOnInit(): Promise<void> {    
-    
-    
-    
-    let users = await this.userService.read("&paging.all=true");
-    
-    this.data = Object.assign([], users);
-    this.tempData = Object.assign([], users);
-    this.currentUser = this.userService.getCurrentUser();
+  
+  async ngOnInit(): Promise<void> {  
+    try{
+      this.progressService.start();      
+      let users = await this.userService.read("&paging.all=true");    
+      this.data = Object.assign([], users);
+      this.tempData = Object.assign([], users);
+      this.currentUser = this.userService.getCurrentUser();
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }    
   }
   
-
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
   edit(item: User) {
+    if(this.isLoading())return;
     console.log("edit item", item);
     this.actionMode = this.commonService.getLocaleString("common.edit");    
     
@@ -59,6 +66,7 @@ export class AccountComponent  implements OnInit {
         //We get dialog result
         if (saved) {
           let formData = newForm.getFormData();
+          
           this.save(formData);
         }
       });
@@ -83,20 +91,25 @@ export class AccountComponent  implements OnInit {
     this.showCreateEditDialog(newItem, false);
   }
   async delete(item : User) {
+    if(this.isLoading())return;
     console.log("deleteUser", item);
     this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.userService.delete(item.objectId);          
-          if (result) {
-            var index = this.data.indexOf(item, 0);                      
-            this.data.splice(index, 1);
-            
-            var tempIndex = this.tempData.indexOf(item, 0);            
-            this.tempData.splice(tempIndex, 1);
-            
-          }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.userService.delete(item.objectId);          
+        
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);
+          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.username+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
         }
       });    
   }
@@ -120,17 +133,16 @@ export class AccountComponent  implements OnInit {
   }
 
   async save(formResult: User) {
-    formResult.objectId === ""?
-      // Create User
-      await this.create(formResult):
-     
-      // edit User
-      await this.update(formResult);
-    
+    try{
+      this.progressService.start();    
+      formResult.objectId === ""? await this.create(formResult): await this.update(formResult);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
-  async create(data:User) {
-    //let formResult = this.child.getFormData();
-    
+
+  async create(data:User) {    
     console.log("create user", data);
     var result = await this.userService.create(data);
     if (result) {
