@@ -6,6 +6,7 @@ import { KioskUser, KioskData, Role, RoleEnum } from '../../Interface/interface'
 import { KioskService } from '../../service/kiosk.service';
 import { UserService } from '../../service/user.service';
 import { CommonService } from '../../service/common.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-kiosk',
@@ -15,7 +16,13 @@ import { CommonService } from '../../service/common.service';
 export class KioskComponent implements OnInit{
 
 
-  constructor(private kioskService: KioskService, private userService: UserService, private commonService: CommonService, private dialogService:DialogService) {
+  constructor(
+    private kioskService: KioskService, 
+    private userService: UserService, 
+    private commonService: CommonService, 
+    private dialogService:DialogService,
+    private progressService:NgProgress
+  ) {
     
   }
   tempData :KioskUser[] = [];
@@ -42,18 +49,24 @@ export class KioskComponent implements OnInit{
   }
 
   async ngOnInit(): Promise<void> {
-    
-    let users = await this.kioskService.read("&paging.all=true");
-    for (let user of users) {
-      this.data.push(user);
-      this.tempData.push(user);
-    }
-    this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
-    console.log("is admin:", this.isAdmin);
+    try{
+      this.progressService.start();
+      let users = await this.kioskService.read("&paging.all=true");
+      for (let user of users) {
+        this.data.push(user);
+        this.tempData.push(user);
+      }
+      this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
+      console.log("is admin:", this.isAdmin);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    } 
   }
 
 
   edit(item: KioskUser) {
+    if(this.isLoading())return;
     console.log("edit kiosk", item);
     this.actionMode = this.commonService.getLocaleString("common.edit") ;
 
@@ -102,33 +115,40 @@ export class KioskComponent implements OnInit{
   }
   
   async delete(item:KioskUser) {
+    if(this.isLoading())return;
+    
     console.log("delete kiosk", item);
-
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {            
+    this.dialogService.addDialog(ConfirmComponent, {            
     })
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.kioskService.delete(item.objectId);         
-          
-          if (result) {
-            var index = this.data.indexOf(item, 0);
-            this.data.splice(index, 1);
-
-            var tempIndex = this.tempData.indexOf(item, 0);
-            this.tempData.splice(tempIndex, 1);
-          }
-        }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.kioskService.delete(item.objectId);                    
+          //deletes data from array
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
+        }    
       });
   }
-
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
   async save(formResult: KioskUser) {
-    formResult.objectId === ""?
-      // Create User
-      await this.create(formResult):   
-      // edit User
-      await this.update(formResult);
-    
+    try{
+      this.progressService.start();
+      formResult.objectId === "" ? await this.create(formResult) : await this.update(formResult);
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    } 
   }
   async create(data: KioskUser) {
     //let formResult = this.child.getFormData();
