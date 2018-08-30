@@ -22,7 +22,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   roleOptions: Role[];
   floorOptions:Floor[];
   companyOptions:Company[];
-
+  
   myform: FormGroup;
   phone: FormControl;
   company: FormControl;
@@ -119,8 +119,8 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   }
 
   createFormControls() {
-    this.floor = new FormControl(this.formData.data.floor);
-    this.phone = new FormControl(this.formData.phone, [
+    this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor : []);
+    this.phone = new FormControl(this.formData.phone ? this.formData.phone : [], [
       //Validators.required,
       Validators.pattern(Globals.singlePhoneRegex)
     ]);
@@ -133,9 +133,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       Validators.pattern("[^ @]*@[^ @]*")
       
     ]);
-    this.company = new FormControl(this.formData.data.company.objectId,
-      [Validators.required
-    ]);
+    this.company = new FormControl(this.formData.data.company && this.formData.data.company.objectId ? this.formData.data.company.objectId:"");
     this.password = new FormControl('', [
       Validators.required,
       Validators.minLength(6)      
@@ -189,18 +187,38 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     }
   }
   add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
+    
     console.log("add item:", item);
     this.commonService.addItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
+    //company and floor are required for tenant admin and user
+    this.checkCompanyAndFloorValidator();
   }
+  private checkCompanyAndFloorValidator() {
+    let selectedRoles = this.formData.roles.map(function (e) { return e.name; });
+    if (selectedRoles.indexOf(RoleEnum[RoleEnum.TenantAdministrator]) > -1 || selectedRoles.indexOf(RoleEnum[RoleEnum.TenantUser]) > -1) {
+      this.company.setValidators([Validators.required]);
+      this.floor.setValidators([Validators.required]);
+    }
+    else {
+      this.company.setValidators([]);
+      this.floor.setValidators([]);
+    }
+    this.company.updateValueAndValidity();
+    this.floor.updateValueAndValidity();
+  }
+
   remove(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {
     console.log("remove item:", item);
-    this.commonService.removeItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
+    this.commonService.removeItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);    
+    //company is required for tenant admin and user
+    this.checkCompanyAndFloorValidator();
   }
   createForm() {
     this.myform = new FormGroup({      
       username: this.username,   
       phone: this.phone, 
       email: this.email, 
+      company:this.company,
       data: this.data,
       passwordGroup: this.passwordGroup,      
       roles: this.roles
