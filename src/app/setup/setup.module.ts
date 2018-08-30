@@ -27,6 +27,8 @@ import { CreateEditCompanyComponent } from './company/create-edit-company.compon
 
 //translate
 import { TranslateModule } from 'ng2-translate';
+//progess
+import { NgProgressModule } from 'ngx-progressbar';
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import { TranslateModule } from 'ng2-translate';
     ReactiveFormsModule,    
     DatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    NgProgressModule
   ],
   entryComponents: [
     CreateEditUserComponent,

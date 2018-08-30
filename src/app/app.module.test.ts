@@ -7,6 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ChartsModule } from "ng2-charts";
 import { DatepickerModule } from "ng2-bootstrap";
 import { ServiceModule } from "./service/service.module";
+import { NgProgress } from "ngx-progressbar";
 
 @NgModule({
   imports: [
@@ -32,5 +33,6 @@ import { ServiceModule } from "./service/service.module";
     ChartsModule,
     DatepickerModule
   ],
+  providers:[NgProgress]
 })
 export class AppTestModule { }
