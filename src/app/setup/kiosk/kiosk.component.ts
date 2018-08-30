@@ -65,7 +65,7 @@ export class KioskComponent implements OnInit{
 
   edit(item: KioskUser) {
     if(this.isLoading())return;
-    console.log("edit kiosk", item);
+    console.log("edit", item);
     this.actionMode = this.commonService.getLocaleString("common.edit") ;
 
     let newData = new KioskUser();    
@@ -79,14 +79,13 @@ export class KioskComponent implements OnInit{
   }
   private showCreateEditDialog(data: KioskUser, editMode: boolean) {
     //creates dialog form here
-    let newForm = new CreateEditKioskComponent(this.dialogService);
+    let newForm = new CreateEditKioskComponent(this.kioskService, this.progressService, this.dialogService);
     newForm.setFormData(data, this.actionMode, editMode);
     this.dialogService.addDialog(CreateEditKioskComponent, newForm)
-      .subscribe((saved) => {
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let data = newForm.getFormData();
-          this.save(data);
+        if (result) {          
+          this.updateList(result);
         }
       });
   }
@@ -115,7 +114,7 @@ export class KioskComponent implements OnInit{
   async delete(item:KioskUser) {
     if(this.isLoading())return;
 
-    console.log("delete kiosk", item);
+    console.log("delete", item);
     this.dialogService.addDialog(ConfirmComponent, {            
     })
       .subscribe(async (isConfirmed) => {
@@ -139,48 +138,20 @@ export class KioskComponent implements OnInit{
   isLoading():boolean{
     return this.progressService.isStarted();
   }
-  async save(formResult: KioskUser) {
-    try{
-      this.progressService.start();
-      formResult.objectId === "" ? await this.create(formResult) : await this.update(formResult);
-    }//no catch, global error handle handles it
-    finally{      
-      this.progressService.done();
-    } 
-  }
-  async create(data: KioskUser) {
-    //let formResult = this.child.getFormData();
-   
-    console.log("create kiosk", data);
-    var result = await this.kioskService.create(data);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.commonService.showAlert(data.data.kioskName + this.commonService.getLocaleString("common.hasBeenCreated"));
+  updateList(data:KioskUser) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
+    }
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
     }
   }
-
-
-  async update(data: KioskUser) {
-   
-    console.log("update kiosk", data);
-    //update data without update password by admin
-    if (data.password === "") {
-      //removes password from object submission
-      delete (data.password);
-    }
-    var result = await this.kioskService.update(data);
-    
-    if (result) {
-      var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.data[index] = result;
-      var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-      this.tempData[tempIndex] = result;
-
-      this.commonService.showAlert(data.username + this.commonService.getLocaleString("common.hasBeenUpdated"));
-    }
-
-  }
-
 
 }
