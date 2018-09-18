@@ -1,104 +1,114 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
-import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Roles, RoleOption, User, BaseUser, BaseClass, UserData } from 'app/Interface/interface';
+import { User,UserData, RoleEnum, Company } from 'app/Interface/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
-import { FormControl } from '@angular/forms';
-import { BaseClassComponent, BaseComponent } from '../../shared/base-class-component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from '../../service/common.service';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { FloorService } from '../../service/floor.service';
+import { CompanyService } from '../../service/company.service';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent extends BaseClassComponent implements OnInit, BaseComponent {
+export class AccountComponent  implements OnInit {
    
 
-  constructor(private userService: UserService, dialogService: DialogService, translateService: TranslateService) {
-    super(dialogService, translateService);
+  constructor(
+    private userService: UserService, 
+    private commonService:CommonService, 
+    private floorService:FloorService, 
+    private companyService:CompanyService, 
+    private dialogService:DialogService,
+    private progressService:NgProgress
+  ) {
+    
   }
-  tempData=[]
-  data = [];
-  availableRoles: string[];
+  tempData:User[]=[];
+  data:User[] = [];
   filterQuery = '';
   actionMode = "";
-  private srcUser = "";
-  private isAdmin = false;
+  currentUser:User;
   
-
-  async ngOnInit(): Promise<void> {    
-    this.availableRoles = [];
-    let roles = await this.userService.getUserRole();
-    if (roles) {
-      this.availableRoles = roles;      
-    }
-    let users = await this.userService.getUsersList("&paging.all=true");
-    for (let user of users) {
-      this.data.push(user);
-      this.tempData.push(user);
-    }
-    
-    this.isAdmin = this.userService.isAdmin();
-    console.log("is admin:", this.isAdmin);
+  async ngOnInit(): Promise<void> {  
+    try{
+      this.progressService.start();      
+      let users = await this.userService.read("&paging.all=true");    
+      this.data = Object.assign([], users);
+      this.tempData = Object.assign([], users);
+      this.currentUser = this.userService.getCurrentUser();
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }    
   }
   
-
-  editUser(item) {
+  isLoading():boolean{
+    return this.progressService.isStarted();
+  }
+  edit(item: User) {
+    if(this.isLoading())return;
     console.log("edit item", item);
-    this.actionMode = this.getLocaleString("common.edit");;    
+    this.actionMode = this.commonService.getLocaleString("common.edit");    
     
     this.showCreateEditDialog(item, true); 
   }
-  private showCreateEditDialog(data: User, editMode: boolean) {
+  showCreateEditDialog(data: User, editMode: boolean) {
+    
     //creates dialog form here
-    let newForm = new CreateEditUserComponent(this.dialogService);
+    let newForm = new CreateEditUserComponent(this.userService, this.floorService, this.commonService, this.companyService, this.progressService, this.dialogService);
     //sets form data
-    newForm.setFormData(data, this.actionMode, this.availableRoles, editMode);
-    let disposable = this.dialogService.addDialog(CreateEditUserComponent, newForm)
-      .subscribe((saved) => {
+    newForm.setFormData(data, this.actionMode, editMode);
+    this.dialogService.addDialog(CreateEditUserComponent, newForm)
+      .subscribe((result) => {
         //We get dialog result
-        if (saved) {
-          let formData = newForm.getFormData();
-          this.saveUser(formData);
+        if (result) {              
+          this.updateList(result);
         }
       });
   }
 
-  newUser() {
-    this.actionMode = this.getLocaleString("common.new");
+  createNew() {
+    this.actionMode = this.commonService.getLocaleString("common.new");
     
     var u = ("000" + this.tempData.length);
     u = "user" + u.substr(u.length - 3, 3);
 
-    let newUser = new User();
-    newUser.objectId = "";  
-    newUser.username= u;
-    newUser.roles = [];
-    newUser.password= "";    
-    newUser.data = new UserData();
-    newUser.data.email = "";
+    let newItem = new User();
+    newItem.objectId = "";  
+    newItem.username= u;
+    newItem.roles = [];    
+    newItem.password= "";    
+    newItem.data = new UserData();
+    newItem.data.floor=[]
+    newItem.data.company = new Company();
+    newItem.data.company.objectId="";
 
-    this.showCreateEditDialog(newUser, false);
+    this.showCreateEditDialog(newItem, false);
   }
-  async deleteUser(item) {
+  async delete(item : User) {
+    if(this.isLoading())return;
     console.log("deleteUser", item);
-    
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {})
+    this.dialogService.addDialog(ConfirmComponent, {})
       .subscribe(async (isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {
-          var result = await this.userService.deleteUser(item.objectId);          
-          if (result) {
-            var index = this.data.indexOf(item, 0);                      
-            this.data.splice(index, 1);
-            
-            var tempIndex = this.tempData.indexOf(item, 0);            
-            this.tempData.splice(tempIndex, 1);
-            
-          }
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          await this.userService.delete(item.objectId);          
+        
+          let index = this.data.indexOf(item, 0);                      
+          this.data.splice(index, 1);
+          
+          let tempIndex = this.tempData.indexOf(item, 0);            
+          this.tempData.splice(tempIndex, 1);
+          this.commonService.showAlert(item.username+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+        }//no catch, global error handle handles it
+        finally{      
+          this.progressService.done();
         }
       });    
   }
@@ -114,57 +124,27 @@ export class AccountComponent extends BaseClassComponent implements OnInit, Base
     let filter = this.filterQuery.toLowerCase();
     this.data = [];
     for (let item of this.tempData) {
-      if (item.username.toLowerCase().indexOf(filter) > -1 || (item.data.name && item.data.name.toLowerCase().indexOf(filter) > -1)) {
+      //TODO: improve this filter
+      if (item.username.toLowerCase().indexOf(filter) > -1 ) {
         this.data.push(item);
       }
     }
   }
-
-  async saveUser(formResult: User) {
-    if (formResult.objectId === "") {
-      // Create User
-      await this.createUser(formResult);
-    } else {       
-      // edit User
-      await this.updateUser(formResult);
-    }
-  }
-  async createUser(data:User) {
-    //let formResult = this.child.getFormData();
-    
-    console.log("create user", data);
-    var result = await this.userService.createUser(data);
-    if (result) {
-      this.data.push(result);
-      this.tempData.push(result);
-      this.showAlert(data.username + this.getLocaleString("common.hasBeenCreated"));
-    }
-  }
-
   
-  async updateUser(data:User) {      
-      console.log("form result", data);      
-
-      //update data without update password by admin
-    if (data.password === "") {
-      //removes password from object submission
-      delete (data.password);
+  updateList(data:User) {   
+    let tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
+    if(tempIndex<0){
+      this.tempData.push(data);
+      this.data.push(data);
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
     }
-
-      console.log("updateUser", data);      
-       
-      var result = await this.userService.updateUser(data);
-    
-    
-      if (result) {        
-        
-        var index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.data[index] = result;
-        var tempIndex = this.tempData.map(function (e) { return e.objectId }).indexOf(data.objectId);
-        this.tempData[tempIndex] = result;        
-        this.showAlert(data.username + this.getLocaleString("common.hasBeenUpdated"));
-      }
-    
+    else{
+      //update data at specified index
+      this.tempData[tempIndex] = data;    
+      let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
+      this.data[index] = data;
+      this.commonService.showAlert(data.username + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
+    }
   }
 
 

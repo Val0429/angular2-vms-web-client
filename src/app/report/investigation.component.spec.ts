@@ -1,24 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardComponent } from './dashboard.component';
+import { InvestigationComponent } from './investigation.component';
 import { AppTestModule } from '../app.module.test';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('DashboardComponent', () => {
-  let component: DashboardComponent;
-  let fixture: ComponentFixture<DashboardComponent>;
+
+describe('AttendanceComponent', () => {
+  let component: InvestigationComponent;
+  let fixture: ComponentFixture<InvestigationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppTestModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [DashboardComponent]
+      declarations: [InvestigationComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardComponent);
+    fixture = TestBed.createComponent(InvestigationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

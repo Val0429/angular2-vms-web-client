@@ -10,9 +10,8 @@
 		"email": "Email",
 		"enabled": "Enabled",
 		"error": "錯誤",
-		"failedToCreate": " failed to create",
-		"failedToUpdate": " failed to update",
 		"hasBeenCreated": " has been created",
+		"hasBeenDeleted": "has been deleted",
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
@@ -23,6 +22,7 @@
 		"name": "Name",
 		"new": "加",
 		"newPassword": "New Password",
+		"no": "No",
 		"ok": "確認",
 		"password": "密碼",
 		"phone": "Phone",
@@ -33,9 +33,30 @@
 		"userName": "用戶名"
 	},
 	"pageAccount": {
+		"companyName": "Company Name",
+		"floorName": "Floor Name",
 		"roles": "組",
 		"userList": "用戶列表",
 		"users": "Users"
+	},
+	"pageCompany": {
+		"company": "Company",
+		"contactNumber": "Contact Number",
+		"contactPerson": "Contact Person",
+		"floor": "Floor",
+		"unitNumber": "Unit Number"
+	},
+	"pageDashboard": {
+		"checkInStatistic": "Check In Statistic",
+		"dailyTotalVisitor": "Daily Total Visitor",
+		"exception": "Exception",
+		"recurringVisitor": "Recurring Visitor",
+		"success": "Success",
+		"thisMonth": "This Month",
+		"thisWeek": "This Week",
+		"today": "Today",
+		"totalVisit": "Total Visit",
+		"visitorOnSite": "Visitor On Site"
 	},
 	"pageEmail": {
 		"port": "Port Number",
@@ -57,6 +78,13 @@
 	"pageFrs": {
 		"ipAddress": "IP Address",
 		"wsPort": "WS Port"
+	},
+	"pageInvestigation": {
+		"eventTime": "Event Time",
+		"kioskName": "Kiosk Name",
+		"purpose": "Purpose",
+		"status": "Status",
+		"visitorName": "Visitor Name"
 	},
 	"pageKiosk": {
 		"kiosk": "Kiosk",
@@ -82,10 +110,12 @@
 		},
 		"report": {
 			"attendance": "Attendance",
-			"dashboard": "Dashboard"
+			"dashboard": "Dashboard",
+			"investigation": "Investigation"
 		},
 		"setup": {
 			"accountManagement": "Account Management",
+			"companyManagement": "Company Management",
 			"emailSetting": "Email Setting",
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
@@ -109,5 +139,11 @@
 	},
 	"pageSms": {
 		"comPort": "COM Port Number"
+	},
+	"roleEnum": {
+		"Administrator": "Administrator",
+		"SystemAdministrator": "System Administrator",
+		"TenantAdministrator": "Tenant Administrator",
+		"TenantUser": "Tenant User"
 	}
 }

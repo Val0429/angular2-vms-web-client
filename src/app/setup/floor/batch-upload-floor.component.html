@@ -9,7 +9,7 @@
       <form novalidate
             [formGroup]="myform">
 
-        <div class="input-group mb-1"
+        <div class="input-group mb-1" title="{{'pageFloor.csvFile'|translate}}"
              [ngClass]="{
        'has-danger': csvFile.invalid && (csvFile.dirty || csvFile.touched),
        'has-success': csvFile.valid && (csvFile.dirty || csvFile.touched)}">

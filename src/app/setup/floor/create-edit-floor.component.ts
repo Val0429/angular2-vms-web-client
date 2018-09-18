@@ -3,22 +3,26 @@ import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditDialog, Floor } from 'app/Interface/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
+import { NgProgress } from 'ngx-progressbar';
+import { FloorService } from '../../service/floor.service';
 @Component({
   selector: 'app-create-edit-floor',
   templateUrl: './create-edit-floor.component.html'
 })
-export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog {
+export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, Floor> implements CreateEditDialog {
   title: string;
   editMode: boolean;
   formData: Floor;
   myform: FormGroup;
 
   name: FormControl;
-  unitNo: FormControl;
   floor: FormControl;
-  phone: FormControl;
 
-  constructor(dialogService: DialogService) {
+  constructor(
+    private floorService:FloorService,
+    private progressService:NgProgress,    
+    dialogService: DialogService
+  ) {
     super(dialogService);
     //initialization
     let initForm = new Floor();
@@ -27,21 +31,13 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
 
   public setFormData(floorData: Floor, title:string, editMode: boolean) {
     
-    this.formData = floorData;
+    this.formData = Object.assign({}, floorData);
     this.title = title;
     this.editMode = editMode;
     this.createFormControls();
     this.createForm();    
 
   }
-  public getFormData(): Floor {    
-    this.formData.name = this.name.value;
-    this.formData.phone = this.phone.value.split(',');
-    this.formData.unitNo = this.unitNo.value;
-    this.formData.floor = this.floor.value;
-    return this.formData;
-  }
-
 
   createFormControls() {
     this.name = new FormControl(this.formData.name, [
@@ -49,35 +45,42 @@ export class CreateEditFloorComponent extends DialogComponent<CreateEditDialog, 
       Validators.minLength(3)
     ]);
 
-    this.phone = new FormControl(this.formData.phone ? this.formData.phone.toString(): '', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.pattern(Globals.multiPhoneRegex)
-    ]);
-
-
-    this.unitNo = new FormControl(this.formData.unitNo, [
-      Validators.required,
-      Validators.minLength(3)
-    ]);
     this.floor = new FormControl(this.formData.floor, [
       Validators.required,
       Validators.pattern(Globals.numberRegex)
     ]);
 
   }
-  save() {
-    // we set dialog result as true on click on confirm button, 
-    // then we can get dialog result from caller code 
-    this.result = true;
-    this.close();
+  async update(data:Floor) {             
+    
+    console.log("update", data);           
+    return await this.floorService.update(data);
+  }
+  async create(data:Floor):Promise<Floor>  {    
+    console.log("create", data);
+    return await this.floorService.create(data);
+  }
+  async save():Promise<void> {
+    try{      
+      this.progressService.start();    
+      //build data that will be sent to backend
+      let formResult: Floor = new Floor(); 
+      formResult.objectId = this.formData.objectId;     
+      formResult.name = this.myform.value.name;
+      formResult.floor = this.myform.value.floor;
+      
+      //close form with success
+      this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
+      this.close();  
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
   }
 
   createForm() {
     this.myform = new FormGroup({
       name: this.name,
-      unitNo: this.unitNo,
-      phone: this.phone,
       floor: this.floor
     });
   }

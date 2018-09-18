@@ -11,6 +11,7 @@ import { KioskComponent } from './kiosk/kiosk.component';
 import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
+import { CompanyComponent } from './company/company.component';
 
 
 
@@ -28,6 +29,14 @@ const routes: Routes = [
         component: AccountComponent,
         data: {
           title: 'pageLayout.setup.accountManagement'
+        }
+      },
+      {
+        path: 'company',
+        canActivate: [LoginService],
+        component: CompanyComponent,
+        data: {
+          title: 'pageLayout.setup.companyManagement'
         }
       },
       {

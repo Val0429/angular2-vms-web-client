@@ -41,6 +41,8 @@ import { TenantModule } from './tenant/tenant.module';
 //multi languages
 import { Http } from '@angular/http';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+//progress bar
+import { NgProgressModule } from 'ngx-progressbar';
 
 
 export function translateLoader(http: Http) {
@@ -66,7 +68,8 @@ export function translateLoader(http: Http) {
     TenantModule,
     SetupModule,
     BootstrapModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgProgressModule
   ],
   entryComponents: [
     ConfirmComponent,

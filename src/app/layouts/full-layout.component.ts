@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User, RoleEnum } from 'app/Interface/interface';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { CommonService } from '../service/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +13,14 @@ import { DialogService } from 'ng2-bootstrap-modal';
   encapsulation: ViewEncapsulation.None  
 })
 
-export class FullLayoutComponent implements OnInit {
-  
+export class FullLayoutComponent   implements OnInit {
 
-  constructor(private userService: UserService, private loginService: LoginService, private router: Router, private dialogService: DialogService) {
-    
+  constructor(private userService: UserService, 
+    private loginService: LoginService, 
+    private router: Router, 
+    private dialogService:DialogService,
+    private commonService:CommonService
+    ) {
   }
 
   username: string;
@@ -25,18 +29,11 @@ export class FullLayoutComponent implements OnInit {
   public toggled(open: boolean): void {
     console.log('Dropdown is now: ', open);
   }
-  userIsTenant(): boolean{
-    return this.userService.userIs(RoleEnum.Tenant);
-  }
-  userIsSysAdmin(): boolean {
-    return this.userService.userIs(RoleEnum.SystemAdministrator);
-  }
-  userIsAdmin(): boolean {
-    return this.userService.userIs(RoleEnum.Administrator);
-  }
-  userIsKiosk(): boolean {
-    return this.userService.userIs(RoleEnum.Kiosk);
-  }
+  userIsTenantAdmin: boolean;
+  userIsTenantUser: boolean;
+  userIsSysAdmin: boolean;
+  userIsAdmin: boolean ;
+  userIsKiosk: boolean;
   public toggleDropdown($event: MouseEvent): void {
     $event.preventDefault();
     $event.stopPropagation();
@@ -50,10 +47,17 @@ export class FullLayoutComponent implements OnInit {
     } else {
       this.username = "InitUser";
     }
-    console.log("user is admin:", this.userIsAdmin());
-    console.log("user is tenant:", this.userIsTenant());
-    console.log("user is kiosk:", this.userIsKiosk());
-    console.log("user is sysadmin:", this.userIsSysAdmin());
+    this.userIsTenantAdmin=this.userService.userIs(RoleEnum.TenantAdministrator);
+    this.userIsKiosk=this.userService.userIs(RoleEnum.Kiosk);
+    this.userIsAdmin=this.userService.userIs(RoleEnum.Administrator);
+    this.userIsTenantUser=this.userService.userIs(RoleEnum.TenantUser);
+    this.userIsSysAdmin=this.userService.userIs(RoleEnum.SystemAdministrator);
+
+    console.log("user is admin:", this.userIsAdmin);
+    console.log("user is tenant admin:", this.userIsTenantAdmin);
+    console.log("user is tenant user:", this.userIsTenantUser);
+    console.log("user is kiosk:", this.userIsKiosk);
+    console.log("user is sysadmin:", this.userIsSysAdmin);
   }
 
 
@@ -62,20 +66,31 @@ export class FullLayoutComponent implements OnInit {
     let newForm = new ChangePasswordFormComponent(this.dialogService);
     //sets form data
     newForm.setFormData(this.username);
-    let disposable = this.dialogService.addDialog(ChangePasswordFormComponent, newForm)
+    this.dialogService.addDialog(ChangePasswordFormComponent, newForm)
       .subscribe((saved) => {
         //We get dialog result
         if (saved) {
           let formData = newForm.getFormData();
-          this.saveChangePassword(formData);
+          var user = this.userService.getCurrentUser();
+          var data = new User();              
+          data.objectId = user.objectId;
+          data.password = formData.passwordGroup.newPassword;
+          this.saveChangePassword(data);
         }
       });
   }
 
-  saveChangePassword(formData:any) {    
+  async saveChangePassword(data:User) {    
     // Update password User
-    console.log("update Password Current User", formData);
-    //TODO: fix update password current user once the API is ready    
+    console.log("update Password Current User", data);
+    var result = this.userService.update(data);
+    if(result){
+      this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
+      " "+this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
+      this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
+    this.commonService.getLocaleString("common.alert"));
+      await this.logout();
+    }
   }
 
   public async logout() {

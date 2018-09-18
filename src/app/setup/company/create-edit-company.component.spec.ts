@@ -1,24 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FloorComponent } from './floor.component';
+import { CreateEditCompanyComponent } from './create-edit-company.component';
 import { AppTestModule } from '../../app.module.test';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('FloorComponent', () => {
-  let component: FloorComponent;
-  let fixture: ComponentFixture<FloorComponent>;
+describe('CreateEditCompanyComponent', () => {
+  let component: CreateEditCompanyComponent;
+  let fixture: ComponentFixture<CreateEditCompanyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      imports: [AppTestModule],
-      declarations: [ FloorComponent ]
+      imports:[AppTestModule],
+      declarations: [ CreateEditCompanyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FloorComponent);
+    fixture = TestBed.createComponent(CreateEditCompanyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

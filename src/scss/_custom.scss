@@ -1,8 +1,25 @@
+/**
+manually added by dos
+**/
 .modal {
   background-color: rgba(128,128,128,0.5);
 }
-
-
+.selected-dropdown{
+  display: table-cell !important;
+}
+  .selected-dropdown-item{
+    cursor: pointer;
+    width: fit-content;
+    float:left;
+    margin:2px;
+    background-color:#36a9e1;
+    color:white;
+    padding:5px 10px;
+    border-radius:2px;
+  }
+/*
+  end addition
+*/
 
 .navbar {
   .form-inline {

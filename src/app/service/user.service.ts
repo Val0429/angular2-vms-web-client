@@ -1,52 +1,26 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Observable } from 'rxjs/Rx';
-import { User, Person, Group, Roles, KioskUser, Floor, UserData, RoleEnum } from 'app/Interface/interface';
-import * as Globals from '../globals';
+import { User, RoleEnum, UserServiceInterface } from 'app/Interface/interface';
+import * as Globals from 'app/globals';
+import { CrudService } from './crud.service';
 
 @Injectable()
-export class UserService {
-  
-    private uriRoleCrud: string = Globals.cgiRoot + "roles";
-    private uriUserCrud: string = Globals.cgiRoot + "users";
-  private uriKioskCrud: string = Globals.cgiRoot + "kiosks";
-  private uriFloorCrud: string = Globals.cgiRoot + "floors";
-  private uriFloorCSVCrud: string = Globals.cgiRoot + "floors/csv";
-  
-
-    private uriGetGroupList: string = Globals.cgiRoot + "frs/cgi/getgrouplist";
-    private uriCreateGroup: string = Globals.cgiRoot + "frs/cgi/creategroup";
-    //private uriModifyGroup: string = Globals.cgiRoot + "frs/cgi/modifygroupinfo";
-    private uriDeleteGroup: string = Globals.cgiRoot + "frs/cgi/deletegroups";
-
-
-    private uriGetPersonList: string = Globals.cgiRoot + "frs/cgi/getpersonlist";
-    private uriCreatePerson: string = Globals.cgiRoot + "frs/cgi/createperson";
-    private uriModifyPerson: string = Globals.cgiRoot + "frs/cgi/modifypersoninfo";
-    private uriDeletePerson: string = Globals.cgiRoot + "frs/cgi/deleteperson";
-
-
-    private uriApplyPersonToGroups: string = Globals.cgiRoot + "frs/cgi/applypersontogroups";
-
-    private uriGetFaceImage: string = Globals.cgiRoot + "frs/cgi/getfaceimage";
-    private uriGetFaceSnapshot: string = Globals.cgiRoot + "frs/cgi/snapshot/session_id={0}&image={1}";
-
-
-
+export class UserService extends CrudService<User> implements UserServiceInterface<User>{
+  uriRoleCrud: string;
     constructor(
-        private coreService: CoreService,
-        private loginService: LoginService
-    ) { }
+        coreService: CoreService,
+        loginService: LoginService
+    ) { 
+      super(coreService, loginService);
+      this.uriCrud = Globals.cgiRoot + "users";
+      this.uriRoleCrud = Globals.cgiRoot + "roles";
+    }
 
     getCurrentUser(): User {
         return this.loginService.getCurrentUser();
     }
 
-  isAdmin(): boolean {
-    var currUser = this.getCurrentUser();
-    return currUser.roles.map(function (e) { return e.name }).indexOf(RoleEnum[RoleEnum.Administrator]) > -1;
-  }
   /**   
    * @param role   
    */
@@ -56,11 +30,10 @@ export class UserService {
       this.getCurrentUser().roles.map(function (e) { return e.name }).indexOf(RoleEnum[role]) > -1;;
   }
   async getUserRole(): Promise<string[]> {
-    var me = this;
-    var token = me.loginService.getCurrentUserToken();
+    var token = this.loginService.getCurrentUserToken();
 
     var roles = [];
-    var result = await me.coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
+    var result = await this.coreService.getConfig({ path: this.uriRoleCrud, query: "?sessionId=" + token.sessionId }).toPromise();
     console.log(result);
     if (result) {
       //removes kiosk from roles (according to Val)
@@ -73,135 +46,4 @@ export class UserService {
 
     return roles;
   }
-  async getFloorList(pagingParams?:string): Promise<Floor[]> {
-
-    var token = this.loginService.getCurrentUserToken();
-    var data = [];
-    var result = await this.coreService.getConfig({ path: this.uriFloorCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-    console.log(result);
-    if (result && result["results"]) {
-      result["results"].forEach(function (newData) {
-        if (newData["objectId"])
-          data.push(newData);
-      });
-    }
-    return data;
-  }
-  async getKioskUsersList(pagingParams?: string): Promise<KioskUser[]> {
-
-    var token = this.loginService.getCurrentUserToken();
-    var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriKioskCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-    console.log(result);
-    if (result && result["results"]) {
-      result["results"].forEach(function (user) {
-        if (user["objectId"])
-          users.push(user);
-      });
-    }
-    return users;
-  }
-  async getUsersList(pagingParams?: string): Promise<User[]> {        
-
-      var token = this.loginService.getCurrentUserToken();
-    var users = [];
-    var result = await this.coreService.getConfig({ path: this.uriUserCrud, query: "?sessionId=" + token.sessionId + pagingParams }).toPromise();
-      console.log(result);
-      if (result && result["results"]) {        
-        result["results"].forEach(function (user) {
-          if (user["objectId"])
-            users.push(user);
-        });
-      }
-      return users;
-  }
-  async updateKiosk(data: KioskUser): Promise<KioskUser> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.putConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update kiosk result: ", result);
-
-    return result;
-  }
-  async createKiosk(data: KioskUser): Promise<KioskUser> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriKioskCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("create kiosk result: ", result);
-
-    return result;
-
-  }
-  async updateFloor(data: Floor): Promise<Floor> {
-
-    var token = this.loginService.getCurrentUserToken();
-
-    var result = await this.coreService.putConfig({ path: this.uriFloorCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update floor result: ", result);
-
-    return result;
-  }
-  async createFloor(data: Floor): Promise<Floor> {
-
-    var token = this.loginService.getCurrentUserToken();
-
-    var result = await this.coreService.postConfig({ path: this.uriFloorCrud +"?sessionId="+token.sessionId, data: data }).toPromise();
-
-    console.log("create floor result: ", result);
-
-    return result;
-
-  }
-  async batchUploadFloor(data: any): Promise<any> {
-
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriFloorCSVCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("batch floor upload result: ", result);
-
-    return result;
-  }
-  async updateUser(data: User): Promise<User> {
-
-    let token = this.loginService.getCurrentUserToken();
-    
-    let result = await this.coreService.putConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: data }).toPromise();
-
-    console.log("update user result: ", result);
-        
-    return result;
-  }
-  async createUser(userData: User): Promise<User> {
-      
-    let token = this.loginService.getCurrentUserToken();
-
-    let result = await this.coreService.postConfig({ path: this.uriUserCrud + "?sessionId=" + token.sessionId, data: userData }).toPromise();
-
-    console.log("create user result: ", result);
-
-    return result;
-
-  }
-  async deleteFloor(objectId: string): Promise<Floor> {
-    var token = this.loginService.getCurrentUserToken();
-    var result = await this.coreService.deleteConfig({ path: this.uriFloorCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-    return result;
-  }
-  async deleteKiosk(objectId: string): Promise<KioskUser> {
-    var token = this.loginService.getCurrentUserToken();
-    var result = await this.coreService.deleteConfig({ path: this.uriKioskCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-    return result;
-  }
-  async deleteUser(objectId: string): Promise<User> {
-      var token = this.loginService.getCurrentUserToken();
-      var result = await this.coreService.deleteConfig({ path: this.uriUserCrud, query: ("?sessionId=" + token.sessionId + "&objectId=" + objectId) }).toPromise();
-      return result;
-  }
-
 }
