@@ -6,7 +6,7 @@ import { LoginService } from 'app/service/login.service';
 
 //Layouts
 import { PotraitComponent } from './potrait.component';
-import { InvitationComponent } from './invitation.component';
+import { SuccessComponent } from './success.component';
 
 const routes: Routes = [
   {
@@ -23,11 +23,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'invitation',
+        path: 'success',
         //canActivate: [LoginService],
-        component: InvitationComponent,
+        component: SuccessComponent,
         data: {
-          title: 'pageLayout.registration.invitation'
+          title: 'pageLayout.registration.success'
         }
       },
       {

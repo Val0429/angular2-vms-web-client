@@ -17,18 +17,20 @@ export class InvitationComponent implements OnInit {
   public activePage = 1;
   public itemsTotal = 0;
 
+  public purposes = [];
+
   public filterQuery = '';
 
   model: {
     "title"?: string, "action": string, "buttom"?: string,
-    "sendBy": string,
+    "sendBy": string[],
     "visitor": visitorProfile
   } =
   {
     "title": "New Person",
     "action": "New",
     "buttom": "Create Person",
-    "sendBy": "email",
+    "sendBy": [],
     "visitor": new visitorProfile()
   };
 
@@ -38,10 +40,12 @@ export class InvitationComponent implements OnInit {
     "emailAddress": string,
     "beginDatetime": String,
     "endDatetime": String
+    "status": string[],
   } = {
     "mobileNo": "",
     "visitorName": "",
     "emailAddress": "",
+    "status": [],
     "beginDatetime": "",
     "endDatetime": ""
   }
@@ -56,6 +60,8 @@ export class InvitationComponent implements OnInit {
   async ngOnInit() {
     var me = this;
 
+    me.purposes = await this.invitationService.getPurposesList();
+
     me.listItems = await this.invitationService.getInvitationList();
     me.displayItems = me.listItems;
     me.itemsTotal = me.displayItems.length;
@@ -63,22 +69,8 @@ export class InvitationComponent implements OnInit {
     me.loadData();
   }
 
-
-  public checkVisitorInfo(item: visitorProfile): visitorProfile {
-    if (item.mobileNo == undefined)
-      item.mobileNo = '';
-
-    if (item.visitorName == undefined)
-      item.visitorName = '';
-
-    if (item.emailAddress == undefined)
-      item.emailAddress = '';
-
-    return item;
-  }
-
   public loadData() {
-    var start = (this.activePage - 1) * this.rowsOnPage + 1;
+    var start = (this.activePage - 1) * this.rowsOnPage;
     var items = this.displayItems.slice(start, start + this.rowsOnPage);
 
     this.data = [];
@@ -89,43 +81,75 @@ export class InvitationComponent implements OnInit {
     }
   }
 
+  public checkVisitorInfo(item: visitorProfile): visitorProfile {
+    if (item.phone == undefined)
+      item.phone = '';
+
+    if (item.name == undefined)
+      item.name = '';
+
+    if (item.email == undefined)
+      item.email = '';
+
+    return item;
+  }
+
+  public dateToDateString(dd: Date): string {
+    if (dd == null) return "";
+
+    var _y = dd.getFullYear();
+    var _m = dd.getMonth() < 9 ? "0" + (dd.getMonth() + 1) : (dd.getMonth() + 1); // getMonth() is zero-based
+    var _d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+
+    return _y + '/' + _m + '/' + _d;
+  }
+
   public onPageChange(event) {
     this.rowsOnPage = event.rowsOnPage;
     this.activePage = event.activePage;
     this.loadData();
   }
 
-  public mobileNoSearch(event) {
+  public async mobileNoSearch(event) {
     if (event.keyCode != 13) return;
 
     // Query and field name and email
+    var item = await this.invitationService.getVisitorFromMobile(this.model.visitor.phone);
+
+    this.model.visitor.name = item["name"] ;
+    this.model.visitor.email = item["email"] ;
   }
 
-  checkboxPurpose(elm, evt) {
+  public checkboxPurposes(elm, evt) {
     if (evt.srcElement.checked) {
-      this.model.visitor.purposeOfVisit = elm;
+      this.model.visitor.purpose = elm;
     }
   }
 
-  checkboxSendBy(elm, evt) {
+  public checkboxSendBy(elm, evt) {
     if (evt.srcElement.checked) {
-      this.model.sendBy = elm;
+      this.model.sendBy.push(elm);
+    }
+    else {
+      var index = this.model.sendBy.indexOf(elm, 0);
+      if (index > -1) {
+        this.model.sendBy.splice(index, 1);
+      }
     }
   }
 
-  public itemSearch(event) {
+  public searchKeyUp(event) {
     if (event.keyCode != 13) return;
 
     this.displayItems = [];
     this.activePage = 1;
 
     for (var i of this.listItems) {
-      i = this.checkVisitorInfo(i);
-
       if (
-        (i.mobileNo.indexOf(this.filterQuery) > -1) ||
-        (i.visitorName.indexOf(this.filterQuery) > -1) ||
-        (i.emailAddress.indexOf(this.filterQuery) > -1)
+        (i.phone.indexOf(this.filterQuery) > -1) ||
+        (i.name.indexOf(this.filterQuery) > -1) ||
+        (i.email.indexOf(this.filterQuery) > -1) ||
+        (i.status.indexOf(this.filterQuery) > -1)
       )
         this.displayItems.push(i);
     }
@@ -133,6 +157,30 @@ export class InvitationComponent implements OnInit {
     this.itemsTotal = this.displayItems.length;
     this.loadData();
   }
+
+  checkboxInvitationStatus(elm, evt) {
+    if (evt.srcElement.checked) {
+      this.condition.status.push(elm);
+    }
+    else {
+      var index = this.condition.status.indexOf(elm, 0);
+      if (index > -1) {
+        this.condition.status.splice(index, 1);
+      }
+    }
+  }
+
+  public async invitationsSearch(event) {
+    var me = this;
+
+    me.listItems = await this.invitationService.getSearchInvitationList(this.condition);
+
+    me.displayItems = me.listItems;
+    me.itemsTotal = me.displayItems.length;
+
+    me.loadData();
+  }
+ 
 
   newInvitation() {
     this.model.title = "New Invitation";
@@ -145,21 +193,23 @@ export class InvitationComponent implements OnInit {
     this.changeDetecorRef.detectChanges();
   }
 
-  modifyInvitation(item) {
-    this.model.visitor = new visitorProfile();
-    this.visitorForm.resetForm();
+  // modifyInvitation(item) {
+  //   this.model.visitor = new visitorProfile();
+  //   this.visitorForm.resetForm();
 
-    this.model.title = "Modify Invitation";
-    this.model.action = "Modify";
-    this.model.buttom = "Save";
+  //   this.model.title = "Modify Invitation";
+  //   this.model.action = "Modify";
+  //   this.model.buttom = "Save";
 
-    this.model.visitor = item;
+  //   this.model.visitor = item;
 
-    this.changeDetecorRef.detectChanges();
-  }
+  //   this.changeDetecorRef.detectChanges();
+  // }
 
   async deleteInvitation(item) {
-    var result = await this.invitationService.updateInvitation(item);
+    if (item == null) return;
+
+    var result = await this.invitationService.cancelInvitation(item);
 
     var index = this.data.indexOf(item, 0);
     if (index > -1) {
@@ -173,11 +223,21 @@ export class InvitationComponent implements OnInit {
     }
     console.log('form submit');
 
-    this.savePerson();
+    this.saveInvitation();
   }
 
-  async savePerson() {
+  async saveInvitation() {
     var me = this;
 
+    console.log(this.model);
+
+    if (this.model.action == "New") {
+      var result = await this.invitationService.createInvitation(this.model);
+
+      if (result) {
+        this.listItems.push(result);
+        this.loadData();
+      }
+    }
   }
 }

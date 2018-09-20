@@ -15,7 +15,7 @@ import { RegistrationRoutingModule } from './registration-routing.module';
 
 // Child Page Component 
 import { PotraitComponent } from './potrait.component';
-import { InvitationComponent } from './invitation.component';
+import { SuccessComponent } from './success.component';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { InvitationComponent } from './invitation.component';
   ],
   declarations: [
     PotraitComponent,
-    InvitationComponent
+    SuccessComponent
   ]
 })
 export class RegistrationModule { }

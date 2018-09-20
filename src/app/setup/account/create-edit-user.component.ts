@@ -112,7 +112,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     this.userIsSystemAdmin = this.userService.userIs(RoleEnum.SystemAdministrator);
 
   }
-
+  onCompanyChange(event:any){
+      this.checkCompanyAndFloorValidator();
+  }
   passwordMatchValidator(g: FormGroup) {
   return g.get('password').value === g.get('confirmPassword').value
     ? null : { 'mismatch': true };

@@ -16,8 +16,8 @@ import { CompanyService } from './company.service';
 import { KioskService } from './kiosk.service';
 import { FloorService } from './floor.service';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { ActionService } from 'app/service/action.service';
-import { RecognitionService} from 'app/service/recognition.service';
+//import { ActionService } from 'app/service/action.service';
+//import { RecognitionService} from 'app/service/recognition.service';
 import { InvitationService} from 'app/service/invitation.service';
 
 
@@ -40,8 +40,8 @@ import { InvitationService} from 'app/service/invitation.service';
     KioskService,
     FloorService,
     CommonService,
-    DialogService
+    DialogService,
+    InvitationService
     ]
-  providers: [CoreService, CryptoService, LoginService, ReportService, SetupService, UserService, RecognitionService, ActionService, InvitationService  ]
 })
 export class ServiceModule { }
