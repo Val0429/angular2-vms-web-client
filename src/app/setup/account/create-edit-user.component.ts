@@ -91,11 +91,16 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       this.companyOptions = [];
       if(currentUser.data && currentUser.data.company){
         this.companyOptions.push(currentUser.data.company);
-      }
+      }      
+
       this.floorOptions = Object.assign([], currentUser.data && currentUser.data.floor ? currentUser.data.floor : []);
     }
     
-    
+    //add dummy select company as placeholder
+    let selectCompany = new Company();
+    selectCompany.name = this.commonService.getLocaleString("common.select")+ " " +this.commonService.getLocaleString("pageAccount.companyName");
+    selectCompany.objectId="";
+    this.companyOptions.unshift(selectCompany);
 
     //remove selected role from role options
     for(let role of this.formData.roles){
