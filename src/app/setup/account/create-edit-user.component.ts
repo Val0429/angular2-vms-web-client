@@ -117,7 +117,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   return g.get('password').value === g.get('confirmPassword').value
     ? null : { 'mismatch': true };
   }
-
+  onCompanyChange(value :any){
+    this.checkCompanyAndFloorValidator();
+  }
   createFormControls() {
     this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor : []);
     this.phone = new FormControl(this.formData.phone ? this.formData.phone : [], [
@@ -218,7 +220,6 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       username: this.username,   
       phone: this.phone, 
       email: this.email, 
-      company:this.company,
       data: this.data,
       passwordGroup: this.passwordGroup,      
       roles: this.roles
