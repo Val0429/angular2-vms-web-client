@@ -50,6 +50,10 @@ export class GlobalErrorHandler implements ErrorHandler {
         //shows alert
         this.showAlert(error.rejection._body, this.getLocaleString("common.error"));
       }
+      else if (error.rejection.status === 500) {
+        //shows alert
+        this.showAlert(this.getLocaleString("common.contactAdministrator"), this.getLocaleString("common.error"));
+      }
     } 
   }
 
