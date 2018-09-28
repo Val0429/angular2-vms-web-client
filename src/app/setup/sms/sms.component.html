@@ -13,11 +13,8 @@
       <i class="fa fa-envelope"></i>
     </span>
     <input type="text"
-           class="form-control"
-           required
-           inputmode="numeric"
-           formControlName="comPort"
-          
+           class="form-control"   
+           formControlName="comPort"          
            placeholder="{{'pageSms.comPort'|translate}}" />
   </div>
   <div style="color:red" *ngIf="comPort.errors && (comPort.dirty || comPort.touched )">
@@ -43,6 +40,22 @@
     <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>
   </div>
 
+  <div class="input-group mb-1" title="{{'pageSms.testSms'|translate}}"
+  [ngClass]="{
+  'has-danger': testSms.invalid && (testSms.dirty || testSms.touched),
+  'has-success': testSms.valid && (testSms.dirty || testSms.touched)}">
+<span class="input-group-addon">
+ <i class="fa fa-envelope"></i>
+</span>
+<input type="text"
+class="form-control"
+formControlName="testSms"
+placeholder="{{'pageSms.testSms'|translate}}" />
+<button type="button" class="btn btn-primary" (click)="sendTestSms()" [disabled]="!testSms.valid || isLoading() || testSms.value==''">{{'common.send'|translate}}</button>
+</div>
+<div style="color:red" *ngIf="testSms.errors && (testSms.dirty || testSms.touched )">
+<p *ngIf="testSms.errors.pattern">{{'pageSms.testSms'|translate}}{{'common.isInvalid'|translate}}</p>    
+</div>
   <!--<pre>{{myform.value | json}}</pre>-->
 </form>
 

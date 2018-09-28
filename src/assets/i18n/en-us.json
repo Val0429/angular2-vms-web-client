@@ -33,6 +33,7 @@
 		"search": "Search",
 		"select": "Select",
 		"send": "Send",
+		"sms": "SMS",
 		"updateData": "Update Data",
 		"userName": "Username"
 	},
@@ -143,7 +144,8 @@
 		"title": "Login"
 	},
 	"pageSms": {
-		"comPort": "COM Port Number"
+		"comPort": "COM Port Number",
+		"testSms": "Test SMS"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

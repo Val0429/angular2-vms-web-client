@@ -5,6 +5,26 @@ import * as Globals from '../globals';
 
 @Injectable()
 export class SetupService {
+
+
+    private uriServerConfig: string = Globals.cgiRoot + "config";
+    private uriTestEmail: string = Globals.cgiRoot + "test/email";
+    private uriTestSms: string = Globals.cgiRoot + "test/sms";
+    constructor(
+        private coreService: CoreService,
+        private loginService: LoginService
+    ) { }
+
+
+  async sendTestSms(phone: string): Promise<any> {
+    var token = this.loginService.getCurrentUserToken();
+      let data : any = {};
+      data.sessionId = token.sessionId;
+      data.phone = phone;
+      console.log("test sms data", data);
+      var result = await this.coreService.postConfig({ path: this.uriTestSms, data: data }).toPromise();
+      return result;
+  }
    async sendTestEmail(email: string): Promise<any> {
       var token = this.loginService.getCurrentUserToken();
       let data : any = {};
@@ -14,14 +34,6 @@ export class SetupService {
       var result = await this.coreService.postConfig({ path: this.uriTestEmail, data: data }).toPromise();
       return result;
   }
-
-    private uriServerConfig: string = Globals.cgiRoot + "config";
-    private uriTestEmail: string = Globals.cgiRoot + "test/email";
-
-    constructor(
-        private coreService: CoreService,
-        private loginService: LoginService
-    ) { }
 
   async getServerSettings(): Promise<any> {
       var token = this.loginService.getCurrentUserToken();

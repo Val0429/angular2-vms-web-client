@@ -33,6 +33,7 @@
 		"search": "搜索",
 		"select": "Select",
 		"send": "Send",
+		"sms": "SMS",
 		"updateData": "Update Data",
 		"userName": "用戶名"
 	},
@@ -143,7 +144,8 @@
 		"title": "登錄"
 	},
 	"pageSms": {
-		"comPort": "COM Port Number"
+		"comPort": "COM Port Number",
+		"testSms": "Test SMS"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

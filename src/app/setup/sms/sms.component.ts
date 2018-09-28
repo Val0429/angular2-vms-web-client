@@ -15,6 +15,7 @@ export class SmsComponent implements OnInit {
 
   comPort: FormControl;  
   enable: FormControl;
+  testSms: FormControl;
   myform: FormGroup;
 
   constructor(private setupService: SetupService, private commonService: CommonService, private progressService:NgProgress) {
@@ -41,7 +42,8 @@ export class SmsComponent implements OnInit {
   createForm() {
     this.myform = new FormGroup({
       enable: this.enable,      
-      comPort: this.comPort
+      comPort: this.comPort,
+      testSms: this.testSms
     });
   }
   async save() {
@@ -60,15 +62,28 @@ export class SmsComponent implements OnInit {
   isLoading():boolean{
     return this.progressService.isStarted();
   }
+  async sendTestSms(){
+    try{
+      this.progressService.start();
+      let result = await this.setupService.sendTestSms(this.testSms.value);
+      console.log("sms test result: ", result);
+      this.commonService.showAlert(this.commonService.getLocaleString("common.sms")+this.commonService.getLocaleString("common.hasBeenSent"));
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
+  }
   createFormControls(data: any) {
     this.enable = new FormControl(data.enable, [
       
     ]);
 
+    this.testSms = new FormControl('', [
+      Validators.pattern(Globals.singlePhoneRegex)
+    ]);
 
     this.comPort = new FormControl(data.comPort, [
-      Validators.required,
-      Validators.pattern(Globals.numberRegex)
+      Validators.required
     ]);
   }
 
