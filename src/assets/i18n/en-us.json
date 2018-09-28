@@ -6,12 +6,14 @@
 		"cancel": "Cancel",
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
+		"contactAdministrator": "Error happens on the server, please contact administrator",
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
 		"error": "Error",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": "has been deleted",
+		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
@@ -30,6 +32,7 @@
 		"save": "Save",
 		"search": "Search",
 		"select": "Select",
+		"send": "Send",
 		"updateData": "Update Data",
 		"userName": "Username"
 	},
@@ -62,7 +65,8 @@
 	"pageEmail": {
 		"port": "Port Number",
 		"security": "Security Protocol",
-		"smtpHost": "Smtp Host"
+		"smtpHost": "Smtp Host",
+		"testEmail": "Test email"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",

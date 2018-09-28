@@ -6,12 +6,14 @@
 		"cancel": "取消",
 		"confirmPassword": "Confirm Password",
 		"confirmation": "注意",
+		"contactAdministrator": "Error happens on the server, please contact administrator",
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
 		"error": "錯誤",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": "has been deleted",
+		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
@@ -30,6 +32,7 @@
 		"save": "保存",
 		"search": "搜索",
 		"select": "Select",
+		"send": "Send",
 		"updateData": "Update Data",
 		"userName": "用戶名"
 	},
@@ -62,7 +65,8 @@
 	"pageEmail": {
 		"port": "Port Number",
 		"security": "Security Protocol",
-		"smtpHost": "Smtp Host"
+		"smtpHost": "Smtp Host",
+		"testEmail": "Test email"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",

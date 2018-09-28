@@ -5,8 +5,18 @@ import * as Globals from '../globals';
 
 @Injectable()
 export class SetupService {
+   async sendTestEmail(email: string): Promise<any> {
+      var token = this.loginService.getCurrentUserToken();
+      let data : any = {};
+      data.sessionId = token.sessionId;
+      data.email = email;
+      console.log("test email data", data);
+      var result = await this.coreService.postConfig({ path: this.uriTestEmail, data: data }).toPromise();
+      return result;
+  }
 
     private uriServerConfig: string = Globals.cgiRoot + "config";
+    private uriTestEmail: string = Globals.cgiRoot + "test/email";
 
     constructor(
         private coreService: CoreService,
