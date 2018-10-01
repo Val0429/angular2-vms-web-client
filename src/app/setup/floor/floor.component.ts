@@ -5,7 +5,6 @@ import { CreateEditFloorComponent } from './create-edit-floor.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor, RoleEnum } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
-import { TranslateService } from 'ng2-translate';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';
 import { NgProgress } from 'ngx-progressbar';

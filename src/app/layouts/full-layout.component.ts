@@ -21,6 +21,7 @@ export class FullLayoutComponent   implements OnInit {
     private dialogService:DialogService,
     private commonService:CommonService
     ) {
+      this.commonService.loadLanguage();
   }
 
   username: string;

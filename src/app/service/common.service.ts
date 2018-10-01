@@ -4,7 +4,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { TranslateService } from 'ng2-translate';
 import { BaseClass } from '../Interface/interface';
 import { FormControl } from '@angular/forms';
-
+import  *  as Globals from 'app/globals';
 
 
 @Injectable()
@@ -50,5 +50,9 @@ export class CommonService{
         } 
         //map the way backend wants it
         endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+      }
+      loadLanguage():void{
+        let lang = localStorage.getItem(Globals.languageKey)
+        this.translateService.setDefaultLang(lang == null ? "en-us" : lang);
       }
 }

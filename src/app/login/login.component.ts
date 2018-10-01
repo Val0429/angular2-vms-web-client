@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 import  * as Globals from 'app/globals';
-import { TranslateService } from 'ng2-translate';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonService } from '../service/common.service';
 import { UserService } from '../service/user.service';
@@ -36,8 +35,7 @@ export class LoginComponent  {
     private router: Router,
     private loginService: LoginService,
     public userService:UserService, 
-    public commonService: CommonService,
-    public translateService:TranslateService
+    public commonService: CommonService
   ) 
   {
     //activate language service
@@ -50,11 +48,11 @@ export class LoginComponent  {
       } else {
         this.activeLanguage = "en-us";
       }      
-      //remember language
+      //set language to local storage
       localStorage.setItem(Globals.languageKey, this.activeLanguage);
     }    
     
-    this.translateService.setDefaultLang(this.activeLanguage);
+    this.commonService.loadLanguage();
     this.loading = false;
 
     //prevents user to access this page if user alread login

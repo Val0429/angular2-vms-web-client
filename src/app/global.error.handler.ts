@@ -1,9 +1,7 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import {LoginService} from 'app/service/login.service';
 import { Router } from '@angular/router';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { AlertComponent } from 'app/dialog/alert/alert.component';
-import { TranslateService } from 'ng2-translate';
+import { CommonService } from './service/common.service';
 @Injectable()
   /**
    * global error handlers
@@ -14,18 +12,12 @@ import { TranslateService } from 'ng2-translate';
 export class GlobalErrorHandler implements ErrorHandler {
   
   constructor(private injector: Injector) {
-
-  }
-  getLocaleString(key: string): string {
-    var result = "";
-    const translateService = this.injector.get(TranslateService);
-    translateService.get(key).subscribe((value: string) => {
-      result = value;;
-    });
-    return result;
+    
   }
 
   handleError(error) {
+
+    const commonService = this.injector.get(CommonService);
     //log any error
     //TO DO: do better logging
     console.log("Error thrown from global error handler");
@@ -40,7 +32,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         const loginService = this.injector.get(LoginService);        
         loginService.invalidateSession();
 
-        this.showAlert(this.getLocaleString("pageLogin.pleaseRelogin"), this.getLocaleString("pageLogin.invalidSession"));
+        commonService.showAlert(commonService.getLocaleString("pageLogin.pleaseRelogin"), commonService.getLocaleString("pageLogin.invalidSession"));
 
         const routeService = this.injector.get(Router);
         routeService.navigate(["/login"]);
@@ -48,25 +40,14 @@ export class GlobalErrorHandler implements ErrorHandler {
       //whenever we get 400 pop alert
       else if (error.rejection.status === 400) {
         //shows alert
-        this.showAlert(error.rejection._body, this.getLocaleString("common.error"));
+        commonService.showAlert(error.rejection._body, commonService.getLocaleString("common.error"));
       }
       else if (error.rejection.status === 500) {
         //shows alert
-        this.showAlert(this.getLocaleString("common.contactAdministrator"), this.getLocaleString("common.error"));
+        commonService.showAlert(commonService.getLocaleString("common.contactAdministrator"), commonService.getLocaleString("common.error"));
       }
     } 
   }
 
-  showAlert(message: string, title?: string) {
-    const dialogService: DialogService = this.injector.get(DialogService);
-    let disposable = dialogService.addDialog(AlertComponent, {
-      title: title,
-      message: message
-    })
-      .subscribe(async (isConfirmed) => {
-        //We get dialog result
-
-      });
-  }
   
 }
