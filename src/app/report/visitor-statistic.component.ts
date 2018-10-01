@@ -23,9 +23,10 @@ export class VisitorStatisticComponent implements OnInit {
 
   }
 
-  initVisitEventWatcher() {
+  initVisitEventWatcher() :void{
    
     var token = this.loginService.getCurrentUserToken();
+    if(token==null)return;
     this.ws = new WebSocket(Globals.wsRoot+"reports/attendance?sessionId="+token.sessionId);
     
     this.ws.onmessage = (ev:MessageEvent)=>{
