@@ -5,6 +5,8 @@ import  * as Globals from 'app/globals';
 import { TranslateService } from 'ng2-translate';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonService } from '../service/common.service';
+import { UserService } from '../service/user.service';
+import { RoleEnum } from '../Interface/interface';
 
 @Component({
   templateUrl: 'login.component.html',
@@ -33,10 +35,11 @@ export class LoginComponent  {
   constructor(
     private router: Router,
     private loginService: LoginService,
-     
-     public commonService: CommonService,
-     public translateService:TranslateService
-  ) {
+    public userService:UserService, 
+    public commonService: CommonService,
+    public translateService:TranslateService
+  ) 
+  {
     //activate language service
     this.activeLanguage = localStorage.getItem(Globals.languageKey);
     var browserLanguage = window.navigator.language.toLowerCase();
@@ -46,16 +49,19 @@ export class LoginComponent  {
         this.activeLanguage = browserLanguage;
       } else {
         this.activeLanguage = "en-us";
-      }
+      }      
+      //remember language
+      localStorage.setItem(Globals.languageKey, this.activeLanguage);
     }    
+    
     this.translateService.setDefaultLang(this.activeLanguage);
     this.loading = false;
 
     //prevents user to access this page if user alread login
     let activeSession = loginService.checkActiveSession();
     if (activeSession) {    
-      //navigate to dashboard
-      this.router.navigate(['/report/dashboard']);
+      //redirect to appropriate page      
+      this.callRedirector();
     } else {
       //clear storage and force logout after user closed tab / browser
       this.loginService.logOut(); 
@@ -110,12 +116,22 @@ export class LoginComponent  {
         var currentUserToken = sessionStorage.getItem(Globals.currentUserToken);
         localStorage.setItem(Globals.rememberMe, currentUserToken);        
       }
-      //redirect to dashboard
-      this.router.navigate(['/report/dashboard']);
+      //redirect to appropriate page      
+      this.callRedirector();
+      
     }
     else {
       this.commonService.showAlert(this.commonService.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.commonService.getLocaleString("pageLogin.loginFailed"));
       this.loading = false;
+    }
+  }
+
+  private callRedirector() {
+    if (this.userService.userIs(RoleEnum.TenantAdministrator) || this.userService.userIs(RoleEnum.TenantUser)) {
+      this.router.navigate(['/setup/account']);
+    }
+    else {
+      this.router.navigate(['/report/dashboard']);
     }
   }
 }
