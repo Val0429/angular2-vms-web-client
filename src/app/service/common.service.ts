@@ -5,6 +5,7 @@ import { TranslateService } from 'ng2-translate';
 import { BaseClass } from '../Interface/interface';
 import { FormControl } from '@angular/forms';
 import  *  as Globals from 'app/globals';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -12,14 +13,11 @@ export class CommonService{
     constructor(private dialogService: DialogService, private translateService: TranslateService) {
         
       }
-      showAlert(message: string, title?: string) {
-        this.dialogService.addDialog(AlertComponent, {
+      showAlert(message: string, title?: string) :Observable<any>{
+        return this.dialogService.addDialog(AlertComponent, {
           title: title,
           message: message
-        })
-          .subscribe((isConfirmed) => {
-            //We get dialog result
-          });
+        });
       }
       getLocaleString(key: string): string {
         var result = "";
