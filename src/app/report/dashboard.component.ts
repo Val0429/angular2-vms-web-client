@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
     //init fist data, chart will not work without it
     let firstRecurring = new RecurringVisitor();    
     firstRecurring.visitor = new Visitor();
-    firstRecurring.visitor.name="test";
+    firstRecurring.visitor.name="visitor";
     firstRecurring.totalVisit=0;
     this.recurringData.push(firstRecurring);
 
@@ -71,9 +71,11 @@ export class DashboardComponent implements OnInit {
     this.selectedKiosks = await this.kioskService.read("&paging.all=true");    
     await this.changeDuration('month');
     this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
-    this.setRecurringBarChartData();
-    this.entryBarChart.chart.update();
     //console.log(this.recurringData);
+    if(this.recurringData && this.recurringData.length>0){
+      this.setRecurringBarChartData();
+      this.entryBarChart.chart.update();      
+    }
   }
 
 add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
@@ -105,8 +107,10 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
       }
     }
     //console.log(this.statisticData);
-    this.setTimeBarChartData();
-    this.timeBarChart.chart.update();
+    if(this.statisticData && this.statisticData.length>0){
+      this.setTimeBarChartData();
+      this.timeBarChart.chart.update();
+    }
   }
 
   initStatisticGraphs(): void {
