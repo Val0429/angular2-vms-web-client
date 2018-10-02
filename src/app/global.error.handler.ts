@@ -48,11 +48,11 @@ export class GlobalErrorHandler implements ErrorHandler {
       //whenever we get 400 pop alert
       else if (error.rejection.status === 400) {
         //shows alert
-        commonService.showAlert(error.rejection._body, commonService.getLocaleString("common.error"));
+        commonService.showAlert(error.rejection._body, commonService.getLocaleString("common.error")).subscribe(()=>{});
       }
       else if (error.rejection.status === 500) {
         //shows alert
-        commonService.showAlert(commonService.getLocaleString("common.contactAdministrator"), commonService.getLocaleString("common.error"));
+        commonService.showAlert(commonService.getLocaleString("common.contactAdministrator"), commonService.getLocaleString("common.error")).subscribe(()=>{});
       }
     } 
   }

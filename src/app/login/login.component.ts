@@ -119,8 +119,11 @@ export class LoginComponent  {
       
     }
     else {
-      this.commonService.showAlert(this.commonService.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.commonService.getLocaleString("pageLogin.loginFailed"));
-      this.loading = false;
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLogin.invalidUserNameOrPassword"), this.commonService.getLocaleString("pageLogin.loginFailed"))
+      .subscribe(()=>{
+        this.loading = false;        
+      });
+
     }
   }
 

@@ -53,7 +53,7 @@ export class SmsComponent implements OnInit {
       console.log("sms save setting", formData);
       let result = await this.setupService.modifyServerSettings({ data: { sms: formData } });
       console.log("sms save setting result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.smsSetting") + this.commonService.getLocaleString("common.hasBeenUpdated"));
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.smsSetting") + this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
@@ -67,7 +67,7 @@ export class SmsComponent implements OnInit {
       this.progressService.start();
       let result = await this.setupService.sendTestSms(this.testSms.value);
       console.log("sms test result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("common.sms")+this.commonService.getLocaleString("common.hasBeenSent"));
+      this.commonService.showAlert(this.commonService.getLocaleString("common.sms")+this.commonService.getLocaleString("common.hasBeenSent")).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();

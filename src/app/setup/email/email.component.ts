@@ -63,7 +63,7 @@ export class EmailComponent  implements OnInit {
       console.log("smtp save setting", formData);
       let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
       console.log("smtp save setting result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") );
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") ).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
@@ -74,7 +74,7 @@ export class EmailComponent  implements OnInit {
       this.progressService.start();
       let result = await this.setupService.sendTestEmail(this.testEmail.value);
       console.log("smtp test result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("common.email")+this.commonService.getLocaleString("common.hasBeenSent"));
+      this.commonService.showAlert(this.commonService.getLocaleString("common.email")+this.commonService.getLocaleString("common.hasBeenSent")).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();

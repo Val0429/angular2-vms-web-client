@@ -53,7 +53,7 @@ export class FrsComponent implements OnInit {
       console.log("frs save setting", formData);
       let result = await this.setupService.modifyServerSettings({ data: { frs: formData } });
       console.log("frs save setting result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.frsSetting") + this.commonService.getLocaleString("common.hasBeenUpdated"));
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.frsSetting") + this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();

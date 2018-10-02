@@ -22,7 +22,7 @@ export class SetupService {
       data.sessionId = token.sessionId;
       data.phone = phone;
       console.log("test sms data", data);
-      var result = await this.coreService.postConfig({ path: this.uriTestSms, data: data }).toPromise();
+      var result = await this.coreService.postConfig({ path: this.uriTestSms, data }).toPromise();
       return result;
   }
    async sendTestEmail(email: string): Promise<any> {
@@ -31,7 +31,7 @@ export class SetupService {
       data.sessionId = token.sessionId;
       data.email = email;
       console.log("test email data", data);
-      var result = await this.coreService.postConfig({ path: this.uriTestEmail, data: data }).toPromise();
+      var result = await this.coreService.postConfig({ path: this.uriTestEmail, data }).toPromise();
       return result;
   }
 
@@ -46,7 +46,7 @@ export class SetupService {
       var token = this.loginService.getCurrentUserToken();
       data.sessionId = token.sessionId;
       console.log("new config data", data);
-      var result = await this.coreService.postConfig({ path: this.uriServerConfig, data: data }).toPromise();
+      var result = await this.coreService.postConfig({ path: this.uriServerConfig, data }).toPromise();
       return result;
     }
 }
