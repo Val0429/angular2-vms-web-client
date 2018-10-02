@@ -35,6 +35,7 @@
 		"send": "Send",
 		"sms": "SMS",
 		"updateData": "Update Data",
+		"url": "URL",
 		"userName": "Username"
 	},
 	"pageAccount": {
@@ -127,7 +128,8 @@
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
-			"smsSetting": "SMS Setting"
+			"smsSetting": "SMS Setting",
+			"smsSettingSingapore": "SMS Setting Singapore"
 		},
 		"tenant": {
 			"invitation": "Invitation",

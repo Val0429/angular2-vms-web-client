@@ -96,7 +96,11 @@
                     <i class="icon-settings"></i> {{'pageLayout.setup.smsSetting'|translate}}
                   </a>
                 </li>
-                
+                <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/sms-singapore']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.smsSettingSingapore'|translate}}
+                    </a>
+                  </li>
               </ul>
             </li>
             <!--Tenant Admin Menu-->
