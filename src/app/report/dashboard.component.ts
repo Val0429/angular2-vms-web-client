@@ -2,8 +2,9 @@ import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/co
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
-import { ReportStatistic, KioskUser, RecurringVisitor, Visitor } from '../Interface/interface';
+import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
 import { KioskService } from '../service/kiosk.service';
+import { FormControl } from '@angular/forms';
 //import * as Chart from 'chart.js';
 
 @Component({
@@ -13,6 +14,8 @@ export class DashboardComponent implements OnInit {
   statisticData:ReportStatistic[];
   recurringData:RecurringVisitor[];
   kiosks:KioskUser[];
+  selectedKiosks:KioskUser[];
+  finalKiosk:FormControl;
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
@@ -33,11 +36,14 @@ export class DashboardComponent implements OnInit {
   // entryBarChart
   public entryBarChartLabels: string[];  
   public entryBarChartDatasets: any[];
+  currentDuration: string;
   
 
   constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
     this.recurringData = [];
     this.statisticData = [];  
+    this.selectedKiosks= [];
+    this.finalKiosk = new FormControl('');
 
     let now : Date= new Date(Date.now());    
     
@@ -62,8 +68,8 @@ export class DashboardComponent implements OnInit {
 
 
   async ngOnInit(){   
-    
-    this.kiosks = await this.kioskService.read("&paging.all=true");    
+    this.kiosks=[];
+    this.selectedKiosks = await this.kioskService.read("&paging.all=true");    
     await this.changeDuration('month');
     this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
     this.setRecurringBarChartData();
@@ -71,14 +77,24 @@ export class DashboardComponent implements OnInit {
     //console.log(this.recurringData);
   }
 
+add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
+    console.log("add item:", item);
+    this.commonService.addItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
+    this.changeDuration(this.currentDuration);
+  }
 
+  remove(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {
+    console.log("remove item:", item);
+    this.commonService.removeItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);    
+    this.changeDuration(this.currentDuration);
+  }
   private async updateCharts() {
     //get success data
-    var sucessResult = await this.reportService.getStatistic(this.start, this.end, this.kiosks.map(function(e){ return e.objectId}));
+    var sucessResult = await this.reportService.getStatistic(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
     //copy result
     this.statisticData = Object.assign([], sucessResult);
     //merge with failed data
-    var failedResult = await this.reportService.getException(this.start, this.end, this.kiosks.map(function(e){ return e.objectId}));
+    var failedResult = await this.reportService.getException(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
     for (let stat of failedResult) {
       let existsIndex = this.statisticData.map(function (e) { return e.date; }).indexOf(stat.date);
       if (existsIndex > -1) {
@@ -129,6 +145,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public async changeDuration(duration: string) {
+    this.currentDuration = duration;
     let now = new Date(Date.now());    
     this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
     switch(duration){
