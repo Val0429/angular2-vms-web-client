@@ -5,6 +5,8 @@ import { CommonService } from '../service/common.service';
 import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
 import { KioskService } from '../service/kiosk.service';
 import { FormControl } from '@angular/forms';
+import { VisitorComponent } from './visitor.component';
+import { DialogService } from 'ng2-bootstrap-modal';
 //import * as Chart from 'chart.js';
 
 @Component({
@@ -39,7 +41,12 @@ export class DashboardComponent implements OnInit {
   currentDuration: string;
   
 
-  constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
+  constructor(
+      private reportService: ReportService, 
+      private commonService:CommonService, 
+      private kioskService: KioskService,
+      private dialogService: DialogService
+    ) {
     this.recurringData = [];
     this.statisticData = [];  
     this.selectedKiosks= [];
@@ -115,7 +122,14 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
 
   initStatisticGraphs(): void {
     this.barChartOptions = {
-      scaleShowVerticalLines: false,      
+      scaleShowVerticalLines: false,  
+      hover: {
+        mode: "nearest",
+        intersec: true,
+      },
+      interaction: {
+        mode: "nearest",
+      },    
       responsive: true,
       scales: {
         yAxes: [{
@@ -139,7 +153,13 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   }
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+    if (e.active.length > 0){
+      let datasetIndex = e.active[0]._datasetIndex;
+      let visitorData = this.recurringData[datasetIndex];
+      let visitorDialog = new VisitorComponent(this.dialogService);
+      visitorDialog.setFormData(visitorData, this.commonService.getLocaleString("pageDashboard.recurringVisitor"));
+      this.dialogService.addDialog(VisitorComponent, visitorDialog).subscribe(() => {});
+    }
 
   }
 
@@ -169,7 +189,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   private setRecurringBarChartData() {
     
     this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
-    
+ 
     this.entryBarChartDatasets = this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}});
     
   }

@@ -43,6 +43,7 @@ import { Http } from '@angular/http';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 //progress bar
 import { NgProgressModule } from 'ngx-progressbar';
+import { ReportModule } from './report/report.module';
 
 
 export function translateLoader(http: Http) {
@@ -67,6 +68,7 @@ export function translateLoader(http: Http) {
     ServiceModule,
     TenantModule,
     SetupModule,
+    ReportModule,
     BootstrapModalModule,
     ReactiveFormsModule,
     NgProgressModule
