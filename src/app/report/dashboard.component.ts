@@ -7,6 +7,7 @@ import { KioskService } from '../service/kiosk.service';
 import { FormControl } from '@angular/forms';
 import { VisitorComponent } from './visitor.component';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { LoginService } from '../service/login.service';
 //import * as Chart from 'chart.js';
 
 @Component({
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit {
       private reportService: ReportService, 
       private commonService:CommonService, 
       private kioskService: KioskService,
-      private dialogService: DialogService
+      private dialogService: DialogService,
+      private loginService:LoginService
     ) {
     this.recurringData = [];
     this.statisticData = [];  
@@ -156,8 +158,8 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     if (e.active.length > 0){
       let datasetIndex = e.active[0]._datasetIndex;
       let visitorData = this.recurringData[datasetIndex];
-      let visitorDialog = new VisitorComponent(this.dialogService);
-      visitorDialog.setFormData(visitorData, this.commonService.getLocaleString("pageDashboard.recurringVisitor"));
+      let visitorDialog = new VisitorComponent(this.dialogService, this.loginService);
+      visitorDialog.setFormData(visitorData, visitorData.visitor.name);
       this.dialogService.addDialog(VisitorComponent, visitorDialog).subscribe(() => {});
     }
 

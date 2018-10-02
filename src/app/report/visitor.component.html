@@ -5,10 +5,15 @@
       <h4 class="modal-title">{{title || 'Confirm'}}</h4>
       <button type="button" class="close" (click)="close()">&times;</button>
     </div>
-    <div class="modal-body">
-      <pre>{{data | json}}</pre>
-
-
+    <div class="modal-body" style="text-align:center" >
+      <img src="{{imgUrl}}" style="width:300px;height:auto"/>
+      <p>
+        {{'common.email' | translate}}: {{data.visitor.email}}<br/>
+        {{'common.phone' | translate}}: {{data.visitor.phone}}<br/>
+        {{'pageVisitor.totalVisit' | translate}}: {{data.totalVisit}}<br/>
+        {{'pageVisitor.lastVisitDate' | translate}}: {{data.lastVisitDate | date : "yyyy-MM-dd"}}<br/>
+      </p>
+      <!-- <pre>{{data | json}}</pre> -->
       <div class="modal-footer" >
         <button type="button" class="btn btn-primary" (click)="close()">{{'common.ok'|translate}}</button>
       </div>

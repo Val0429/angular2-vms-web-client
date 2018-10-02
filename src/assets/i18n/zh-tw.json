@@ -148,6 +148,10 @@
 		"comPort": "COM Port Number",
 		"testSms": "Test SMS"
 	},
+	"pageVisitor": {
+		"lastVisitDate": "Last visit date",
+		"totalVisit": "Total visit"
+	},
 	"roleEnum": {
 		"Administrator": "Administrator",
 		"SystemAdministrator": "System Administrator",

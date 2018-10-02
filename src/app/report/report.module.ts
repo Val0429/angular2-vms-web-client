@@ -38,7 +38,8 @@ import { VisitorComponent } from './visitor.component';
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
-    VisitorStatisticComponent, VisitorComponent
+    VisitorStatisticComponent, 
+    VisitorComponent
   ]
 })
 export class ReportModule { }
