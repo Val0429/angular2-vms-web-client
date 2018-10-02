@@ -26,15 +26,13 @@ export class DashboardComponent implements OnInit {
   public barChartTypeH: string = 'horizontalBar';
 
   // timeBarChart
-  public timeBarChartColors:Array<any> ;
   public timeBarChartLabels: string[];
   public timeBarChartDatasets: any[];
   
 
   // entryBarChart
-  public entryBarChartLabels: string[];
+  public entryBarChartLabels: string[];  
   public entryBarChartDatasets: any[];
-  public entryBarChartColors: Array<any>;
   
 
   constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
@@ -103,44 +101,20 @@ export class DashboardComponent implements OnInit {
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function(value) {if (value % 1 === 0) {return value;}}
           }
         }],
         xAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function(value) {if (value % 1 === 0) {return value;}}
           }
         }]
       }
     };
     
-    this.timeBarChartColors = [
-      { // green
-        backgroundColor: 'rgba(88, 227, 78, 0.9)',
-        pointBackgroundColor: 'rgba(88, 227, 78, 0.9)',
-        borderColor: 'rgba(18, 88, 13, 0.9)',
-        pointHoverBorderColor: 'rgba(18, 88, 13, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-      },
-      { // red        
-        backgroundColor: "rgba(251, 23, 23, 0.9)",
-        pointBackgroundColor: 'rgba(251, 23, 23, 0.9)',
-        borderColor: 'rgba(120, 1, 1, 0.9)',
-        pointHoverBorderColor: 'rgba(120, 1, 1, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-
-      }];
-    this.entryBarChartColors = [
-      { // green
-        backgroundColor: 'rgba(88, 227, 78, 0.9)',
-        pointBackgroundColor: 'rgba(88, 227, 78, 0.9)',
-        borderColor: 'rgba(18, 88, 13, 0.9)',
-        pointHoverBorderColor: 'rgba(18, 88, 13, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-      }];
+    
     this.setTimeBarChartData();
     this.setRecurringBarChartData();
   }

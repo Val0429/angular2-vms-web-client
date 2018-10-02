@@ -19,7 +19,7 @@
         <canvas baseChart #timeBarChart="base-chart" class="chart"
                 [datasets]="timeBarChartDatasets"
                 [labels]="timeBarChartLabels"
-                [colors]="timeBarChartColors"
+                
                 [options]="barChartOptions"
                 [legend]="barChartLegend"
                 [chartType]="barChartTypeV"
@@ -38,7 +38,7 @@
                 [datasets]="entryBarChartDatasets"
                 [labels]="entryBarChartLabels"
                 [options]="barChartOptions"
-                [colors]="entryBarChartColors"
+                
                 [legend]="barChartLegend"
                 [chartType]="barChartTypeH"
                 (chartHover)="chartHovered($event)"
