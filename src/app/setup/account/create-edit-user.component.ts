@@ -91,11 +91,16 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       this.companyOptions = [];
       if(currentUser.data && currentUser.data.company){
         this.companyOptions.push(currentUser.data.company);
-      }
+      }      
+
       this.floorOptions = Object.assign([], currentUser.data && currentUser.data.floor ? currentUser.data.floor : []);
     }
     
-    
+    //add dummy select company as placeholder
+    let selectCompany = new Company();
+    selectCompany.name = this.commonService.getLocaleString("common.select")+ " " +this.commonService.getLocaleString("pageAccount.companyName");
+    selectCompany.objectId="";
+    this.companyOptions.unshift(selectCompany);
 
     //remove selected role from role options
     for(let role of this.formData.roles){
@@ -117,7 +122,9 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   return g.get('password').value === g.get('confirmPassword').value
     ? null : { 'mismatch': true };
   }
-
+  onCompanyChange(value :any){
+    this.checkCompanyAndFloorValidator();
+  }
   createFormControls() {
     this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor : []);
     this.phone = new FormControl(this.formData.phone ? this.formData.phone : [], [
@@ -130,7 +137,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     ]);
     this.email = new FormControl(this.formData.publicEmailAddress?this.formData.publicEmailAddress:"", [
       //Validators.required,
-      Validators.pattern("[^ @]*@[^ @]*")
+      Validators.pattern(Globals.emailRegex)
       
     ]);
     this.company = new FormControl(this.formData.data.company && this.formData.data.company.objectId ? this.formData.data.company.objectId:"");
@@ -218,7 +225,6 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       username: this.username,   
       phone: this.phone, 
       email: this.email, 
-      company:this.company,
       data: this.data,
       passwordGroup: this.passwordGroup,      
       roles: this.roles

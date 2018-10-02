@@ -21,6 +21,7 @@ export class FullLayoutComponent   implements OnInit {
     private dialogService:DialogService,
     private commonService:CommonService
     ) {
+      this.commonService.loadLanguage();
   }
 
   username: string;
@@ -83,13 +84,15 @@ export class FullLayoutComponent   implements OnInit {
   async saveChangePassword(data:User) {    
     // Update password User
     console.log("update Password Current User", data);
-    var result = this.userService.update(data);
+    var result = await this.userService.update(data);
     if(result){
       this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
       " "+this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
       this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
-    this.commonService.getLocaleString("common.alert"));
-      await this.logout();
+      this.commonService.getLocaleString("common.alert")).subscribe(async()=>{
+        await this.logout();
+    });
+      
     }
   }
 

@@ -5,7 +5,6 @@ import { CreateEditFloorComponent } from './create-edit-floor.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
 import { Floor, RoleEnum } from '../../Interface/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
-import { TranslateService } from 'ng2-translate';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';
 import { NgProgress } from 'ngx-progressbar';
@@ -84,7 +83,7 @@ export class FloorComponent implements OnInit {
       var result = await this.floorService.batchUploadFloor(data);
       if (result) {
         //console.log(result);
-        this.commonService.showAlert(result.paging.count + this.commonService.getLocaleString("pageFloor.haveBeenImported"));
+        this.commonService.showAlert(result.paging.count + this.commonService.getLocaleString("pageFloor.haveBeenImported")).subscribe(()=>{});
         //refresh list
         await this.ngOnInit();
       }
@@ -125,7 +124,7 @@ export class FloorComponent implements OnInit {
           this.data.splice(index, 1);          
           let tempIndex = this.tempData.indexOf(item, 0);            
           this.tempData.splice(tempIndex, 1);
-          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted")).subscribe(()=>{});
         }//no catch, global error handle handles it
         finally{      
           this.progressService.done();
@@ -155,14 +154,14 @@ export class FloorComponent implements OnInit {
     if(tempIndex<0){
       this.tempData.push(data);
       this.data.push(data);
-      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenCreated"));
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenCreated")).subscribe(()=>{});
     }
     else{
       //update data at specified index
       this.tempData[tempIndex] = data;    
       let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = data;
-      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenUpdated"))
+      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
     }
   }
 

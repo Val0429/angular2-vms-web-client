@@ -82,11 +82,9 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
       Validators.required,
       Validators.minLength(3)
     ]);
-    this.unitNumber = new FormControl(this.formData.unitNumber, [
-      Validators.required,
-      Validators.minLength(3)
+    this.floor = new FormControl(this.formData.floor, [
+      Validators.required
     ]);
-    this.floor = new FormControl(this.formData.floor);
     this.contactNumber = new FormControl(this.formData.contactNumber.toString(), [
       Validators.required,      
       Validators.pattern(Globals.multiPhoneRegex)

@@ -16,9 +16,10 @@ export class EmailComponent  implements OnInit {
   securityOption: string[] = [ "None", "TLS", "SSL"];
   port: FormControl;
   password: FormControl;
-  ip: FormControl;
-  account: FormControl;
-  security: FormControl;
+  host: FormControl;
+  testEmail: FormControl;
+  email: FormControl;
+  enable: FormControl;
   myform: FormGroup;
   
   constructor(private setupService: SetupService, private commonService: CommonService, private progressService:NgProgress) {
@@ -47,11 +48,12 @@ export class EmailComponent  implements OnInit {
   }
   createForm() {
     this.myform = new FormGroup({
-      account: this.account,
-      ip: this.ip,
+      email: this.email,
+      testEmail: this.testEmail,
+      host: this.host,
       password: this.password,
       port: this.port,
-      security: this.security
+      enable: this.enable
     });
   }
   async save() {
@@ -61,24 +63,39 @@ export class EmailComponent  implements OnInit {
       console.log("smtp save setting", formData);
       let result = await this.setupService.modifyServerSettings({ data: { smtp: formData } });
       console.log("smtp save setting result: ", result);
-      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") );
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.setup.emailSetting") + this.commonService.getLocaleString("common.hasBeenUpdated") ).subscribe(()=>{});
+    }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    }
+  }
+  async sendTestEmail(){
+    try{
+      this.progressService.start();
+      let result = await this.setupService.sendTestEmail(this.testEmail.value);
+      console.log("smtp test result: ", result);
+      this.commonService.showAlert(this.commonService.getLocaleString("common.email")+this.commonService.getLocaleString("common.hasBeenSent")).subscribe(()=>{});
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
     }
   }
   createFormControls(data: any) {
-    this.account = new FormControl(data.account, [
+    this.email = new FormControl(data.email, [
       Validators.required,
       Validators.minLength(3)
     ]);
 
-    this.security = new FormControl(data.security, [
-      Validators.required
+    this.enable = new FormControl(data.enable, [
+      //Validators.required
     ]);
 
-    this.ip = new FormControl(data.ip, [
-      Validators.required,
+    this.host = new FormControl(data.host, [
+      Validators.required
+      
+    ]);
+
+    this.testEmail = new FormControl('',[       
       Validators.pattern(Globals.emailRegex)
     ]);
 

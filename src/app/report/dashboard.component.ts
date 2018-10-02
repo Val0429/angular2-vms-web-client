@@ -1,22 +1,27 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/core';
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
+import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
+import { KioskService } from '../service/kiosk.service';
+import { FormControl } from '@angular/forms';
 //import * as Chart from 'chart.js';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-
-  ngOnInit():void {
-    this.initGraphs();
-  }
+  statisticData:ReportStatistic[];
+  recurringData:RecurringVisitor[];
+  kiosks:KioskUser[];
+  selectedKiosks:KioskUser[];
+  finalKiosk:FormControl;
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
 
-
+  end : Date;  
+  start : Date;
 
   public barChartOptions: any;
   public barChartTypeV: string = 'bar';
@@ -24,65 +29,108 @@ export class DashboardComponent implements OnInit {
   public barChartTypeH: string = 'horizontalBar';
 
   // timeBarChart
-  public timeBarChartColors:Array<any> ;
   public timeBarChartLabels: string[];
-  public timeBarChartData: any[];
+  public timeBarChartDatasets: any[];
   
 
   // entryBarChart
-  public entryBarChartLabels: string[];
-  public entryBarChartData: any[];
-  public entryBarChartColors: Array<any>;
+  public entryBarChartLabels: string[];  
+  public entryBarChartDatasets: any[];
+  currentDuration: string;
   
 
-  constructor(private reportService: ReportService, private commonService:CommonService) {
+  constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
+    this.recurringData = [];
+    this.statisticData = [];  
+    this.selectedKiosks= [];
+    this.finalKiosk = new FormControl('');
+
+    let now : Date= new Date(Date.now());    
     
+    this.start = new Date(now.getFullYear(), now.getMonth(), 1);    
+    //init fist data, chart will not work without it
+    let first  = new ReportStatistic();
+    first.date = this.start .getFullYear()+"-"+(this.start .getMonth()+1)+"-"+this.start .getDate();
+    first.totalException=0;
+    first.totalVisitor=0;
+
+    this.statisticData.push(first);
+    
+    //init fist data, chart will not work without it
+    let firstRecurring = new RecurringVisitor();    
+    firstRecurring.visitor = new Visitor();
+    firstRecurring.visitor.name="test";
+    firstRecurring.totalVisit=0;
+    this.recurringData.push(firstRecurring);
+
+    this.initStatisticGraphs();
   }
-  initGraphs(): void {
+
+
+  async ngOnInit(){   
+    this.kiosks=[];
+    this.selectedKiosks = await this.kioskService.read("&paging.all=true");    
+    await this.changeDuration('month');
+    this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
+    this.setRecurringBarChartData();
+    this.entryBarChart.chart.update();
+    //console.log(this.recurringData);
+  }
+
+add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
+    console.log("add item:", item);
+    this.commonService.addItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);
+    this.changeDuration(this.currentDuration);
+  }
+
+  remove(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {
+    console.log("remove item:", item);
+    this.commonService.removeItemFromSelectedDropDown(item, selected, options, endResult, byObjectId);    
+    this.changeDuration(this.currentDuration);
+  }
+  private async updateCharts() {
+    //get success data
+    var sucessResult = await this.reportService.getStatistic(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
+    //copy result
+    this.statisticData = Object.assign([], sucessResult);
+    //merge with failed data
+    var failedResult = await this.reportService.getException(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
+    for (let stat of failedResult) {
+      let existsIndex = this.statisticData.map(function (e) { return e.date; }).indexOf(stat.date);
+      if (existsIndex > -1) {
+        this.statisticData[existsIndex].totalException = stat.totalException;
+      }
+      else {
+        stat.totalVisitor = 0;
+        this.statisticData.push(stat);
+      }
+    }
+    //console.log(this.statisticData);
+    this.setTimeBarChartData();
+    this.timeBarChart.chart.update();
+  }
+
+  initStatisticGraphs(): void {
     this.barChartOptions = {
       scaleShowVerticalLines: false,      
       responsive: true,
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function(value) {if (value % 1 === 0) {return value;}}
           }
         }],
         xAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function(value) {if (value % 1 === 0) {return value;}}
           }
         }]
       }
     };
     
-    this.timeBarChartColors = [
-      { // green
-        backgroundColor: 'rgba(88, 227, 78, 0.9)',
-        pointBackgroundColor: 'rgba(88, 227, 78, 0.9)',
-        borderColor: 'rgba(18, 88, 13, 0.9)',
-        pointHoverBorderColor: 'rgba(18, 88, 13, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-      },
-      { // red        
-        backgroundColor: "rgba(251, 23, 23, 0.9)",
-        pointBackgroundColor: 'rgba(251, 23, 23, 0.9)',
-        borderColor: 'rgba(120, 1, 1, 0.9)',
-        pointHoverBorderColor: 'rgba(120, 1, 1, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-
-      }];
-    this.entryBarChartColors = [
-      { // green
-        backgroundColor: 'rgba(88, 227, 78, 0.9)',
-        pointBackgroundColor: 'rgba(88, 227, 78, 0.9)',
-        borderColor: 'rgba(18, 88, 13, 0.9)',
-        pointHoverBorderColor: 'rgba(18, 88, 13, 0.9)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff'
-      }];
+    
     this.setTimeBarChartData();
     this.setRecurringBarChartData();
   }
@@ -97,40 +145,44 @@ export class DashboardComponent implements OnInit {
   }
 
   public async changeDuration(duration: string) {
-    
+    this.currentDuration = duration;
+    let now = new Date(Date.now());    
+    this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
+    switch(duration){
+      case "day":
+        this.start = new Date(now.getFullYear(), now.getMonth(), now.getDate());            
+        break;
+      case "week":
+        let newDate = now.getDate()-7;
+        this.start.setDate(newDate>0?newDate:1);
+        break;
+      default:
+        this.start = new Date(now.getFullYear(), now.getMonth(), 1);        
+        break;
+    }
+    this.updateCharts();
   }
 
   private setRecurringBarChartData() {
     
-    this.entryBarChartLabels = ["John", "Smith", "Michael", "Jordan", "Tiger"];
-    this.entryBarChartData = [
-      {
-        data: [65, 59, 40, 31, 26],
-        label: this.commonService.getLocaleString("pageDashboard.totalVisit")
-      }];
+    this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
+    
+    this.entryBarChartDatasets = this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}});
+    
   }
 
   private setTimeBarChartData() {    
-    
-    this.timeBarChartLabels = ["08-01","08-02","08-03","08-04","08-05","08-06","08-07"];
-    this.timeBarChartData = [
+        
+    this.timeBarChartLabels = this.statisticData.map(function(e){return e.date});
+    this.timeBarChartDatasets = [
     {
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: this.statisticData.map(function(e){return e.totalVisitor}),
         label: this.commonService.getLocaleString("pageDashboard.success")
     },
     {
-      data: [28, 48, 40, 19, 86, 27, 90],
+      data: this.statisticData.map(function(e){return e.totalException}),
       label: this.commonService.getLocaleString("pageDashboard.exception")
     }];
   }
 
-  timecodeToTimeString(timecode: number): string {
-    if (timecode == null) return "";
-
-    var date = new Date(timecode);
-    var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-    var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-
-    return hour + ':' + minute;
-  }
 }
