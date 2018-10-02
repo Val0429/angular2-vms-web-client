@@ -17,12 +17,12 @@
                *ngIf="selectedKiosks.length==0"
                 />  
                 <div class="form-control selected-dropdown" *ngIf="selectedKiosks.length>0">
-                <div class="selected-dropdown-item" *ngFor="let item of selectedKiosks" (click)="remove(item, selectedKiosks, kiosks, finalKiosk, true)">{{item.data.kioskName}}
+                <div class="selected-dropdown-item" *ngFor="let item of selectedKiosks" (click)="remove(item, selectedKiosks, kiosks, null, true)">{{item.data.kioskName}}
                     <span class="fa fa-remove fa-lg" ></span>
                   </div>               
                 </div>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="overflow-y:auto; height:200px;">
-              <a class="dropdown-item" style="cursor: pointer;" *ngFor="let item of kiosks" (click)="add(item, selectedKiosks, kiosks, finalKiosk, true)">
+              <a class="dropdown-item" style="cursor: pointer;" *ngFor="let item of kiosks" (click)="add(item, selectedKiosks, kiosks, null, true)">
                 {{item.data.kioskName}}
               </a>
             </div>

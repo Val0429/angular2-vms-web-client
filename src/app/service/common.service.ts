@@ -35,8 +35,10 @@ export class CommonService{
           selected.push(item);
           options.splice(optionIndex,1);
         } 
-        //map the way backend wants it
-        endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+        if(endResult!=null){
+          //map the way backend wants it
+          endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+        }
       }
       removeItemFromSelectedDropDown(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {        
         let index = selected.map(function (e) { return e.objectId }).indexOf(item.objectId);
@@ -46,8 +48,10 @@ export class CommonService{
           options.push(item);
           selected.splice(index, 1);
         } 
-        //map the way backend wants it
-        endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+        if(endResult!=null){
+          //map the way backend wants it
+          endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+        }
       }
       loadLanguage():void{
         let lang = localStorage.getItem(Globals.languageKey)

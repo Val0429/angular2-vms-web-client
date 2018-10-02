@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   recurringData:RecurringVisitor[];
   kiosks:KioskUser[];
   selectedKiosks:KioskUser[];
-  finalKiosk:FormControl;
+  
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
@@ -43,7 +43,6 @@ export class DashboardComponent implements OnInit {
     this.recurringData = [];
     this.statisticData = [];  
     this.selectedKiosks= [];
-    this.finalKiosk = new FormControl('');
 
     let now : Date= new Date(Date.now());    
     
