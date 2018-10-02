@@ -70,7 +70,7 @@ export class FrsComponent implements OnInit {
 
     this.ip = new FormControl(data.ip, [
       Validators.required,
-      Validators.pattern(Globals.emailRegex)
+      Validators.pattern(Globals.ipRegex)
     ]);
 
     this.password = new FormControl(data.password, [

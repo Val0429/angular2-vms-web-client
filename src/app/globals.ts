@@ -27,3 +27,4 @@ export const emailRegex: RegExp = new RegExp(/^$|^(([^<>()\[\]\\.,;:\s@"]+(\.[^<
 export const numberRegex: RegExp = new RegExp(/^\d+$/);
 export const multiPhoneRegex: RegExp = new RegExp(/^[0-9\-\ \,\+\(\)]+$/);
 export const singlePhoneRegex: RegExp = new RegExp(/^[0-9\-\ \+\(\)]+$/);
+export const ipRegex: RegExp =new RegExp(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/);
