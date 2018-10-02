@@ -1,22 +1,21 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/core';
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
+import { ReportStatistic } from '../Interface/interface';
 //import * as Chart from 'chart.js';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-
-  ngOnInit():void {
-    this.initGraphs();
-  }
+  data:ReportStatistic[];
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
 
-
+  end : Date;  
+  start : Date;
 
   public barChartOptions: any;
   public barChartTypeV: string = 'bar';
@@ -26,7 +25,7 @@ export class DashboardComponent implements OnInit {
   // timeBarChart
   public timeBarChartColors:Array<any> ;
   public timeBarChartLabels: string[];
-  public timeBarChartData: any[];
+  public timeBarChartDatasets: any[];
   
 
   // entryBarChart
@@ -37,7 +36,53 @@ export class DashboardComponent implements OnInit {
 
   constructor(private reportService: ReportService, private commonService:CommonService) {
     
+    this.data = [];  
+
+    let now : Date= new Date(Date.now());    
+    
+    this.start = new Date(now.getFullYear(), now.getMonth(), 1);    
+    //init fist data, chart will not work without it
+    let first  = new ReportStatistic();
+    first.date = this.start .getFullYear()+"-"+(this.start .getMonth()+1)+"-"+this.start .getDate();
+    first.totalException=0;
+    first.totalVisitor=0;
+
+    this.data.push(first);
+    
+    this.initGraphs();
   }
+
+
+  async ngOnInit(){   
+    let now = new Date(Date.now());    
+    this.start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
+    await this.updateCharts();
+  }
+
+
+  private async updateCharts() {
+    //get success data
+    var sucessResult = await this.reportService.getStatistic(this.start, this.end, ["AsI5cbTOm6"]);
+    //copy result
+    this.data = Object.assign([], sucessResult);
+    //merge with failed data
+    var failedResult = await this.reportService.getException(this.start, this.end, ["AsI5cbTOm6"]);
+    for (let stat of failedResult) {
+      let existsIndex = this.data.map(function (e) { return e.date; }).indexOf(stat.date);
+      if (existsIndex > -1) {
+        this.data[existsIndex].totalException = stat.totalException;
+      }
+      else {
+        stat.totalVisitor = 0;
+        this.data.push(stat);
+      }
+    }
+    console.log(this.data);
+    this.setTimeBarChartData();
+    this.timeBarChart.chart.update();
+  }
+
   initGraphs(): void {
     this.barChartOptions = {
       scaleShowVerticalLines: false,      
@@ -97,7 +142,21 @@ export class DashboardComponent implements OnInit {
   }
 
   public async changeDuration(duration: string) {
-    
+    let now = new Date(Date.now());    
+    this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
+    switch(duration){
+      case "day":
+        this.start = new Date(now.getFullYear(), now.getMonth(), now.getDate());            
+        break;
+      case "week":
+        let newDate = now.getDate()-7;
+        this.start.setDate(newDate>0?newDate:1);
+        break;
+      default:
+        this.start = new Date(now.getFullYear(), now.getMonth(), 1);        
+        break;
+    }
+    this.updateCharts();
   }
 
   private setRecurringBarChartData() {
@@ -111,26 +170,17 @@ export class DashboardComponent implements OnInit {
   }
 
   private setTimeBarChartData() {    
-    
-    this.timeBarChartLabels = ["08-01","08-02","08-03","08-04","08-05","08-06","08-07"];
-    this.timeBarChartData = [
+        
+    this.timeBarChartLabels = this.data.map(function(e){return e.date});
+    this.timeBarChartDatasets = [
     {
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: this.data.map(function(e){return e.totalVisitor}),
         label: this.commonService.getLocaleString("pageDashboard.success")
     },
     {
-      data: [28, 48, 40, 19, 86, 27, 90],
+      data: this.data.map(function(e){return e.totalException}),
       label: this.commonService.getLocaleString("pageDashboard.exception")
     }];
   }
 
-  timecodeToTimeString(timecode: number): string {
-    if (timecode == null) return "";
-
-    var date = new Date(timecode);
-    var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-    var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-
-    return hour + ':' + minute;
-  }
 }

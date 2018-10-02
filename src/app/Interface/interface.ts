@@ -35,7 +35,11 @@ export class UserData {
     public company:Company;
   
 }
-
+export class ReportStatistic{
+    public date: string;
+    public totalException:number;
+    public totalVisitor:number;
+}
 export class User extends BaseUser{
   public phone :string;
   public data: UserData;
