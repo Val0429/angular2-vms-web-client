@@ -35,6 +35,18 @@ export class UserData {
     public company:Company;
   
 }
+export class Visitor extends BaseClass{
+    public phone:string;
+    public email:string;
+    public company: Company;
+    public status: number;    
+    public image: string;    
+}
+export class RecurringVisitor{
+    public visitor:Visitor;
+    public totalVisit: number;
+    public lastVisitDate: Date;
+}
 export class ReportStatistic{
     public date: string;
     public totalException:number;

@@ -2,14 +2,17 @@ import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/co
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
-import { ReportStatistic } from '../Interface/interface';
+import { ReportStatistic, KioskUser, RecurringVisitor, Visitor } from '../Interface/interface';
+import { KioskService } from '../service/kiosk.service';
 //import * as Chart from 'chart.js';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-  data:ReportStatistic[];
+  statisticData:ReportStatistic[];
+  recurringData:RecurringVisitor[];
+  kiosks:KioskUser[];
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
@@ -30,13 +33,13 @@ export class DashboardComponent implements OnInit {
 
   // entryBarChart
   public entryBarChartLabels: string[];
-  public entryBarChartData: any[];
+  public entryBarChartDatasets: any[];
   public entryBarChartColors: Array<any>;
   
 
-  constructor(private reportService: ReportService, private commonService:CommonService) {
-    
-    this.data = [];  
+  constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
+    this.recurringData = [];
+    this.statisticData = [];  
 
     let now : Date= new Date(Date.now());    
     
@@ -47,43 +50,53 @@ export class DashboardComponent implements OnInit {
     first.totalException=0;
     first.totalVisitor=0;
 
-    this.data.push(first);
+    this.statisticData.push(first);
     
-    this.initGraphs();
+    //init fist data, chart will not work without it
+    let firstRecurring = new RecurringVisitor();    
+    firstRecurring.visitor = new Visitor();
+    firstRecurring.visitor.name="test";
+    firstRecurring.totalVisit=0;
+    this.recurringData.push(firstRecurring);
+
+    this.initStatisticGraphs();
   }
 
 
   async ngOnInit(){   
-    let now = new Date(Date.now());    
-    this.start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
-    await this.updateCharts();
+    
+    this.kiosks = await this.kioskService.read("&paging.all=true");    
+    await this.changeDuration('month');
+    this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
+    this.setRecurringBarChartData();
+    this.entryBarChart.chart.update();
+    //console.log(this.recurringData);
   }
 
 
   private async updateCharts() {
     //get success data
-    var sucessResult = await this.reportService.getStatistic(this.start, this.end, ["AsI5cbTOm6"]);
+    var sucessResult = await this.reportService.getStatistic(this.start, this.end, this.kiosks.map(function(e){ return e.objectId}));
     //copy result
-    this.data = Object.assign([], sucessResult);
+    this.statisticData = Object.assign([], sucessResult);
     //merge with failed data
-    var failedResult = await this.reportService.getException(this.start, this.end, ["AsI5cbTOm6"]);
+    var failedResult = await this.reportService.getException(this.start, this.end, this.kiosks.map(function(e){ return e.objectId}));
     for (let stat of failedResult) {
-      let existsIndex = this.data.map(function (e) { return e.date; }).indexOf(stat.date);
+      let existsIndex = this.statisticData.map(function (e) { return e.date; }).indexOf(stat.date);
       if (existsIndex > -1) {
-        this.data[existsIndex].totalException = stat.totalException;
+        this.statisticData[existsIndex].totalException = stat.totalException;
       }
       else {
         stat.totalVisitor = 0;
-        this.data.push(stat);
+        this.statisticData.push(stat);
       }
     }
-    console.log(this.data);
+    //console.log(this.statisticData);
     this.setTimeBarChartData();
     this.timeBarChart.chart.update();
   }
 
-  initGraphs(): void {
+  initStatisticGraphs(): void {
     this.barChartOptions = {
       scaleShowVerticalLines: false,      
       responsive: true,
@@ -161,24 +174,22 @@ export class DashboardComponent implements OnInit {
 
   private setRecurringBarChartData() {
     
-    this.entryBarChartLabels = ["John", "Smith", "Michael", "Jordan", "Tiger"];
-    this.entryBarChartData = [
-      {
-        data: [65, 59, 40, 31, 26],
-        label: this.commonService.getLocaleString("pageDashboard.totalVisit")
-      }];
+    this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
+    
+    this.entryBarChartDatasets = this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}});
+    
   }
 
   private setTimeBarChartData() {    
         
-    this.timeBarChartLabels = this.data.map(function(e){return e.date});
+    this.timeBarChartLabels = this.statisticData.map(function(e){return e.date});
     this.timeBarChartDatasets = [
     {
-        data: this.data.map(function(e){return e.totalVisitor}),
+        data: this.statisticData.map(function(e){return e.totalVisitor}),
         label: this.commonService.getLocaleString("pageDashboard.success")
     },
     {
-      data: this.data.map(function(e){return e.totalException}),
+      data: this.statisticData.map(function(e){return e.totalException}),
       label: this.commonService.getLocaleString("pageDashboard.exception")
     }];
   }
