@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
     await this.changeDuration('month');
     this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
     //console.log(this.recurringData);
-    if(this.recurringData && this.recurringData.length>0){
+    if(this.recurringData ){
       this.setRecurringBarChartData();
       this.entryBarChart.chart.update();      
     }
@@ -118,7 +118,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
       }
     }
     //console.log(this.statisticData);
-    if(this.statisticData && this.statisticData.length>0){
+    if(this.statisticData  ){
       this.setTimeBarChartData();
       this.timeBarChart.chart.update();
     }
