@@ -3,6 +3,7 @@ import { DialogService, DialogComponent } from 'ng2-bootstrap-modal';
 import { CreateEditDialog, RecurringVisitor, Visitor } from '../Interface/interface';
 import * as Globals from 'app/globals';
 import { LoginService } from '../service/login.service';
+import { ConfigService } from '../service/config.service';
 @Component({
   selector: 'app-visitor',
   templateUrl: './visitor.component.html'
@@ -11,7 +12,7 @@ export class VisitorComponent extends DialogComponent<CreateEditDialog, Recurrin
   public title:string;
   imgUrl :string;
   data : RecurringVisitor;
-  constructor(public dialogService: DialogService, private loginService:LoginService) {    
+  constructor(public dialogService: DialogService, private loginService:LoginService, private configService:ConfigService) {    
     super(dialogService);
     this.data = new RecurringVisitor();
     this.data.visitor = new Visitor();
@@ -24,7 +25,7 @@ export class VisitorComponent extends DialogComponent<CreateEditDialog, Recurrin
     let token = this.loginService.getCurrentUserToken();
     
     if(this.data && this.data.visitor && token!=null){
-      this.imgUrl=Globals.cgiRoot+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
+      this.imgUrl=this.configService.getCgiRoot()+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
     }
       
   }

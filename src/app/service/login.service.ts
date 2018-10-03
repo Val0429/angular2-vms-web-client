@@ -3,17 +3,19 @@ import { Router, CanActivate } from '@angular/router';
 import { CoreService } from 'app/service/core.service';
 import { SessionToken, User } from 'app/Interface/interface';
 import * as Globals from '../globals';
+import { ConfigService } from './config.service';
 
 
 @Injectable()
 export class LoginService implements CanActivate {
 
-  private uriLogin: string = Globals.cgiRoot + "users/login";
-  private uriLogout: string = Globals.cgiRoot + "users/logout";
+  private uriLogin: string = this.configService.getCgiRoot() + "users/login";
+  private uriLogout: string = this.configService.getCgiRoot() + "users/logout";
 
   constructor(
     private router: Router,
     private coreService: CoreService,
+    private configService:ConfigService
   ) {
 
   }

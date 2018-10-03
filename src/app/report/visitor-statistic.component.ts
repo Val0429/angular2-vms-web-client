@@ -1,6 +1,7 @@
 import { Component,  OnInit, NgZone } from '@angular/core';
 import * as Globals from 'app/globals'
 import { LoginService } from '../service/login.service';
+import { ConfigService } from '../service/config.service';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class VisitorStatisticComponent implements OnInit {
   ws: WebSocket;
 
   constructor(private loginService:LoginService,
-    private zone:NgZone
+    private zone:NgZone,
+    private configService:ConfigService
   ) { }
 
   ngOnInit() {
@@ -27,7 +29,7 @@ export class VisitorStatisticComponent implements OnInit {
    
     var token = this.loginService.getCurrentUserToken();
     if(token==null)return;
-    this.ws = new WebSocket(Globals.wsRoot+"reports/attendance?sessionId="+token.sessionId);
+    this.ws = new WebSocket(this.configService.getWsRoot()+"reports/attendance?sessionId="+token.sessionId);
     
     this.ws.onmessage = (ev:MessageEvent)=>{
       this.zone.run(() => {

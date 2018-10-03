@@ -1,7 +1,6 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { GlobalErrorHandler } from './global.error.handler';
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
@@ -44,11 +43,17 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 //progress bar
 import { NgProgressModule } from 'ngx-progressbar';
 import { ReportModule } from './report/report.module';
+import { ConfigService } from './service/config.service';
 
 
 export function translateLoader(http: Http) {
   return new TranslateStaticLoader(http, '../assets/i18n/', '.json');
 }
+export const appInitializerFn = (appConfig: ConfigService) => {
+  return () => {
+    return appConfig.loadAppConfig();
+  };
+};
 
 @NgModule({
   imports: [
@@ -57,7 +62,7 @@ export function translateLoader(http: Http) {
       provide: TranslateLoader,
       useFactory: translateLoader,
       deps: [Http]
-    }),
+    }),    
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
@@ -90,10 +95,19 @@ export function translateLoader(http: Http) {
     AlertComponent,
     ChangePasswordFormComponent
   ],
-  providers: [{
-    provide: ErrorHandler,
-    useClass: GlobalErrorHandler
-  }],
+  providers: [
+    ConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFn,
+      multi: true,
+      deps: [ConfigService]
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,    
+    }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

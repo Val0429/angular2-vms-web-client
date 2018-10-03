@@ -4,7 +4,6 @@ import { SetupService } from 'app/service/setup.service';
 import * as Globals from 'app/globals';
 import {NgProgress} from 'ngx-progressbar'
 import { CommonService } from '../../service/common.service';
-import { delay } from 'q';
 
 @Component({
   selector: 'app-sms',

@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from './core.service';
 import { LoginService } from './login.service';
-import * as Globals from 'app/globals'
 import { ReportStatistic, RecurringVisitor } from '../Interface/interface';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class ReportService {
 
-    private uriReport: string = Globals.cgiRoot + "reports/";
+    private uriReport: string = this.configService.getCgiRoot() + "reports/";
 
     constructor(
         private coreService: CoreService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private configService:ConfigService
     ) { 
 
     }
