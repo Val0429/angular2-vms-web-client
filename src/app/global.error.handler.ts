@@ -21,8 +21,8 @@ export class GlobalErrorHandler implements ErrorHandler {
     const commonService = this.injector.get(CommonService);
     //log any error
     //TO DO: do better logging
-    console.log("Error thrown from global error handler");
-    console.log(error);
+    console.error("Error thrown from global error handler");
+    console.error(error);
 
     //error related to REST API responses
     if (error.rejection && error.rejection.status) {
