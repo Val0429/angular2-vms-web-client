@@ -5,6 +5,10 @@ import { CommonService } from '../service/common.service';
 import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
 import { KioskService } from '../service/kiosk.service';
 import { FormControl } from '@angular/forms';
+import { VisitorComponent } from './visitor.component';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { LoginService } from '../service/login.service';
+import { ConfigService } from '../service/config.service';
 //import * as Chart from 'chart.js';
 
 @Component({
@@ -15,7 +19,7 @@ export class DashboardComponent implements OnInit {
   recurringData:RecurringVisitor[];
   kiosks:KioskUser[];
   selectedKiosks:KioskUser[];
-  finalKiosk:FormControl;
+  
   
   @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
   @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
@@ -39,11 +43,17 @@ export class DashboardComponent implements OnInit {
   currentDuration: string;
   
 
-  constructor(private reportService: ReportService, private commonService:CommonService, private kioskService: KioskService) {
+  constructor(
+      private reportService: ReportService, 
+      private commonService:CommonService, 
+      private kioskService: KioskService,
+      private dialogService: DialogService,
+      private loginService:LoginService,
+      private configService:ConfigService
+    ) {
     this.recurringData = [];
     this.statisticData = [];  
     this.selectedKiosks= [];
-    this.finalKiosk = new FormControl('');
 
     let now : Date= new Date(Date.now());    
     
@@ -59,7 +69,7 @@ export class DashboardComponent implements OnInit {
     //init fist data, chart will not work without it
     let firstRecurring = new RecurringVisitor();    
     firstRecurring.visitor = new Visitor();
-    firstRecurring.visitor.name="test";
+    firstRecurring.visitor.name="visitor";
     firstRecurring.totalVisit=0;
     this.recurringData.push(firstRecurring);
 
@@ -72,9 +82,11 @@ export class DashboardComponent implements OnInit {
     this.selectedKiosks = await this.kioskService.read("&paging.all=true");    
     await this.changeDuration('month');
     this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
-    this.setRecurringBarChartData();
-    this.entryBarChart.chart.update();
     //console.log(this.recurringData);
+    if(this.recurringData ){
+      this.setRecurringBarChartData();
+      this.entryBarChart.chart.update();      
+    }
   }
 
 add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
@@ -106,13 +118,22 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
       }
     }
     //console.log(this.statisticData);
-    this.setTimeBarChartData();
-    this.timeBarChart.chart.update();
+    if(this.statisticData  ){
+      this.setTimeBarChartData();
+      this.timeBarChart.chart.update();
+    }
   }
 
   initStatisticGraphs(): void {
     this.barChartOptions = {
-      scaleShowVerticalLines: false,      
+      scaleShowVerticalLines: false,  
+      hover: {
+        mode: "nearest",
+        intersec: true,
+      },
+      interaction: {
+        mode: "nearest",
+      },    
       responsive: true,
       scales: {
         yAxes: [{
@@ -136,7 +157,13 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   }
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+    if (e.active.length > 0){
+      let datasetIndex = e.active[0]._datasetIndex;
+      let visitorData = this.recurringData[datasetIndex];
+      let visitorDialog = new VisitorComponent(this.dialogService, this.loginService, this.configService);
+      visitorDialog.setFormData(visitorData, visitorData.visitor.name);
+      this.dialogService.addDialog(VisitorComponent, visitorDialog).subscribe(() => {});
+    }
 
   }
 
@@ -166,7 +193,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   private setRecurringBarChartData() {
     
     this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
-    
+ 
     this.entryBarChartDatasets = this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}});
     
   }

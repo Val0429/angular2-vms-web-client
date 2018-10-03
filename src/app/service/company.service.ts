@@ -4,6 +4,7 @@ import { LoginService } from 'app/service/login.service';
 import { Company, CrudInterface } from 'app/Interface/interface';
 import * as Globals from '../globals';
 import { CrudService } from './crud.service';
+import { ConfigService } from './config.service';
 
 
 
@@ -12,10 +13,11 @@ export class CompanyService extends CrudService<Company> implements CrudInterfac
   
   constructor(
       coreService: CoreService,
-      loginService:LoginService
+      loginService:LoginService,
+      private configService:ConfigService
     ) {
     super(coreService,loginService);
-    this.uriCrud = Globals.cgiRoot + "companies";
+    this.uriCrud = this.configService.getCgiRoot() + "companies";
    }  
 
 }

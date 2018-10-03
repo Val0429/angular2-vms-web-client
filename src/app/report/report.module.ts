@@ -17,6 +17,7 @@ import { InvestigationComponent } from './investigation.component';
 import { ReportRoutingModule } from './report-routing.module';
 import { TranslateModule } from 'ng2-translate';
 import { VisitorStatisticComponent } from './visitor-statistic.component';
+import { VisitorComponent } from './visitor.component';
 
 @NgModule({
   imports: [
@@ -31,10 +32,14 @@ import { VisitorStatisticComponent } from './visitor-statistic.component';
     BsDropdownModule.forRoot(),
     DatepickerModule.forRoot()
   ],
+  entryComponents: [
+    VisitorComponent
+  ],
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
-    VisitorStatisticComponent
+    VisitorStatisticComponent, 
+    VisitorComponent
   ]
 })
 export class ReportModule { }

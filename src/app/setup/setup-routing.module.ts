@@ -12,6 +12,7 @@ import { FloorComponent } from './floor/floor.component';
 import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
 import { CompanyComponent } from './company/company.component';
+import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
 
 
 
@@ -61,6 +62,14 @@ const routes: Routes = [
         component: SmsComponent,
         data: {
           title: 'pageLayout.setup.smsSetting'
+        }
+      },
+      {
+        path: 'sms-singapore',
+        canActivate: [LoginService],
+        component: SmsSingaporeComponent,
+        data: {
+          title: 'pageLayout.setup.smsSettingSingapore'
         }
       },
       {

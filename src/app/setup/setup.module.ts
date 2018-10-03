@@ -29,6 +29,7 @@ import { CreateEditCompanyComponent } from './company/create-edit-company.compon
 import { TranslateModule } from 'ng2-translate';
 //progess
 import { NgProgressModule } from 'ngx-progressbar';
+import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { NgProgressModule } from 'ngx-progressbar';
     CreateEditFloorComponent,
     BatchUploadFloorComponent,
     CompanyComponent,
-    CreateEditCompanyComponent
+    CreateEditCompanyComponent,
+    SmsSingaporeComponent
   ]
 })
 export class SetupModule { }

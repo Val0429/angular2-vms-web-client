@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { User, RoleEnum, UserServiceInterface } from 'app/Interface/interface';
-import * as Globals from 'app/globals';
 import { CrudService } from './crud.service';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class UserService extends CrudService<User> implements UserServiceInterface<User>{
   uriRoleCrud: string;
     constructor(
         coreService: CoreService,
-        loginService: LoginService
+        loginService: LoginService,
+        private configService:ConfigService
     ) { 
       super(coreService, loginService);
-      this.uriCrud = Globals.cgiRoot + "users";
-      this.uriRoleCrud = Globals.cgiRoot + "roles";
+      this.uriCrud = this.configService.getCgiRoot() + "users";
+      this.uriRoleCrud = this.configService.getCgiRoot() + "roles";
     }
 
     getCurrentUser(): User {

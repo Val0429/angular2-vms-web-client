@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import * as Globals from '../globals';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class SetupService {
 
 
-    private uriServerConfig: string = Globals.cgiRoot + "config";
-    private uriTestEmail: string = Globals.cgiRoot + "test/email";
-    private uriTestSms: string = Globals.cgiRoot + "test/sms";
+    private uriServerConfig: string = this.configService.getCgiRoot() + "config";
+    private uriTestEmail: string = this.configService.getCgiRoot() + "test/email";
+    private uriTestSms: string = this.configService.getCgiRoot() + "test/sms";
     constructor(
         private coreService: CoreService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private configService:ConfigService
     ) { }
 
 
