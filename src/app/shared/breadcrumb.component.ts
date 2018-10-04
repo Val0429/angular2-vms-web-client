@@ -12,20 +12,22 @@ import 'rxjs/add/operator/filter';
     </li>
   </ng-template>`
 })
-export class BreadcrumbsComponent {
-  breadcrumbs: Array<Object>;
-  constructor(private router: Router, private route: ActivatedRoute) { }
-  ngOnInit(): void {
-    this.router.events.filter(event => event instanceof NavigationEnd).subscribe(event => {
+export class BreadcrumbsComponent {breadcrumbs: Array<Object>;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event) => {
       this.breadcrumbs = [];
       let currentRoute = this.route.root,
       url = '';
       do {
-        let childrenRoutes = currentRoute.children;
+        const childrenRoutes = currentRoute.children;
         currentRoute = null;
+        // tslint:disable-next-line:no-shadowed-variable
         childrenRoutes.forEach(route => {
           if (route.outlet === 'primary') {
-            let routeSnapshot = route.snapshot;
+            const routeSnapshot = route.snapshot;
             url += '/' + routeSnapshot.url.map(segment => segment.path).join('/');
             this.breadcrumbs.push({
               label: route.snapshot.data,

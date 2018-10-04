@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
     //console.log(this.recurringData);
     if(this.recurringData ){
       this.setRecurringBarChartData();
-      this.entryBarChart.chart.update();      
+      //this.entryBarChart.chart.update();      
     }
   }
 
@@ -120,7 +120,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     //console.log(this.statisticData);
     if(this.statisticData  ){
       this.setTimeBarChartData();
-      this.timeBarChart.chart.update();
+      //this.timeBarChart.chart.update();
     }
   }
 

@@ -80,7 +80,7 @@
     <input type="checkbox"  
       class="form-control"
       formControlName="enable"/>      
-    <label class="checkbox-inline text-muted" for="enable">{{'common.enabled'|translate}}</label>
+    <label class="checkbox-inline" for="enable">{{'common.enabled'|translate}}</label>
   </div>
   <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
     <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>    
