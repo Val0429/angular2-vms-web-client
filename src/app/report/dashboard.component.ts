@@ -140,13 +140,15 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
           ticks: {
             beginAtZero: true,
             callback: function(value) {if (value % 1 === 0) {return value;}}
-          }
+          },
+          gridLines: { color: "#8B98B2" }
         }],
         xAxes: [{
           ticks: {
             beginAtZero: true,
             callback: function(value) {if (value % 1 === 0) {return value;}}
-          }
+          },
+          gridLines: { color: "#8B98B2" }
         }]
       }
     };

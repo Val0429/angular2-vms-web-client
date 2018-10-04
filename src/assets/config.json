@@ -1,6 +1,6 @@
 
 {
-    "cgiRoot": "http://localhost:6060/",
-    "wsRoot" : "ws://localhost:6060/" 
+    "cgiRoot": "http://172.16.10.178:6060/",
+    "wsRoot" : "ws://172.16.10.178:6060/" 
 }
 
