@@ -145,7 +145,7 @@
 		"pleaseRelogin": "Please relogin!",
 		"rememberMe": "Remember Me",
 		"subTitle": "Sign in to your account",
-		"title": "Login"
+		"title": "VMS Login"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number",
