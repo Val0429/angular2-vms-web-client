@@ -10,7 +10,9 @@
                 <div class="card-block">
                   <h1>{{ 'pageLogin.title' | translate }}</h1>
                   <p >{{ 'pageLogin.subTitle' | translate }}</p>
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-1" [ngClass]="{
+                    'has-danger': username.invalid && (username.dirty || username.touched),
+                    'has-success': username.valid && (username.dirty || username.touched)}">
 
                     <div class="input-group dropdown" dropdown placement="bottom right">
                       <span class="input-group-addon">
@@ -27,7 +29,9 @@
 
                   </div>
 
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-1" [ngClass]="{
+                    'has-danger': password.invalid && (password.dirty || password.touched),
+                    'has-success': password.valid && (password.dirty || password.touched)}">
                     <span class="input-group-addon">
                       <i class="icon-lock"></i>
                     </span>
@@ -46,7 +50,9 @@
                     <label class="checkbox-inline " for="rememberMe">&nbsp;{{ 'pageLogin.rememberMe' | translate }} </label>
 
                   </div>
-                  <div class="input-group mb-1">
+                  <div class="input-group mb-1" [ngClass]="{
+                    'has-danger': language.invalid && (language.dirty || language.touched),
+                    'has-success': language.valid && (language.dirty || language.touched)}">
                     <span class="input-group-addon">
                       <i class="icon-home"></i>
                     </span>
