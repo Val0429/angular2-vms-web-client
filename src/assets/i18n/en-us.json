@@ -6,7 +6,7 @@
 		"cancel": "Cancel",
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
-		"contactAdministrator": "Error happens on the server, please contact administrator",
+		"contactAdministrator": "Internal Server Error, please contact administrator",
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
@@ -130,7 +130,7 @@
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
 			"smsSetting": "SMS Setting",
-			"smsSettingSingapore": "SMS Setting Singapore"
+			"smsSettingSingapore": "Online SMS Provider (SG only)"
 		},
 		"tenant": {
 			"invitation": "Invitation",
@@ -144,12 +144,12 @@
 		"loginFailed": "Login failed",
 		"pleaseRelogin": "Please relogin!",
 		"rememberMe": "Remember Me",
-		"subTitle": "Sing in to your account",
+		"subTitle": "Sign in to your account",
 		"title": "Login"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number",
-		"sendTestSmsPlaceholder": "Send to: 09781560000",
+		"sendTestSmsPlaceholder": "Send to: +8869781XXXXX",
 		"testSms": "Test SMS phone number"
 	},
 	"pageVisitor": {
