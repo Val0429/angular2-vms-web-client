@@ -97,7 +97,7 @@
 <input type="text"
 class="form-control"
 formControlName="testEmail"
-placeholder="{{'pageEmail.testEmail'|translate}}" />
+placeholder="{{'pageEmail.sendTestEmailPlaceholder'|translate}}" />
 <button type="button" class="btn btn-primary" (click)="sendTestEmail()" [disabled]="!testEmail.valid || isLoading() || testEmail.value==''">{{'common.send'|translate}}</button>
 </div>
 <div style="color:red" *ngIf="testEmail.errors && (testEmail.dirty || testEmail.touched )">
