@@ -77,10 +77,11 @@
     <span class="input-group-addon">
       <i class="fa fa-key"></i>
     </span>
-    <input type="checkbox"  
-      class="form-control"
-      formControlName="enable"/>      
-    <label class="checkbox-inline" for="enable">{{'common.enabled'|translate}}</label>
+    <div class="checkbox">
+        <input type="checkbox" formControlName="enable" id="enable" />
+        <label for="enable"></label>      
+      </div>
+      <label for="enable">{{'common.enabled'|translate}}</label>
   </div>
   <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
     <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>    

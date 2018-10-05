@@ -44,11 +44,12 @@
                   </div>
 
                   <div class="input-group mb-1">
-                    <input type="checkbox"
-                           id="rememberMe"
-                           formControlName="rememberMe">
-                    <label class="checkbox-inline " for="rememberMe">&nbsp;{{ 'pageLogin.rememberMe' | translate }} </label>
-
+                    
+                    <div class="checkbox">
+                        <input type="checkbox" formControlName="rememberMe" id="rememberMe" />
+                        <label for="rememberMe"></label>      
+                      </div>
+                      <label for="rememberMe">{{ 'pageLogin.rememberMe' | translate }}</label> 
                   </div>
                   <div class="input-group mb-1" [ngClass]="{
                     'has-danger': language.invalid && (language.dirty || language.touched),
