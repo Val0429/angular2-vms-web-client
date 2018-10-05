@@ -68,6 +68,7 @@
 	"pageEmail": {
 		"port": "Port Number",
 		"security": "Security Protocol",
+		"sendTestEmailPlaceholder": "Send test email to: mail@abc.xyz",
 		"smtpHost": "Smtp Host",
 		"testEmail": "Test email"
 	},
@@ -148,7 +149,8 @@
 	},
 	"pageSms": {
 		"comPort": "COM Port Number",
-		"testSms": "Test SMS"
+		"sendTestSmsPlaceholder": "Send to: 09781560000",
+		"testSms": "Test SMS phone number"
 	},
 	"pageVisitor": {
 		"lastVisitDate": "Last visit date",

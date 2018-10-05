@@ -28,13 +28,12 @@
        'has-success': enable.valid && (enable.dirty || enable.touched)}">
     <span class="input-group-addon">
       <i class="fa fa-user"></i>
-    </span>
-    <input type="checkbox"           
-           class="form-control"           
-           formControlName="enable"
-          
-           />
-    <label for="enable">{{'common.enabled'|translate}}</label>
+    </span> 
+    <div class="checkbox">
+        <input type="checkbox" formControlName="enable" id="enable" />
+        <label for="enable"></label>      
+      </div>
+      <label for="enable">{{'common.enabled'|translate}}</label>
   </div>
   <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
     <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>
@@ -50,7 +49,7 @@
 <input type="text"
 class="form-control"
 formControlName="testSms"
-placeholder="{{'pageSms.testSms'|translate}}" />
+placeholder="{{'pageSms.sendTestSmsPlaceholder'|translate}}" />
 <button type="button" class="btn btn-primary" (click)="sendTestSms()" [disabled]="!testSms.valid || isLoading() || testSms.value==''">{{'common.send'|translate}}</button>
 </div>
 <div style="color:red" *ngIf="testSms.errors && (testSms.dirty || testSms.touched )">
