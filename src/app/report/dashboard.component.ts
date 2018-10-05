@@ -140,13 +140,15 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
           ticks: {
             beginAtZero: true,
             callback: function(value) {if (value % 1 === 0) {return value;}}
-          }
+          },
+          gridLines: { color: "#8B98B2" }
         }],
         xAxes: [{
           ticks: {
             beginAtZero: true,
             callback: function(value) {if (value % 1 === 0) {return value;}}
-          }
+          },
+          gridLines: { color: "#8B98B2" }
         }]
       }
     };
@@ -193,13 +195,15 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   private setRecurringBarChartData() {
     
     this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
- 
-    this.entryBarChartDatasets = this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}});
+    
+    this.entryBarChartDatasets = this.recurringData.length > 0 ? 
+        this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}}) :
+        [{label:"visitor", data:[0]}];
     
   }
 
   private setTimeBarChartData() {    
-        
+    
     this.timeBarChartLabels = this.statisticData.map(function(e){return e.date});
     this.timeBarChartDatasets = [
     {

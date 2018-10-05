@@ -1,22 +1,61 @@
 /**
 manually added by dos
 **/
+
+* {
+  border-radius: 3px;
+}
+.app,
+.app-header,
+.app-footer,
+.breadcrumb {
+  background-color:$bg-dark !important;
+  color:$gray-500;
+}
 .modal {
   background-color: rgba(128,128,128,0.5);
 }
 .selected-dropdown{
   display: table-cell !important;
+  background: transparent;
 }
-  .selected-dropdown-item{
-    cursor: pointer;
-    width: fit-content;
-    float:left;
-    margin:2px;
-    background-color:#36a9e1;
-    color:white;
-    padding:5px 10px;
-    border-radius:2px;
-  }
+.selected-dropdown-item{
+  cursor: pointer;
+  width: fit-content;
+  float:left;
+  margin:2px;
+  background-color:#36a9e1;
+  color:white;
+  padding:5px 10px;
+  border-radius:2px;
+  
+}
+.card,
+.card .dropdown, 
+.card .dropdown-menu,
+.row .dropdown, 
+.row .dropdown-menu{  
+  background-color: $bg-dark;
+  color:$gray-500;
+}
+.sidebar .nav .nav-item .nav-link.active {
+  color: #fff !important;
+  background: #397DF6;
+}
+a.page-link,
+.card select,
+.card option,
+{
+  background-color: transparent !important;
+}
+
+.row .dropdown-toggle,
+.card .dropdown-toggle,
+.card .input-group-addon,
+.card input[type="text"],
+.card input[type="password"]{
+  background: transparent;
+}
 /*
   end addition
 */
