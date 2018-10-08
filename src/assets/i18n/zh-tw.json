@@ -13,6 +13,7 @@
 		"error": "錯誤",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": "has been deleted",
+		"hasBeenRegistered": " has been registered",
 		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
@@ -137,6 +138,15 @@
 			"invitation": "Invitation",
 			"tenantUser": "Tenant User"
 		}
+	},
+	"pageLicense": {
+		"licFile": "Lic file",
+		"license": "License",
+		"mac": "MAC Address",
+		"onlyLicFileAllowed": "Only lic file allowed",
+		"registerOffline": "Register offline",
+		"registerOnline": "Register online",
+		"serialNumber": "Serial number"
 	},
 	"pageLogin": {
 		"invalidSession": "Invalid session",

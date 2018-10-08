@@ -31,6 +31,8 @@ import { TranslateModule } from 'ng2-translate';
 import { NgProgressModule } from 'ngx-progressbar';
 import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
 import { LicenseComponent } from './license/license.component';
+import { CreateLicenseComponent } from './license/create-license.component';
+
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { LicenseComponent } from './license/license.component';
     CreateEditKioskComponent,
     CreateEditFloorComponent,
     BatchUploadFloorComponent,
-    CreateEditCompanyComponent
+    CreateEditCompanyComponent,
+    CreateLicenseComponent
   ],
   declarations: [
     EmailComponent,
@@ -68,7 +71,8 @@ import { LicenseComponent } from './license/license.component';
     CompanyComponent,
     CreateEditCompanyComponent,
     SmsSingaporeComponent,
-    LicenseComponent
+    LicenseComponent,
+    CreateLicenseComponent
   ]
 })
 export class SetupModule { }

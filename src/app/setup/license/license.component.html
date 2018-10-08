@@ -1,4 +1,35 @@
 <ng-progress></ng-progress>
-<p>
-  license works!
-</p>
+<div class="animated fadeIn">
+  <div class="row" >
+      <div class="card border-none col-md-4">          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>        
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>{{'pageLicense.license' | translate}}          
+        </div>
+        <div class="card-block">  
+          <div class="col-md-4 offset-md-8" *ngIf="isAdmin">                  
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(true); " [disabled]="isLoading()">              
+              {{'pageLicense.registerOnline' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(false); " [disabled]="isLoading()">
+                {{'pageLicense.registerOffline' | translate}}
+            </button>
+        </div>
+      </div>
+        <div class="card-block"> 
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
