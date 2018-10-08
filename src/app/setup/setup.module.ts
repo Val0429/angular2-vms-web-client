@@ -30,6 +30,7 @@ import { TranslateModule } from 'ng2-translate';
 //progess
 import { NgProgressModule } from 'ngx-progressbar';
 import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
+import { LicenseComponent } from './license/license.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
     BatchUploadFloorComponent,
     CompanyComponent,
     CreateEditCompanyComponent,
-    SmsSingaporeComponent
+    SmsSingaporeComponent,
+    LicenseComponent
   ]
 })
 export class SetupModule { }

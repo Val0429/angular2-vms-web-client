@@ -90,6 +90,20 @@ export class Role extends BaseClass{
   
 }
 
+export class License {
+    public licenseKey: string;
+    public description: string;
+    public mac: string;
+    public brand: string;
+    public productNO: string;
+    public count: number;
+
+    public trial: boolean;
+    public registerDate: string;
+    public expireDate: string;
+    public expired: boolean;
+}
+
 export enum RoleEnum{
   SystemAdministrator = 0,
   Administrator = 1,  
