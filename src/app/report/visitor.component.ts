@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService, DialogComponent } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, RecurringVisitor, Visitor } from '../Interface/interface';
+import { CreateEditDialog, RecurringVisitor, Visitor, Company } from '../Interface/interface';
 import * as Globals from 'app/globals';
 import { LoginService } from '../service/login.service';
 import { ConfigService } from '../service/config.service';
@@ -16,6 +16,7 @@ export class VisitorComponent extends DialogComponent<CreateEditDialog, Recurrin
     super(dialogService);
     this.data = new RecurringVisitor();
     this.data.visitor = new Visitor();
+    this.data.visitor.company = new Company();
     this.imgUrl="";
    }
    public setFormData(data: RecurringVisitor, title: string) {

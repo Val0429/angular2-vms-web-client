@@ -55,6 +55,6 @@ export class CommonService{
       }
       loadLanguage():void{
         let lang = localStorage.getItem(Globals.languageKey)
-        this.translateService.setDefaultLang(lang == null ? "en-us" : lang);
+        this.translateService.setDefaultLang(lang && (lang =="en-us" || lang=="zh-tw") ? lang : "en-us" );
       }
 }
