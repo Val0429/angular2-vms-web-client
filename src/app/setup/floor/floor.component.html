@@ -1,6 +1,6 @@
 <ng-progress></ng-progress>
 <div class="animated fadeIn">
-  <div class="row" *ngIf="isAdmin">
+  <div class="row" >
     
     <div class="card col-md-4 border-none ">          
         <div class="input-group">
@@ -19,7 +19,7 @@
         <i class="fa fa-align-justify"></i>{{'pageFloor.floor' | translate}}
         
       </div>
-      <div class="card-block">
+      <div class="card-block" *ngIf="isAdmin">
           <div class="col-md-4 offset-md-8">                  
               <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
                 {{'common.new' | translate}}
