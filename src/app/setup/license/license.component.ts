@@ -15,7 +15,7 @@ import { UserService } from '../../service/user.service';
 export class LicenseComponent implements OnInit {
   data: License[];
   tempData: License[];
-
+  totalLicense:number;
   filterQuery = "";
   actionMode = "";
   isAdmin: boolean;
@@ -31,10 +31,11 @@ export class LicenseComponent implements OnInit {
   async ngOnInit() {
     try{
       this.progressService.start();
-      let items = await this.licenseService.read();      
-      this.data= Object.assign([],items);
+      let totalLicense = await this.licenseService.read();      
+      this.data= Object.assign([],totalLicense.licenses);
       console.log(this.data);
-      this.tempData= Object.assign([],items);   
+      this.tempData= Object.assign([],totalLicense.licenses);   
+      this.totalLicense = (totalLicense.summary && totalLicense.summary["00261"] && totalLicense.summary["00261"].totalCount) || 0;
       this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
       console.log("is admin:", this.isAdmin);         
     }//no catch, global error handle handles it

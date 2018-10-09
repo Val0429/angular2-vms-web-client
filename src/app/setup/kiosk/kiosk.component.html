@@ -47,18 +47,22 @@
               <tr *ngFor="let item of mf.data; let i = index">
                 <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
 
-                <td>{{item.username}}</td>
+                <td>{{item.username}}
+                  <span *ngIf="!item.data.activated" style="color:red">
+                      ({{'common.disabled'|translate}})
+                  </span>
+                </td>
                 <td>
                   {{item.data.kioskId}}
                 </td>
                 <td>
                   {{item.data.kioskName}}
                 </td>
-                <td>
-                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
+                <td>                  
+                  <a *ngIf="item.data.activated" class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
+                  <a *ngIf="item.data.activated" class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>

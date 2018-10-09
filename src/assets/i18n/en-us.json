@@ -7,6 +7,7 @@
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
 		"contactAdministrator": "Internal Server Error, please contact administrator",
+		"disabled": "disabled",
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
@@ -140,13 +141,19 @@
 		}
 	},
 	"pageLicense": {
+		"description": "Description",
+		"expired": "Expired",
 		"licFile": "Lic file",
 		"license": "License",
+		"licenseKey": "License Key",
 		"mac": "MAC Address",
 		"onlyLicFileAllowed": "Only lic file allowed",
+		"registerDate": "Register Date",
 		"registerOffline": "Register offline",
 		"registerOnline": "Register online",
-		"serialNumber": "Serial number"
+		"serialNumber": "Serial number",
+		"totalLicense": "Total license",
+		"trial": "Trial"
 	},
 	"pageLogin": {
 		"invalidSession": "Invalid session",

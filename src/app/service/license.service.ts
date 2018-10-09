@@ -2,24 +2,20 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { ConfigService } from './config.service';
-import { License } from '../Interface/interface';
+import { License, TotalLicense } from '../Interface/interface';
 
 @Injectable()
 export class LicenseService  {
     uriMac: string;
     uriLicense: string;
 
-  async read(): Promise<License[]> {
+  async read(): Promise<TotalLicense> {
     let token = this.loginService.getCurrentUserToken();        
-    var items : License[]= [];
+    
     var result = await this.coreService.getConfig({path:this.uriLicense+"?sessionId="+token.sessionId}).toPromise();
       console.log("read result: ",result);
-      if (result && result["licenses"]) {        
-        result["licenses"].forEach(function (item) {
-          if (item) items.push(item);
-        });
-      }
-      return items;
+     
+    return result;
   }
   async readMac(): Promise<string[]> {
     
