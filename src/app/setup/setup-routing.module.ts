@@ -13,6 +13,7 @@ import { AccountComponent } from './account/account.component';
 import { FrsComponent } from './frs/frs.component';
 import { CompanyComponent } from './company/company.component';
 import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
+import { LicenseComponent } from './license/license.component';
 
 
 
@@ -86,6 +87,14 @@ const routes: Routes = [
         component: FloorComponent,
         data: {
           title: 'pageLayout.setup.floorManagement'
+        }
+      },
+      {
+        path: 'license',
+        canActivate: [LoginService],
+        component: LicenseComponent,
+        data: {
+          title: 'pageLayout.setup.license'
         }
       },
       {

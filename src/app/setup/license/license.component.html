@@ -1,0 +1,95 @@
+<ng-progress></ng-progress>
+<div class="animated fadeIn">
+  <div class="row" >
+      <div class="card border-none col-md-4">          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>        
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>{{'pageLicense.license' | translate}}          
+        </div>
+        <div class="card-block">  
+          <div class="col-md-4 offset-md-8" *ngIf="isAdmin">                  
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(true); " [disabled]="isLoading()">              
+              {{'pageLicense.registerOnline' | translate}}
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(false); " [disabled]="isLoading()">
+                {{'pageLicense.registerOffline' | translate}}
+            </button>
+        </div>
+      </div>
+        <div class="card-block"> 
+
+            <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                  <tr>
+                    <th style="width: 5%">{{'common.no'|translate}}</th>
+                    <th style="width: 25%">
+                      <mfDefaultSorter by="updatedAt">{{'pageLicense.licenseKey' | translate}} </mfDefaultSorter>
+                    </th>
+                    <th style="width: 30%">
+                      {{'pageLicense.description' | translate}}
+                    </th>
+                    <th >
+                        {{'pageLicense.mac' | translate}}
+                    </th>
+                    <th >
+                        {{'pageLicense.trial' | translate}}
+                    </th>
+                    <th >
+                        {{'pageLicense.registerDate' | translate}}
+                    </th>
+                    <th >
+                        {{'pageLicense.expired' | translate}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr *ngFor="let item of mf.data; let i = index">
+                    <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
+    
+                    <td>{{item.licenseKey}}</td>
+                    <td>
+                      {{item.description}}
+                    </td>
+                    <td>
+                      {{item.mac}}
+                    </td>
+                    <td>
+                        {{item.trial}}
+                    </td>
+                    <td>
+                        {{item.registerDate}}
+                    </td>
+                    <td>
+                        {{item.expired}}
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="7">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+
+          </div>
+          <div class="card-block"> 
+            {{'pageLicense.totalLicense'|translate}}: {{totalLicense}}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>

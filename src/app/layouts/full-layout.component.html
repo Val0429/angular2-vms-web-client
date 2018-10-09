@@ -80,7 +80,11 @@
                       <i class="icon-settings"></i> {{'pageLayout.setup.kioskManagement'|translate}}
                     </a>
                   </li>
-                  
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/license']" >
+                      <i class="icon-settings"></i> {{'pageLayout.setup.license'|translate}}
+                    </a>
+                  </li>
                 <li class="nav-item" *ngIf="userIsSysAdmin">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/frs']">
                     <i class="icon-settings"></i> {{'pageLayout.setup.frsSetting'|translate}}
