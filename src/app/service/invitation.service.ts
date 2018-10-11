@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-//import { Router } from '@angular/router';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Observable } from 'rxjs/Rx';
 import { visitorProfile } from 'app/Interface/interface';
-import * as Globals from '../globals';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class InvitationService {
-    private uriPurposesList: string = Globals.cgiRoot + "purposes";
-    private uriInvites: string = Globals.cgiRoot + "visitors/invites";
-    private uriVisitors: string = Globals.cgiRoot + "visitors";
-    private uriPreRegistration: string = Globals.cgiRoot + "visitors/pre-registration" ;
+    private uriPurposesList: string = this.configService.getCgiRoot() + "purposes";
+    private uriInvites: string =this.configService.getCgiRoot() + "visitors/invites";
+    private uriVisitors: string = this.configService.getCgiRoot() + "visitors";
+    private uriPreRegistration: string = this.configService.getCgiRoot() + "visitors/pre-registration" ;
 
     constructor(
         private coreService: CoreService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private configService: ConfigService
     ) { }
 
     async getPurposesList(): Promise<any[]> {
