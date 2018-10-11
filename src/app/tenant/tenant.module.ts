@@ -13,8 +13,6 @@ import { DatepickerModule } from 'ng2-bootstrap/datepicker';
 
 import { TenantRoutingModule } from './tenant-routing.module';
 import { InvitationComponent } from './invitation/invitation.component';
-import { TenantUserComponent } from './tenant-user/tenant-user.component';
-import { CreateEditTenantUserComponent } from './tenant-user/create-edit-tenant-user.component';
 import { TranslateModule } from 'ng2-translate';
 import { NgProgressModule } from 'ngx-progressbar';
 
@@ -32,7 +30,7 @@ import { NgProgressModule } from 'ngx-progressbar';
   ],
   declarations: [
     InvitationComponent, 
-    TenantUserComponent,     
-    CreateEditTenantUserComponent]
+    CreateInvitationComponent
+  ]
 })
 export class TenantModule { }
