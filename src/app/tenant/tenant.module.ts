@@ -15,6 +15,7 @@ import { TenantRoutingModule } from './tenant-routing.module';
 import { InvitationComponent } from './invitation/invitation.component';
 import { TranslateModule } from 'ng2-translate';
 import { NgProgressModule } from 'ngx-progressbar';
+import { CreateInvitationComponent } from './invitation/create-invitation.component';
 
 
 @NgModule({
@@ -28,8 +29,11 @@ import { NgProgressModule } from 'ngx-progressbar';
     DatepickerModule.forRoot(),
     NgProgressModule
   ],
+  entryComponents:[
+    CreateInvitationComponent
+  ],
   declarations: [
-    InvitationComponent, 
+    InvitationComponent,
     CreateInvitationComponent
   ]
 })
