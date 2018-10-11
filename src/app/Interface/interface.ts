@@ -140,24 +140,24 @@ export interface UserServiceInterface<T> extends CrudInterface<T> {
     getUserRole(): Promise<string[]>;
 }
 
-export class purposes {
+export class Purposes {
     public objectId: String = "";
     public name: String = "";
 
-    public fromJSON(json: any): purposes {
+    public fromJSON(json: any): Purposes {
         this.objectId = json.objectId;
         this.name = json.name;
 
         return this;
     }
 }
-export class visitorProfile {
+export class VisitorProfile {
     public objectId: String = "";
     public name: String = "";
     public phone: String = "";
     public email: String = "";
     public dates: Array<{ start: Date, end: Date, pin: String }> = [];
-    public purpose: purposes = null;
+    public purpose: Purposes = null;
     public photo: String = "";
     public status: String = "Pending";
     public cancelled: boolean = false;
@@ -165,12 +165,12 @@ export class visitorProfile {
     private beginDate: Date = new Date();
     private endDate: Date = new Date();
 
-    public fromJSON(json: any): visitorProfile {
+    public fromJSON(json: any): VisitorProfile {
         this.objectId = json.objectId ;
         this.name = json.visitor.name;
         this.phone = json.visitor.phone;
         this.email = json.visitor.email;
-        this.purpose = new purposes().fromJSON(json.purpose);
+        this.purpose = new Purposes().fromJSON(json.purpose);
         //this.photo = json["photo"];
         this.status = json.visitor.status;
         this.cancelled = json.cancelled;

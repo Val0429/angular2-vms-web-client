@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { visitorProfile } from 'app/Interface/interface';
+import { VisitorProfile } from 'app/Interface/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -50,7 +50,7 @@ export class InvitationService {
         return JSON.parse(visitor);
     }
 
-    async getInvitationList(): Promise<visitorProfile[]> {
+    async getInvitationList(): Promise<VisitorProfile[]> {
         var me = this;
         var token = me.loginService.getCurrentUserToken();
 
@@ -59,7 +59,7 @@ export class InvitationService {
         console.log(result);
 
         for (var r of result["results"]) {
-            var vp = new visitorProfile().fromJSON(r);
+            var vp = new VisitorProfile().fromJSON(r);
             invitations.push(vp);
         }
 
@@ -91,14 +91,14 @@ export class InvitationService {
         console.log(result);
 
         for (var r of result["results"]) {
-            var vp = new visitorProfile().fromJSON(r);
+            var vp = new VisitorProfile().fromJSON(r);
             invitations.push(vp);
         }
 
         return invitations;
     }
 
-    async createInvitation(data): Promise<visitorProfile> {
+    async createInvitation(data): Promise<VisitorProfile> {
         var me = this;
         var token = me.loginService.getCurrentUserToken();
 
@@ -135,10 +135,10 @@ export class InvitationService {
         var result = await me.coreService.postConfig({ path: this.uriInvites + "?sessionId=" + token.sessionId, data: JSON.parse(d) }).toPromise();
         console.log(result);
 
-        return new visitorProfile().fromJSON(result);
+        return new VisitorProfile().fromJSON(result);
     }
 
-    async cancelInvitation(data): Promise<visitorProfile> {
+    async cancelInvitation(data): Promise<VisitorProfile> {
         var me = this;
         var token = me.loginService.getCurrentUserToken();
         var objectId = data.objectId;

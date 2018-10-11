@@ -1,7 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { InvitationService } from 'app/service/invitation.service';
-import { visitorProfile } from 'app/Interface/interface';
+import { VisitorProfile } from 'app/Interface/interface';
 
 @Component({
   templateUrl: 'invitation.component.html'
@@ -24,14 +24,14 @@ export class InvitationComponent implements OnInit {
   model: {
     "title"?: string, "action": string, "buttom"?: string,
     "sendBy": string[],
-    "visitor": visitorProfile
+    "visitor": VisitorProfile
   } =
   {
     "title": "New Person",
     "action": "New",
     "buttom": "Create Person",
     "sendBy": [],
-    "visitor": new visitorProfile()
+    "visitor": new VisitorProfile()
   };
 
   condition: {
@@ -51,8 +51,8 @@ export class InvitationComponent implements OnInit {
   }
 
   constructor(
-    private invitationService: InvitationService
-    , private changeDetecorRef: ChangeDetectorRef
+    private invitationService: InvitationService, 
+    private changeDetecorRef: ChangeDetectorRef
   ) {
 
   }
@@ -81,7 +81,7 @@ export class InvitationComponent implements OnInit {
     }
   }
 
-  public checkVisitorInfo(item: visitorProfile): visitorProfile {
+  public checkVisitorInfo(item: VisitorProfile): VisitorProfile {
     if (item.phone == undefined)
       item.phone = '';
 
@@ -187,24 +187,11 @@ export class InvitationComponent implements OnInit {
     this.model.action = "New";
     this.model.buttom = "Create";
 
-    this.model.visitor = new visitorProfile();
+    this.model.visitor = new VisitorProfile();
 
     this.visitorForm.resetForm();
     this.changeDetecorRef.detectChanges();
   }
-
-  // modifyInvitation(item) {
-  //   this.model.visitor = new visitorProfile();
-  //   this.visitorForm.resetForm();
-
-  //   this.model.title = "Modify Invitation";
-  //   this.model.action = "Modify";
-  //   this.model.buttom = "Save";
-
-  //   this.model.visitor = item;
-
-  //   this.changeDetecorRef.detectChanges();
-  // }
 
   async deleteInvitation(item) {
     if (item == null) return;
@@ -227,7 +214,7 @@ export class InvitationComponent implements OnInit {
   }
 
   async saveInvitation() {
-    var me = this;
+    
 
     console.log(this.model);
 
