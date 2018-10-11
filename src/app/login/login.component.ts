@@ -128,8 +128,11 @@ export class LoginComponent  {
   }
 
   private callRedirector() {
-    if (this.userService.userIs(RoleEnum.TenantAdministrator) || this.userService.userIs(RoleEnum.TenantUser)) {
+    if (this.userService.userIs(RoleEnum.TenantAdministrator)) {
       this.router.navigate(['/setup/account']);
+    }
+    else if(this.userService.userIs(RoleEnum.TenantUser)){
+      this.router.navigate(['/tenant/invitation']);
     }
     else {
       this.router.navigate(['/report/dashboard']);
