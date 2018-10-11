@@ -1,22 +1,121 @@
 /**
 manually added by dos
 **/
+
+* {
+  border-radius: 3px;
+}
+.app,
+
+.breadcrumb {
+  background-color:$bg-dark !important;
+  color:$gray-500;
+}
 .modal {
   background-color: rgba(128,128,128,0.5);
 }
 .selected-dropdown{
   display: table-cell !important;
+  background: transparent;
 }
-  .selected-dropdown-item{
-    cursor: pointer;
-    width: fit-content;
-    float:left;
-    margin:2px;
-    background-color:#36a9e1;
-    color:white;
-    padding:5px 10px;
-    border-radius:2px;
-  }
+.selected-dropdown-item{
+  cursor: pointer;
+  width: fit-content;
+  float:left;
+  margin:2px;
+  background-color:#36a9e1;
+  color:white;
+  padding:5px 10px;
+  border-radius:2px;
+  
+}
+.border-none{
+  border:none !important;
+}
+.card,
+.card .dropdown, 
+.card .dropdown-menu,
+.row .dropdown, 
+.row .dropdown-menu{  
+  background-color: $bg-dark;
+  color:$gray-500;
+}
+.sidebar .nav .nav-item .nav-link.active {
+  color: #fff !important;
+  background: #397DF6;
+}
+a.page-link,
+.card select,
+.card option,
+{
+  background-color: transparent !important;
+}
+.row input[type="text"],
+.row .dropdown-toggle,
+.card .dropdown-toggle,
+.card .input-group-addon,
+.card input[type="text"],
+.card input[type="password"]{
+  background: transparent;
+}
+
+.checkbox > input[type=checkbox] {
+  visibility: hidden;
+}
+
+.checkbox {
+ position: relative;
+ display: block;
+ width: 50px;
+ height: 26px;
+ margin: 0 10px;
+ background: $gray-500;
+ border: 1px solid #2E2E2E;
+}
+
+.checkbox:after {
+ position: absolute;
+ display: inline;
+ right: 10px;
+ content: 'x';
+ color: #E53935;
+ font: 12px/26px Arial, sans-serif;
+ font-weight: bold;
+ z-index: 0;
+}
+
+.checkbox:before {
+ position: absolute;
+ display: inline;
+ left: 10px;
+ content: 'v';
+ color: rgb(245, 241, 7);
+ font: 12px/26px Arial, sans-serif;
+ font-weight: bold;
+ z-index: 0;
+}
+
+.checkbox label {
+ position: absolute;
+ display: block;
+ top: 3px;
+ left: 3px;
+ width: 20px;
+ height: 20px;
+ background: #2E2E2E;
+ cursor: pointer;
+ transition: all 0.5s linear;
+ -webkit-transition: all 0.5s linear;
+ -moz-transition: all 0.5s linear;
+ border-radius: 2px;
+ -webkit-border-radius: 2px;
+ -moz-border-radius: 2px;
+ z-index: 1;
+}
+
+.checkbox input[type=checkbox]:checked + label {
+ left: 23px;
+}
 /*
   end addition
 */

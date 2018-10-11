@@ -73,7 +73,9 @@
             </div>
          </div> 
    </div> 
-
+   <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
+    <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
+  </div>
 
         <fieldset formGroupName="data">
           <div class="input-group mb-1" title="{{'pageAccount.companyName'|translate}}" [ngClass]="{
@@ -82,7 +84,8 @@
             <span class="input-group-addon">
               <i class="fa fa-envelope"></i>
             </span>
-            <select (change)="onCompanyChange($event.target.value)"
+            <select 
+            (change)="onCompanyChange($event.target.value)"
               class="form-control"                 
               formControlName="company">  
               <option *ngFor="let item of companyOptions" [ngValue]="item.objectId" >{{item.name}}</option>
@@ -158,9 +161,7 @@
              </div>
             
 
-        <div style="color:red" *ngIf="roles.errors && (roles.dirty || roles.touched)">
-          <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
-        </div>
+        
         <div class="modal-footer" *ngIf="editMode">
             <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
             <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
@@ -209,7 +210,7 @@
         
 
         <!-- <pre>{{formData | json}}</pre> -->
-        <!-- <pre>{{myform.value | json}}</pre> -->
+         <!-- <pre>{{myform.value | json}}</pre>  -->
 
       </form>
 

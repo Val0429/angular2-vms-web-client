@@ -6,12 +6,16 @@
 		"cancel": "Cancel",
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
+		"contactAdministrator": "Internal Server Error, please contact administrator",
+		"disabled": "disabled",
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
 		"error": "Error",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": "has been deleted",
+		"hasBeenRegistered": " has been registered",
+		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
@@ -29,7 +33,11 @@
 		"required": "required",
 		"save": "Save",
 		"search": "Search",
+		"select": "Select",
+		"send": "Send",
+		"sms": "SMS",
 		"updateData": "Update Data",
+		"url": "URL",
 		"userName": "Username"
 	},
 	"pageAccount": {
@@ -50,6 +58,7 @@
 		"checkInStatistic": "Check In Statistic",
 		"dailyTotalVisitor": "Daily Total Visitor",
 		"exception": "Exception",
+		"kioskName": "Kiosk name",
 		"recurringVisitor": "Recurring Visitor",
 		"success": "Success",
 		"thisMonth": "This Month",
@@ -61,7 +70,9 @@
 	"pageEmail": {
 		"port": "Port Number",
 		"security": "Security Protocol",
-		"smtpHost": "Smtp Host"
+		"sendTestEmailPlaceholder": "Send test email to: mail@abc.xyz",
+		"smtpHost": "Smtp Host",
+		"testEmail": "Test email"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
@@ -120,12 +131,29 @@
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
-			"smsSetting": "SMS Setting"
+			"license": "License",
+			"smsSetting": "SMS Setting",
+			"smsSettingSingapore": "Online SMS Provider (SG only)"
 		},
 		"tenant": {
 			"invitation": "Invitation",
 			"tenantUser": "Tenant User"
 		}
+	},
+	"pageLicense": {
+		"description": "Description",
+		"expired": "Expired",
+		"licFile": "Lic file",
+		"license": "License",
+		"licenseKey": "License Key",
+		"mac": "MAC Address",
+		"onlyLicFileAllowed": "Only lic file allowed",
+		"registerDate": "Register Date",
+		"registerOffline": "Register offline",
+		"registerOnline": "Register online",
+		"serialNumber": "Serial number",
+		"totalLicense": "Total license",
+		"trial": "Trial"
 	},
 	"pageLogin": {
 		"invalidSession": "Invalid session",
@@ -134,11 +162,17 @@
 		"loginFailed": "Login failed",
 		"pleaseRelogin": "Please relogin!",
 		"rememberMe": "Remember Me",
-		"subTitle": "Sing in to your account",
-		"title": "Login"
+		"subTitle": "Sign in to your account",
+		"title": "VMS Login"
 	},
 	"pageSms": {
-		"comPort": "COM Port Number"
+		"comPort": "COM Port Number",
+		"sendTestSmsPlaceholder": "Send to: +8869781XXXXX",
+		"testSms": "Test SMS phone number"
+	},
+	"pageVisitor": {
+		"lastVisitDate": "Last visit date",
+		"totalVisit": "Total visit"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

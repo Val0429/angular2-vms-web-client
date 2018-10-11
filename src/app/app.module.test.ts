@@ -8,12 +8,14 @@ import { ChartsModule } from "ng2-charts";
 import { DatepickerModule } from "ng2-bootstrap";
 import { ServiceModule } from "./service/service.module";
 import { NgProgress } from "ngx-progressbar";
+import { ConfigService, ConfigServiceStub } from "./service/config.service";
+
 
 @NgModule({
   imports: [
     TranslateModule.forRoot({
     provide: TranslateLoader,
-    useFactory: (http: Http) => new TranslateStaticLoader(http, '../assets/i18n', '.json'),
+    useFactory: (http: Http) => new TranslateStaticLoader(http, '../assets/i18n/', '.json'),
     deps: [Http]
     }),
     FormsModule,
@@ -33,6 +35,12 @@ import { NgProgress } from "ngx-progressbar";
     ChartsModule,
     DatepickerModule
   ],
-  providers:[NgProgress]
+  providers:[
+    {
+      provide: ConfigService, 
+      useClass: ConfigServiceStub
+    },
+    NgProgress
+  ]
 })
-export class AppTestModule { }
+export class AppTestModule {  }

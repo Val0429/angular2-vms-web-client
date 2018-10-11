@@ -4,14 +4,14 @@
 
 <div class="animated fadeIn">
   <div class="row" >
-    <div class="col-12">
-      <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
-          {{'common.new' | translate}}
-        </button>
+      <div class="card border-none col-md-4">          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>        
       </div>
-
-    </div>
   </div>
 
   <div class="row">
@@ -19,18 +19,15 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i>{{'pageAccount.users' | translate}}
+          
         </div>
+        <div class="card-block">  
+            <div class="col-md-1 offset-md-11">                  
+              <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
+                {{'common.new' | translate}}
+              </button>
+          </div>
         <div class="card-block">
-          <div class="row mb-1">
-            <div class="col-md-4 offset-md-8">
-              <div class="input-group">
-                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
-                <span class="input-group-addon" (click)="doSearch()">
-                  <i class="fa fa-search"></i>
-                </span>
-              </div>
-            </div>
-          </div>          
           <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
             <thead>
               <tr>

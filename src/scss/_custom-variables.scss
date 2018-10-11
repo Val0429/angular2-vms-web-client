@@ -1,13 +1,36 @@
+// Bootstrap v4 Variables
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #E1EBFF !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #8B98B2 !default;
+$gray-600: #6c757d !default;
+$gray-700: #364358 !default;
+$gray-800: #3A465B !default;
+$gray-900: #1F2736 !default;
+$black:    #000 !default;
+
+$text-muted: $gray-300;
+$body-color: $gray-900;
+
+$primary:       #397DF6 !default;
+$secondary:     #4F5B72 !default;
+$success:       #3EF57C !default;
+$info:          #12CCF3 !default;
+$warning:       #F8E71C !default;
+$danger:        #FF2424 !default;
+$light:         $gray-100 !default;
+$gray:          $gray-500 !default;
+$dark:          #19202C !default;
+$bg-dark:       #222A39 !default;
 // Core Admin Variables
-
-$enable-sidebar-nav-rounded: false;
-
-$border-color: $gray-light;
+$enable-sidebar-nav-rounded: true;
+$border-color:         darken($gray-800, 10%);
 $layout-transition-speed: .25s;
 
 
 // Social Colors
-
 $facebook: #3b5998;
 $twitter: #00aced;
 $linkedin: #4875b4;
@@ -35,65 +58,72 @@ $vine: #00bf8f;
 $foursquare: #1073af;
 $vimeo: #aad450;
 
-// Navbar
 
-$navbar-height:                     50px;
-$navbar-bg:                         $gray-dark;
+//
+$zindex-navbar:             1000 !default;
+
+$spacer:   1rem !default;
+$spacer-x: $spacer !default;
+$spacer-y: $spacer !default;
+
+
+// Navbar
+$navbar-height:                     90px !default;
+$navbar-bg:                         $dark;
 $navbar-border: (
     bottom: (
         size:                       1px,
         style:                      solid,
-        color:                      $gray-dark
+        color:                      $dark
     )
 );
 $navbar-brand-width:                220px;
-$navbar-brand-bg:                   darken($gray-dark,10%);
-// $navbar-brand-logo:                 url('../img/logo.png');
-$navbar-brand-logo:                 url('');
+$navbar-brand-bg:                   $bg-dark;
+ $navbar-brand-logo:                url('../img/logo.png');
 $navbar-brand-logo-size:            90px auto;
 $navbar-brand-border: (
     bottom: (
         size:                       1px,
         style:                      solid,
-        color:                      darken($gray-dark,10%)
+        color:                      darken($dark,10%)
     )
 );
 
-$navbar-color:                      $gray-light;
+$navbar-color:                      $gray-100;
 $navbar-hover-color:                darken($navbar-color, 10%);
 $navbar-active-color:               darken($navbar-color, 20%);
 $navbar-disabled-color:             lighter($navbar-color, 20%);
 
 // Sidebar
 
-$sidebar-width:                     220px;
-$mobile-sidebar-width:              220px;
+$sidebar-width:                     250px;
+$mobile-sidebar-width:              250px;
 $sidebar-padding:                   0;
 $sidebar-compact-width:             50px;
 $sidebar-compact-height:            $sidebar-compact-width;
-$sidebar-color:                     $gray-dark;
-$sidebar-bg:                        $gray-lighter;
+$sidebar-color:                     $gray-500;
+$sidebar-bg:                        $gray-900;
 $sidebar-header-bg:                 rgba(0,0,0,.2);
 $sidebar-footer-bg:                 rgba(0,0,0,.2);
 $sidebar-borders: (
     right: (
         size:                       1px,
         style:                      solid,
-        color:                      $border-color
+        color:                      $gray-900
     )
 );
 
 // Sidebar Navigation
 
-$sidebar-nav-color:                 $gray-dark;
+$sidebar-nav-color:                 $dark;
 $sidebar-nav-title-padding-y:       .95rem;
 $sidebar-nav-title-padding-x:       1rem;
 $sidebar-nav-title-color:           $text-muted;
 $sidebar-nav-link-padding-y:        .75rem;
 $sidebar-nav-link-padding-x:        1rem;
-$sidebar-nav-link-color:            $gray-dark;
+$sidebar-nav-link-color:            darken($gray-500,15%);
 $sidebar-nav-link-bg:               transparent;
-$sidebar-nav-link-icon-color:       $text-muted;
+$sidebar-nav-link-icon-color:       $gray-500;
 
 $sidebar-nav-link-borders: (
     bottom: (
@@ -102,19 +132,19 @@ $sidebar-nav-link-borders: (
         color:                      $border-color
     )
 );
-$sidebar-nav-link-hover-color:      $gray-dark;
-$sidebar-nav-link-hover-bg:         $gray-light;
-$sidebar-nav-link-hover-icon-color: $gray-dark !important;
+$sidebar-nav-link-hover-color:      $white;
+$sidebar-nav-link-hover-bg:         $gray-700;
+$sidebar-nav-link-hover-icon-color: $white !important;
 
 $sidebar-nav-link-hover-borders:    0;
-$sidebar-nav-link-active-color:     $gray-dark;
-$sidebar-nav-link-active-bg:        darken($sidebar-bg, 5%);
-$sidebar-nav-link-active-icon-color:$gray-dark;
+$sidebar-nav-link-active-color:     $white;
+$sidebar-nav-link-active-bg:        transparent;
+$sidebar-nav-link-active-icon-color:$white;
 
 $sidebar-nav-link-active-borders:   0;
 
-$sidebar-nav-dropdown-color:        $gray-dark;
-$sidebar-nav-dropdown-bg:           darken($sidebar-bg, 3%);
+$sidebar-nav-dropdown-color:        $gray-500;
+$sidebar-nav-dropdown-bg:           darken($dark,10%);
 $sidebar-nav-dropdown-borders:      0;
 
 // Top Navigation
@@ -137,10 +167,10 @@ $top-nav-ul-borders: (
 );
 
 $top-nav-hover-color:               #fff;
-$top-nav-hover-bg:                  $brand-primary;
+$top-nav-hover-bg:                  $primary;
 $top-nav-active-color:              #fff;
-$top-nav-active-bg:                 $brand-primary;
-$top-nav-height:                    $navbar-height - 15px;
+$top-nav-active-bg:                 $primary;
+$top-nav-height:                    calc(#{$navbar-height} - 15px);
 
 // Breadcrumb
 
@@ -155,7 +185,7 @@ $breadcrumb-borders: (
 // Aside
 
 $aside-menu-width:                  250px;
-$aside-menu-color:                  $gray-dark;
+$aside-menu-color:                  $dark;
 $aside-menu-bg:                     #fff;
 $aside-menu-borders: (
   left: (
@@ -171,7 +201,7 @@ $aside-menu-nav-padding-x:          1rem;
 // Footer
 
 $footer-height:                     50px;
-$footer-bg:                         $gray-lightest;
+$footer-bg:                         $bg-dark;
 $footer-color:                      $body-color;
 $footer-borders: (
   top: (
@@ -183,5 +213,16 @@ $footer-borders: (
 
 // Cards
 
+$card-cap-bg : $bg-dark;
 $card-icon-bg:                      transparent;
 $card-icon-color:                   $body-color;
+$card-border-width:                 1px;
+$card-border-color:                 #39455D;
+$card-bg-color:                     #222A39;
+
+//table
+$table-border-color:                #39455D;
+
+
+// form
+$input-border-color:                $secondary;

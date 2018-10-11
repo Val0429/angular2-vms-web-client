@@ -1,0 +1,77 @@
+
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+        <button type="button" class="close" (click)="close()">&times;</button>
+      </div>
+      <div class="modal-body">
+          <form novalidate
+          [formGroup]="myform">
+          <div class="input-group mb-1" title="{{'pageLicense.mac'|translate}}" [ngClass]="{
+            'has-danger': mac.invalid && (mac.dirty || mac.touched),
+            'has-success': mac.valid && (mac.dirty || mac.touched)}">
+                 <span class="input-group-addon">
+                   <i class="fa fa-envelope"></i>
+                 </span>
+                 <select                  
+                   class="form-control"                 
+                   formControlName="mac">  
+                   <option *ngFor="let item of macOptions" [ngValue]="item" >{{item}}</option>
+                   </select>
+               </div>
+               <div style="color:red" *ngIf="mac.errors && (mac.dirty || mac.touched )">
+                 <p *ngIf="mac.errors.required">{{'pageLicense.mac'|translate}}{{'common.isRequired'|translate}}</p>            
+               </div>
+          
+      <div class="input-group mb-1" title="{{'pageLicense.serialNumber'|translate}}" *ngIf="onlineMode"
+      [ngClass]="{
+'has-danger': serialNumber.invalid && (serialNumber.dirty || serialNumber.touched),
+'has-success': serialNumber.valid && (serialNumber.dirty || serialNumber.touched)}">
+   <span class="input-group-addon">
+     <i class="fa fa-user"></i>
+   </span>
+   
+   <input 
+       type="text" 
+       class="form-control"               
+       formControlName="serialNumber"
+       required
+       (input)="updateKeyOrData()"
+       placeholder="{{'pageLicense.serialNumber'|translate}}" />
+ </div>
+
+      <div class="input-group mb-1" title="{{'pageLicense.licFile'|translate}}" *ngIf="!onlineMode"
+           [ngClass]="{
+     'has-danger': licFile.invalid && (licFile.dirty || licFile.touched),
+     'has-success': licFile.valid && (licFile.dirty || licFile.touched)}">
+        <span class="input-group-addon">
+          <i class="fa fa-user"></i>
+        </span>
+        
+        <input 
+            type="file" (change)="onFileChange($event)" 
+            class="form-control"  
+            required    
+            formControlName="licFile"
+            placeholder="{{'pageLicense.licFile'|translate}}" />
+      </div>
+
+      <input type="text" class="form-control" formControlName="keyOrData" style="display:none"/>
+
+      <div style="color:red" *ngIf="keyOrData.errors && (serialNumber.dirty || serialNumber.touched || licFile.dirty || licFile.touched)">
+        <p *ngIf="keyOrData.errors.required">{{'pageLicense.serialNumber'|translate}}{{'common.isRequired'|translate}}</p>        
+        <p *ngIf="keyOrData.errors.minlength || keyOrData.errors.invalidSize">{{'pageLicense.serialNumber'|translate}}{{'common.isInvalid'|translate}}</p>
+        <p *ngIf="keyOrData.errors.invalidExt">{{'pageLicense.onlyLicFileAllowed'|translate}}</p>
+      </div>
+    </form>
+
+  <!-- <pre>{{myform.value | json}}</pre> -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+          <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid" >{{'common.save'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

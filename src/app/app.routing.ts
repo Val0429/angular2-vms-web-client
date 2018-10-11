@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginService } from 'app/service/login.service';
 
-import * as Globals from './globals';
 
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
@@ -47,7 +46,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true, useHash: false })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true, useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

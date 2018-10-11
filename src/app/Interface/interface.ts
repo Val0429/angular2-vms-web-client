@@ -35,10 +35,26 @@ export class UserData {
     public company: Company;
 
 }
-
-export class User extends BaseUser {
-    public phone: string;
-    public data: UserData;
+export class Visitor extends BaseClass{
+    public phone:string;
+    public email:string;
+    public company: Company;
+    public status: number;    
+    public image: string;    
+}
+export class RecurringVisitor{
+    public visitor:Visitor;
+    public totalVisit: number;
+    public lastVisitDate: Date;
+}
+export class ReportStatistic{
+    public date: string;
+    public totalException:number;
+    public totalVisitor:number;
+}
+export class User extends BaseUser{
+  public phone :string;
+  public data: UserData;
 }
 
 export class SessionToken {
@@ -61,8 +77,9 @@ export class SessionToken {
 }
 
 export class KioskData {
-    public kioskId: string;
-    public kioskName: string;
+  public kioskId: string;
+  public kioskName: string;
+  public activated:boolean;
 }
 
 export class KioskUser extends BaseUser {
@@ -74,12 +91,30 @@ export class Role extends BaseClass {
 
 }
 
-export enum RoleEnum {
-    SystemAdministrator = 0,
-    Administrator = 1,
-    TenantAdministrator = 20,
-    TenantUser = 21,
-    Kiosk = 80
+export class License {
+    public licenseKey: string;
+    public description: string;
+    public mac: string;
+    public brand: string;
+    public productNO: string;
+    public count: number;
+
+    public trial: boolean;
+    public registerDate: string;
+    public expireDate: string;
+    public expired: boolean;
+}
+
+export class TotalLicense {
+    public licenses: License[];    
+    public summary: any;
+}
+export enum RoleEnum{
+  SystemAdministrator = 0,
+  Administrator = 1,  
+  TenantAdministrator = 20,
+  TenantUser = 21,
+  Kiosk = 80
 }
 
 export interface CreateEditDialog {

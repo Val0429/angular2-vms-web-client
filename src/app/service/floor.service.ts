@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { Floor, FloorServiceInterface } from 'app/Interface/interface';
-import * as Globals from 'app/globals';
 import { CrudService } from './crud.service';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class FloorService extends CrudService<Floor> implements FloorServiceInterface<Floor> {
@@ -12,11 +12,12 @@ export class FloorService extends CrudService<Floor> implements FloorServiceInte
     
     constructor(
         coreService: CoreService,
-        loginService: LoginService
+        loginService: LoginService,
+        private configService:ConfigService
     ) { 
       super(coreService, loginService);
-      this.uriCrud = Globals.cgiRoot + "floors";
-      this.uriBatchFloor = Globals.cgiRoot + "floors/csv";
+      this.uriCrud = this.configService.getCgiRoot() + "floors";
+      this.uriBatchFloor = this.configService.getCgiRoot() + "floors/csv";
     }
 
   async batchUploadFloor(data: any): Promise<any> {

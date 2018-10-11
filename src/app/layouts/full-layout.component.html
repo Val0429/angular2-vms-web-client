@@ -80,7 +80,11 @@
                       <i class="icon-settings"></i> {{'pageLayout.setup.kioskManagement'|translate}}
                     </a>
                   </li>
-                  
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/license']" >
+                      <i class="icon-settings"></i> {{'pageLayout.setup.license'|translate}}
+                    </a>
+                  </li>
                 <li class="nav-item" *ngIf="userIsSysAdmin">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/frs']">
                     <i class="icon-settings"></i> {{'pageLayout.setup.frsSetting'|translate}}
@@ -96,7 +100,11 @@
                     <i class="icon-settings"></i> {{'pageLayout.setup.smsSetting'|translate}}
                   </a>
                 </li>
-                
+                <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/sms-singapore']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.smsSettingSingapore'|translate}}
+                    </a>
+                  </li>
               </ul>
             </li>
             <!--Tenant Admin Menu-->

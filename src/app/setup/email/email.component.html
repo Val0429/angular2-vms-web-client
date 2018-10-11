@@ -5,21 +5,19 @@
 <form novalidate
       [formGroup]="myform" >
   <div class="input-group mb-1" title="{{'pageEmail.smtpHost'|translate}}" [ngClass]="{
-       'has-danger': ip.invalid && (ip.dirty || ip.touched),
-       'has-success': ip.valid && (ip.dirty || ip.touched)}">
+       'has-danger': host.invalid && (host.dirty || host.touched),
+       'has-success': host.valid && (host.dirty || host.touched)}">
     <span class="input-group-addon" >
       <i class="fa fa-envelope"></i>
     </span>
     <input type="text"
-           class="form-control"
-           required
-           
-           formControlName="ip"
+           class="form-control"           
+           formControlName="host"
            placeholder="{{'pageEmail.smtpHost'|translate}}" />
   </div>
-  <div style="color:red" *ngIf="ip.errors && (ip.dirty || ip.touched )">
-    <p *ngIf="ip.errors.required">{{'pageEmail.smtpHost'|translate}}{{'common.isRequired'|translate}}</p>
-    <p *ngIf="ip.errors.pattern">{{'pageEmail.smtpHost'|translate}}{{'common.isInvalid'|translate}}</p>
+  <div style="color:red" *ngIf="host.errors && (host.dirty || host.touched )">
+    <p *ngIf="host.errors.required">{{'pageEmail.smtpHost'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="host.errors.pattern">{{'pageEmail.smtpHost'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
   <div class="input-group mb-1" title="{{'pageEmail.port'|translate}}" [ngClass]="{
@@ -30,9 +28,7 @@
     </span>
     <input type="text"
            class="form-control"
-           inputmode="numeric"
-           required
-           
+           inputmode="numeric"           
            formControlName="port"
            placeholder="{{'pageEmail.port'|translate}}" />
   </div>
@@ -41,24 +37,21 @@
     <p *ngIf="port.errors.pattern">{{'pageEmail.port'|translate}}{{'common.isInvalid'|translate}}</p>
   </div>
 
-  <div class="input-group mb-1" title="{{'common.account'|translate}}"
+  <div class="input-group mb-1" title="{{'common.email'|translate}}"
        [ngClass]="{
-       'has-danger': account.invalid && (account.dirty || account.touched),
-       'has-success': account.valid && (account.dirty || account.touched)}">
+       'has-danger': email.invalid && (email.dirty || email.touched),
+       'has-success': email.valid && (email.dirty || email.touched)}">
     <span class="input-group-addon">
       <i class="fa fa-user"></i>
     </span>
     <input type="text"
            class="form-control"
-           [readonly]="editMode"
-           required
-           
-           formControlName="account"
-           placeholder="{{'common.account'|translate}}" />
+           formControlName="email"
+           placeholder="{{'common.email'|translate}}" />
   </div>
-  <div style="color:red" *ngIf="account.errors && (account.dirty || account.touched )">
-    <p *ngIf="account.errors.required">{{'common.account'|translate}}{{'common.isRequired'|translate}}</p>
-    <p *ngIf="account.errors.minlength">{{'common.account'|translate}}{{'common.minLength'|translate:account.errors}}</p>
+  <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
+    <p *ngIf="email.errors.required">{{'common.email'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="email.errors.minlength">{{'common.email'|translate}}{{'common.minLength'|translate:email.errors}}</p>
   </div>
 
   <div class="input-group mb-1" title="{{'common.password'|translate}}"
@@ -70,37 +63,48 @@
     </span>
     <input type="password"
            class="form-control"
-           required
-           formControlName="password"
-           
+           formControlName="password"           
            placeholder="{{'common.password'|translate}}" />
   </div>
   <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
     <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
     <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}}</p>
   </div>
-  <div class="input-group mb-1" title="{{'pageEmail.security'|translate}}"
+  <div class="input-group mb-1" title="{{'common.enabled'|translate}}"
        [ngClass]="{
-       'has-danger': security.invalid && (security.dirty || security.touched),
-       'has-success': security.valid && (security.dirty || security.touched)}">
+       'has-danger': enable.invalid && (enable.dirty || enable.touched),
+       'has-success': enable.valid && (enable.dirty || enable.touched)}">
     <span class="input-group-addon">
       <i class="fa fa-key"></i>
     </span>
-    <select class="form-control"
-            required
-            
-            formControlName="security">      
-      <option *ngFor="let option of securityOption"
-              [value]="option">
-        {{option}}
-      </option>
-    </select>
+    <div class="checkbox">
+        <input type="checkbox" formControlName="enable" id="enable" />
+        <label for="enable"></label>      
+      </div>
+      <label for="enable">{{'common.enabled'|translate}}</label>
   </div>
-  <div style="color:red" *ngIf="security.errors && (security.dirty || security.touched )">
-    <p *ngIf="security.errors.required">{{'pageEmail.security'|translate}}{{'common.isRequired'|translate}}</p>    
+  <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
+    <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>    
   </div>
 
-  <!--<pre>{{myform.value | json}}</pre>-->
+  <div class="input-group mb-1" title="{{'pageEmail.testEmail'|translate}}"
+  [ngClass]="{
+  'has-danger': testEmail.invalid && (testEmail.dirty || testEmail.touched),
+  'has-success': testEmail.valid && (testEmail.dirty || testEmail.touched)}">
+<span class="input-group-addon">
+ <i class="fa fa-envelope"></i>
+</span>
+<input type="text"
+class="form-control"
+formControlName="testEmail"
+placeholder="{{'pageEmail.sendTestEmailPlaceholder'|translate}}" />
+<button type="button" class="btn btn-primary" (click)="sendTestEmail()" [disabled]="!testEmail.valid || isLoading() || testEmail.value==''">{{'common.send'|translate}}</button>
+</div>
+<div style="color:red" *ngIf="testEmail.errors && (testEmail.dirty || testEmail.touched )">
+<p *ngIf="testEmail.errors.pattern">{{'pageEmail.testEmail'|translate}}{{'common.isInvalid'|translate}}</p>    
+</div>
+
+  <!-- <pre>{{myform.value | json}}</pre> -->
 </form>
 
 <div class="modal-footer">

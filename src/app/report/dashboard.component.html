@@ -1,7 +1,6 @@
 
 <div class="animated fadeIn">
   <app-visitor-statistic></app-visitor-statistic>
-
   <div class="row">
     <div class="col mb-1">
       <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'pageDashboard.today' | translate}}</button>
@@ -9,7 +8,31 @@
       <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'pageDashboard.thisMonth' | translate}} </button>
     </div>
   </div>
-  
+  <div class="row">
+    <div class="col mb-1">
+      <div class="input-group dropdown col-lg-6 col-md-9" dropdown placement="bottom right">        
+        <input type="text"
+               class="form-control"
+               placeholder="{{'common.select' | translate}} {{'pageDashboard.kioskName' | translate}}"                                
+               *ngIf="selectedKiosks.length==0"
+                />  
+                <div class="form-control selected-dropdown" *ngIf="selectedKiosks.length>0">
+                <div class="selected-dropdown-item" *ngFor="let item of selectedKiosks" (click)="remove(item, selectedKiosks, kiosks, null, true)">{{item.data.kioskName}}
+                    <span class="fa fa-remove fa-lg" ></span>
+                  </div>               
+                </div>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="overflow-y:auto; height:200px;">
+              <a class="dropdown-item" style="cursor: pointer;" *ngFor="let item of kiosks" (click)="add(item, selectedKiosks, kiosks, null, true)">
+                {{item.data.kioskName}}
+              </a>
+            </div>
+            <span role="button" style="width:40px" class="input-group-addon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+              dropdownToggle>
+              <span class="caret"></span>
+            </span>
+       </div>
+  </div>
+</div>
     <div class="card col-lg-6 col-md-9">
       <div class="card-header">
         {{'pageDashboard.checkInStatistic' | translate}}
@@ -17,14 +40,13 @@
       <div class="card-block">
 
         <canvas baseChart #timeBarChart="base-chart" class="chart"
-                [datasets]="timeBarChartData"
+                [datasets]="timeBarChartDatasets"
                 [labels]="timeBarChartLabels"
-                [colors]="timeBarChartColors"
+                
                 [options]="barChartOptions"
                 [legend]="barChartLegend"
                 [chartType]="barChartTypeV"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
+                ></canvas>
 
       </div>
     </div>
@@ -35,10 +57,10 @@
       <div class="card-block">
 
         <canvas baseChart #entryBarChart="base-chart" class="chart"
-                [datasets]="entryBarChartData"
+                [datasets]="entryBarChartDatasets"
                 [labels]="entryBarChartLabels"
                 [options]="barChartOptions"
-                [colors]="entryBarChartColors"
+                
                 [legend]="barChartLegend"
                 [chartType]="barChartTypeH"
                 (chartHover)="chartHovered($event)"

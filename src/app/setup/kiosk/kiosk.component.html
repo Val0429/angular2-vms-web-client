@@ -1,32 +1,30 @@
 <ng-progress></ng-progress>
 <div class="animated fadeIn">
-  <div class="row" *ngIf="isAdmin">
-    <div class="col-12">
-      <div class="card">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
-          {{'common.new' | translate}}
-        </button>
+  <div class="row" >
+      <div class="card border-none col-md-4">          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>        
       </div>
-    </div>
   </div>
 
   <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> {{'pageKiosk.kiosks' | translate}}
+          <i class="fa fa-align-justify"></i>{{'pageKiosk.kiosks' | translate}}          
         </div>
-        <div class="card-block">
-          <div class="row mb-1">
-            <div class="col-md-4 offset-md-8">
-              <div class="input-group">
-                <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
-                <span class="input-group-addon" (click)="doSearch()">
-                  <i class="fa fa-search"></i>
-                </span>
-              </div>
-            </div>
-          </div>
+        <div class="card-block" *ngIf="isAdmin">  
+          <div class="col-md-1 offset-md-11">                  
+            <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
+              {{'common.new' | translate}}
+            </button>
+        </div>
+      </div>
+        <div class="card-block">     
           <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
             <thead>
               <tr>
@@ -49,18 +47,22 @@
               <tr *ngFor="let item of mf.data; let i = index">
                 <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
 
-                <td>{{item.username}}</td>
+                <td>{{item.username}}
+                  <span *ngIf="!item.data.activated" style="color:red">
+                      ({{'common.disabled'|translate}})
+                  </span>
+                </td>
                 <td>
                   {{item.data.kioskId}}
                 </td>
                 <td>
                   {{item.data.kioskName}}
                 </td>
-                <td>
-                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
+                <td>                  
+                  <a *ngIf="item.data.activated" class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
+                  <a *ngIf="item.data.activated" class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>

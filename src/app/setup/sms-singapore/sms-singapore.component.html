@@ -1,0 +1,99 @@
+<ng-progress></ng-progress>
+        
+<div class="animated fadeIn">
+    <div class="card col-md-4">
+        <div class="card-block">
+<form novalidate
+      [formGroup]="myform">
+
+  <div class="input-group mb-1" title="{{'common.url'|translate}}" [ngClass]="{
+       'has-danger': url.invalid && (url.dirty || url.touched),
+       'has-success': url.valid && (url.dirty || url.touched)}">
+    <span class="input-group-addon">
+      <i class="fa fa-envelope"></i>
+    </span>
+    <input type="text"
+           class="form-control"   
+           formControlName="url"          
+           placeholder="{{'common.url'|translate}}" />
+  </div>
+  <div style="color:red" *ngIf="url.errors && (url.dirty || url.touched )">
+    <p *ngIf="url.errors.required">{{'common.url'|translate}}{{'common.isRequired'|translate}}</p>
+    <p *ngIf="url.errors.pattern">{{'common.url'|translate}}{{'common.isInvalid'|translate}}</p>
+  </div>
+
+  <div class="input-group mb-1" title="{{'common.userName'|translate}}" [ngClass]="{
+    'has-danger': username.invalid && (username.dirty || username.touched),
+    'has-success': username.valid && (username.dirty || username.touched)}">
+ <span class="input-group-addon">
+   <i class="fa fa-envelope"></i>
+ </span>
+ <input type="text"
+        class="form-control"   
+        formControlName="username"          
+        placeholder="{{'common.userName'|translate}}" />
+</div>
+<div style="color:red" *ngIf="username.errors && (username.dirty || username.touched )">
+ <p *ngIf="username.errors.required">{{'common.userName'|translate}}{{'common.isRequired'|translate}}</p>
+ <p *ngIf="username.errors.pattern">{{'common.userName'|translate}}{{'common.isInvalid'|translate}}</p>
+</div>
+
+
+<div class="input-group mb-1" title="{{'common.password'|translate}}" [ngClass]="{
+  'has-danger': password.invalid && (password.dirty || password.touched),
+  'has-success': password.valid && (password.dirty || password.touched)}">
+<span class="input-group-addon">
+ <i class="fa fa-envelope"></i>
+</span>
+<input type="password"
+      class="form-control"   
+      formControlName="password"          
+      placeholder="{{'common.password'|translate}}" />
+</div>
+<div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
+<p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
+<p *ngIf="password.errors.pattern">{{'common.password'|translate}}{{'common.isInvalid'|translate}}</p>
+</div>
+
+  <div class="input-group mb-1" title="{{'common.enabled'|translate}}"
+       [ngClass]="{
+       'has-danger': enable.invalid && (enable.dirty || enable.touched),
+       'has-success': enable.valid && (enable.dirty || enable.touched)}">
+    <span class="input-group-addon">
+      <i class="fa fa-user"></i>
+    </span>
+    <div class="checkbox">
+      <input type="checkbox" formControlName="enable" id="enable" />
+      <label for="enable"></label>      
+    </div>
+    <label for="enable">{{'common.enabled'|translate}}</label>
+  </div>
+  <div style="color:red" *ngIf="enable.errors && (enable.dirty || enable.touched )">
+    <p *ngIf="enable.errors.required">{{'common.enabled'|translate}}{{'common.isRequired'|translate}}</p>
+  </div>
+
+  <div class="input-group mb-1" title="{{'pageSms.testSms'|translate}}"
+  [ngClass]="{
+  'has-danger': testSms.invalid && (testSms.dirty || testSms.touched),
+  'has-success': testSms.valid && (testSms.dirty || testSms.touched)}">
+<span class="input-group-addon">
+ <i class="fa fa-envelope"></i>
+</span>
+<input type="text"
+class="form-control"
+formControlName="testSms"
+placeholder="{{'pageSms.sendTestSmsPlaceholder'|translate}}" />
+<button type="button" class="btn btn-primary" (click)="sendTestSms()" [disabled]="!testSms.valid || isLoading() || testSms.value==''">{{'common.send'|translate}}</button>
+</div>
+<div style="color:red" *ngIf="testSms.errors && (testSms.dirty || testSms.touched )">
+<p *ngIf="testSms.errors.pattern">{{'pageSms.testSms'|translate}}{{'common.isInvalid'|translate}}</p>    
+</div>
+  <!--<pre>{{myform.value | json}}</pre>-->
+</form>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || isLoading()">{{'common.save'|translate}}</button>
+</div>
+</div>
+</div>
+</div>

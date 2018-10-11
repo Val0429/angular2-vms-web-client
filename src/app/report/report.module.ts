@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import {DatepickerModule} from 'ng2-bootstrap';
+import {DatepickerModule,BsDropdownModule} from 'ng2-bootstrap';
 
 
 import { DashboardComponent } from './dashboard.component';
@@ -17,6 +17,7 @@ import { InvestigationComponent } from './investigation.component';
 import { ReportRoutingModule } from './report-routing.module';
 import { TranslateModule } from 'ng2-translate';
 import { VisitorStatisticComponent } from './visitor-statistic.component';
+import { VisitorComponent } from './visitor.component';
 
 @NgModule({
   imports: [
@@ -28,12 +29,17 @@ import { VisitorStatisticComponent } from './visitor-statistic.component';
     FormsModule,
     HttpModule,
     ChartsModule, 
+    BsDropdownModule.forRoot(),
     DatepickerModule.forRoot()
+  ],
+  entryComponents: [
+    VisitorComponent
   ],
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
-    VisitorStatisticComponent
+    VisitorStatisticComponent, 
+    VisitorComponent
   ]
 })
 export class ReportModule { }
