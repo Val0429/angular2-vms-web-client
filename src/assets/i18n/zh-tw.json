@@ -11,18 +11,21 @@
 		"edit": "Edit",
 		"email": "Email",
 		"enabled": "Enabled",
+		"end": "End",
 		"error": "錯誤",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": "has been deleted",
 		"hasBeenRegistered": " has been registered",
 		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
+		"image": "Image",
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
 		"isRequired": " is required",
 		"minLength": " must be {{minlength.requiredLength}} at least characters long",
 		"mismatch": "mismatch",
 		"mismatchWith": " mismatch with ",
+		"mobileNo": "Mobile number",
 		"name": "Name",
 		"new": "加",
 		"newPassword": "New Password",
@@ -33,10 +36,14 @@
 		"required": "required",
 		"save": "保存",
 		"search": "搜索",
+		"searchCondition": "Search Condition",
 		"select": "Select",
 		"send": "Send",
 		"sms": "SMS",
+		"start": "Start",
+		"status": "Status",
 		"updateData": "Update Data",
+		"upload": "Upload",
 		"url": "URL",
 		"userName": "用戶名"
 	},
@@ -96,6 +103,19 @@
 		"purpose": "Purpose",
 		"status": "Status",
 		"visitorName": "Visitor Name"
+	},
+	"pageInvitation": {
+		"canceled": "Canceled",
+		"complete": "Complete",
+		"expired": "Expired",
+		"invitationStatus": " Invitation Status",
+		"invitationValidityPeriod": "Invitation Validity Period",
+		"invitations": "Invitations",
+		"pending": "Pending",
+		"purpose": "Purpose"
+	},
+	"pageInvtitation": {
+		"sendBy": "Send by"
 	},
 	"pageKiosk": {
 		"kiosk": "Kiosk",
@@ -164,6 +184,13 @@
 		"rememberMe": "記住我",
 		"subTitle": "登錄您的帳戶",
 		"title": "VMS 登錄"
+	},
+	"pageRegistration": {
+		"potraitConstraint": "Size must bigger than 300 x 300",
+		"completed": "Registration completed!",
+		"completedDesc": "Resistration code will be send to your cellphone shortly",
+		"completedNode": "kindly proceed to the Check-in Kiosk and Click \"Check-in\"",
+		"uploadPotrait": "Upload your potrait"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number",

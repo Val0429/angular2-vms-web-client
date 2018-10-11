@@ -16,6 +16,7 @@ import { CompanyService } from './company.service';
 import { KioskService } from './kiosk.service';
 import { FloorService } from './floor.service';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { InvitationService} from 'app/service/invitation.service';
 import { LicenseService } from './license.service';
 
 
@@ -39,7 +40,8 @@ import { LicenseService } from './license.service';
     FloorService,
     LicenseService,
     CommonService,
-    DialogService
+    DialogService,
+    InvitationService
     ]
 })
 export class ServiceModule { }

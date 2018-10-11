@@ -1,6 +1,6 @@
 <ng-progress></ng-progress>
 <div class="animated fadeIn">
-  <div class="row" *ngIf="isAdmin">
+  <div class="row" >
       <div class="card border-none col-md-4">          
           <div class="input-group">
             <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
@@ -17,7 +17,7 @@
         <div class="card-header">
           <i class="fa fa-align-justify"></i>{{'pageKiosk.kiosks' | translate}}          
         </div>
-        <div class="card-block">  
+        <div class="card-block" *ngIf="isAdmin">  
           <div class="col-md-1 offset-md-11">                  
             <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
               {{'common.new' | translate}}
