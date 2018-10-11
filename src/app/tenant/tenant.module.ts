@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // DataTable
-import { NG2DataTableModule } from "angular2-datatable-pagination";
+import { DataTableModule } from 'angular2-datatable';
 
 // bsModel
 import { ModalModule } from 'ng2-bootstrap/modal';
@@ -23,7 +23,7 @@ import { CreateInvitationComponent } from './invitation/create-invitation.compon
     CommonModule,
     FormsModule,
     TranslateModule,
-    NG2DataTableModule,
+    DataTableModule,
     ModalModule.forRoot(),
     TenantRoutingModule,
     DatepickerModule.forRoot(),
