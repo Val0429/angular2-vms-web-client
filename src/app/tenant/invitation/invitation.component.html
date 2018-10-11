@@ -3,7 +3,7 @@
         <div class="card border-none col-md-4">          
             <div class="input-group">            
             <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search by name" (keyup)="searchKeyUp($event)" />
-            <span class="input-group-addon">
+            <span class="input-group-addon" (click)="doSearch()">
                 <i class="fa fa-search"></i>
               </span>
           </div>

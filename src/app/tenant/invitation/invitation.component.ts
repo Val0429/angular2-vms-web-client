@@ -141,19 +141,20 @@ export class InvitationComponent implements OnInit {
   public searchKeyUp(event) {
     if (event.keyCode != 13) return;
 
+    this.doSearch();
+  }
+
+  private doSearch() {
     this.displayItems = [];
     this.activePage = 1;
-
+    let filter = this.filterQuery.toLowerCase();
     for (var i of this.listItems) {
-      if (
-        (i.phone.indexOf(this.filterQuery) > -1) ||
-        (i.name.indexOf(this.filterQuery) > -1) ||
-        (i.email.indexOf(this.filterQuery) > -1) ||
-        (i.status.indexOf(this.filterQuery) > -1)
-      )
+      if ((i.phone.indexOf(filter) > -1) ||
+        (i.name.toLowerCase().indexOf(filter) > -1) ||
+        (i.email.toLowerCase().indexOf(filter) > -1) ||
+        (i.status.indexOf(filter) > -1))
         this.displayItems.push(i);
     }
-
     this.itemsTotal = this.displayItems.length;
     this.loadData();
   }
