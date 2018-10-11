@@ -7,7 +7,8 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 
 @Component({
-  templateUrl: 'invitation.component.html'
+  templateUrl: 'invitation.component.html',
+  styleUrls: ["./invitation.component.scss"]
 })
 
 export class InvitationComponent implements OnInit {
@@ -102,11 +103,11 @@ export class InvitationComponent implements OnInit {
   public dateToDateString(dd: Date): string {
     if (dd == null) return "";
 
-    var _y = dd.getFullYear();
-    var _m = dd.getMonth() < 9 ? "0" + (dd.getMonth() + 1) : (dd.getMonth() + 1); // getMonth() is zero-based
-    var _d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+    var year = dd.getFullYear();
+    var month = dd.getMonth() < 9 ? "0" + (dd.getMonth() + 1) : (dd.getMonth() + 1); // getMonth() is zero-based
+    var date = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
 
-    return _y + '/' + _m + '/' + _d;
+    return year + '/' + month + '/' + date;
   }
 
   public onPageChange(event) {
