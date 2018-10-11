@@ -2,6 +2,9 @@ import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { InvitationService } from 'app/service/invitation.service';
 import { VisitorProfile } from 'app/Interface/interface';
+import { NgProgress } from 'ngx-progressbar';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 
 @Component({
   templateUrl: 'invitation.component.html'
@@ -52,7 +55,9 @@ export class InvitationComponent implements OnInit {
 
   constructor(
     private invitationService: InvitationService, 
-    private changeDetecorRef: ChangeDetectorRef
+    private changeDetecorRef: ChangeDetectorRef,
+    private progressService:NgProgress,
+    private dialogService:DialogService
   ) {
 
   }
@@ -196,13 +201,24 @@ export class InvitationComponent implements OnInit {
 
   async deleteInvitation(item) {
     if (item == null) return;
+    console.log("delete", item);
 
-    var result = await this.invitationService.cancelInvitation(item);
-
-    var index = this.data.indexOf(item, 0);
-    if (index > -1) {
-      this.data.splice(index, 1);
-    }
+    this.dialogService.addDialog(ConfirmComponent, {
+    })
+      .subscribe(async (isConfirmed) => {
+        //We get dialog result
+        if (!isConfirmed) return;
+        try{
+          this.progressService.start();
+          var result = await this.invitationService.cancelInvitation(item);
+          var index = this.data.indexOf(item, 0);
+          if (index > -1) {
+            this.data.splice(index, 1);
+          }
+        }finally{
+          this.progressService.done();
+        }
+    });
   }
 
   onFormSubmit(form: NgForm) {
