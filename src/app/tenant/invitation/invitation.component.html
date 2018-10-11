@@ -1,3 +1,298 @@
-<p>
-  invitation works!
-</p>
+<ng-progress></ng-progress>
+<div class="animated fadeIn">
+    <div class="row mb-1">
+        <div class="card border-none col-md-4">          
+            <div class="input-group">            
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search'|translate}}" (keyup)="searchKeyUp($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+                <i class="fa fa-search"></i>
+              </span>
+          </div>
+        </div>
+      </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>{{'common.searchCondition'|translate}}
+        </div>
+        <div class="card-block">
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label">{{'common.mobileNo'|translate}} </label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <input type="text" class="form-control" id="mobileNo" 
+                name="mobileNo" #mobileNo="ngModel" 
+                placeholder="{{'common.mobileNo'|translate}}"
+                  [(ngModel)]="condition.mobileNo">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label"> {{'common.name'|translate}} </label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <input type="text" class="form-control" id="visitorName" name="visitorName" #visitorName="ngModel"
+                  placeholder="{{'common.name'|translate}}" [(ngModel)]="condition.visitorName">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label">{{'pageInvitation.invitationValidityPeriod'|translate}}</label>
+            <div class="col-md-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (onfocusout)="showStartDatePicker = false"
+                  (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{condition.beginDatetime | date:'yyyy/MM/dd'}}" />
+                <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <datepicker name="beginDatetime" [showWeeks]="false" [(ngModel)]="condition.beginDatetime"
+                    (selectionDone)="showStartDatePicker = false"></datepicker>
+                </div>
+
+                <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" (focus)="showEndDatePicker = !showEndDatePicker"
+                  name="endDatetime" value="{{condition.endDatetime | date:'yyyy/MM/dd'}}" />
+                <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                  <i class="fa fa-calendar"></i>
+                </span>
+                <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                  <datepicker name="endDatetime" [showWeeks]="false" [(ngModel)]="condition.endDatetime"
+                    (selectionDone)="showEndDatePicker = false"></datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 form-control-label"> {{'pageInvitation.invitationStatus'|translate}} </label>
+            <div class="col-md-7">
+              <div class="input-group">
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Pending">
+                  <input type="checkbox" id="Pending" name="purposeOfVisit" (change)="checkboxInvitationStatus('Pending', $event);">&nbsp;
+                  {{'pageInvitation.pending'|translate}}
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Complete">
+                  <input type="checkbox" id="Complete" name="purposeOfVisit" (change)="checkboxInvitationStatus('Complete', $event);">&nbsp;
+                  {{'pageInvitation.complete'|translate}}
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Expired">
+                  <input type="checkbox" id="Expired" name="purposeOfVisit" (change)="checkboxInvitationStatus('Expired', $event);">&nbsp;
+                  {{'pageInvitation.expired'|translate}}
+                </label>
+
+                <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Canceled">
+                  <input type="checkbox" id="Canceled" name="purposeOfVisit" (change)="checkboxInvitationStatus('Canceled', $event);">&nbsp;
+                  {{'pageInvitation.canceled'|translate}}
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary px-2 pull-right" (click)="invitationsSearch()">{{'common.search'|translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i>{{'pageInvitation.invitations'|translate}}
+      </div>
+      <div class="card-block">
+        
+        <div class="row">
+            <div class="col-md-2 offset-md-10">   
+              <div class="card">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newInvitation(); largeModal.show()">
+                    {{'common.new'|translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage"
+          [mfActivePage]="activePage" [(mfAmountOfRows)]="itemsTotal" [mfIsServerPagination]="true" (mfOnPageChange)="onPageChange($event)">
+          <thead>
+            <tr>
+              <th style="width: 5%"> {{'common.no'|translate}}</th>
+              <th style="width: 10%"> {{'common.mobileNo'|translate}}</th>
+              <th style="width: 15%">{{'common.name'|translate}}</th>
+              <th style="width: 20%">{{'common.email'|translate}}</th>
+              <th style="width: 10%">{{'common.status'|translate}}</th>
+              <th style="width: 10%">{{'common.start'|translate}}</th>
+              <th style="width: 10%">{{'common.end'|translate}}</th>
+              <th style="width: 15%">{{'common.image'|translate}}</th>
+              <th style="width: 5%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data; let i = index;">
+              <td>{{i + 1}}</td>
+              <td>{{item.phone}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.email}}</td>
+              <td>{{ item.cancelled ? "Canceled" : item.status }}</td>
+              <td>{{ dateToDateString(item.beginDate) }}</td>
+              <td>{{ dateToDateString(item.endDate) }}</td>
+              <td>{{item.photo}}</td>
+              <td>
+                <!-- <a class="fa fa-pencil fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();modifyInvitation(item); largeModal.show()"></a> -->
+                <a class="fa fa-remove fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();deleteInvitation(item)"></a>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="9">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">{{model.title}}</h4>
+            <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form #visitorForm="ngForm" action="javascript:void(0);" (ngSubmit)="visitorForm.valid && onFormSubmit(visitorForm); largeModal.hide();">
+            <div class="modal-body">
+              <div class="card mx-2">
+                <div class="card-block p-2 row">
+                  <div class="col-md-12">
+                    <div class="input-group mb-1" title="{{'common.mobileNo'|translate}}" [ngClass]="{ 'has-danger': phone.invalid && (phone.dirty || phone.touched), 'has-success': phone.valid && (phone.dirty || phone.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-user"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="phone" name="phone" #phone="ngModel"
+                        (keyup)="mobileNoSearch($event)" [ngClass]="{ 'form-control-danger': phone.invalid && (phone.dirty ||phone.touched), 'form-control-success': phone.valid && (phone.dirty || phone.touched)}"
+                        placeholder="{{'common.mobileNo'|translate}}" [(ngModel)]="model.visitor.phone">
+                    </div>
+                    <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched || phone.submitted)">
+                      <p *ngIf="phone.errors.required">
+                          {{'common.mobileNo'|translate}}{{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.name'|translate}}" [ngClass]="{ 'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="name" name="name" #name="ngModel"
+                        [ngClass]="{ 'form-control-danger': name.invalid && (name.dirty ||name.touched), 'form-control-success': name.valid && (name.dirty || name.touched)}"
+                        placeholder="{{'common.name'|translate}}" [(ngModel)]="model.visitor.name">
+                    </div>
+                    <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched || name.submitted)">
+                      <p *ngIf="name.errors.required">
+                          {{'common.name'|translate}} {{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.email'|translate}}" [ngClass]="{ 'has-danger': email.invalid && (email.dirty || email.touched), 'has-success': email.valid && (email.dirty || email.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" required id="email" name="email"
+                        #email="ngModel" [ngClass]="{ 'form-control-danger': email.invalid && (email.dirty ||email.touched), 'form-control-success': email.valid && (email.dirty || email.touched)}"
+                        placeholder="{{'common.email'|translate}}" [(ngModel)]="model.visitor.email">
+                    </div>
+                    <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched || email.submitted)">
+                      <p *ngIf="email.errors.required">
+                          {{'common.email'|translate}} {{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.start'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
+                        name="inputStartDate" value="{{model.visitor.beginDate | date:'yyyy/MM/dd'}}" />
+                      <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="beginDatetime" [showWeeks]="false" [(ngModel)]="model.visitor.beginDate"
+                          (selectionDone)="showStartDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.end'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" (focus)="showEndDatePicker = !showEndDatePicker"
+                        name="inputEndDate" value="{{model.visitor.endDate | date:'yyyy/MM/dd'}}" />
+                      <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.visitor.endDate"
+                          (selectionDone)="showEndDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'pageInvitation.purpose'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <span *ngFor="let item of purposes">
+                        <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="{{item.name}}">
+                          <input type="radio" id="{{item.objectId }}" name="InvitorPurposes" [checked]="model.visitor.purpose ? item.objectId == model.visitor.purpose.objectId : false" (change)="checkboxPurposes(item, $event);">&nbsp; {{item.name }}
+                        </label>
+                      </span>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'pageInvtitation.sendBy'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="email">
+                        <input type="checkbox" id="email" name="sendInvitationByEmail" (change)="checkboxSendBy('email', $event);">&nbsp;
+                        {{'common.email'|translate}} 
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="sms">
+                        <input type="checkbox" id="sms" name="sendInvitationBySMS" (change)="checkboxSendBy('sms', $event);">&nbsp;
+                        {{'common.sms'|translate}} 
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">{{'common.cancel'|translate}} </button>
+              <button type="submit" class="btn btn-primary" [disabled]="!visitorForm.valid">{{'common.save'|translate}} </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
