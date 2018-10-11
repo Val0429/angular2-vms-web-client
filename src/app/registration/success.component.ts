@@ -1,6 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { InvitationService } from 'app/service/invitation.service';
+import { CommonService } from '../service/common.service';
 
 @Component({
   templateUrl: 'success.component.html',
@@ -54,10 +55,9 @@ import { InvitationService } from 'app/service/invitation.service';
 export class SuccessComponent implements OnInit {
 
   constructor(
-    private invitationService: InvitationService
-    , private changeDetecorRef: ChangeDetectorRef
+    private commonService:CommonService
   ) {
-
+    this.commonService.loadLanguage();
   }
 
   async ngOnInit() {

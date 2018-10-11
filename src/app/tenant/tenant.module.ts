@@ -15,12 +15,14 @@ import { TenantRoutingModule } from './tenant-routing.module';
 import { InvitationComponent } from './invitation/invitation.component';
 import { TenantUserComponent } from './tenant-user/tenant-user.component';
 import { CreateEditTenantUserComponent } from './tenant-user/create-edit-tenant-user.component';
+import { TranslateModule } from 'ng2-translate';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
     NG2DataTableModule,
     ModalModule.forRoot(),
     TenantRoutingModule,

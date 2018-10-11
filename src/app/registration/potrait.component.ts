@@ -2,6 +2,7 @@ import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InvitationService } from 'app/service/invitation.service';
+import { CommonService } from '../service/common.service';
 
 // import { TranslateService } from 'ng2-translate';
 
@@ -51,9 +52,11 @@ export class PotraitComponent {
   };
 
   constructor(
-    private router: Router
-    , private invitationService: InvitationService
+    private router: Router,
+    private invitationService: InvitationService,
+    private commonService:CommonService
   ) {
+    this.commonService.loadLanguage();
     var url = window.location.search;
     url = url.replace("?", '');
     console.log(url);
@@ -84,7 +87,7 @@ export class PotraitComponent {
 
     myReader.onloadend = async (e) => {
       //var image = new Image();
-      var result = myReader.result;
+      var result = myReader.result as any;
 
       var pos = result.indexOf(";base64,");
       if (pos >= 0) {

@@ -2,7 +2,7 @@
     <div class="row mb-1">
         <div class="card border-none col-md-4">          
             <div class="input-group">            
-            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Search by name" (keyup)="searchKeyUp($event)" />
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search'|translate}}" (keyup)="searchKeyUp($event)" />
             <span class="input-group-addon" (click)="doSearch()">
                 <i class="fa fa-search"></i>
               </span>
@@ -13,34 +13,36 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>Search Condition
+          <i class="fa fa-align-justify"></i>{{'common.searchCondition'|translate}}
         </div>
         <div class="card-block">
           <div class="form-group row">
-            <label class="col-md-2 form-control-label">Visitor Mobile No. </label>
+            <label class="col-md-2 form-control-label">{{'common.mobileNo'|translate}} </label>
             <div class="col-md-10">
               <div class="input-group">
-                <input type="text" class="form-control" id="mobileNo" name="mobileNo" #mobileNo="ngModel" placeholder="Visitor Mobile No."
+                <input type="text" class="form-control" id="mobileNo" 
+                name="mobileNo" #mobileNo="ngModel" 
+                placeholder="{{'common.mobileNo'|translate}}"
                   [(ngModel)]="condition.mobileNo">
               </div>
             </div>
           </div>
 
           <div class="form-group row">
-            <label class="col-md-2 form-control-label"> Visitor Name </label>
+            <label class="col-md-2 form-control-label"> {{'common.name'|translate}} </label>
             <div class="col-md-10">
               <div class="input-group">
                 <input type="text" class="form-control" id="visitorName" name="visitorName" #visitorName="ngModel"
-                  placeholder=" Visitor Name" [(ngModel)]="condition.visitorName">
+                  placeholder="{{'common.name'|translate}}" [(ngModel)]="condition.visitorName">
               </div>
             </div>
           </div>
 
           <div class="form-group row">
-            <label class="col-md-2 form-control-label"> Invitation Validity Period </label>
+            <label class="col-md-2 form-control-label">{{'pageInvitation.invitationValidityPeriod'|translate}}</label>
             <div class="col-md-5">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Invitation Validity Period" (onfocusout)="showStartDatePicker = false"
+                <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (onfocusout)="showStartDatePicker = false"
                   (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{condition.beginDatetime | date:'yyyy/MM/dd'}}" />
                 <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
                   <i class="fa fa-calendar"></i>
@@ -50,7 +52,7 @@
                     (selectionDone)="showStartDatePicker = false"></datepicker>
                 </div>
 
-                <input type="text" class="form-control" placeholder="Invitation Validity Period" (focus)="showEndDatePicker = !showEndDatePicker"
+                <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" (focus)="showEndDatePicker = !showEndDatePicker"
                   name="endDatetime" value="{{condition.endDatetime | date:'yyyy/MM/dd'}}" />
                 <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
                   <i class="fa fa-calendar"></i>
@@ -64,32 +66,32 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-md-2 form-control-label"> Invitation Status </label>
+            <label class="col-md-2 form-control-label"> {{'pageInvitation.invitationStatus'|translate}} </label>
             <div class="col-md-7">
               <div class="input-group">
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Pending">
                   <input type="checkbox" id="Pending" name="purposeOfVisit" (change)="checkboxInvitationStatus('Pending', $event);">&nbsp;
-                  Pending
+                  {{'pageInvitation.pending'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Complete">
                   <input type="checkbox" id="Complete" name="purposeOfVisit" (change)="checkboxInvitationStatus('Complete', $event);">&nbsp;
-                  Complete
+                  {{'pageInvitation.complete'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Expired">
                   <input type="checkbox" id="Expired" name="purposeOfVisit" (change)="checkboxInvitationStatus('Expired', $event);">&nbsp;
-                  Expired
+                  {{'pageInvitation.expired'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Canceled">
                   <input type="checkbox" id="Canceled" name="purposeOfVisit" (change)="checkboxInvitationStatus('Canceled', $event);">&nbsp;
-                  Canceled
+                  {{'pageInvitation.canceled'|translate}}
                 </label>
               </div>
             </div>
             <div class="col-md-3">
-              <button type="submit" class="btn btn-primary px-2 pull-right" (click)="invitationsSearch()">Search</button>
+              <button type="submit" class="btn btn-primary px-2 pull-right" (click)="invitationsSearch()">{{'common.search'|translate}}</button>
             </div>
           </div>
         </div>
@@ -103,7 +105,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <i class="fa fa-align-justify"></i>Invitations
+        <i class="fa fa-align-justify"></i>{{'pageInvitation.invitations'|translate}}
       </div>
       <div class="card-block">
         
@@ -111,7 +113,7 @@
             <div class="col-md-2 offset-md-10">   
               <div class="card">
                 <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newInvitation(); largeModal.show()">
-                  New Invitation
+                    {{'common.new'|translate}}
                 </button>
               </div>
             </div>
@@ -120,14 +122,14 @@
           [mfActivePage]="activePage" [(mfAmountOfRows)]="itemsTotal" [mfIsServerPagination]="true" (mfOnPageChange)="onPageChange($event)">
           <thead>
             <tr>
-              <th style="width: 5%">No</th>
-              <th style="width: 10%">Mobile No</th>
-              <th style="width: 15%">Name</th>
-              <th style="width: 20%">Email</th>
-              <th style="width: 10%">Status</th>
-              <th style="width: 10%">Begin Date</th>
-              <th style="width: 10%">End Date</th>
-              <th style="width: 15%">Image</th>
+              <th style="width: 5%"> {{'common.no'|translate}}</th>
+              <th style="width: 10%"> {{'common.mobileNo'|translate}}</th>
+              <th style="width: 15%">{{'common.name'|translate}}</th>
+              <th style="width: 20%">{{'common.email'|translate}}</th>
+              <th style="width: 10%">{{'common.status'|translate}}</th>
+              <th style="width: 10%">{{'common.start'|translate}}</th>
+              <th style="width: 10%">{{'common.end'|translate}}</th>
+              <th style="width: 15%">{{'common.image'|translate}}</th>
               <th style="width: 5%"></th>
             </tr>
           </thead>
@@ -181,53 +183,53 @@
               <div class="card mx-2">
                 <div class="card-block p-2 row">
                   <div class="col-md-12">
-                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': phone.invalid && (phone.dirty || phone.touched), 'has-success': phone.valid && (phone.dirty || phone.touched)}">
+                    <div class="input-group mb-1" title="{{'common.mobileNo'|translate}}" [ngClass]="{ 'has-danger': phone.invalid && (phone.dirty || phone.touched), 'has-success': phone.valid && (phone.dirty || phone.touched)}">
                       <span class="input-group-addon">
                         <i class="icon-user"></i>
                       </span>
                       <input type="text" class="form-control" required id="phone" name="phone" #phone="ngModel"
                         (keyup)="mobileNoSearch($event)" [ngClass]="{ 'form-control-danger': phone.invalid && (phone.dirty ||phone.touched), 'form-control-success': phone.valid && (phone.dirty || phone.touched)}"
-                        placeholder="Visitor Mobile No." [(ngModel)]="model.visitor.phone">
+                        placeholder="{{'common.mobileNo'|translate}}" [(ngModel)]="model.visitor.phone">
                     </div>
                     <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched || phone.submitted)">
                       <p *ngIf="phone.errors.required">
-                        The Visitor Mobile No. is required
+                          {{'common.mobileNo'|translate}}{{'common.isRequired'|translate}}
                       </p>
                     </div>
 
-                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
+                    <div class="input-group mb-1" title="{{'common.name'|translate}}" [ngClass]="{ 'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
                       <input type="text" class="form-control" required id="name" name="name" #name="ngModel"
                         [ngClass]="{ 'form-control-danger': name.invalid && (name.dirty ||name.touched), 'form-control-success': name.valid && (name.dirty || name.touched)}"
-                        placeholder="Visitor Name" [(ngModel)]="model.visitor.name">
+                        placeholder="{{'common.name'|translate}}" [(ngModel)]="model.visitor.name">
                     </div>
                     <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched || name.submitted)">
                       <p *ngIf="name.errors.required">
-                        The Visitor Name is required
+                          {{'common.name'|translate}} {{'common.isRequired'|translate}}
                       </p>
                     </div>
 
-                    <div class="input-group mb-1" [ngClass]="{ 'has-danger': email.invalid && (email.dirty || email.touched), 'has-success': email.valid && (email.dirty || email.touched)}">
+                    <div class="input-group mb-1" title="{{'common.email'|translate}}" [ngClass]="{ 'has-danger': email.invalid && (email.dirty || email.touched), 'has-success': email.valid && (email.dirty || email.touched)}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
                       <input type="text" class="form-control" required id="email" name="email"
                         #email="ngModel" [ngClass]="{ 'form-control-danger': email.invalid && (email.dirty ||email.touched), 'form-control-success': email.valid && (email.dirty || email.touched)}"
-                        placeholder="Visitor's Email Address" [(ngModel)]="model.visitor.email">
+                        placeholder="{{'common.email'|translate}}" [(ngModel)]="model.visitor.email">
                     </div>
                     <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched || email.submitted)">
                       <p *ngIf="email.errors.required">
-                        The Visitor's Email Address is required
+                          {{'common.email'|translate}} {{'common.isRequired'|translate}}
                       </p>
                     </div>
 
-                    <div class="input-group mb-1">
+                    <div class="input-group mb-1" title="{{'common.start'|translate}}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Validtity of Invite begin date" (focus)="showStartDatePicker = !showStartDatePicker"
+                      <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
                         name="inputStartDate" value="{{model.visitor.beginDate | date:'yyyy/MM/dd'}}" />
                       <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
                         <i class="fa fa-calendar"></i>
@@ -238,11 +240,11 @@
                       </div>
                     </div>
 
-                    <div class="input-group mb-1">
+                    <div class="input-group mb-1" title="{{'common.end'|translate}}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
-                      <input type="text" class="form-control" placeholder="Validtity of Invite end date" (focus)="showEndDatePicker = !showEndDatePicker"
+                      <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" (focus)="showEndDatePicker = !showEndDatePicker"
                         name="inputEndDate" value="{{model.visitor.endDate | date:'yyyy/MM/dd'}}" />
                       <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
                         <i class="fa fa-calendar"></i>
@@ -253,7 +255,7 @@
                       </div>
                     </div>
 
-                    <div class="input-group mb-1">
+                    <div class="input-group mb-1" title="{{'pageInvitation.purpose'|translate}}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
@@ -264,19 +266,19 @@
                       </span>
                     </div>
 
-                    <div class="input-group mb-1">
+                    <div class="input-group mb-1" title="{{'pageInvtitation.sendBy'|translate}}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
                       </span>
 
                       <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="email">
                         <input type="checkbox" id="email" name="sendInvitationByEmail" (change)="checkboxSendBy('email', $event);">&nbsp;
-                        Email
+                        {{'common.email'|translate}} 
                       </label>
 
                       <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="sms">
                         <input type="checkbox" id="sms" name="sendInvitationBySMS" (change)="checkboxSendBy('sms', $event);">&nbsp;
-                        SMS
+                        {{'common.sms'|translate}} 
                       </label>
                     </div>
                   </div>
@@ -284,8 +286,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!visitorForm.valid">{{model.buttom}}</button>
+              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">{{'common.cancel'|translate}} </button>
+              <button type="submit" class="btn btn-primary" [disabled]="!visitorForm.valid">{{'common.save'|translate}} </button>
             </div>
           </form>
         </div>

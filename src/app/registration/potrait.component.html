@@ -7,8 +7,8 @@
             <div class="card p-2">
               <form #potraitForm="ngForm" action="javascript:void(0);" (ngSubmit)="potraitForm.valid && onFormSubmit(potraitForm);">
                 <div class="card-block">
-                  <h1>Upload your potrait</h1>
-                  <p class="text-muted">size must bigger then 300 x 300</p>
+                  <h1>{{'pageRegistration.uploadPotrait'|translate}}</h1>
+                  <p class="text-muted">{{'pageRegistration.potraitConstraint'|translate}}</p>
                   <div class="input-group mb-1">
                     <span class="input-group-addon">
                       <i class="icon-emotsmile"></i>
@@ -24,7 +24,7 @@
 
                   <div class="row">
                     <div class="col-6">
-                      <button type="submit" class="btn btn-primary px-2" [disabled]="!potraitForm.valid">Upload</button>
+                      <button type="submit" class="btn btn-primary px-2" [disabled]="!potraitForm.valid">{{'common.upload'|translate}}</button>
                     </div>
                   </div>
                 </div>
