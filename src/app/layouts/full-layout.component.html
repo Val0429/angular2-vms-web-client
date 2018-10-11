@@ -55,7 +55,7 @@
               </ul>
             </li>
             <!--Common Menu-->
-            <li class="nav-item nav-dropdown" routerLinkActive="open" >
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin || userIsSysAdmin || useIsTenantAdmin" >
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.setup'|translate}}
               </a>
@@ -107,15 +107,12 @@
                   </li>
               </ul>
             </li>
-            <!--Tenant Admin Menu-->
+            <!--Tenant User Menu-->
             <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsTenantUser">
               <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-emotsmile"></i>{{'pageLayout.menu.tenant'|translate}} </a>
               <ul class="nav-dropdown-items">
                 <li class="nav-item">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/tenant/invitation']"><i class="icon-target"></i> {{'pageLayout.tenant.invitation'|translate}}</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/tenant/tenant-user']"><i class="icon-target"></i> {{'pageLayout.tenant.tenantUser'|translate}}</a>
                 </li>
               </ul>
             </li>
