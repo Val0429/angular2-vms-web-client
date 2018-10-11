@@ -1,5 +1,4 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { InvitationService } from 'app/service/invitation.service';
 import { VisitorProfile } from 'app/Interface/interface';
 import { NgProgress } from 'ngx-progressbar';
@@ -12,32 +11,7 @@ import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 })
 
 export class InvitationComponent implements OnInit {
-  @ViewChild("visitorForm") visitorForm: NgForm;
-
-  private listItems = [];
-  private displayItems = [];
-  public data = [];
-  public rowsOnPage = 10;
-  public activePage = 1;
-  public itemsTotal = 0;
-
-  public purposes = [];
-
-  public filterQuery = '';
-
-  model: {
-    "title"?: string, "action": string, "buttom"?: string,
-    "sendBy": string[],
-    "visitor": VisitorProfile
-  } =
-  {
-    "title": "New Person",
-    "action": "New",
-    "buttom": "Create Person",
-    "sendBy": [],
-    "visitor": new VisitorProfile()
-  };
-
+  
   condition: {
     "mobileNo": string,
     "visitorName": string,
@@ -54,9 +28,21 @@ export class InvitationComponent implements OnInit {
     "endDatetime": ""
   }
 
+  private listItems = [];
+  private displayItems = [];
+  public data = [];
+  public rowsOnPage = 10;
+  public activePage = 1;
+  public itemsTotal = 0;
+
+  public purposes = [];
+
+  public filterQuery = '';
+
+  
+
   constructor(
     private invitationService: InvitationService, 
-    private changeDetecorRef: ChangeDetectorRef,
     private progressService:NgProgress,
     private dialogService:DialogService
   ) {
@@ -64,17 +50,27 @@ export class InvitationComponent implements OnInit {
   }
 
   async ngOnInit() {
-    var me = this;
+    
 
-    me.purposes = await this.invitationService.getPurposesList();
+    this.purposes = await this.invitationService.getPurposesList();
 
-    me.listItems = await this.invitationService.getInvitationList();
-    me.displayItems = me.listItems;
-    me.itemsTotal = me.displayItems.length;
+    this.listItems = await this.invitationService.getInvitationList();
+    this.displayItems = this.listItems;
+    this.itemsTotal = this.displayItems.length;
 
-    me.loadData();
+    this.loadData();
   }
-
+  checkboxInvitationStatus(elm, evt) {
+    if (evt.srcElement.checked) {
+      this.condition.status.push(elm);
+    }
+    else {
+      var index = this.condition.status.indexOf(elm, 0);
+      if (index > -1) {
+        this.condition.status.splice(index, 1);
+      }
+    }
+  }
   public loadData() {
     var start = (this.activePage - 1) * this.rowsOnPage;
     var items = this.displayItems.slice(start, start + this.rowsOnPage);
@@ -116,33 +112,6 @@ export class InvitationComponent implements OnInit {
     this.loadData();
   }
 
-  public async mobileNoSearch(event) {
-    if (event.keyCode != 13) return;
-
-    // Query and field name and email
-    var item = await this.invitationService.getVisitorFromMobile(this.model.visitor.phone);
-
-    this.model.visitor.name = item["name"] ;
-    this.model.visitor.email = item["email"] ;
-  }
-
-  public checkboxPurposes(elm, evt) {
-    if (evt.srcElement.checked) {
-      this.model.visitor.purpose = elm;
-    }
-  }
-
-  public checkboxSendBy(elm, evt) {
-    if (evt.srcElement.checked) {
-      this.model.sendBy.push(elm);
-    }
-    else {
-      var index = this.model.sendBy.indexOf(elm, 0);
-      if (index > -1) {
-        this.model.sendBy.splice(index, 1);
-      }
-    }
-  }
 
   public searchKeyUp(event) {
     if (event.keyCode != 13) return;
@@ -156,7 +125,7 @@ export class InvitationComponent implements OnInit {
     let filter = this.filterQuery.toLowerCase();
     for (var i of this.listItems) {
       if ((i.phone.indexOf(filter) > -1) ||
-        (i.name.toLowerCase().indexOf(filter) > -1) ||
+        (i.nathis.toLowerCase().indexOf(filter) > -1) ||
         (i.email.toLowerCase().indexOf(filter) > -1) ||
         (i.status.indexOf(filter) > -1))
         this.displayItems.push(i);
@@ -165,40 +134,20 @@ export class InvitationComponent implements OnInit {
     this.loadData();
   }
 
-  checkboxInvitationStatus(elm, evt) {
-    if (evt.srcElement.checked) {
-      this.condition.status.push(elm);
-    }
-    else {
-      var index = this.condition.status.indexOf(elm, 0);
-      if (index > -1) {
-        this.condition.status.splice(index, 1);
-      }
-    }
-  }
 
   public async invitationsSearch(event) {
-    var me = this;
+    
 
-    me.listItems = await this.invitationService.getSearchInvitationList(this.condition);
+    this.listItems = await this.invitationService.getSearchInvitationList(this.condition);
 
-    me.displayItems = me.listItems;
-    me.itemsTotal = me.displayItems.length;
+    this.displayItems = this.listItems;
+    this.itemsTotal = this.displayItems.length;
 
-    me.loadData();
+    this.loadData();
   }
  
 
-  newInvitation() {
-    this.model.title = "New Invitation";
-    this.model.action = "New";
-    this.model.buttom = "Create";
-
-    this.model.visitor = new VisitorProfile();
-
-    this.visitorForm.resetForm();
-    this.changeDetecorRef.detectChanges();
-  }
+ 
 
   async deleteInvitation(item) {
     if (item == null) return;
@@ -222,27 +171,6 @@ export class InvitationComponent implements OnInit {
     });
   }
 
-  onFormSubmit(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-    console.log('form submit');
 
-    this.saveInvitation();
-  }
-
-  async saveInvitation() {
-    
-
-    console.log(this.model);
-
-    if (this.model.action == "New") {
-      var result = await this.invitationService.createInvitation(this.model);
-
-      if (result) {
-        this.listItems.push(result);
-        this.loadData();
-      }
-    }
-  }
+  
 }

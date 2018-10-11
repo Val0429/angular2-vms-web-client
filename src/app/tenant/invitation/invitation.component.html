@@ -162,39 +162,3 @@
   </div>
 </div>
 
-
-
-<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="vertical-alignment-helper">
-    <div class="modal-dialog vertical-align-center">
-
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <h4 class="modal-title">{{model.title}}</h4>
-            <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form #visitorForm="ngForm" action="javascript:void(0);" (ngSubmit)="visitorForm.valid && onFormSubmit(visitorForm); largeModal.hide();">
-            <div class="modal-body">
-              <div class="card mx-2">
-                <div class="card-block p-2 row">
-                  <div class="col-md-12">
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">{{'common.cancel'|translate}} </button>
-              <button type="submit" class="btn btn-primary" [disabled]="!visitorForm.valid">{{'common.save'|translate}} </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // DataTable
 import { DataTableModule } from 'angular2-datatable';
@@ -27,6 +27,7 @@ import { CreateInvitationComponent } from './invitation/create-invitation.compon
     ModalModule.forRoot(),
     TenantRoutingModule,
     DatepickerModule.forRoot(),
+    ReactiveFormsModule,  
     NgProgressModule
   ],
   entryComponents:[
