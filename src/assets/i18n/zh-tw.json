@@ -100,6 +100,7 @@
 		"wsPort": "WS Port"
 	},
 	"pageInvestigation": {
+		"event": "Event",
 		"eventTime": "Event Time",
 		"kioskName": "Kiosk Name",
 		"purpose": "Purpose",

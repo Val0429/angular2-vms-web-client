@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Invitation, Notify, InvitationDate, Purpose, Visitor } from 'app/infrastructure/interface';
+import { Invitation, Notify, InvitationDate, Purpose, Visitor, Investigation } from 'app/infrastructure/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -9,6 +9,7 @@ export class InvitationService {
     private uriPurposesList: string = this.configService.getCgiRoot() + "purposes";
     private uriInvites: string =this.configService.getCgiRoot() + "visitors/invites";
     private uriVisitors: string = this.configService.getCgiRoot() + "visitors";
+    private uriInvestigation: string = this.configService.getCgiRoot() + "visitors/investigation";
     private uriPreRegistration: string = this.configService.getCgiRoot() + "visitors/pre-registration" ;
 
     constructor(
@@ -46,7 +47,13 @@ export class InvitationService {
         console.log("get result", result);
         return result && result.results ? result.results : [];
     }
-
+    async getInvestigations(query:string):Promise<Investigation[]>{
+        
+        var token = this.loginService.getCurrentUserToken();        
+        var result = await this.coreService.getConfig({ path: this.uriInvestigation, query: "?sessionId=" + token.sessionId + query }).toPromise();
+        console.log("get result", result);
+        return result && result.results ? result.results : [];
+    }
     async getSearchInvitationList(condition) {
         var me = this;
         var token = me.loginService.getCurrentUserToken();

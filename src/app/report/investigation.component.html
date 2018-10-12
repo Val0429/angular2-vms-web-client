@@ -1,36 +1,57 @@
+<ng-progress></ng-progress>
 <div class="animated fadeIn">
     <div class="card">
         <div class="card-header">
-            Search Condition
+          {{'common.searchCondition' | translate}} 
         </div>
         <div class="card-block row">
+          <form novalidate
+          [formGroup]="myform">                  
+
+                  <div class="input-group mb-1" title="{{'common.start'|translate}}"  [ngClass]="{ 'has-danger': start.invalid && (start.dirty || start.touched), 'has-success': start.valid && (start.dirty || start.touched)}">
+                    <span class="input-group-addon">
+                      <i class="icon-emotsmile"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
+                      value="{{start.value | date : 'yyyy-MM-dd'}}"  formControlName="start"/>
+                    <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                    <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                      <datepicker  [showWeeks]="false" formControlName="start" 
+                        (selectionDone)="showStartDatePicker = false"></datepicker>
+                    </div>
+                  </div>
+                  <div style="color:red" *ngIf="start.errors && (start.dirty || start.touched)">
+                    <p *ngIf="start.errors.required">
+                        {{'common.start'|translate}} {{'common.isRequired'|translate}}
+                    </p>
+                  </div>
+                  <div class="input-group mb-1" title="{{'common.end'|translate}}"  [ngClass]="{ 'has-danger': end.invalid && (end.dirty || end.touched), 'has-success': end.valid && (end.dirty || end.touched)}">
+                    <span class="input-group-addon">
+                      <i class="icon-emotsmile"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" formControlName="end"
+                      (focus)="showEndDatePicker = !showEndDatePicker"
+                      value="{{end.value | date : 'yyyy-MM-dd'}}"/>
+                    <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                    <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                      <datepicker [showWeeks]="false" formControlName="end"
+                        (selectionDone)="showEndDatePicker = false"></datepicker>
+                    </div>
+                  </div>
+                  <div style="color:red" *ngIf="end.errors && (end.dirty || end.touched)">
+                    <p *ngIf="end.errors.required">
+                        {{'common.end'|translate}} {{'common.isRequired'|translate}}
+                    </p>
+                  </div>
+    </form>
+    <pre>{{myform.value | json}}</pre> 
             <div class="col-md-4">
-              <div class="input-group">
-                <!--<input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false"
-         (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{model.startdate | date:'yyyy/MM/dd'}}"/>-->
-                <input type="text" class="form-control" placeholder="Start Date" (onfocusout)="showStartDatePicker = false"
-                       (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="" />
-                <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker"><i class="fa fa-calendar"></i></span>
-                <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                  <!--<datepicker name="startDate" [showWeeks]="false" [(ngModel)]="model.startdate" (selectionDone)="showStartDatePicker = false"></datepicker>-->
-                  <datepicker name="startDate" [showWeeks]="false" (selectionDone)="showStartDatePicker = false"></datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="input-group">
-                <!--<input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="{{model.enddate | date:'yyyy/MM/dd'}}"/>-->
-                <input type="text" class="form-control" placeholder="End Date" (focus)="showEndDatePicker = !showEndDatePicker" name="inputEndDate" value="" />
-                <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker"><i class="fa fa-calendar"></i></span>
-                <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                  <!--<datepicker name="endDate" [showWeeks]="false" [(ngModel)]="model.enddate" (selectionDone)="showEndDatePicker = false"></datepicker>-->
-                  <datepicker name="endDate" [showWeeks]="false" (selectionDone)="showEndDatePicker = false"></datepicker>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button> 
-                <button type="submit" class="btn btn-primary px-2 pull-right" (click)="validateSearch()">Search</button>
+                <!-- <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button>  -->
+                <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid" (click)="doSearch()">{{'common.search' | translate}}</button>
             </div>
         </div>
     </div>
@@ -44,22 +65,25 @@
               <thead>
                 <tr>
                   <th style="width: 5%">{{'common.no' | translate}}</th>
-                  <th style="width: 25%">
+                  <th style="width: 15%">
                     {{'pageInvestigation.visitorName' | translate}}
                   </th>
-                  <th style="width: 25%">
+                  <th style="width: 15%">
                     {{'pageInvestigation.purpose' | translate}}
                   </th>
                   <th style="width: 10%">
                     {{'pageInvestigation.kioskName' | translate}}
                   </th>
-                  <th style="width: 10%">
+                  <!-- <th style="width: 10%">
                     {{'pageInvestigation.eventTime' | translate}}
-                  </th>
+                  </th> -->
                   <th style="width: 15%">
-                    {{'pageInvestigation.status' | translate}}
+                      {{'pageInvestigation.status' | translate}}
+                    </th>
+                  <th>
+                    {{'pageInvestigation.event' | translate}}
                   </th>
-      
+                 
                 </tr>
               </thead>
               <tbody>
@@ -67,19 +91,31 @@
                 <tr *ngFor="let item of mf.data; let i = index">
                   <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
       
-                  <td>{{item.visitorName}}</td>
+                  <td>{{item.visitor.name}}</td>
                   <td>
-                    {{item.purpose}}
+                    {{item.purpose.name}}
                   </td>
                   <td>
-                    {{item.kioskName}}
+                    {{item.kiosk && item.kiosk.data && item.kiosk.data.kioskName ? item.kiosk.data.kioskName : ""}}
+                  </td>
+                  <!-- <td>                    
+                    {{item.events && item.events.length > 0 ? (item.events[item.events.length-1].createdAt | date : "yyyy-MM-dd HH:mm:ss") :  ""}}
+                  </td> -->
+                  <td>
+                    <ul>
+                      <li>{{'pageInvitation.'+item.visitor.status | translate}}</li>
+                      <li>{{item.events && item.events.length > 0 ? item.events[item.events.length-1].action :  ""}}</li>
+                    </ul>
                   </td>
                   <td>
-                    {{item.eventTime}}
+                      <ul>
+                          <li *ngFor="let event of item.events">
+                            {{event.action}} | {{event.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}
+                          </li>
+                        </ul>
+                   
                   </td>
-                  <td>
-                    {{item.status}}
-                  </td>
+                 
       
                 </tr>
               </tbody>

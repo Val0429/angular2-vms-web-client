@@ -7,7 +7,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 // DataTable
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DatepickerModule,BsDropdownModule} from 'ng2-bootstrap';
 
 
@@ -18,6 +18,7 @@ import { ReportRoutingModule } from './report-routing.module';
 import { TranslateModule } from 'ng2-translate';
 import { VisitorStatisticComponent } from './visitor-statistic.component';
 import { VisitorPopupComponent } from './visitor-popup.component';
+import { NgProgressModule } from 'ngx-progressbar';
 
 @NgModule({
   imports: [
@@ -30,7 +31,9 @@ import { VisitorPopupComponent } from './visitor-popup.component';
     HttpModule,
     ChartsModule, 
     BsDropdownModule.forRoot(),
-    DatepickerModule.forRoot()
+    DatepickerModule.forRoot(),
+    NgProgressModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     VisitorPopupComponent
