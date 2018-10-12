@@ -58,22 +58,9 @@ export class User extends BaseUser{
 }
 
 export class SessionToken {
-
     public sessionId: string;
     public serverTime: number;
     public user: User;
-
-    public fromJSON(json: any): SessionToken {
-        //let object = Object.create(sessionToken.prototype);
-        //optional property
-
-        this.user = json["user"];
-
-        this.sessionId = json["sessionId"];
-        this.serverTime = json["serverTime"];
-
-        return this;
-    }
 }
 
 export class KioskData {

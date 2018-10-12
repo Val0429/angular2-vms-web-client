@@ -76,8 +76,7 @@ export class LoginService implements CanActivate {
   getCurrentUserToken(): SessionToken {
     var item = sessionStorage.getItem(Globals.currentUserToken);
     if (item && item !== null) {
-      var sessionToken = new SessionToken().fromJSON(JSON.parse(item));
-
+      var sessionToken = JSON.parse(item) as SessionToken;
       return sessionToken;
     }
     else return null;
