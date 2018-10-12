@@ -98,7 +98,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     
     //add dummy select company as placeholder
     let selectCompany = new Company();
-    selectCompany.name = this.commonService.getLocaleString("common.select")+ " " +this.commonService.getLocaleString("pageAccount.companyName");
+    selectCompany.name = this.commonService.getLocaleString("common.select") +this.commonService.getLocaleString("pageAccount.companyName");
     selectCompany.objectId="";
     this.companyOptions.unshift(selectCompany);
 

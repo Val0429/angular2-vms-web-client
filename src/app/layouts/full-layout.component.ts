@@ -87,7 +87,7 @@ export class FullLayoutComponent   implements OnInit {
     var result = await this.userService.update(data);
     if(result){
       this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
-      " "+this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
+      this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
       this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
       this.commonService.getLocaleString("common.alert")).subscribe(async()=>{
         await this.logout();
