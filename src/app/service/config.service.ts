@@ -28,7 +28,7 @@ export class ConfigService {
     //host distribution inside vsm server, we only need to return base url
     else{ 
         let getUrl = window.location;
-        return getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        return getUrl .protocol + "//" + getUrl.host + "/";
     }    
   }
   getWsRoot():string{
@@ -39,7 +39,7 @@ export class ConfigService {
     //host distribution inside vsm server, we only need to return base url
     else{ 
         let getUrl = window.location;
-        return "ws://" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        return "ws://" + getUrl.host + "/" ;
     }
   }
 }
