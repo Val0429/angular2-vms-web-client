@@ -17,7 +17,7 @@ import { InvestigationComponent } from './investigation.component';
 import { ReportRoutingModule } from './report-routing.module';
 import { TranslateModule } from 'ng2-translate';
 import { VisitorStatisticComponent } from './visitor-statistic.component';
-import { VisitorComponent } from './visitor.component';
+import { VisitorPopupComponent } from './visitor-popup.component';
 
 @NgModule({
   imports: [
@@ -33,13 +33,13 @@ import { VisitorComponent } from './visitor.component';
     DatepickerModule.forRoot()
   ],
   entryComponents: [
-    VisitorComponent
+    VisitorPopupComponent
   ],
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
     VisitorStatisticComponent, 
-    VisitorComponent
+    VisitorPopupComponent
   ]
 })
 export class ReportModule { }
