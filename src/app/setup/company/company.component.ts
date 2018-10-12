@@ -101,7 +101,7 @@ export class CompanyComponent implements OnInit{
           this.data.splice(index, 1);          
           let tempIndex = this.tempData.indexOf(item, 0);            
           this.tempData.splice(tempIndex, 1);
-          this.commonService.showAlert(item.name+" "+this.commonService.getLocaleString("common.hasBeenDeleted"));
+          this.commonService.showAlert(item.name +this.commonService.getLocaleString("common.hasBeenDeleted"));
         }//no catch, global error handle handles it
         finally{      
           this.progressService.done();
@@ -134,14 +134,14 @@ export class CompanyComponent implements OnInit{
     if(tempIndex<0){
       this.tempData.push(data);
       this.data.push(data);
-      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenCreated")).subscribe(()=>{});
+      this.commonService.showAlert(data.name +this.commonService.getLocaleString("common.hasBeenCreated")).subscribe(()=>{});
     }
     else{
       //update data at specified index
       this.tempData[tempIndex] = data;    
       let index = this.data.map(function (e) { return e.objectId }).indexOf(data.objectId);
       this.data[index] = data;
-      this.commonService.showAlert(data.name + " "+this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
+      this.commonService.showAlert(data.name +this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
     }
   }
 
