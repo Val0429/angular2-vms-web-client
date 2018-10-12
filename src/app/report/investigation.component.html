@@ -91,7 +91,11 @@
                 <tr *ngFor="let item of mf.data; let i = index">
                   <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
       
-                  <td>{{item.visitor.name}}</td>
+                  <td>
+                    {{item.visitor.name}}<br/>
+                    <img title="{{item.visitor.name}}" src="{{thumbnailUrl+item.visitor.image+postThumbnailUrl}}" style="width:auto;height:200px"/>
+
+                  </td>
                   <td>
                     {{item.purpose.name}}
                   </td>
@@ -110,7 +114,7 @@
                   <td>
                       <ul>
                           <li *ngFor="let event of item.events">
-                            {{event.action}} | {{event.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}
+                           <span style="cursor: pointer" (click)="eventClick(event)">{{event.action}} | {{event.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}</span> 
                           </li>
                         </ul>
                    

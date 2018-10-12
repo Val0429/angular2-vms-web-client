@@ -19,6 +19,7 @@ import { TranslateModule } from 'ng2-translate';
 import { VisitorStatisticComponent } from './visitor-statistic.component';
 import { VisitorPopupComponent } from './visitor-popup.component';
 import { NgProgressModule } from 'ngx-progressbar';
+import { EventPopupComponent } from './event-popup.component';
 
 @NgModule({
   imports: [
@@ -36,13 +37,14 @@ import { NgProgressModule } from 'ngx-progressbar';
     ReactiveFormsModule
   ],
   entryComponents: [
-    VisitorPopupComponent
+    VisitorPopupComponent,
+    EventPopupComponent
   ],
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
     VisitorStatisticComponent, 
-    VisitorPopupComponent
+    VisitorPopupComponent, EventPopupComponent
   ]
 })
 export class ReportModule { }

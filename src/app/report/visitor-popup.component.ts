@@ -4,7 +4,7 @@ import { CreateEditDialog, RecurringVisitor, Visitor, Company } from '../infrast
 import { LoginService } from '../service/login.service';
 import { ConfigService } from '../service/config.service';
 @Component({
-  selector: 'app-visitor',
+  selector: 'app-visitor-popup',
   templateUrl: './visitor-popup.component.html'
 })
 export class VisitorPopupComponent extends DialogComponent<CreateEditDialog, RecurringVisitor> implements CreateEditDialog, OnInit {

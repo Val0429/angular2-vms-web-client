@@ -1,9 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-import { Investigation } from "app/infrastructure/interface";
+import { Investigation, KioskEvent } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
-import { CommonService } from "app/service/common.service";
+
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { DialogService } from "ng2-bootstrap-modal";
+import { LoginService } from "app/service/login.service";
+import { ConfigService } from "app/service/config.service";
+import { EventPopupComponent } from "./event-popup.component";
 
 @Component({
   templateUrl: 'investigation.component.html'
@@ -16,11 +20,14 @@ export class InvestigationComponent implements OnInit{
   end:FormControl;
   
   data : Investigation[];
-  
+  thumbnailUrl:string;
+  postThumbnailUrl:string;
   constructor(
     private progressService:NgProgress, 
     private invitationService:InvitationService, 
-    private commonService:CommonService
+    private dialogService:DialogService,
+    private loginService:LoginService, 
+    private configService:ConfigService
   ){
     this.createFormControls();
     this.createForm();
@@ -29,6 +36,9 @@ export class InvestigationComponent implements OnInit{
     return this.progressService.isStarted();
   }
   async ngOnInit() {
+    let token = this.loginService.getCurrentUserToken();
+    this.postThumbnailUrl="&size=300&sessionId="+token.sessionId;
+    this.thumbnailUrl=this.configService.getCgiRoot()+"thumbnail?url=";
     await this.doSearch();
   }
   async doSearch(){
@@ -46,6 +56,15 @@ export class InvestigationComponent implements OnInit{
       start : this.start,
       end:this.end
     });
+  }
+
+  public eventClick(eventData: KioskEvent): void {
+    
+      let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService);
+      eventDialog.setFormData(eventData, eventData.action);
+      this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});
+    
+
   }
   createFormControls(): any {
     let now : Date= new Date(Date.now());        

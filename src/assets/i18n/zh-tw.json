@@ -103,7 +103,9 @@
 		"event": "Event",
 		"eventTime": "Event Time",
 		"kioskName": "Kiosk Name",
+		"pin": "Pin Code",
 		"purpose": "Purpose",
+		"score": "Score",
 		"status": "Status",
 		"visitorName": "Visitor Name"
 	},
