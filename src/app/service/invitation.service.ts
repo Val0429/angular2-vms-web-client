@@ -113,16 +113,9 @@ export class InvitationService {
     }
 
     async preRegistration(data) {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
         var objectId = data.objectId;
-
-        var d = `{
-            "image": "data:image/jpeg;base64,` + data.potrait + `"
-        }` ;
-
-        console.log(JSON.parse(d));
-        var result = await me.coreService.putConfig({ path: this.uriPreRegistration + "?sessionId=" + token.sessionId + "&objectId=" + objectId, data: JSON.parse(d) }).toPromise();
+        var result = await this.coreService.putConfig({ path: this.uriPreRegistration + "?objectId=" + objectId, 
+            data: { image: "data:image/jpeg;base64," + data.potrait } }).toPromise();
         console.log(result);
 
         return result;
