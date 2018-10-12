@@ -162,7 +162,7 @@
 		},
 		"tenant": {
 			"invitation": "Invitation",
-			"tenantUser": "Visitor"
+			"visitor": "Visitor"
 		}
 	},
 	"pageLicense": {

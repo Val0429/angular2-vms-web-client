@@ -32,7 +32,12 @@ export class InvitationService {
         console.log(result);
         return result && result.results && result.results[0] ? result.results[0] : null;
     }
-
+    async getVisitors(query:string): Promise<Visitor[]> {        
+        var token = this.loginService.getCurrentUserToken();        
+        var result = await this.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + query }).toPromise();
+        console.log(result);
+        return result && result.results ? result.results : [];
+    }
     async getInvitationList(): Promise<Invitation[]> {
         
         var token = this.loginService.getCurrentUserToken();
