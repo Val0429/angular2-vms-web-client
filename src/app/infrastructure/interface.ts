@@ -149,3 +149,18 @@ export class Invitation extends BaseClass {
     public purpose:Purpose;
     public visitor:Visitor;
 }
+
+export class KioskEvent extends BaseClass{
+    public action: string;    
+    public pin:string;
+    public score:number;
+    public image:string;
+}
+export class Investigation{
+    public visitor:Visitor;
+    public invitation:Invitation;
+    public company:Company;
+    public kiosk:KioskUser;
+    public purpose : Purpose;
+    public events:KioskEvent[];
+}
