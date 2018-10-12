@@ -55,7 +55,7 @@
               </ul>
             </li>
             <!--Common Menu-->
-            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin || userIsSysAdmin || useIsTenantAdmin" >
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin || userIsSysAdmin || userIsTenantAdmin" >
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.setup'|translate}}
               </a>
