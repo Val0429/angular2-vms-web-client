@@ -1,0 +1,131 @@
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <form novalidate
+            [formGroup]="myform">
+                    <div class="input-group mb-1" title="{{'common.mobileNo'|translate}}" [ngClass]="{ 'has-danger': phone.invalid && (phone.dirty || phone.touched), 'has-success': phone.valid && (phone.dirty || phone.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-user"></i>
+                      </span>
+                      <input type="text" class="form-control" formControlName="phone" 
+                        (keyup)="mobileNoSearch($event)" [ngClass]="{ 'form-control-danger': phone.invalid && (phone.dirty ||phone.touched), 'form-control-success': phone.valid && (phone.dirty || phone.touched)}"
+                        placeholder="{{'common.mobileNo'|translate}}" >
+                    </div>
+                    <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
+                      <p *ngIf="phone.errors.required">{{'common.mobileNo'|translate}}{{'common.isRequired'|translate}}</p>
+                      <p *ngIf="phone.errors.pattern">{{'common.mobileNo'|translate}}{{'common.isInvalid'|translate}}</p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.name'|translate}}" [ngClass]="{ 'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" formControlName="name" 
+                        [ngClass]="{ 'form-control-danger': name.invalid && (name.dirty ||name.touched), 'form-control-success': name.valid && (name.dirty || name.touched)}"
+                        placeholder="{{'common.name'|translate}}">
+                    </div>
+                    <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
+                      <p *ngIf="name.errors.required">{{'common.name'|translate}} {{'common.isRequired'|translate}}</p>
+                      <p *ngIf="name.errors.minLength">{{'common.name'|translate}}{{'common.isInvalid'|translate}}</p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.email'|translate}}" [ngClass]="{ 'has-danger': email.invalid && (email.dirty || email.touched), 'has-success': email.valid && (email.dirty || email.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" formControlName="email"
+                        [ngClass]="{ 'form-control-danger': email.invalid && (email.dirty ||email.touched), 'form-control-success': email.valid && (email.dirty || email.touched)}"
+                        placeholder="{{'common.email'|translate}}" >
+                    </div>
+                    <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched )">
+                      <p *ngIf="email.errors.required">{{'common.email'|translate}} {{'common.isRequired'|translate}}</p>
+                      <p *ngIf="email.errors.pattern">{{'common.email'|translate}}{{'common.isInvalid'|translate}}</p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'common.start'|translate}}"  [ngClass]="{ 'has-danger': start.invalid && (start.dirty || start.touched), 'has-success': start.valid && (start.dirty || start.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
+                        value="{{start.value | date : 'yyyy-MM-dd'}}"  formControlName="start"/>
+                      <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker  [showWeeks]="false" formControlName="start" 
+                          (selectionDone)="showStartDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+                    <div style="color:red" *ngIf="start.errors && (start.dirty || start.touched)">
+                      <p *ngIf="start.errors.required">
+                          {{'common.start'|translate}} {{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+                    <div class="input-group mb-1" title="{{'common.end'|translate}}"  [ngClass]="{ 'has-danger': end.invalid && (end.dirty || end.touched), 'has-success': end.valid && (end.dirty || end.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" formControlName="end"
+                        (focus)="showEndDatePicker = !showEndDatePicker"
+                        value="{{end.value | date : 'yyyy-MM-dd'}}"/>
+                      <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                      <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
+                        <datepicker [showWeeks]="false" formControlName="end"
+                          (selectionDone)="showEndDatePicker = false"></datepicker>
+                      </div>
+                    </div>
+                    <div style="color:red" *ngIf="end.errors && (end.dirty || end.touched)">
+                      <p *ngIf="end.errors.required">
+                          {{'common.end'|translate}} {{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+
+                    <div class="input-group mb-1" title="{{'pageInvitation.purpose'|translate}}"
+                    [ngClass]="{ 'has-danger': purpose.invalid && (purpose.dirty || purpose.touched), 'has-success': purpose.valid && (purpose.dirty || purpose.touched)}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <select 
+                        class="form-control"                 
+                        formControlName="purpose">  
+                        <option *ngFor="let item of purposes" [ngValue]="item.objectId" >{{'pageInvitation.'+item.name | translate}}</option>
+                        </select>
+                    </div>
+                    <div style="color:red" *ngIf="purpose.errors && (purpose.dirty || purpose.touched)">
+                      <p *ngIf="purpose.errors.required">
+                          {{'pageInvitation.purpose'|translate}} {{'common.isRequired'|translate}}
+                      </p>
+                    </div>
+                    <div class="input-group mb-1" title="{{'pageInvitation.sendBy'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="email">
+                        <input type="checkbox" formControlName="sendByEmail">&nbsp;
+                        {{'common.email'|translate}} 
+                      </label>
+
+                      <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="sms">
+                        <input type="checkbox" formControlName="sendBySms">&nbsp;
+                        {{'common.sms'|translate}} 
+                      </label>
+                    </div>
+                  
+      </form>
+      <!-- <pre>{{myform.value | json}}</pre> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,22 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateEditTenantUserComponent } from './create-edit-tenant-user.component';
+import { InvitationComponent } from './invitation.component';
 import { AppTestModule } from '../../app.module.test';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('CreateEditTenantUserComponent', () => {
-  let component: CreateEditTenantUserComponent;
-  let fixture: ComponentFixture<CreateEditTenantUserComponent>;
+describe('InvitationComponent', () => {
+  let component: InvitationComponent;
+  let fixture: ComponentFixture<InvitationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],  
       imports: [AppTestModule],
-      declarations: [ CreateEditTenantUserComponent ]
+      declarations: [ InvitationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEditTenantUserComponent);
+    fixture = TestBed.createComponent(InvitationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
