@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { VisitorProfile } from 'app/Interface/interface';
+import { Invitation, Notify, InvitationDate, Purpose } from 'app/Interface/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -17,19 +17,12 @@ export class InvitationService {
         private configService: ConfigService
     ) { }
 
-    async getPurposesList(): Promise<any[]> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
-
-        var purposes = [];
-        var result = await me.coreService.getConfig({ path: this.uriPurposesList, query: "?sessionId=" + token.sessionId }).toPromise();
+    async getPurposesList(): Promise<Purpose[]> {
+        
+        var token = this.loginService.getCurrentUserToken();
+        var result = await this.coreService.getConfig({ path: this.uriPurposesList, query: "?sessionId=" + token.sessionId }).toPromise();
         console.log(result);
-
-        for (var r of result["results"]) {
-            purposes.push(r);
-        }
-
-        return purposes;
+        return result && result.results ? result.results:[];
     }
 
     async getVisitorFromMobile(phone): Promise<Object> {
@@ -50,20 +43,13 @@ export class InvitationService {
         return JSON.parse(visitor);
     }
 
-    async getInvitationList(): Promise<VisitorProfile[]> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
-
-        var invitations = [];
-        var result = await me.coreService.getConfig({ path: this.uriInvites, query: "?sessionId=" + token.sessionId }).toPromise();
-        console.log(result);
-
-        for (var r of result["results"]) {
-            var vp = new VisitorProfile().fromJSON(r);
-            invitations.push(vp);
-        }
-
-        return invitations;
+    async getInvitationList(): Promise<Invitation[]> {
+        
+        var token = this.loginService.getCurrentUserToken();
+        
+        var result = await this.coreService.getConfig({ path: this.uriInvites, query: "?sessionId=" + token.sessionId }).toPromise();
+        console.log("get result", result);
+        return result && result.results ? result.results : [];
     }
 
     async getSearchInvitationList(condition) {
@@ -86,72 +72,44 @@ export class InvitationService {
         if (condition.status != "")
             q += "&status=" + condition.status;
 
-        var invitations = [];
+        
         var result = await me.coreService.getConfig({ path: this.uriInvites, query: "?sessionId=" + token.sessionId + q }).toPromise();
         console.log(result);
-
-        for (var r of result["results"]) {
-            var vp = new VisitorProfile().fromJSON(r);
-            invitations.push(vp);
-        }
-
-        return invitations;
+        
+        return result && result.results ? result.results : [];
+        
     }
 
-    async createInvitation(data): Promise<VisitorProfile> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
+    async createInvitation(data:Invitation, start:string, end:string): Promise<Invitation> {
+        
+        var token = this.loginService.getCurrentUserToken();
 
-        var dates = [];
-        var begin = data.visitor.beginDate;
-        var end = data.visitor.endDate;
+        data.dates = [];
+        var begin = new Date(start);
+        var finish = new Date(end);
 
-        while (begin <= end) {
+        while (begin <= finish) {                        
             var t = new Date(begin);
-            t.setHours(23, 59, 59);
-
-            dates.push(`{ "start": "` + begin.toISOString() + `", "end": "` + t.toISOString() + `" }`);
-            begin.setDate(t.getDate() + 1);
+            var newDate = new InvitationDate();
+            //start of pin code validity for this day
+            newDate.start = new Date(t.setHours(0, 0, 0));
+            //end of pin code validity for this day       
+            newDate.end = new Date(t.setHours(23, 59, 59));
+            data.dates.push(newDate);            
+            //next date
+            begin.setDate(begin.getDate() + 1);
         }
 
-        var d = `{
-            "visitor": {
-              "name": "` + data.visitor.name + `",
-              "phone": "` + data.visitor.phone + `",
-              "email": "` + data.visitor.email + `"
-            },
-            "notify": {
-              "visitor": {
-                "email": ` + (data.sendBy.concat("email") ? "true" : "false") + `,
-                "phone": ` + (data.sendBy.concat("sms") ? "true" : "false") + `
-              }
-            },
-            "dates": [` + dates.join(',') + `],
-            "purpose": "` + data.visitor.purpose.objectId + `"
-          }` ;
-
-        console.log(JSON.parse(d));
-
-        var result = await me.coreService.postConfig({ path: this.uriInvites + "?sessionId=" + token.sessionId, data: JSON.parse(d) }).toPromise();
-        console.log(result);
-
-        return new VisitorProfile().fromJSON(result);
+        var result = await this.coreService.postConfig({ path: this.uriInvites + "?sessionId=" + token.sessionId, data }).toPromise();        
+        console.log("new item: ", result);
+        return result;
     }
 
-    async cancelInvitation(data): Promise<VisitorProfile> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
-        var objectId = data.objectId;
-
-        var d = `{
-            "cancelled": true
-        }` ;
-
-        console.log(JSON.parse(d));
-        var result = await me.coreService.putConfig({ path: this.uriInvites + "?sessionId=" + token.sessionId + "&objectId=" + objectId, data: JSON.parse(d) }).toPromise();
-        console.log(result);
-
-        return result;
+    async cancelInvitation(objectId : string): Promise<Invitation> {
+        var token = this.loginService.getCurrentUserToken();        
+        var result = await this.coreService.putConfig({ path: this.uriInvites + "?sessionId=" + token.sessionId + "&objectId=" + objectId, data: {cancelled: true}}).toPromise();
+        console.log("delete result", result);
+        return result ? result : new Invitation();
     }
 
     async preRegistration(data) {

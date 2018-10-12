@@ -10,7 +10,7 @@
           </div>
         </div>
       </div>
-  <div class="row">
+  <div class="row" >
     <div class="col-12">
       <div class="card">
         <div class="card-header">
@@ -21,10 +21,8 @@
             <label class="col-md-2 form-control-label">{{'common.mobileNo'|translate}} </label>
             <div class="col-md-10">
               <div class="input-group">
-                <input type="text" class="form-control" id="mobileNo" 
-                name="mobileNo" #mobileNo="ngModel" 
-                placeholder="{{'common.mobileNo'|translate}}"
-                  [(ngModel)]="condition.mobileNo">
+                <input type="text" class="form-control"                 
+                placeholder="{{'common.mobileNo'|translate}}">
               </div>
             </div>
           </div>
@@ -33,8 +31,8 @@
             <label class="col-md-2 form-control-label"> {{'common.name'|translate}} </label>
             <div class="col-md-10">
               <div class="input-group">
-                <input type="text" class="form-control" id="visitorName" name="visitorName" #visitorName="ngModel"
-                  placeholder="{{'common.name'|translate}}" [(ngModel)]="condition.visitorName">
+                <input type="text" class="form-control" 
+                  placeholder="{{'common.name'|translate}}" >
               </div>
             </div>
           </div>
@@ -44,22 +42,22 @@
             <div class="col-md-5">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (onfocusout)="showStartDatePicker = false"
-                  (focus)="showStartDatePicker = !showStartDatePicker" name="inputBeginDate" value="{{condition.beginDatetime | date:'yyyy/MM/dd'}}" />
+                  (focus)="showStartDatePicker = !showStartDatePicker"  />
                 <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
                   <i class="fa fa-calendar"></i>
                 </span>
                 <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                  <datepicker name="beginDatetime" [showWeeks]="false" [(ngModel)]="condition.beginDatetime"
+                  <datepicker [showWeeks]="false" 
                     (selectionDone)="showStartDatePicker = false"></datepicker>
                 </div>
 
                 <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" (focus)="showEndDatePicker = !showEndDatePicker"
-                  name="endDatetime" value="{{condition.endDatetime | date:'yyyy/MM/dd'}}" />
+                   />
                 <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
                   <i class="fa fa-calendar"></i>
                 </span>
                 <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                  <datepicker name="endDatetime" [showWeeks]="false" [(ngModel)]="condition.endDatetime"
+                  <datepicker [showWeeks]="false"
                     (selectionDone)="showEndDatePicker = false"></datepicker>
                 </div>
               </div>
@@ -72,17 +70,17 @@
               <div class="input-group">
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Pending">
                   <input type="checkbox" id="Pending" name="purposeOfVisit" (change)="checkboxInvitationStatus('Pending', $event);">&nbsp;
-                  {{'pageInvitation.pending'|translate}}
+                  {{'pageInvitation.Pending'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Complete">
                   <input type="checkbox" id="Complete" name="purposeOfVisit" (change)="checkboxInvitationStatus('Complete', $event);">&nbsp;
-                  {{'pageInvitation.complete'|translate}}
+                  {{'pageInvitation.Completed'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Expired">
                   <input type="checkbox" id="Expired" name="purposeOfVisit" (change)="checkboxInvitationStatus('Expired', $event);">&nbsp;
-                  {{'pageInvitation.expired'|translate}}
+                  {{'pageInvitation.Expired'|translate}}
                 </label>
 
                 <label class="radio-inline" style="margin-top: 8px; margin-right: 10px;margin-left: 8px;" for="Canceled">
@@ -106,14 +104,14 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <i class="fa fa-align-justify"></i>{{'pageInvitation.invitations'|translate}}
+        <i class="fa fa-align-justify"></i>{{'pageInvitation.invitation'|translate}} {{'common.list'|translate}}
       </div>
       <div class="card-block">
         
         <div class="row">
             <div class="col-md-2 offset-md-10">   
               <div class="card">
-                <button type="button" class="btn btn-primary" data-toggle="modal" (click)="newInvitation(); largeModal.show()">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew();">
                     {{'common.new'|translate}}
                 </button>
               </div>
@@ -129,23 +127,23 @@
               <th style="width: 10%">{{'common.status'|translate}}</th>
               <th style="width: 10%">{{'common.start'|translate}}</th>
               <th style="width: 10%">{{'common.end'|translate}}</th>
-              <th style="width: 15%">{{'common.image'|translate}}</th>
+              <th style="width: 15%">{{'pageInvitation.purpose'|translate}}</th> 
               <th style="width: 5%"></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of mf.data; let i = index;">
-              <td>{{i + 1}}</td>
-              <td>{{item.phone}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.email}}</td>
-              <td>{{ item.cancelled ? "Canceled" : item.status }}</td>
-              <td>{{ dateToDateString(item.beginDate) }}</td>
-              <td>{{ dateToDateString(item.endDate) }}</td>
-              <td>{{item.photo}}</td>
+            <tr *ngFor="let item of mf.data; let i = index">
+              <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
+
+              <td>{{item.visitor.phone}}</td>
+              <td>{{item.visitor.name}}</td>
+              <td>{{item.visitor.email}}</td>
+              <td>{{(item.cancelled ? "pageInvitation.canceled" : "pageInvitation."+(item.visitor.status || "")) | translate}}</td>
+              <td>{{item.dates[0].start | date : "yyyy-MM-dd" }}</td>
+              <td>{{item.dates[item.dates.length-1].end | date : "yyyy-MM-dd" }}</td>
+               <td>{{'pageInvitation.'+item.purpose.name | translate}}</td> 
               <td>
-                <!-- <a class="fa fa-pencil fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();modifyInvitation(item); largeModal.show()"></a> -->
-                <a class="fa fa-remove fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();deleteInvitation(item)"></a>
+                <a *ngIf="!item.cancelled && item.visitor && item.visitor.status!='Completed'" class="fa fa-remove fa-lg" style="cursor: pointer;" (click)="$event.stopPropagation();deleteInvitation(item)"></a>
               </td>
             </tr>
           </tbody>

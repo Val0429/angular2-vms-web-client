@@ -14,7 +14,7 @@
 		"end": "End",
 		"error": "Error",
 		"hasBeenCreated": " has been created",
-		"hasBeenDeleted": "has been deleted",
+		"hasBeenDeleted": " has been deleted",
 		"hasBeenRegistered": " has been registered",
 		"hasBeenSent": " has been sent",
 		"hasBeenUpdated": " has been updated",
@@ -22,6 +22,7 @@
 		"invalid": "Invalid",
 		"isInvalid": " is invalid",
 		"isRequired": " is required",
+		"list": " List",
 		"minLength": " must be {{minlength.requiredLength}} at least characters long",
 		"mismatch": "mismatch",
 		"mismatchWith": " mismatch with ",
@@ -37,11 +38,12 @@
 		"save": "Save",
 		"search": "Search",
 		"searchCondition": "Search Condition",
-		"select": "Select",
+		"select": "Select ",
 		"send": "Send",
 		"sms": "SMS",
 		"start": "Start",
 		"status": "Status",
+		"to": " to ",
 		"updateData": "Update Data",
 		"upload": "Upload",
 		"url": "URL",
@@ -106,15 +108,18 @@
 	},
 	"pageInvitation": {
 		"canceled": "Canceled",
-		"complete": "Complete",
-		"expired": "Expired",
+		"Completed": "Completed",
+		"Delivery": "Delivery",
+		"Expired": "Expired",
+		"Meeting": "Meeting",
+		"Others": "Others",
+		"Visit": "Visit",
 		"invitationStatus": " Invitation Status",
 		"invitationValidityPeriod": "Invitation Validity Period",
-		"invitations": "Invitations",
-		"pending": "Pending",
-		"purpose": "Purpose"
-	},
-	"pageInvtitation": {
+		"invitation": "Invitation",
+		"Pending": "Pending",
+		"purpose": "Purpose",
+		"select": "Select purpose",
 		"sendBy": "Send by"
 	},
 	"pageKiosk": {
@@ -186,10 +191,10 @@
 		"title": "VMS Login"
 	},
 	"pageRegistration": {
-		"potraitConstraint": "Size must bigger than 300 x 300",
 		"completed": "Registration completed!",
 		"completedDesc": "Resistration code will be send to your cellphone shortly",
 		"completedNode": "kindly proceed to the Check-in Kiosk and Click \"Check-in\"",
+		"potraitConstraint": "Size must bigger than 300 x 300",
 		"uploadPotrait": "Upload your potrait"
 	},
 	"pageSms": {

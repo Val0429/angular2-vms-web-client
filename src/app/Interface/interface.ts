@@ -140,62 +140,25 @@ export interface UserServiceInterface<T> extends CrudInterface<T> {
     getUserRole(): Promise<string[]>;
 }
 
-export class Purposes {
-    public objectId: String = "";
-    public name: String = "";
-
-    public fromJSON(json: any): Purposes {
-        this.objectId = json.objectId;
-        this.name = json.name;
-
-        return this;
-    }
+export class Purpose extends BaseClass {
+    
 }
-export class VisitorProfile {
-    public objectId: String = "";
-    public name: String = "";
-    public phone: String = "";
-    public email: String = "";
-    public dates: Array<{ start: Date, end: Date, pin: String }> = [];
-    public purpose: Purposes = null;
-    public photo: String = "";
-    public status: String = "Pending";
-    public cancelled: boolean = false;
-
-    private beginDate: Date = new Date();
-    private endDate: Date = new Date();
-
-    public fromJSON(json: any): VisitorProfile {
-        this.objectId = json.objectId ;
-        this.name = json.visitor.name;
-        this.phone = json.visitor.phone;
-        this.email = json.visitor.email;
-        this.purpose = new Purposes().fromJSON(json.purpose);
-        //this.photo = json["photo"];
-        this.status = json.visitor.status;
-        this.cancelled = json.cancelled;
-
-        this.beginDate = null;
-        this.endDate = null;
-
-        for (var d of json.dates) {
-            var dt = { start: new Date(d.start), end: new Date(d.end), pin: d.pin };
-
-            if (this.beginDate == null)
-                this.beginDate = dt.start;
-            else
-                if (this.beginDate.getTime() > dt.start.getTime())
-                    this.beginDate = dt.start;
-
-            if (this.endDate == null )                    
-                this.endDate = dt.end;
-            else
-                if (this.endDate.getTime() < dt.end.getTime())
-                    this.endDate = dt.end;
-
-            this.dates.push(dt);
-        }
-
-        return this;
-    }
+export class NotifyVisitor{
+    public email:boolean;
+    public phone:boolean;
+}
+export class Notify{
+    public visitor:NotifyVisitor;
+}
+export class InvitationDate{
+    public start:Date;
+    public end:Date;
+    public pin:string;
+}
+export class Invitation extends BaseClass {
+    public cancelled:boolean;
+    public notify:Notify;
+    public dates:InvitationDate[];
+    public purpose:Purpose;
+    public visitor:Visitor;
 }

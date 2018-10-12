@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VisitorProfile, CreateEditDialog } from 'app/Interface/interface';
+import { Invitation, CreateEditDialog, Visitor, Purpose, NotifyVisitor, Notify } from 'app/Interface/interface';
 import { InvitationService } from 'app/service/invitation.service';
 import { CommonService } from 'app/service/common.service';
 import { NgProgress } from 'ngx-progressbar';
@@ -10,22 +10,20 @@ import * as Globals from 'app/globals';
   selector: 'app-create-invitation',
   templateUrl: './create-invitation.component.html'
 })
-export class CreateInvitationComponent extends DialogComponent<CreateEditDialog, boolean> implements CreateEditDialog{
+export class CreateInvitationComponent extends DialogComponent<CreateEditDialog, Invitation> implements CreateEditDialog, OnInit{
   
   title: string;
   myform:FormGroup;
   email:FormControl;
   name:FormControl;
   phone:FormControl;
-
-  model: {
-    "sendBy": string[],
-    "visitor": VisitorProfile
-  } =
-  {
-    "sendBy": [],
-    "visitor": new VisitorProfile()
-  };
+  purpose:FormControl;
+  sendByEmail:FormControl;
+  start:FormControl;
+  end:FormControl;
+  purposes:Purpose[] = [];
+  formData: Invitation;
+  sendBySms: FormControl;
 
   constructor(
     public dialogService:DialogService,
@@ -33,8 +31,13 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
     private commonService:CommonService, 
     private progressService:NgProgress
   ) {
-    super(dialogService);;
-  
+    super(dialogService);
+    this.formData = new Invitation();
+    this.formData.visitor = new Visitor();
+    this.formData.purpose = new Purpose();
+    this.formData.notify = new Notify();
+    this.formData.notify.visitor = new NotifyVisitor();
+    
     this.createFormControls();
     this.createForm();
   }
@@ -42,55 +45,53 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
     this.myform = new FormGroup ({
       email:this.email,
       name:this.name,
-      phone:this.phone
+      phone:this.phone,
+      sendByEmail:this.sendByEmail,      
+      sendBySms:this.sendBySms,      
+      start:this.start,
+      end:this.end,
+      purpose:this.purpose
     });
   }
   createFormControls(): any {
     this.email=new FormControl('',[Validators.required, Validators.pattern(Globals.emailRegex)]);
     this.name=new FormControl('',[Validators.required, Validators.minLength(3)]);
     this.phone=new FormControl('',[Validators.required, Validators.pattern(Globals.singlePhoneRegex)]);
+    this.sendByEmail=new FormControl(true);
+    this.sendBySms=new FormControl(true);
+    this.start=new FormControl('',[Validators.required]);
+    this.end=new FormControl('',[Validators.required]);
+    this.purpose = new FormControl('',[Validators.required]);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.purposes = await this.invitationService.getPurposesList();
+    var selectDummy = new Purpose(); 
+    selectDummy.name = "select";
+    selectDummy.objectId="";
+    this.purposes.unshift(selectDummy);
   }
 
 
   public async mobileNoSearch(event) {
     if (event.keyCode != 13) return;
 
-    // Query and field name and email
-    var item = await this.invitationService.getVisitorFromMobile(this.model.visitor.phone);
-
-    this.model.visitor.name = item["name"] ;
-    this.model.visitor.email = item["email"] ;
   }
 
-  public checkboxPurposes(elm, evt) {
-    if (evt.srcElement.checked) {
-      this.model.visitor.purpose = elm;
-    }
-  }
-
-  public checkboxSendBy(elm, evt) {
-    if (evt.srcElement.checked) {
-      this.model.sendBy.push(elm);
-    }
-    else {
-      var index = this.model.sendBy.indexOf(elm, 0);
-      if (index > -1) {
-        this.model.sendBy.splice(index, 1);
-      }
-    }
-  }
-
-  
   async save() {    
-    try{
-      console.log(this.model);
+    try{      
+      this.formData.visitor.name=this.name.value;
+      this.formData.visitor.phone=this.phone.value;
+      this.formData.visitor.email=this.email.value;
+      this.formData.purpose = this.purpose.value;
+      this.formData.notify.visitor.email = this.sendByEmail.value;
+      this.formData.notify.visitor.phone = this.sendBySms.value;
+      console.log("save invitation", this.formData);
       this.progressService.start();
-      var result = await this.invitationService.createInvitation(this.model);
+      var result = await this.invitationService.createInvitation(this.formData, this.start.value, this.end.value);
       if (result) {
-        this.result=true;
+        this.result=result;
+        this.close();
       }
     }finally{
       this.progressService.done();
