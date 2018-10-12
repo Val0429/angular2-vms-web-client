@@ -72,7 +72,7 @@ export class InvitationComponent implements OnInit {
   public createNew(){
     
     //creates dialog form here
-    let newForm = new CreateInvitationComponent(this.dialogService, this.invitationService, this.commonService, this.progressService);
+    let newForm = new CreateInvitationComponent(this.dialogService, this.invitationService, this.progressService);
     newForm.title = this.commonService.getLocaleString("common.new");
     this.dialogService.addDialog(CreateInvitationComponent, newForm)
       .subscribe((result) => {

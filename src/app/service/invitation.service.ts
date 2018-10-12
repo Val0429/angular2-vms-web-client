@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Invitation, Notify, InvitationDate, Purpose } from 'app/Interface/interface';
+import { Invitation, Notify, InvitationDate, Purpose, Visitor } from 'app/Interface/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -25,22 +25,12 @@ export class InvitationService {
         return result && result.results ? result.results:[];
     }
 
-    async getVisitorFromMobile(phone): Promise<Object> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
-
+    async getVisitorFromMobile(phone:string): Promise<Visitor> {        
+        var token = this.loginService.getCurrentUserToken();
         var q = "&phone=" + phone;
-
-        var visitor = null;
-        var result = await me.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + q }).toPromise();
+        var result = await this.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + q }).toPromise();
         console.log(result);
-
-        for (var r of result["results"]) {
-            visitor = `{"name": "` + r.name + `", "phone": "` + r.phone + `", "email": "` + r.email + `"}` ;
-            break ;
-        }
-
-        return JSON.parse(visitor);
+        return result && result.results && result.results[0] ? result.results[0] : null;
     }
 
     async getInvitationList(): Promise<Invitation[]> {
