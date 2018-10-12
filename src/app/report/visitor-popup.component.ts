@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService, DialogComponent } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, RecurringVisitor, Visitor, Company } from '../Interface/interface';
+import { CreateEditDialog, RecurringVisitor, Visitor, Company } from '../infrastructure/interface';
 import * as Globals from 'app/globals';
 import { LoginService } from '../service/login.service';
 import { ConfigService } from '../service/config.service';

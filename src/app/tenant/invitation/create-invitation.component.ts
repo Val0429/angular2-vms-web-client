@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Invitation, CreateEditDialog, Visitor, Purpose, NotifyVisitor, Notify } from 'app/Interface/interface';
+import { Invitation, CreateEditDialog, Visitor, Purpose, NotifyVisitor, Notify } from 'app/infrastructure/interface';
 import { InvitationService } from 'app/service/invitation.service';
 import { NgProgress } from 'ngx-progressbar';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';

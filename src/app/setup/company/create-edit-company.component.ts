@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, Company, Floor, BaseClass } from '../../Interface/interface';
+import { CreateEditDialog, Company, Floor, BaseClass } from '../../infrastructure/interface';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
 import { FloorService } from '../../service/floor.service';

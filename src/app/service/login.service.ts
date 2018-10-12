@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { CoreService } from 'app/service/core.service';
-import { SessionToken, User } from 'app/Interface/interface';
+import { SessionToken, User } from 'app/infrastructure/interface';
 import * as Globals from '../globals';
 import { ConfigService } from './config.service';
 

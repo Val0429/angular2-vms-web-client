@@ -1,6 +1,6 @@
 import { Component, OnInit} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { CreateEditDialog, User, UserData, Role, Floor, BaseClass, Company, RoleEnum} from "app/Interface/interface";
+import { CreateEditDialog, User, UserData, Role, Floor, BaseClass, Company, RoleEnum} from "app/infrastructure/interface";
 import { DialogService, DialogComponent } from "ng2-bootstrap-modal";
 import * as Globals from 'app/globals';
 import { UserService } from "../../service/user.service";

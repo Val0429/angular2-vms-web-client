@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InvitationService } from 'app/service/invitation.service';
 import { NgProgress } from 'ngx-progressbar';
-import { Visitor } from 'app/Interface/interface';
+import { Visitor } from 'app/infrastructure/interface';
 
 
 @Component({

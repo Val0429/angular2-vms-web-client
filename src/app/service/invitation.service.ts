@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Invitation, Notify, InvitationDate, Purpose, Visitor } from 'app/Interface/interface';
+import { Invitation, Notify, InvitationDate, Purpose, Visitor } from 'app/infrastructure/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()

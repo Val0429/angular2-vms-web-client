@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { KioskUser, KioskData, Role, RoleEnum } from '../../Interface/interface';
+import { KioskUser, KioskData, Role, RoleEnum } from '../../infrastructure/interface';
 import { KioskService } from '../../service/kiosk.service';
 import { UserService } from '../../service/user.service';
 import { CommonService } from '../../service/common.service';

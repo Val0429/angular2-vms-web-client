@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/co
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
-import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
+import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../infrastructure/interface';
 import { KioskService } from '../service/kiosk.service';
 import { FormControl } from '@angular/forms';
 import { VisitorPopupComponent } from './visitor-popup.component';

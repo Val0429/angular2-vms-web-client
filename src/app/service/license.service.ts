@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
 import { ConfigService } from './config.service';
-import { License, TotalLicense } from '../Interface/interface';
+import { License, TotalLicense } from '../infrastructure/interface';
 
 @Injectable()
 export class LicenseService  {

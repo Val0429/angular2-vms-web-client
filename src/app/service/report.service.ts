@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from './core.service';
 import { LoginService } from './login.service';
-import { ReportStatistic, RecurringVisitor } from '../Interface/interface';
+import { ReportStatistic, RecurringVisitor } from '../infrastructure/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()

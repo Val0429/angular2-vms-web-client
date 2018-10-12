@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { LoginService } from 'app/service/login.service';
 import { Router } from '@angular/router';
-import { User, RoleEnum } from 'app/Interface/interface';
+import { User, RoleEnum } from 'app/infrastructure/interface';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CommonService } from '../service/common.service';
