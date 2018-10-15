@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VisitorComponent } from './visitor.component';
+import { VisitorPopupComponent } from './visitor-popup.component';
 import { AppTestModule } from '../app.module.test';
 
 describe('VisitorComponent', () => {
-  let component: VisitorComponent;
-  let fixture: ComponentFixture<VisitorComponent>;
+  let component: VisitorPopupComponent;
+  let fixture: ComponentFixture<VisitorPopupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppTestModule],
-      declarations: [ VisitorComponent ]
+      declarations: [ VisitorPopupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VisitorComponent);
+    fixture = TestBed.createComponent(VisitorPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

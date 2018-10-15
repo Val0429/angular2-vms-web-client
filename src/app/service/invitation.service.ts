@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Invitation, Notify, InvitationDate, Purpose } from 'app/Interface/interface';
+import { Invitation, Notify, InvitationDate, Purpose, Visitor, Investigation } from 'app/infrastructure/interface';
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -9,6 +9,7 @@ export class InvitationService {
     private uriPurposesList: string = this.configService.getCgiRoot() + "purposes";
     private uriInvites: string =this.configService.getCgiRoot() + "visitors/invites";
     private uriVisitors: string = this.configService.getCgiRoot() + "visitors";
+    private uriInvestigation: string = this.configService.getCgiRoot() + "visitors/investigation";
     private uriPreRegistration: string = this.configService.getCgiRoot() + "visitors/pre-registration" ;
 
     constructor(
@@ -25,24 +26,19 @@ export class InvitationService {
         return result && result.results ? result.results:[];
     }
 
-    async getVisitorFromMobile(phone): Promise<Object> {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
-
+    async getVisitorFromMobile(phone:string): Promise<Visitor> {        
+        var token = this.loginService.getCurrentUserToken();
         var q = "&phone=" + phone;
-
-        var visitor = null;
-        var result = await me.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + q }).toPromise();
+        var result = await this.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + q }).toPromise();
         console.log(result);
-
-        for (var r of result["results"]) {
-            visitor = `{"name": "` + r.name + `", "phone": "` + r.phone + `", "email": "` + r.email + `"}` ;
-            break ;
-        }
-
-        return JSON.parse(visitor);
+        return result && result.results && result.results[0] ? result.results[0] : null;
     }
-
+    async getVisitors(query:string): Promise<Visitor[]> {        
+        var token = this.loginService.getCurrentUserToken();        
+        var result = await this.coreService.getConfig({ path: this.uriVisitors, query: "?sessionId=" + token.sessionId + query }).toPromise();
+        console.log(result);
+        return result && result.results ? result.results : [];
+    }
     async getInvitationList(): Promise<Invitation[]> {
         
         var token = this.loginService.getCurrentUserToken();
@@ -51,7 +47,13 @@ export class InvitationService {
         console.log("get result", result);
         return result && result.results ? result.results : [];
     }
-
+    async getInvestigations(query:string):Promise<Investigation[]>{
+        
+        var token = this.loginService.getCurrentUserToken();        
+        var result = await this.coreService.getConfig({ path: this.uriInvestigation, query: "?sessionId=" + token.sessionId + query }).toPromise();
+        console.log("get result", result);
+        return result && result.results ? result.results : [];
+    }
     async getSearchInvitationList(condition) {
         var me = this;
         var token = me.loginService.getCurrentUserToken();
@@ -113,16 +115,9 @@ export class InvitationService {
     }
 
     async preRegistration(data) {
-        var me = this;
-        var token = me.loginService.getCurrentUserToken();
         var objectId = data.objectId;
-
-        var d = `{
-            "image": "data:image/jpeg;base64,` + data.potrait + `"
-        }` ;
-
-        console.log(JSON.parse(d));
-        var result = await me.coreService.putConfig({ path: this.uriPreRegistration + "?sessionId=" + token.sessionId + "&objectId=" + objectId, data: JSON.parse(d) }).toPromise();
+        var result = await this.coreService.putConfig({ path: this.uriPreRegistration + "?objectId=" + objectId, 
+            data: { image: "data:image/jpeg;base64," + data.potrait } }).toPromise();
         console.log(result);
 
         return result;

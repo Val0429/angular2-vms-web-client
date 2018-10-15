@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Invitation, CreateEditDialog, Visitor, Purpose, NotifyVisitor, Notify } from 'app/Interface/interface';
+import { Invitation, CreateEditDialog, Visitor, Purpose, NotifyVisitor, Notify } from 'app/infrastructure/interface';
 import { InvitationService } from 'app/service/invitation.service';
-import { CommonService } from 'app/service/common.service';
 import { NgProgress } from 'ngx-progressbar';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -27,8 +26,7 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
 
   constructor(
     public dialogService:DialogService,
-    private invitationService:InvitationService, 
-    private commonService:CommonService, 
+    private invitationService:InvitationService,     
     private progressService:NgProgress
   ) {
     super(dialogService);
@@ -56,7 +54,7 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
   createFormControls(): any {
     this.email=new FormControl('',[Validators.required, Validators.pattern(Globals.emailRegex)]);
     this.name=new FormControl('',[Validators.required, Validators.minLength(3)]);
-    this.phone=new FormControl('',[Validators.required, Validators.pattern(Globals.singlePhoneRegex)]);
+    this.phone=new FormControl('',[Validators.required, Validators.minLength(10), Validators.maxLength(13), Validators.pattern(Globals.singlePhoneRegex)]);
     this.sendByEmail=new FormControl(true);
     this.sendBySms=new FormControl(true);
     this.start=new FormControl('',[Validators.required]);
@@ -74,8 +72,15 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
 
 
   public async mobileNoSearch(event) {
-    if (event.keyCode != 13) return;
+    //if (event.keyCode != 13) return;
+    //get existing visitor 
+    if(!this.phone.valid)return;
 
+    let visitor = await this.invitationService.getVisitorFromMobile(this.phone.value);
+    if(visitor!=null){
+      this.name.setValue(visitor.name);
+      this.email.setValue(visitor.email);
+    }
   }
 
   async save() {    

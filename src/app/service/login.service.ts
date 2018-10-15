@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { CoreService } from 'app/service/core.service';
-import { SessionToken, User } from 'app/Interface/interface';
+import { SessionToken, User } from 'app/infrastructure/interface';
 import * as Globals from '../globals';
 import { ConfigService } from './config.service';
 
@@ -76,8 +76,7 @@ export class LoginService implements CanActivate {
   getCurrentUserToken(): SessionToken {
     var item = sessionStorage.getItem(Globals.currentUserToken);
     if (item && item !== null) {
-      var sessionToken = new SessionToken().fromJSON(JSON.parse(item));
-
+      var sessionToken = JSON.parse(item) as SessionToken;
       return sessionToken;
     }
     else return null;

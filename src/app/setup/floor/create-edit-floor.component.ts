@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, Floor } from 'app/Interface/interface';
+import { CreateEditDialog, Floor } from 'app/infrastructure/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
 import { NgProgress } from 'ngx-progressbar';

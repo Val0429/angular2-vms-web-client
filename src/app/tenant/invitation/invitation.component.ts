@@ -1,6 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
 import { InvitationService } from 'app/service/invitation.service';
-import { Invitation } from 'app/Interface/interface';
+import { Invitation } from 'app/infrastructure/interface';
 import { NgProgress } from 'ngx-progressbar';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
@@ -72,7 +72,7 @@ export class InvitationComponent implements OnInit {
   public createNew(){
     
     //creates dialog form here
-    let newForm = new CreateInvitationComponent(this.dialogService, this.invitationService, this.commonService, this.progressService);
+    let newForm = new CreateInvitationComponent(this.dialogService, this.invitationService, this.progressService);
     newForm.title = this.commonService.getLocaleString("common.new");
     this.dialogService.addDialog(CreateInvitationComponent, newForm)
       .subscribe((result) => {

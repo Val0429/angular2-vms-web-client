@@ -100,24 +100,30 @@
 		"wsPort": "WS Port"
 	},
 	"pageInvestigation": {
+		"checkInImage": "Check-In Image",
+		"event": "Event",
 		"eventTime": "Event Time",
 		"kioskName": "Kiosk Name",
+		"liveInvestigation": "Live Investigation",
+		"pin": "Pin Code",
 		"purpose": "Purpose",
+		"score": "Score",
 		"status": "Status",
+		"visitorImage": "Visitor image",
 		"visitorName": "Visitor Name"
 	},
 	"pageInvitation": {
-		"canceled": "Canceled",
 		"Completed": "Completed",
 		"Delivery": "Delivery",
 		"Expired": "Expired",
 		"Meeting": "Meeting",
 		"Others": "Others",
+		"Pending": "Pending",
 		"Visit": "Visit",
+		"canceled": "Canceled",
+		"invitation": "Invitation",
 		"invitationStatus": " Invitation Status",
 		"invitationValidityPeriod": "Invitation Validity Period",
-		"invitation": "Invitation",
-		"Pending": "Pending",
 		"purpose": "Purpose",
 		"select": "Select purpose",
 		"sendBy": "Send by"
@@ -162,7 +168,7 @@
 		},
 		"tenant": {
 			"invitation": "Invitation",
-			"tenantUser": "Tenant User"
+			"visitor": "Visitor"
 		}
 	},
 	"pageLicense": {

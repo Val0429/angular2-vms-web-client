@@ -5,7 +5,7 @@ import  * as Globals from 'app/globals';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonService } from '../service/common.service';
 import { UserService } from '../service/user.service';
-import { RoleEnum } from '../Interface/interface';
+import { RoleEnum } from '../infrastructure/interface';
 
 @Component({
   templateUrl: 'login.component.html',

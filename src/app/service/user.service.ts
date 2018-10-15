@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { User, RoleEnum, UserServiceInterface } from 'app/Interface/interface';
+import { User, RoleEnum, UserServiceInterface } from 'app/infrastructure/interface';
 import { CrudService } from './crud.service';
 import { ConfigService } from './config.service';
 

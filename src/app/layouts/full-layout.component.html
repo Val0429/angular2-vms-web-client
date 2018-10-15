@@ -55,7 +55,7 @@
               </ul>
             </li>
             <!--Common Menu-->
-            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin || userIsSysAdmin || useIsTenantAdmin" >
+            <li class="nav-item nav-dropdown" routerLinkActive="open" *ngIf="userIsAdmin || userIsSysAdmin || userIsTenantAdmin" >
               <a class="nav-link nav-dropdown-toggle" href="#" [routerLink]="['/setup']">
                 <i class="icon-menu"></i> {{'pageLayout.menu.setup'|translate}}
               </a>
@@ -113,6 +113,9 @@
               <ul class="nav-dropdown-items">
                 <li class="nav-item">
                   <a class="nav-link" routerLinkActive="active" [routerLink]="['/tenant/invitation']"><i class="icon-target"></i> {{'pageLayout.tenant.invitation'|translate}}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLinkActive="active" [routerLink]="['/tenant/visitor']"><i class="icon-target"></i> {{'pageLayout.tenant.visitor'|translate}}</a>
                 </li>
               </ul>
             </li>

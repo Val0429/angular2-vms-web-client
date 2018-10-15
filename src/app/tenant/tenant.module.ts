@@ -16,6 +16,7 @@ import { InvitationComponent } from './invitation/invitation.component';
 import { TranslateModule } from 'ng2-translate';
 import { NgProgressModule } from 'ngx-progressbar';
 import { CreateInvitationComponent } from './invitation/create-invitation.component';
+import { VisitorComponent } from './visitor/visitor.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CreateInvitationComponent } from './invitation/create-invitation.compon
   ],
   declarations: [
     InvitationComponent,
-    CreateInvitationComponent
+    CreateInvitationComponent,
+    VisitorComponent
   ]
 })
 export class TenantModule { }

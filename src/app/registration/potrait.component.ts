@@ -98,22 +98,29 @@ export class PotraitComponent {
     myReader.readAsDataURL(file);
   }
 
-  onFormSubmit(form: NgForm) {
+  async onFormSubmit(form: NgForm) {
     if (form.invalid) {
       return;
     }
     console.log('form submit');
 
-    this.registerPotrait();
+    await this.registerPotrait();
   }
 
   async registerPotrait() {
-    var item = await this.invitationService.preRegistration(this.model);
-    
-    if ( item) {
-      // success
-      this.router.navigate(['/registration/success']);
+    try
+    {
+      var item = await this.invitationService.preRegistration(this.model);      
+      if ( item) {// success        
+        this.router.navigate(['/registration/success']);
+      }
+    }catch(error){
+      let msg = error.status && error._body ? error._body : this.commonService.getLocaleString("common.contactAdministrator");      
+      this.commonService.showAlert(msg, this.commonService.getLocaleString("common.error")).subscribe(()=>{});
+      console.error(error);
     }
-    
+    finally{
+      
+    }
   }
 }

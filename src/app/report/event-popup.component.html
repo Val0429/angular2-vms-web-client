@@ -1,0 +1,32 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+        <button type="button" class="close" (click)="close()">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align:center" >
+        <div *ngIf="data.image">
+          <div class="col-md-5" style="float:left">
+            <div>{{'pageInvestigation.visitorImage' | translate}}</div>
+            <div><img src="{{imgUrl}}" style="width:300px;height:auto"/></div>
+          </div>
+          <div class="col-md-5 offset-md-6" >            
+            <div>{{'pageInvestigation.checkInImage' | translate}}</div>
+            <div><img src="{{data.image}}" style="width:300px;height:auto"/></div>
+          </div>
+        </div>        
+        <div>
+          <p></p>
+        <p *ngIf="data.pin">{{'pageInvestigation.pin' | translate}}: {{data.pin}}</p>
+        <p *ngIf="data.score">{{'pageInvestigation.score' | translate}}: {{data.score}}</p>
+        <p>{{'pageInvestigation.eventTime' | translate}}: {{data.createdAt| date : "yyyy-MM-dd HH:mm:ss"}}</p>  
+      </div> 
+        <!-- <pre>{{data | json}}</pre> -->
+        <div class="modal-footer" >
+          <button type="button" class="btn btn-primary" (click)="close()">{{'common.ok'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

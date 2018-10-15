@@ -58,22 +58,9 @@ export class User extends BaseUser{
 }
 
 export class SessionToken {
-
     public sessionId: string;
     public serverTime: number;
     public user: User;
-
-    public fromJSON(json: any): SessionToken {
-        //let object = Object.create(sessionToken.prototype);
-        //optional property
-
-        this.user = json["user"];
-
-        this.sessionId = json["sessionId"];
-        this.serverTime = json["serverTime"];
-
-        return this;
-    }
 }
 
 export class KioskData {
@@ -161,4 +148,30 @@ export class Invitation extends BaseClass {
     public dates:InvitationDate[];
     public purpose:Purpose;
     public visitor:Visitor;
+}
+
+export class KioskEvent extends BaseClass{
+    public action: string;    
+    public pin:string;
+    public score:number;
+    public image:string;
+}
+export class Investigation{
+    public visitor:Visitor;
+    public invitation:Invitation;
+    public company:Company;
+    public kiosk:KioskUser;
+    public purpose : Purpose;
+    public events:KioskEvent[];
+}
+
+export class EventInvestigation extends BaseClass{
+    public action:string;    
+    public visitor:Visitor;
+    public purpose:Purpose;
+    public invitation:Invitation;
+    public kiosk:KioskUser;
+    public pin:string;
+    public score:number;
+    public image:string;
 }

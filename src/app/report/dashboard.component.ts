@@ -2,10 +2,10 @@ import { Component, ViewChild, OnInit, SimpleChanges, NgZone } from '@angular/co
 import { ReportService } from 'app/service/report.service';
 import { BaseChartDirective } from 'ng2-charts/charts/charts';
 import { CommonService } from '../service/common.service';
-import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../Interface/interface';
+import { ReportStatistic, KioskUser, RecurringVisitor, Visitor, BaseClass } from '../infrastructure/interface';
 import { KioskService } from '../service/kiosk.service';
 import { FormControl } from '@angular/forms';
-import { VisitorComponent } from './visitor.component';
+import { VisitorPopupComponent } from './visitor-popup.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { LoginService } from '../service/login.service';
 import { ConfigService } from '../service/config.service';
@@ -162,9 +162,9 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     if (e.active.length > 0){
       let datasetIndex = e.active[0]._datasetIndex;
       let visitorData = this.recurringData[datasetIndex];
-      let visitorDialog = new VisitorComponent(this.dialogService, this.loginService, this.configService);
+      let visitorDialog = new VisitorPopupComponent(this.dialogService, this.loginService, this.configService);
       visitorDialog.setFormData(visitorData, visitorData.visitor.name);
-      this.dialogService.addDialog(VisitorComponent, visitorDialog).subscribe(() => {});
+      this.dialogService.addDialog(VisitorPopupComponent, visitorDialog).subscribe(() => {});
     }
 
   }
