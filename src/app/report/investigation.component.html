@@ -57,6 +57,26 @@
                         {{'common.end'|translate}} {{'common.isRequired'|translate}}
                     </p>
                   </div>
+                  <div class="input-group mb-1" title="{{'pageInvitation.purpose'|translate}}">
+                      <span class="input-group-addon">
+                        <i class="icon-emotsmile"></i>
+                      </span>
+                      <select 
+                        class="form-control"                 
+                        formControlName="purpose">  
+                        <option *ngFor="let item of purposeData" [ngValue]="item.objectId" >{{'pageInvitation.'+item.name | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-1" title="{{'pageKiosk.kioskName'|translate}}">
+                        <span class="input-group-addon">
+                          <i class="icon-emotsmile"></i>
+                        </span>
+                        <select 
+                          class="form-control"                 
+                          formControlName="kiosk">  
+                          <option *ngFor="let item of kioskData" [ngValue]="item.objectId" >{{item.data.kioskName | translate}}</option>
+                          </select>
+                      </div>
     </form>
           <!-- <pre>{{myform.value | json}}</pre>  -->
           <div class="modal-footer">

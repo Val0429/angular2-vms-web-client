@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from "@angular/core";
-import { Investigation, KioskEvent, EventInvestigation } from "app/infrastructure/interface";
+import { Investigation, KioskEvent, EventInvestigation, KioskUser, Purpose, KioskData } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
 
@@ -8,17 +8,25 @@ import { DialogService } from "ng2-bootstrap-modal";
 import { LoginService } from "app/service/login.service";
 import { ConfigService } from "app/service/config.service";
 import { EventPopupComponent } from "./event-popup.component";
+import { KioskService } from "app/service/kiosk.service";
+import { CommonService } from "app/service/common.service";
+import { query } from "@angular/animations";
 
 @Component({
   templateUrl: 'investigation.component.html'
 })
 export class InvestigationComponent implements OnInit{
   ws: WebSocket;
+  
   myform:FormGroup;
   enabled:FormControl;
   start:FormControl;
   end:FormControl;
-  
+  kiosk:FormControl;
+  purpose:FormControl;
+
+  kioskData:KioskUser[];
+  purposeData:Purpose[];
   data : EventInvestigation[] =[];
   thumbnailUrl:string;
   postThumbnailUrl:string;
@@ -28,7 +36,9 @@ export class InvestigationComponent implements OnInit{
     private invitationService:InvitationService, 
     private dialogService:DialogService,
     private loginService:LoginService, 
-    private configService:ConfigService
+    private configService:ConfigService,
+    private commonService:CommonService,
+    private kioskService:KioskService
   ){
     this.createFormControls();
     this.createForm();
@@ -42,6 +52,23 @@ export class InvestigationComponent implements OnInit{
     this.thumbnailUrl=this.configService.getCgiRoot()+"thumbnail?url=";
     //await this.doSearch();
     this.initVisitEventWatcher();
+    try{
+      this.progressService.start();  
+      let selectPurpose = new Purpose();
+      selectPurpose.name = "select";
+      selectPurpose.objectId="";
+      this.purposeData = await this.invitationService.getPurposesList();
+      this.purposeData.unshift(selectPurpose);
+      this.kioskData = await this.kioskService.read("&paging.all=true");
+      let selectKiosk = new KioskUser();
+      selectKiosk.data = new KioskData();
+      selectKiosk.data.kioskName = this.commonService.getLocaleString("common.select")+this.commonService.getLocaleString("pageKiosk.kioskName");
+      selectKiosk.objectId="";
+      this.kioskData.unshift(selectKiosk);
+      }//no catch, global error handle handles it
+    finally{      
+      this.progressService.done();
+    } 
   }
   checkValidEvent(action:string):boolean{
       return action == "EventStrictTryCheckIn" || 
@@ -51,9 +78,12 @@ export class InvestigationComponent implements OnInit{
   }
   async doSearch(){
     try{
-      this.progressService.start();      
+      this.progressService.start();   
+      let filter="";
+      if(this.kiosk.value) filter+="&kiosk="+this.kiosk.value;
+      if(this.purpose.value) filter+="&purpose="+this.purpose.value;
       //gets investigation data
-      let items : Investigation[] = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value);
+      let items : Investigation[] = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value+filter);
       this.data = [];
       //reformat to eventIvestigation structure
       for(let item of items){     
@@ -95,16 +125,16 @@ export class InvestigationComponent implements OnInit{
     this.myform = new FormGroup({
       start : this.start,
       end:this.end,
-      enabled:this.enabled
+      enabled:this.enabled,
+      purpose:this.purpose,
+      kiosk:this.kiosk
     });
   }
 
-  public eventClick(eventData: EventInvestigation): void {
-    
+  public eventClick(eventData: EventInvestigation): void {    
       let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService);
       eventDialog.setFormData(eventData);
       this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});    
-
   }
   initVisitEventWatcher() :void{
    
@@ -139,5 +169,7 @@ export class InvestigationComponent implements OnInit{
     this.start=new FormControl(start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate() ,[Validators.required]);
     this.end=new FormControl(now.getFullYear()+"-"+(now.getMonth()+1)+"-"+(now.getDate()+1),[Validators.required]);
     this.enabled = new FormControl(true);
+    this.kiosk = new FormControl('');
+    this.purpose = new FormControl('');
   }
 }
