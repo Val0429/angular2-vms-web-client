@@ -164,3 +164,13 @@ export class Investigation{
     public purpose : Purpose;
     public events:KioskEvent[];
 }
+
+export class EventInvestigation extends BaseClass{
+    public action:string;    
+    public visitor:Visitor;
+    public purpose:Purpose;
+    public kiosk:KioskUser;
+    public pin:string;
+    public score:number;
+    public image:string;
+}

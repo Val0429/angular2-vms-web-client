@@ -87,53 +87,40 @@
                   <th style="width: 10%">
                     {{'pageInvestigation.kioskName' | translate}}
                   </th>
-                  <!-- <th style="width: 10%">
-                    {{'pageInvestigation.eventTime' | translate}}
-                  </th> -->
+                  
                   <th style="width: 15%">
                       {{'pageInvestigation.status' | translate}}
                     </th>
                   <th>
                     {{'pageInvestigation.event' | translate}}
                   </th>
-                 
+                  <th style="width: 10%">
+                      {{'pageInvestigation.eventTime' | translate}}
+                    </th> 
                 </tr>
               </thead>
               <tbody>
       
                 <tr *ngFor="let item of mf.data; let i = index">
-                  <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
-      
+                  <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>      
                   <td>
-                    {{item.visitor.name}}<br/>
-                    <img title="{{item.visitor.name}}" src="{{thumbnailUrl+item.visitor.image+postThumbnailUrl}}" style="width:auto;height:200px"/>
-
+                      <span style="cursor: pointer" (click)="eventClick(item)">{{item.visitor.name}}</span>
                   </td>
                   <td>
                     {{item.purpose.name}}
                   </td>
                   <td>
                     {{item.kiosk && item.kiosk.data && item.kiosk.data.kioskName ? item.kiosk.data.kioskName : ""}}
-                  </td>
-                  <!-- <td>                    
-                    {{item.events && item.events.length > 0 ? (item.events[item.events.length-1].createdAt | date : "yyyy-MM-dd HH:mm:ss") :  ""}}
-                  </td> -->
+                  </td>                  
                   <td>
-                    <ul>
-                      <li>{{'pageInvitation.'+item.visitor.status | translate}}</li>
-                      <li>{{item.events && item.events.length > 0 ? item.events[item.events.length-1].action :  ""}}</li>
-                    </ul>
+                      {{'pageInvitation.'+item.visitor.status | translate}}
                   </td>
                   <td>
-                      <ul>
-                          <li *ngFor="let event of item.events">
-                           <span style="cursor: pointer" (click)="eventClick(event)">{{event.action}} | {{event.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}</span> 
-                          </li>
-                        </ul>
-                   
+                      <span style="cursor: pointer" (click)="eventClick(item)">{{item.action}}</span>                           
                   </td>
-                 
-      
+                  <td>                    
+                      <span style="cursor: pointer" (click)="eventClick(item)">{{item.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}</span>
+                  </td>
                 </tr>
               </tbody>
               <tfoot>

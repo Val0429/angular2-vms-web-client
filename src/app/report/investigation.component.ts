@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from "@angular/core";
-import { Investigation, KioskEvent } from "app/infrastructure/interface";
+import { Investigation, KioskEvent, EventInvestigation } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
 
@@ -19,7 +19,7 @@ export class InvestigationComponent implements OnInit{
   start:FormControl;
   end:FormControl;
   
-  data : Investigation[];
+  data : EventInvestigation[];
   thumbnailUrl:string;
   postThumbnailUrl:string;
   constructor(
@@ -46,8 +46,27 @@ export class InvestigationComponent implements OnInit{
   async doSearch(){
     try{
       this.progressService.start();      
-      let items = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value);
-      this.data= Object.assign([],items);         
+      let items : Investigation[] = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value);
+      this.data = [];
+      for(let item of items){     
+        console.log("kiosk", item.kiosk);
+        for(let event of item.events){
+          
+          if(this.data.map(function(e){return e.objectId}).indexOf(event.objectId)>-1)continue;
+
+          let i = new EventInvestigation();
+          i.kiosk = Object.assign({}, item.kiosk);
+          i.visitor = Object.assign({}, item.visitor);
+          i.purpose = Object.assign({}, item.purpose);
+          i.objectId = event.objectId;
+          i.action = event.action;
+          i.createdAt = event.createdAt;
+          i.score = event.score;
+          i.image = event.image;
+          i.pin = event.pin;        
+          this.data.push(i);
+        }
+      }      
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
@@ -61,10 +80,10 @@ export class InvestigationComponent implements OnInit{
     });
   }
 
-  public eventClick(eventData: KioskEvent): void {
+  public eventClick(eventData: EventInvestigation): void {
     
       let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService);
-      eventDialog.setFormData(eventData, eventData.action);
+      eventDialog.setFormData(eventData);
       this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});    
 
   }
