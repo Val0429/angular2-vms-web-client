@@ -169,6 +169,7 @@ export class EventInvestigation extends BaseClass{
     public action:string;    
     public visitor:Visitor;
     public purpose:Purpose;
+    public invitation:Invitation;
     public kiosk:KioskUser;
     public pin:string;
     public score:number;

@@ -19,7 +19,7 @@ export class InvestigationComponent implements OnInit{
   start:FormControl;
   end:FormControl;
   
-  data : EventInvestigation[];
+  data : EventInvestigation[] =[];
   thumbnailUrl:string;
   postThumbnailUrl:string;
   constructor(
@@ -43,16 +43,24 @@ export class InvestigationComponent implements OnInit{
     //await this.doSearch();
     this.initVisitEventWatcher();
   }
+  checkValidEvent(action:string):boolean{
+      return action == "EventStrictTryCheckIn" || 
+        action == "EventStrictConfirmPhoneNumber" || 
+        action == "EventStrictCompareFace" || 
+        action == "EventStrictCompleteCheckIn";
+  }
   async doSearch(){
     try{
       this.progressService.start();      
+      //gets investigation data
       let items : Investigation[] = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value);
       this.data = [];
+      //reformat to eventIvestigation structure
       for(let item of items){     
-        console.log("kiosk", item.kiosk);
+        //console.log("kiosk", item.kiosk);
         for(let event of item.events){
           
-          if(this.data.map(function(e){return e.objectId}).indexOf(event.objectId)>-1)continue;
+          if(!this.checkValidEvent(event.action) || this.data.map(function(e){return e.objectId}).indexOf(event.objectId)>-1)continue;
 
           let i = new EventInvestigation();
           i.kiosk = Object.assign({}, item.kiosk);
@@ -66,7 +74,18 @@ export class InvestigationComponent implements OnInit{
           i.pin = event.pin;        
           this.data.push(i);
         }
-      }      
+      }  
+
+      //sort data descending according to createdAt
+      this.data = this.data.sort((obj1, obj2) => {
+        if (obj1.createdAt > obj2.createdAt) {
+            return -1;
+        }    
+        if (obj1.createdAt < obj2.createdAt) {
+            return 1;
+        }    
+        return 0;
+      });
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
@@ -96,7 +115,15 @@ export class InvestigationComponent implements OnInit{
     this.ws.onmessage = (ev:MessageEvent)=>{
       this.zone.run(() => {
         let result = JSON.parse(ev.data);
-        console.log(result);
+        console.log("ws receive data", result);
+        if(result["objectId"]&&result["action"]&&this.checkValidEvent(result["action"])){
+          let ei = result as EventInvestigation;
+          ei.purpose = Object.assign({}, ei.invitation.purpose);
+          console.log("enable live view:", this.enabled.value);
+          if(this.enabled.value){
+            this.data.unshift(ei);
+          }
+        }
       });
     }
 

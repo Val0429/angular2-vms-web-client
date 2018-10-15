@@ -107,7 +107,7 @@
                       <span style="cursor: pointer" (click)="eventClick(item)">{{item.visitor.name}}</span>
                   </td>
                   <td>
-                    {{item.purpose.name}}
+                    {{item.purpose && item.purpose.name ? item.purpose.name  : ""}}
                   </td>
                   <td>
                     {{item.kiosk && item.kiosk.data && item.kiosk.data.kioskName ? item.kiosk.data.kioskName : ""}}
