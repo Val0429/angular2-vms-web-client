@@ -1,13 +1,23 @@
 <ng-progress></ng-progress>
 <div class="animated fadeIn">
+ 
     <div class="card">
         <div class="card-header">
           {{'common.searchCondition' | translate}} 
         </div>
-        <div class="card-block row">
+        <div class="card-block col-md-6">
           <form novalidate
           [formGroup]="myform">                  
-
+          <div class="input-group mb-1" title="{{'pageInvestigation.liveInvestigation'|translate}}">
+              <span class="input-group-addon">
+                <i class="icon-emotsmile"></i>
+              </span>
+              <div class="checkbox">
+                  <input type="checkbox" formControlName="enabled" id="enable" />
+                  <label for="enable"></label>      
+                </div>
+                <label for="enable">{{'pageInvestigation.liveInvestigation'|translate}}</label>
+            </div>
                   <div class="input-group mb-1" title="{{'common.start'|translate}}"  [ngClass]="{ 'has-danger': start.invalid && (start.dirty || start.touched), 'has-success': start.valid && (start.dirty || start.touched)}">
                     <span class="input-group-addon">
                       <i class="icon-emotsmile"></i>
@@ -48,11 +58,14 @@
                     </p>
                   </div>
     </form>
-    <pre>{{myform.value | json}}</pre> 
-            <div class="col-md-4">
-                <!-- <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button>  -->
-                <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid" (click)="doSearch()">{{'common.search' | translate}}</button>
+          <!-- <pre>{{myform.value | json}}</pre>  -->
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid" (click)="doSearch()">{{'common.search' | translate}}</button>
             </div>
+            <!-- <div class="col-md-4">
+                <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button> 
+                <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid" (click)="doSearch()">{{'common.search' | translate}}</button>    
+            </div> -->
         </div>
     </div>
 

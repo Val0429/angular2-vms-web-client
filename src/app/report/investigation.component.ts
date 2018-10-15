@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { Investigation, KioskEvent } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
@@ -13,9 +13,9 @@ import { EventPopupComponent } from "./event-popup.component";
   templateUrl: 'investigation.component.html'
 })
 export class InvestigationComponent implements OnInit{
-  
+  ws: WebSocket;
   myform:FormGroup;
-  
+  enabled:FormControl;
   start:FormControl;
   end:FormControl;
   
@@ -23,6 +23,7 @@ export class InvestigationComponent implements OnInit{
   thumbnailUrl:string;
   postThumbnailUrl:string;
   constructor(
+    private zone:NgZone,
     private progressService:NgProgress, 
     private invitationService:InvitationService, 
     private dialogService:DialogService,
@@ -39,7 +40,8 @@ export class InvestigationComponent implements OnInit{
     let token = this.loginService.getCurrentUserToken();
     this.postThumbnailUrl="&size=300&sessionId="+token.sessionId;
     this.thumbnailUrl=this.configService.getCgiRoot()+"thumbnail?url=";
-    await this.doSearch();
+    //await this.doSearch();
+    this.initVisitEventWatcher();
   }
   async doSearch(){
     try{
@@ -54,7 +56,8 @@ export class InvestigationComponent implements OnInit{
   createForm(): any {
     this.myform = new FormGroup({
       start : this.start,
-      end:this.end
+      end:this.end,
+      enabled:this.enabled
     });
   }
 
@@ -62,9 +65,26 @@ export class InvestigationComponent implements OnInit{
     
       let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService);
       eventDialog.setFormData(eventData, eventData.action);
-      this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});
-    
+      this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});    
 
+  }
+  initVisitEventWatcher() :void{
+   
+    var token = this.loginService.getCurrentUserToken();
+    if(token==null)return;
+    this.ws = new WebSocket(this.configService.getWsRoot()+"visitors/monitor?sessionId="+token.sessionId);
+    
+    this.ws.onmessage = (ev:MessageEvent)=>{
+      this.zone.run(() => {
+        let result = JSON.parse(ev.data);
+        console.log(result);
+      });
+    }
+
+    this.ws.onopen =  () => {
+      console.log("live visitor investigation connection opened");
+    };    
+    
   }
   createFormControls(): any {
     let now : Date= new Date(Date.now());        
@@ -72,5 +92,6 @@ export class InvestigationComponent implements OnInit{
 
     this.start=new FormControl(start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate() ,[Validators.required]);
     this.end=new FormControl(now.getFullYear()+"-"+(now.getMonth()+1)+"-"+(now.getDate()+1),[Validators.required]);
+    this.enabled = new FormControl(true);
   }
 }
