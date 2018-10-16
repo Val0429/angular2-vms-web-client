@@ -19,7 +19,11 @@ export class ConfigService {
         this.appConfig=null;
     });
   }
-
+  getLocation():HTMLAnchorElement{
+    var parser = document.createElement('a');
+    parser.href = this.getCgiRoot();
+    return parser;
+  }
   getCgiRoot():string{
     // returns value from config
     if(this.appConfig && this.appConfig.cgiRoot) {
@@ -45,7 +49,10 @@ export class ConfigService {
 }
 
 export class ConfigServiceStub {
-
+    getLocation():HTMLAnchorElement{
+        var parser = document.createElement('a');
+        return parser;
+    }
     getCgiRoot():string{
         return "";
     }
