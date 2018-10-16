@@ -6,8 +6,8 @@ import { ModalModule } from 'ng2-bootstrap/modal';
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatepickerModule, BsDropdownModule } from 'ng2-bootstrap';
-
+import { DatepickerModule } from 'ng2-bootstrap/datepicker';
+import { BsDropdownModule } from 'ng2-bootstrap';
 //sub menu components
 import { SetupRoutingModule } from './setup-routing.module';
 import { EmailComponent } from './email/email.component';

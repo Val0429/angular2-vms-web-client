@@ -48,7 +48,7 @@ export class InvestigationComponent implements OnInit{
   }
   async ngOnInit() {
     let token = this.loginService.getCurrentUserToken();
-    this.postThumbnailUrl="&size=300&sessionId="+token.sessionId;
+    this.postThumbnailUrl="&size=300&sessionId="+ (token && token.sessionId ? token.sessionId : "");
     this.thumbnailUrl=this.configService.getCgiRoot()+"thumbnail?url=";
     //await this.doSearch();
     this.initVisitEventWatcher();
