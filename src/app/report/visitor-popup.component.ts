@@ -11,12 +11,14 @@ export class VisitorPopupComponent extends DialogComponent<CreateEditDialog, Rec
   public title:string;
   imgUrl :string;
   data : RecurringVisitor;
+  cgiRoot: string;
   constructor(public dialogService: DialogService, private loginService:LoginService, private configService:ConfigService) {    
     super(dialogService);
     this.data = new RecurringVisitor();
     this.data.visitor = new Visitor();
     this.data.visitor.company = new Company();
     this.imgUrl="";
+    this.cgiRoot=this.configService.getCgiRoot();
    }
    public setFormData(data: RecurringVisitor, title: string) {
     console.log("setFormData");
@@ -25,7 +27,10 @@ export class VisitorPopupComponent extends DialogComponent<CreateEditDialog, Rec
     let token = this.loginService.getCurrentUserToken();
     
     if(this.data && this.data.visitor && token!=null){
-      this.imgUrl=this.configService.getCgiRoot()+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
+
+      // must remove localhost from image address
+      this.data.visitor.image = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);
+      this.imgUrl=this.cgiRoot+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
     }
       
   }

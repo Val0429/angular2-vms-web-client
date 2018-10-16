@@ -25,7 +25,12 @@ export class InvitationService {
         console.log(result);
         return result && result.results ? result.results:[];
     }
-
+    checkValidEvent(action:string):boolean{
+        return action == "EventStrictTryCheckIn" || 
+          action == "EventStrictConfirmPhoneNumber" || 
+          action == "EventStrictCompareFace" || 
+          action == "EventStrictCompleteCheckIn";
+    }
     async getVisitorFromMobile(phone:string): Promise<Visitor> {        
         var token = this.loginService.getCurrentUserToken();
         var q = "&phone=" + phone;

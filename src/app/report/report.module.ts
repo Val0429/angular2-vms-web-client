@@ -8,8 +8,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { DataTableModule } from 'angular2-datatable';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {DatepickerModule,BsDropdownModule} from 'ng2-bootstrap';
-
+import {BsDropdownModule} from 'ng2-bootstrap';
+import {DatepickerModule} from 'ng2-bootstrap/datepicker';
 
 import { DashboardComponent } from './dashboard.component';
 import { InvestigationComponent } from './investigation.component';

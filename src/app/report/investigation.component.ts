@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from "@angular/core";
-import { Investigation, KioskEvent, EventInvestigation, KioskUser, Purpose, KioskData } from "app/infrastructure/interface";
+import { Investigation, KioskEvent, EventInvestigation, KioskUser, Purpose, KioskData, InvestigationDisplay } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
 
@@ -27,7 +27,7 @@ export class InvestigationComponent implements OnInit{
 
   kioskData:KioskUser[];
   purposeData:Purpose[];
-  data : EventInvestigation[] =[];
+  data : InvestigationDisplay[] =[];
   thumbnailUrl:string;
   postThumbnailUrl:string;
   constructor(
@@ -48,7 +48,7 @@ export class InvestigationComponent implements OnInit{
   }
   async ngOnInit() {
     let token = this.loginService.getCurrentUserToken();
-    this.postThumbnailUrl="&size=300&sessionId="+token.sessionId;
+    this.postThumbnailUrl="&size=300&sessionId="+ (token && token.sessionId ? token.sessionId : "");
     this.thumbnailUrl=this.configService.getCgiRoot()+"thumbnail?url=";
     //await this.doSearch();
     this.initVisitEventWatcher();
@@ -70,12 +70,7 @@ export class InvestigationComponent implements OnInit{
       this.progressService.done();
     } 
   }
-  checkValidEvent(action:string):boolean{
-      return action == "EventStrictTryCheckIn" || 
-        action == "EventStrictConfirmPhoneNumber" || 
-        action == "EventStrictCompareFace" || 
-        action == "EventStrictCompleteCheckIn";
-  }
+  
   async doSearch(){
     try{
       this.progressService.start();   
@@ -83,29 +78,30 @@ export class InvestigationComponent implements OnInit{
       if(this.kiosk.value) filter+="&kiosk="+this.kiosk.value;
       if(this.purpose.value) filter+="&purpose="+this.purpose.value;
       //gets investigation data
-      let items : Investigation[] = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value+filter);
-      this.data = [];
-      //reformat to eventIvestigation structure
-      for(let item of items){     
-        //console.log("kiosk", item.kiosk);
-        for(let event of item.events){
-          
-          if(!this.checkValidEvent(event.action) || this.data.map(function(e){return e.objectId}).indexOf(event.objectId)>-1)continue;
-
-          let i = new EventInvestigation();
-          i.kiosk = Object.assign({}, item.kiosk);
-          i.visitor = Object.assign({}, item.visitor);
-          i.purpose = Object.assign({}, item.purpose);
-          i.objectId = event.objectId;
-          i.action = event.action;
-          i.createdAt = event.createdAt;
-          i.score = event.score;
-          i.image = event.image;
-          i.pin = event.pin;        
-          this.data.push(i);
+      let items = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value+filter);
+      this.data = []
+      for(let item of items){
+        //reformat data
+        let newDisplayItem = Object.assign({}, item) as InvestigationDisplay;
+        //get last item
+        let lastEvent : KioskEvent;
+        for(let eventIndex = item.events.length-1; eventIndex >= 0; eventIndex --){
+          if(this.invitationService.checkValidEvent(item.events[eventIndex].action)){
+            lastEvent = item.events[eventIndex];
+            break;
+          }
         }
-      }  
-
+        
+        //display last event for current visitor
+        if(lastEvent){
+          newDisplayItem.action = lastEvent.action;
+          newDisplayItem.createdAt = lastEvent.createdAt
+          newDisplayItem.result = lastEvent.result;
+          this.data.push(newDisplayItem);
+        }
+      }
+      
+      
       //sort data descending according to createdAt
       this.data = this.data.sort((obj1, obj2) => {
         if (obj1.createdAt > obj2.createdAt) {
@@ -131,9 +127,10 @@ export class InvestigationComponent implements OnInit{
     });
   }
 
-  public eventClick(eventData: EventInvestigation): void {    
-      let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService);
+  public eventClick(eventData: InvestigationDisplay): void {    
+      let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService, this.invitationService);      
       eventDialog.setFormData(eventData);
+      eventDialog.title = this.commonService.getLocaleString("pageInvestigation."+eventData.action)
       this.dialogService.addDialog(EventPopupComponent, eventDialog).subscribe(() => {});    
   }
   initVisitEventWatcher() :void{
@@ -146,14 +143,62 @@ export class InvestigationComponent implements OnInit{
       this.zone.run(() => {
         let result = JSON.parse(ev.data);
         console.log("ws receive data", result);
-        if(result["objectId"]&&result["action"]&&this.checkValidEvent(result["action"])){
-          let ei = result as EventInvestigation;
-          ei.purpose = Object.assign({}, ei.invitation.purpose);
-          console.log("enable live view:", this.enabled.value);
-          if(this.enabled.value){
-            this.data.unshift(ei);
+        console.log("enable live view:", this.enabled.value);
+
+        
+        if(!this.enabled.value ||  !result["objectId"] || !result["action"] || !result["owner"] || !this.invitationService.checkValidEvent(result["action"])) return;
+
+        let ei = result as EventInvestigation;
+        
+        console.log("EventInvestigation", ei);
+
+        let newEvent = new KioskEvent();
+        newEvent.action = ei.action;
+        newEvent.createdAt = ei.createdAt;
+        newEvent.image = ei.image;
+        newEvent.objectId = ei.objectId;
+        newEvent.pin = ei.pin;
+        newEvent.result = ei.result;
+        newEvent.score = ei.score;
+        newEvent.updatedAt = ei.updatedAt;
+
+        //returns first occurence of this visitor 
+        //try to find existing visitor
+        let existingVisitor = this.data.map(function(e){return e.visitor.objectId}).indexOf(ei.visitor.objectId);
+        let createNewData:boolean = true;
+        if(existingVisitor > -1){
+          let existingEvent = this.data[existingVisitor].events.map(function(e){return e.action}).indexOf(ei.action);
+          //couldn't find existing event
+          if(existingEvent < 0){
+            //push to visitor events
+            this.data[existingVisitor].events.push(newEvent);            
+            //update latest result
+            this.data[existingVisitor].action = ei.action;
+            this.data[existingVisitor].result = ei.result;  
+            this.data[existingVisitor].createdAt = ei.createdAt;
+            createNewData=false;
           }
         }
+        
+        if(!createNewData)return;
+
+        //create new data
+        let newData = new InvestigationDisplay();
+        newData.action = ei.action;
+        newData.owner = Object.assign({}, ei.owner);
+        newData.purpose = Object.assign({}, ei.invitation.purpose);
+        newData.invitation = Object.assign({}, ei.invitation);
+        newData.kiosk = Object.assign({}, ei.kiosk);
+        newData.visitor = Object.assign({}, ei.visitor);
+        newData.createdAt = ei.createdAt;
+        newData.result = ei.result;                
+        newData.events = [];
+
+        newData.events.push(newEvent);
+        
+        this.data.unshift(newData);
+        
+        
       });
     }
 

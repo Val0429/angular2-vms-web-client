@@ -5,7 +5,7 @@ import { AppTestModule } from '../app.module.test';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
-describe('AttendanceComponent', () => {
+describe('InvestigationComponent', () => {
   let component: InvestigationComponent;
   let fixture: ComponentFixture<InvestigationComponent>;
 
