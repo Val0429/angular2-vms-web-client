@@ -154,9 +154,11 @@ export class KioskEvent extends BaseClass{
     public action: string;    
     public pin:string;
     public score:number;
+    public result:boolean;
     public image:string;
 }
-export class Investigation{
+export class Investigation{    
+    public owner : User;
     public visitor:Visitor;
     public invitation:Invitation;
     public company:Company;
@@ -164,8 +166,14 @@ export class Investigation{
     public purpose : Purpose;
     public events:KioskEvent[];
 }
+export class InvestigationDisplay extends Investigation{    
+    public result:boolean;
+    public action:string;
+    public createdAt:string;
+}
 
 export class EventInvestigation extends BaseClass{
+    public owner : User;
     public action:string;    
     public visitor:Visitor;
     public purpose:Purpose;
@@ -174,4 +182,5 @@ export class EventInvestigation extends BaseClass{
     public pin:string;
     public score:number;
     public image:string;
+    public result:boolean;
 }

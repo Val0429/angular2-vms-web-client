@@ -109,7 +109,7 @@
                   </th>
                   
                   <th style="width: 15%">
-                      {{'pageInvestigation.status' | translate}}
+                      {{'pageInvestigation.result' | translate}}
                     </th>
                   <th>
                     {{'pageInvestigation.event' | translate}}
@@ -132,11 +132,11 @@
                   <td>
                     {{item.kiosk && item.kiosk.data && item.kiosk.data.kioskName ? item.kiosk.data.kioskName : ""}}
                   </td>                  
-                  <td>
-                      {{'pageInvitation.'+item.visitor.status | translate}}
+                  <td>                   
+                      <span *ngIf="item.result === true || item.result === false">{{'common.'+item.result | translate}}</span>
                   </td>
                   <td>
-                      <span style="cursor: pointer" (click)="eventClick(item)">{{item.action}}</span>                           
+                      <span style="cursor: pointer" (click)="eventClick(item)">{{'pageInvestigation.'+item.action | translate}}</span>                           
                   </td>
                   <td>                    
                       <span style="cursor: pointer" (click)="eventClick(item)">{{item.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}</span>
@@ -145,7 +145,7 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4">
+                  <td colspan="7">
                     <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
                   </td>
                 </tr>

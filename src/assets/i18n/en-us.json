@@ -13,6 +13,7 @@
 		"enabled": "Enabled",
 		"end": "End",
 		"error": "Error",
+		"false": "false",
 		"hasBeenCreated": " has been created",
 		"hasBeenDeleted": " has been deleted",
 		"hasBeenRegistered": " has been registered",
@@ -44,6 +45,7 @@
 		"start": "Start",
 		"status": "Status",
 		"to": " to ",
+		"true": "true",
 		"updateData": "Update Data",
 		"upload": "Upload",
 		"url": "URL",
@@ -100,6 +102,10 @@
 		"wsPort": "WS Port"
 	},
 	"pageInvestigation": {
+		"EventStrictCompareFace": "Compare Face",
+		"EventStrictCompleteCheckIn": "Complete Check-In",
+		"EventStrictConfirmPhoneNumber": "Confirm Phone Number",
+		"EventStrictTryCheckIn": "Try Check-In",
 		"checkInImage": "Check-In Image",
 		"event": "Event",
 		"eventTime": "Event Time",
@@ -108,7 +114,7 @@
 		"pin": "Pin Code",
 		"purpose": "Purpose",
 		"score": "Score",
-		"status": "Status",
+		"result": "Result",
 		"visitorImage": "Visitor image",
 		"visitorName": "Visitor Name"
 	},
