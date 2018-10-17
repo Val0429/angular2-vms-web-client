@@ -69,7 +69,7 @@
 		"checkInStatistic": "Check In Statistic",
 		"dailyTotalVisitor": "Daily Total Visitor",
 		"exception": "Exception",
-		"kioskName": "Kiosk name",
+		"kioskName": "Kiosk Name",
 		"recurringVisitor": "Recurring Visitor",
 		"success": "Success",
 		"thisMonth": "This Month",
@@ -81,13 +81,13 @@
 	"pageEmail": {
 		"port": "Port Number",
 		"security": "Security Protocol",
-		"sendTestEmailPlaceholder": "Send test email to: mail@abc.xyz",
-		"smtpHost": "Smtp Host",
-		"testEmail": "Test email"
+		"sendTestEmailPlaceholder": "Send Test Email to: mail@abc.xyz",
+		"smtpHost": "SMTP Hostname",
+		"testEmail": "Test Email"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
-		"batchUploadFloor": "Batch upload floor",
+		"batchUploadFloor": "Floor Data Batch upload",
 		"csvFile": "CSV File",
 		"floor": "Floor",
 		"floorName": "Floor Name",
@@ -95,11 +95,11 @@
 		"haveBeenImported": " records have been imported",
 		"onlyCsvAllowed": "Only CSV file allowed",
 		"sizeOverLimit": " must not exceeed 5MB",
-		"unitNo": "Unit No"
+		"unitNo": "Unit No."
 	},
 	"pageFrs": {
 		"ipAddress": "IP Address",
-		"wsPort": "WS Port"
+		"wsPort": "HTTP Port"
 	},
 	"pageInvestigation": {
 		"EventStrictCompareFace": "Compare Face",
@@ -180,34 +180,34 @@
 	"pageLicense": {
 		"description": "Description",
 		"expired": "Expired",
-		"licFile": "Lic file",
+		"licFile": "Lic File",
 		"license": "License",
 		"licenseKey": "License Key",
 		"mac": "MAC Address",
-		"onlyLicFileAllowed": "Only lic file allowed",
+		"onlyLicFileAllowed": "Only .lic file allowed",
 		"registerDate": "Register Date",
-		"registerOffline": "Register offline",
-		"registerOnline": "Register online",
-		"serialNumber": "Serial number",
-		"totalLicense": "Total license",
+		"registerOffline": "Register Offline",
+		"registerOnline": "Register Online",
+		"serialNumber": "Serial Number",
+		"totalLicense": "Total License",
 		"trial": "Trial"
 	},
 	"pageLogin": {
-		"invalidSession": "Invalid session",
-		"invalidUserNameOrPassword": "Invalid username or password",
+		"invalidSession": "Invalid Session",
+		"invalidUserNameOrPassword": "Invalid Username or Password",
 		"login": "Login",
-		"loginFailed": "Login failed",
-		"pleaseRelogin": "Please relogin!",
+		"loginFailed": "Login Failed",
+		"pleaseRelogin": "Please Relogin!",
 		"rememberMe": "Remember Me",
-		"subTitle": "Sign in to your account",
+		"subTitle": "Sign in to your Account",
 		"title": "VMS Login"
 	},
 	"pageRegistration": {
-		"completed": "Registration completed!",
-		"completedDesc": "Resistration code will be send to your cellphone shortly",
+		"completed": "Registration Completed!",
+		"completedDesc": "Please take note of the PIN CODE sent to you for your Check-In",
 		"completedNode": "kindly proceed to the Check-in Kiosk and Click \"Check-in\"",
-		"potraitConstraint": "Size must bigger than 300 x 300",
-		"uploadPotrait": "Upload your potrait"
+		"potraitConstraint": "Photo size must bigger than 300 x 300",
+		"uploadPotrait": "Upload your Self-Portrait"
 	},
 	"pageSms": {
 		"comPort": "COM Port Number",
