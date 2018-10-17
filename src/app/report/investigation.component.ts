@@ -76,6 +76,7 @@ export class InvestigationComponent implements OnInit{
       let filter="";
       if(this.kiosk.value) filter+="&kiosk="+this.kiosk.value;
       if(this.purpose.value) filter+="&purpose="+this.purpose.value;
+      filter+="&paging.all=true";
       //gets investigation data
       let items = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value+filter);
       this.data = []
