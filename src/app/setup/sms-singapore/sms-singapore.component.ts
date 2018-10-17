@@ -68,7 +68,7 @@ export class SmsSingaporeComponent implements OnInit {
   async sendTestSms(){
     try{
       this.progressService.start();
-      let result = await this.setupService.sendTestSms(this.testSms.value);
+      let result = await this.setupService.sendTestSgSms(this.testSms.value);
       console.log("sms test result: ", result);
       this.commonService.showAlert(this.commonService.getLocaleString("common.sms")+this.commonService.getLocaleString("common.hasBeenSent")).subscribe(()=>{});
     }//no catch, global error handle handles it

@@ -11,13 +11,22 @@ export class SetupService {
     private uriServerConfig: string = this.configService.getCgiRoot() + "config";
     private uriTestEmail: string = this.configService.getCgiRoot() + "test/email";
     private uriTestSms: string = this.configService.getCgiRoot() + "test/sms";
+    private uriTestSgSms: string = this.configService.getCgiRoot() + "test/sgsms";
     constructor(
         private coreService: CoreService,
         private loginService: LoginService,
         private configService:ConfigService
     ) { }
 
-
+    async sendTestSgSms(phone: string): Promise<any> {
+        var token = this.loginService.getCurrentUserToken();
+          let data : any = {};
+          data.sessionId = token.sessionId;
+          data.phone = phone;
+          console.log("test sgsms data", data);
+          var result = await this.coreService.postConfig({ path: this.uriTestSgSms, data }).toPromise();
+          return result;
+      }
   async sendTestSms(phone: string): Promise<any> {
     var token = this.loginService.getCurrentUserToken();
       let data : any = {};
