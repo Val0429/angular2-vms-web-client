@@ -14,6 +14,7 @@ export class EventPopupComponent extends DialogComponent<CreateEditDialog, Kiosk
   imgUrl :string;
   data : InvestigationDisplay;
   cgiRoot: string;
+  tempEvents: any[] & KioskEvent[];
   constructor(public dialogService: DialogService, private loginService:LoginService, private configService:ConfigService, private invitationService:InvitationService) {    
     super(dialogService);
     this.data = new InvestigationDisplay();    
@@ -23,25 +24,27 @@ export class EventPopupComponent extends DialogComponent<CreateEditDialog, Kiosk
    public setFormData(data: InvestigationDisplay) {
     console.log("setFormData", data);
     this.data = data;    
-    let tempEvents = Object.assign([], this.data.events);
+    this.tempEvents = [];
     let token = this.loginService.getCurrentUserToken();
 
-    this.data.events = [];
-    for(let event of tempEvents){
+    for(let event of data.events){
       
+      if(!this.invitationService.checkValidEvent(event.action)) continue;
       // must remove localhost from image address
-      if(this.data && this.data.visitor.image && event.image && token!=null && this.invitationService.checkValidEvent(event.action)){
-        
+      if(this.data && event.image && token!=null ){
+        let visitorImage ="";
         event.image = event.image.replace("localhost", this.configService.getLocation().hostname);
-        this.data.visitor.image = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);
-  
-        this.imgUrl=this.cgiRoot+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
-
-        this.data.events.push(event);
+        if(this.data.visitor.image){
+          visitorImage = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);                    
+        }else if(this.data.visitor.idcard && this.data.visitor.idcard.images && this.data.visitor.idcard.images.length>1)
+        {
+          visitorImage = this.data.visitor.idcard.images[1].replace ("localhost", this.configService.getLocation().hostname);                    
+        }
+        this.imgUrl=this.cgiRoot+"thumbnail?url="+visitorImage+"&size=300&sessionId="+token.sessionId;        
       }
-      
+      this.tempEvents.push(Object.assign({}, event));
     }
-    
+    console.log("this.tempEvents", this.tempEvents);
       
   }
   ngOnInit() {

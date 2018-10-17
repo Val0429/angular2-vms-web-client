@@ -35,12 +35,19 @@ export class UserData {
     public company: Company;
 
 }
+export class IdCard{
+    public name:string;
+    public birthdate:string;
+    public images:string[];
+    public idnumber:string;
+}
 export class Visitor extends BaseClass{
     public phone:string;
     public email:string;
     public company: Company;
     public status: number;    
-    public image: string;    
+    public image: string;
+    public idcard:IdCard;    
 }
 export class RecurringVisitor{
     public visitor:Visitor;
