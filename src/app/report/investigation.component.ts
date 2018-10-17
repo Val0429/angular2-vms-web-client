@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from "@angular/core";
-import { Investigation, KioskEvent, EventInvestigation, KioskUser, Purpose, KioskData, InvestigationDisplay } from "app/infrastructure/interface";
+import { KioskEvent, EventInvestigation, KioskUser, Purpose, KioskData, InvestigationDisplay } from "app/infrastructure/interface";
 import { NgProgress } from "ngx-progressbar";
 import { InvitationService } from "app/service/invitation.service";
 
@@ -10,7 +10,6 @@ import { ConfigService } from "app/service/config.service";
 import { EventPopupComponent } from "./event-popup.component";
 import { KioskService } from "app/service/kiosk.service";
 import { CommonService } from "app/service/common.service";
-import { query } from "@angular/animations";
 
 @Component({
   templateUrl: 'investigation.component.html'
@@ -161,12 +160,13 @@ export class InvestigationComponent implements OnInit{
         newEvent.result = ei.result;
         newEvent.score = ei.score;
         newEvent.updatedAt = ei.updatedAt;
-
+        
         //returns first occurence of this visitor 
         //try to find existing visitor
         let existingVisitor = this.data.map(function(e){return e.visitor.objectId}).indexOf(ei.visitor.objectId);
         let createNewData:boolean = true;
         if(existingVisitor > -1){
+          console.log("this.data[existingVisitor]",this.data[existingVisitor]);
           let existingEvent = this.data[existingVisitor].events.map(function(e){return e.action}).indexOf(ei.action);
           //couldn't find existing event
           if(existingEvent < 0){
@@ -197,7 +197,6 @@ export class InvestigationComponent implements OnInit{
         newData.events.push(newEvent);
         
         this.data.unshift(newData);
-        
         
       });
     }

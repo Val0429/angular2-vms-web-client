@@ -16,7 +16,7 @@
                 <th>{{'pageInvestigation.eventTime' | translate}}</th>
               </thead>
               <tbody>
-        <tr *ngFor="let event of data.events">          
+        <tr *ngFor="let event of tempEvents">          
             <td>{{'pageInvestigation.'+event.action | translate}} 
                 <div *ngIf="event.image">
                     <div>{{'pageInvestigation.visitorImage' | translate}}</div>
