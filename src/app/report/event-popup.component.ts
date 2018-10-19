@@ -38,7 +38,7 @@ export class EventPopupComponent extends DialogComponent<CreateEditDialog, Kiosk
           visitorImage = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);                    
         }else if(this.data.visitor.idcard && this.data.visitor.idcard.images && this.data.visitor.idcard.images.length>1)
         {
-          visitorImage = this.data.visitor.idcard.images[1].replace ("localhost", this.configService.getLocation().hostname);                    
+          visitorImage = this.data.visitor.idcard.images[0].replace ("localhost", this.configService.getLocation().hostname);                    
         }
         this.imgUrl=this.cgiRoot+"thumbnail?url="+visitorImage+"&size=300&sessionId="+token.sessionId;        
       }
