@@ -211,8 +211,10 @@ export class InvestigationComponent implements OnInit{
     let now : Date= new Date(Date.now());        
     let start = new Date(now.getFullYear(), now.getMonth(), 1);  
 
-    this.start=new FormControl(start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate() ,[Validators.required]);
-    this.end=new FormControl(now.getFullYear()+"-"+(now.getMonth()+1)+"-"+(now.getDate()+1),[Validators.required]);
+    let end = new Date(now.setDate(now.getDate()+1));
+    this.start=new FormControl(start, [Validators.required]);
+    this.end=new FormControl(end, [Validators.required]);
+
     this.enabled = new FormControl(true);
     this.kiosk = new FormControl('');
     this.purpose = new FormControl('');
