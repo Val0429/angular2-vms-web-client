@@ -1,6 +1,9 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+// import ExifReader from 'exifreader';
+import * as exif from 'jpeg-autorotate';
+
 import { InvitationService } from 'app/service/invitation.service';
 import { CommonService } from '../service/common.service';
 
@@ -54,7 +57,7 @@ export class PotraitComponent {
   constructor(
     private router: Router,
     private invitationService: InvitationService,
-    private commonService:CommonService
+    private commonService: CommonService
   ) {
     this.commonService.loadLanguage();
     var url = window.location.search;
@@ -75,29 +78,76 @@ export class PotraitComponent {
   }
 
   imageListener($event): void {
+    var me = this;
+
     var file: File = $event.target.files[0];
     if (file == null) return;
+
+    me.model.potrait = "";
 
     // if (file.size > 1024000) {
     //   alert(file.size);
     //   return;
     // }
 
-    var myReader: FileReader = new FileReader();
-
-    myReader.onloadend = async (e) => {
-      //var image = new Image();
-      var result = myReader.result as any;
-
-      var pos = result.indexOf(";base64,");
-      if (pos >= 0) {
-        this.model.potrait = result.substring(pos + 8);
-        console.log(this.model.potrait);
+    var reader = new FileReader();
+    reader.onload = async (e) => {
+      var buf = new Buffer(reader.result.byteLength);
+      var view = new Uint8Array(reader.result);
+      for (var i = 0; i < buf.length; ++i) {
+        buf[i] = view[i];
       }
-    }
-    myReader.readAsDataURL(file);
+      console.log("RotateImage") ;
+
+      me.RotateImage(buf);
+
+      if (me.model.potrait == "") {
+        me.readImageBase64(file);
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }
 
+  RotateImage(file) {
+    let me = this;
+
+    let options = { quality: 85 }
+
+    exif.rotate(file, options,
+      function (error, buffer, orientation, dimensions) {
+        if (error) {
+          console.log('An error occurred when rotating the file: ' + error.message)
+          return
+        }
+
+        me.model.potrait = buffer.toString('base64');
+
+        console.log('Orientation was: ' + orientation)
+        console.log('Height after rotation: ' + dimensions.height)
+        console.log('Width after rotation: ' + dimensions.width)
+      }
+    );
+  }
+
+  readImageBase64(file) {
+    var me = this;
+    var myReader: FileReader = new FileReader();
+
+      myReader.onloadend = async (e) => {
+        //var image = new Image();
+        var result = myReader.result as any;
+
+        console.log("readAsDataURL") ;
+
+        var pos = result.indexOf(";base64,");
+        if (pos >= 0) {
+          me.model.potrait = result.substring(pos + 8);
+          console.log(me.model.potrait);
+        }
+      }
+      myReader.readAsDataURL(file);
+  }
+  
   onFormSubmit(form: NgForm) {
     if (form.invalid) {
       return;
@@ -109,11 +159,11 @@ export class PotraitComponent {
 
   async registerPotrait() {
     var item = await this.invitationService.preRegistration(this.model);
-    
-    if ( item) {
+
+    if (item) {
       // success
       this.router.navigate(['/registration/success']);
     }
-    
+
   }
 }
