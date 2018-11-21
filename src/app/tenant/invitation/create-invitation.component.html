@@ -13,13 +13,13 @@
                       <span class="input-group-addon">
                         <i class="icon-user"></i>
                       </span>
-                      <input type="text" class="form-control" formControlName="phone" 
-                        (keyup)="mobileNoSearch($event)" [ngClass]="{ 'form-control-danger': phone.invalid && (phone.dirty ||phone.touched), 'form-control-success': phone.valid && (phone.dirty || phone.touched)}"
+                      <input type="text" class="form-control" formControlName="phone" maxlength="13"
+                        (input)="mobileNoSearch($event)" [ngClass]="{ 'form-control-danger': phone.invalid && (phone.dirty ||phone.touched), 'form-control-success': phone.valid && (phone.dirty || phone.touched)}"
                         placeholder="{{'common.mobileNo'|translate}}" >
                     </div>
                     <div style="color:red" *ngIf="phone.errors && (phone.dirty || phone.touched )">
                       <p *ngIf="phone.errors.required">{{'common.mobileNo'|translate}}{{'common.isRequired'|translate}}</p>
-                      <p *ngIf="phone.errors.pattern">{{'common.mobileNo'|translate}}{{'common.isInvalid'|translate}}</p>
+                      <p *ngIf="phone.errors.pattern || phone.errors.minLength || phone.errors.maxLength">{{'common.mobileNo'|translate}}{{'common.isInvalid'|translate}}</p>
                     </div>
 
                     <div class="input-group mb-1" title="{{'common.name'|translate}}" [ngClass]="{ 'has-danger': name.invalid && (name.dirty || name.touched), 'has-success': name.valid && (name.dirty || name.touched)}">

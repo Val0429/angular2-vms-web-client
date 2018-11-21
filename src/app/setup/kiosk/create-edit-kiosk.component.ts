@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { CreateEditDialog, KioskUser, KioskData } from 'app/Interface/interface';
+import { CreateEditDialog, KioskUser, KioskData } from 'app/infrastructure/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgProgress } from 'ngx-progressbar';
 import { KioskService } from '../../service/kiosk.service';

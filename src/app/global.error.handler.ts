@@ -19,6 +19,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error) {
 
     const commonService = this.injector.get(CommonService);
+    commonService.loadLanguage();
     //log any error
     //TO DO: do better logging
     console.error("Error thrown from global error handler");

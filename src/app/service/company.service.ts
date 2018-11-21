@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { Company, CrudInterface } from 'app/Interface/interface';
+import { Company, CrudInterface } from 'app/infrastructure/interface';
 import * as Globals from '../globals';
 import { CrudService } from './crud.service';
 import { ConfigService } from './config.service';

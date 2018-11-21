@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SetupService } from 'app/service/setup.service';
 import * as Globals from 'app/globals';
 import { CommonService } from '../../service/common.service';

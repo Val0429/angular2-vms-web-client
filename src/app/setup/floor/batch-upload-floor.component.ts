@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { CreateEditDialog, Floor } from 'app/Interface/interface';
+import { CreateEditDialog, Floor } from 'app/infrastructure/interface';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 

@@ -1,6 +1,6 @@
 import { CoreService } from 'app/service/core.service';
 import { LoginService } from 'app/service/login.service';
-import { CrudInterface } from 'app/Interface/interface';
+import { CrudInterface } from 'app/infrastructure/interface';
 
 
 export class CrudService<T> implements CrudInterface<T>{

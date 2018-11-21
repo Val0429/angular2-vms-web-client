@@ -19,7 +19,11 @@ export class ConfigService {
         this.appConfig=null;
     });
   }
-
+  getLocation():HTMLAnchorElement{
+    var parser = document.createElement('a');
+    parser.href = this.getCgiRoot();
+    return parser;
+  }
   getCgiRoot():string{
     // returns value from config
     if(this.appConfig && this.appConfig.cgiRoot) {
@@ -28,7 +32,7 @@ export class ConfigService {
     //host distribution inside vsm server, we only need to return base url
     else{ 
         let getUrl = window.location;
-        return getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        return getUrl .protocol + "//" + getUrl.host + "/";
     }    
   }
   getWsRoot():string{
@@ -39,13 +43,16 @@ export class ConfigService {
     //host distribution inside vsm server, we only need to return base url
     else{ 
         let getUrl = window.location;
-        return "ws://" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+        return "ws://" + getUrl.host + "/" ;
     }
   }
 }
 
 export class ConfigServiceStub {
-
+    getLocation():HTMLAnchorElement{
+        var parser = document.createElement('a');
+        return parser;
+    }
     getCgiRoot():string{
         return "";
     }

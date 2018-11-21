@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Company, RoleEnum, Floor } from 'app/Interface/interface';
+import { Company, RoleEnum, Floor } from 'app/infrastructure/interface';
 import { CreateEditCompanyComponent } from './create-edit-company.component';
 import { CompanyService } from '../../service/company.service';
 import { FloorService } from '../../service/floor.service';

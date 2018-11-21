@@ -3,7 +3,7 @@ import { UserService } from 'app/service/user.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditFloorComponent } from './create-edit-floor.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { Floor, RoleEnum } from '../../Interface/interface';
+import { Floor, RoleEnum } from '../../infrastructure/interface';
 import { BatchUploadFloorComponent } from './batch-upload-floor.component';
 import { FloorService } from '../../service/floor.service';
 import { CommonService } from '../../service/common.service';

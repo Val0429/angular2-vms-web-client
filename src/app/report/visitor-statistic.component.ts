@@ -1,5 +1,4 @@
 import { Component,  OnInit, NgZone } from '@angular/core';
-import * as Globals from 'app/globals'
 import { LoginService } from '../service/login.service';
 import { ConfigService } from '../service/config.service';
 

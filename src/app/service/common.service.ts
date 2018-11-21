@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertComponent } from '../dialog/alert/alert.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { TranslateService } from 'ng2-translate';
-import { BaseClass } from '../Interface/interface';
+import { BaseClass } from '../infrastructure/interface';
 import { FormControl } from '@angular/forms';
 import  *  as Globals from 'app/globals';
 import { Observable } from 'rxjs';

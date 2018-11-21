@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { User } from 'app/Interface/interface';
+import { User } from 'app/infrastructure/interface';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { License, CreateEditDialog } from '../../Interface/interface';
+import { License, CreateEditDialog } from '../../infrastructure/interface';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { NgProgress } from 'ngx-progressbar';
 import { LicenseService } from '../../service/license.service';

@@ -3,7 +3,7 @@ import { CommonService } from '../../service/common.service';
 import { LicenseService } from '../../service/license.service';
 import { NgProgress } from 'ngx-progressbar';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { License, RoleEnum } from '../../Interface/interface';
+import { License, RoleEnum } from '../../infrastructure/interface';
 import { CreateLicenseComponent } from './create-license.component';
 import { UserService } from '../../service/user.service';
 
