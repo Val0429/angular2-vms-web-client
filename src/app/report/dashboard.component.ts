@@ -175,8 +175,8 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
 
   public async changeDuration(duration: string) {
     this.currentDuration = duration;
-    let now = new Date(Date.now());    
-    this.end = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);    
+    let now = new Date();    
+    this.end = new Date(now.setDate(now.getDate()+1));
     switch(duration){
       case "day":
         this.start = new Date(now.getFullYear(), now.getMonth(), now.getDate());            
