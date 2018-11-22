@@ -41,6 +41,7 @@
      <input type="text"
             class="form-control"                 
             formControlName="roles"
+            (keydown)="$event.preventDefault()"
             placeholder="{{'pageAccount.roles'|translate}}"
             *ngIf="formData.roles.length==0"
              />  
@@ -66,6 +67,7 @@
            class="form-control"                 
            formControlName="roles"
            placeholder="{{'pageAccount.roles'|translate}}"
+           
            *ngIf="formData.roles.length==0"
             />  
             <div class="form-control selected-dropdown" *ngIf="formData.roles.length>0">                    
@@ -104,6 +106,7 @@
                     <input type="text"
                            class="form-control"                 
                            formControlName="floor"
+                           (keydown)="$event.preventDefault()"
                            placeholder="{{'pageAccount.floorName'|translate}}"
                            *ngIf="formData.data.floor.length==0"
                             />  
