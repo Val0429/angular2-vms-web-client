@@ -78,7 +78,14 @@ export class InvestigationComponent implements OnInit{
       if(this.purpose.value) filter+="&purpose="+this.purpose.value;
       filter+="&paging.all=true";
       //gets investigation data
-      let items = await this.invitationService.getInvestigations("&start="+this.start.value+"&end="+this.end.value+filter);
+      let end = this.end.value;
+      let start = this.start.value;
+      if(end<start){
+        let temp = end;
+        end = start;
+        start = temp;
+      }
+      let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${end.getMonth()+1}-${end.getDate()}T23:59`+filter);
       this.data = []
       for(let item of items){
         //reformat data
@@ -211,7 +218,7 @@ export class InvestigationComponent implements OnInit{
     let now : Date= new Date(Date.now());        
     let start = new Date(now.getFullYear(), now.getMonth(), 1);  
 
-    let end = new Date(now.setDate(now.getDate()+1));
+    let end = new Date(now.setDate(now.getDate()));
     this.start=new FormControl(start, [Validators.required]);
     this.end=new FormControl(end, [Validators.required]);
 
