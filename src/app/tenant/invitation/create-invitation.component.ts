@@ -23,7 +23,7 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
   purposes:Purpose[] = [];
   formData: Invitation;
   sendBySms: FormControl;
-
+  dateGroup:FormGroup;
   constructor(
     public dialogService:DialogService,
     private invitationService:InvitationService,     
@@ -46,8 +46,7 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
       phone:this.phone,
       sendByEmail:this.sendByEmail,      
       sendBySms:this.sendBySms,      
-      start:this.start,
-      end:this.end,
+      dateGroup:this.dateGroup,
       purpose:this.purpose
     });
   }
@@ -57,9 +56,14 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
     this.phone=new FormControl('',[Validators.required, Validators.minLength(10), Validators.maxLength(13), Validators.pattern(Globals.singlePhoneRegex)]);
     this.sendByEmail=new FormControl(true);
     this.sendBySms=new FormControl(true);
+    
     this.start=new FormControl('',[Validators.required]);
     this.end=new FormControl('',[Validators.required]);
+    
+    this.dateGroup = new FormGroup({start:this.start, end:this.end}, this.dateValidator);
+
     this.purpose = new FormControl('',[Validators.required]);
+  
   }
 
   async ngOnInit() {
@@ -82,7 +86,11 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
       this.email.setValue(visitor.email);
     }
   }
-
+  minDate: Date = new Date();
+  dateValidator(g: FormGroup) {
+    return g.get('start').value <= g.get('end').value
+      ? null : { 'invalid': true };
+    }
   async save() {    
     try{      
       this.formData.visitor.name=this.name.value;
