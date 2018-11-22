@@ -87,10 +87,10 @@
               <i class="fa fa-envelope"></i>
             </span>
             <select 
-            (change)="onCompanyChange($event.target.value)"
+              (change)="onCompanyChange($event.target.value)"
               class="form-control"                 
               formControlName="company">  
-              <option *ngFor="let item of companyOptions" [ngValue]="item.objectId" >{{item.name}}</option>
+              <option *ngFor="let item of companyOptions" value="{{item.objectId}}" >{{item.name}}</option>
               </select>
           </div>
           <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
@@ -213,7 +213,7 @@
         
 
         <!-- <pre>{{formData | json}}</pre> -->
-         <!-- <pre>{{myform.value | json}}</pre>  -->
+         <!-- <pre>{{myform.value | json}}</pre>   -->
 
       </form>
 

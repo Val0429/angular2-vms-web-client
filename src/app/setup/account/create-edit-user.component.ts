@@ -8,6 +8,7 @@ import { FloorService } from "../../service/floor.service";
 import { CommonService } from "../../service/common.service";
 import { CompanyService } from "../../service/company.service";
 import { NgProgress } from "ngx-progressbar";
+import { runInThisContext } from "vm";
 
 @Component({
   selector: 'create-edit-user',
@@ -84,7 +85,8 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     //options restriction
     if(this.userService.userIs(RoleEnum.Administrator) || this.userService.userIs(RoleEnum.SystemAdministrator)){
       this.companyOptions = await this.companyService.read("&paging.all=true");
-      this.floorOptions = await this.floorService.read("&paging.all=true");
+      let company = this.companyOptions.find(x=>x.objectId == this.formData.data.company.objectId);
+      this.floorOptions = Object.assign([], company && company.floor ? company.floor : []);
     }else{
       let currentUser = this.userService.getCurrentUser();
       console.log("current user", currentUser);
@@ -117,8 +119,22 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     this.userIsSystemAdmin = this.userService.userIs(RoleEnum.SystemAdministrator);
 
   }
-  onCompanyChange(event:any){
-      this.checkCompanyAndFloorValidator();
+  onCompanyChange(value:any){    
+
+    let company = this.companyOptions.find(x=>x.objectId == value); 
+    console.log("company.floor", company.floor);
+    
+    if(this.userService.userIs(RoleEnum.Administrator) || this.userService.userIs(RoleEnum.SystemAdministrator)){      
+      this.floorOptions = Object.assign([], company && company.floor ? company.floor : []);
+    }
+    else{
+      let currentUser = this.userService.getCurrentUser();
+      this.floorOptions = Object.assign([], currentUser.data && currentUser.data.floor ? currentUser.data.floor : []);
+    }
+    this.formData.data.floor = [];
+    this.floor.setValue("");
+
+    this.checkCompanyAndFloorValidator();
   }
   passwordMatchValidator(g: FormGroup) {
   return g.get('password').value === g.get('confirmPassword').value
@@ -184,6 +200,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       formResult.data = this.myform.value.data;
       formResult.publicEmailAddress = this.myform.value.email;  
       formResult.roles = this.myform.value.roles;      
+      formResult.phone = this.myform.value.phone;
       //close form with success
       this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
       this.close();  
@@ -200,6 +217,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     this.checkCompanyAndFloorValidator();
   }
   private checkCompanyAndFloorValidator() {
+    
     let selectedRoles = this.formData.roles.map(function (e) { return e.name; });
     if (selectedRoles.indexOf(RoleEnum[RoleEnum.TenantAdministrator]) > -1 || selectedRoles.indexOf(RoleEnum[RoleEnum.TenantUser]) > -1) {
       this.company.setValidators([Validators.required]);
