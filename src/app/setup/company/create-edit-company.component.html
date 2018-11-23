@@ -91,6 +91,7 @@
                          class="form-control"                 
                          formControlName="floor"
                          placeholder="{{'pageCompany.floor'|translate}}"
+                         (keydown)="$event.preventDefault()"
                          *ngIf="formData.floor.length==0"
                           />  
                           <div class="form-control selected-dropdown" *ngIf="formData.floor.length>0">

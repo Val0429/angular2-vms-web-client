@@ -48,6 +48,7 @@
                       <p *ngIf="email.errors.pattern">{{'common.email'|translate}}{{'common.isInvalid'|translate}}</p>
                     </div>
 
+                  <fieldset formGroupName="dateGroup">
                     <div class="input-group mb-1" title="{{'common.start'|translate}}"  [ngClass]="{ 'has-danger': start.invalid && (start.dirty || start.touched), 'has-success': start.valid && (start.dirty || start.touched)}">
                       <span class="input-group-addon">
                         <i class="icon-emotsmile"></i>
@@ -58,7 +59,7 @@
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker  [showWeeks]="false" formControlName="start" 
+                        <datepicker  [showWeeks]="false" formControlName="start"  [minDate]="minDate"
                           (selectionDone)="showStartDatePicker = false"></datepicker>
                       </div>
                     </div>
@@ -78,7 +79,7 @@
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker [showWeeks]="false" formControlName="end"
+                        <datepicker [showWeeks]="false" formControlName="end" [minDate]="minDate"
                           (selectionDone)="showEndDatePicker = false"></datepicker>
                       </div>
                     </div>
@@ -87,6 +88,11 @@
                           {{'common.end'|translate}} {{'common.isRequired'|translate}}
                       </p>
                     </div>
+
+                    <div style="color:red" *ngIf="dateGroup.errors && (start.dirty || start.touched) && (end.dirty || end.touched)">
+                      <p *ngIf="dateGroup.errors.invalid">{{'common.start'|translate}}{{'common.isInvalid'|translate}}</p>
+                    </div>
+                  </fieldset>
 
                     <div class="input-group mb-1" title="{{'pageInvitation.purpose'|translate}}"
                     [ngClass]="{ 'has-danger': purpose.invalid && (purpose.dirty || purpose.touched), 'has-success': purpose.valid && (purpose.dirty || purpose.touched)}">

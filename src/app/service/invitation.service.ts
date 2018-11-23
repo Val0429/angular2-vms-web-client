@@ -94,7 +94,11 @@ export class InvitationService {
         data.dates = [];
         var begin = new Date(start);
         var finish = new Date(end);
-
+        if(begin>finish){
+            let temp = begin;
+            begin = finish;
+            finish = temp;
+        }
         while (begin <= finish) {                        
             var t = new Date(begin);
             var newDate = new InvitationDate();

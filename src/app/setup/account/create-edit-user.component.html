@@ -41,6 +41,7 @@
      <input type="text"
             class="form-control"                 
             formControlName="roles"
+            (keydown)="$event.preventDefault()"
             placeholder="{{'pageAccount.roles'|translate}}"
             *ngIf="formData.roles.length==0"
              />  
@@ -66,6 +67,7 @@
            class="form-control"                 
            formControlName="roles"
            placeholder="{{'pageAccount.roles'|translate}}"
+           
            *ngIf="formData.roles.length==0"
             />  
             <div class="form-control selected-dropdown" *ngIf="formData.roles.length>0">                    
@@ -85,10 +87,10 @@
               <i class="fa fa-envelope"></i>
             </span>
             <select 
-            (change)="onCompanyChange($event.target.value)"
+              (change)="onCompanyChange($event.target.value)"
               class="form-control"                 
               formControlName="company">  
-              <option *ngFor="let item of companyOptions" [ngValue]="item.objectId" >{{item.name}}</option>
+              <option *ngFor="let item of companyOptions" value="{{item.objectId}}" >{{item.name}}</option>
               </select>
           </div>
           <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
@@ -104,6 +106,7 @@
                     <input type="text"
                            class="form-control"                 
                            formControlName="floor"
+                           (keydown)="$event.preventDefault()"
                            placeholder="{{'pageAccount.floorName'|translate}}"
                            *ngIf="formData.data.floor.length==0"
                             />  
@@ -210,7 +213,7 @@
         
 
         <!-- <pre>{{formData | json}}</pre> -->
-         <!-- <pre>{{myform.value | json}}</pre>  -->
+         <!-- <pre>{{myform.value | json}}</pre>   -->
 
       </form>
 
