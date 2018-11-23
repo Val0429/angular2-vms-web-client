@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CreateEditKioskComponent } from './create-edit-kiosk.component';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
@@ -7,6 +7,8 @@ import { KioskService } from '../../service/kiosk.service';
 import { UserService } from '../../service/user.service';
 import { CommonService } from '../../service/common.service';
 import { NgProgress } from 'ngx-progressbar';
+import { LoginService } from 'app/service/login.service';
+import { ConfigService } from 'app/service/config.service';
 
 @Component({
   selector: 'app-kiosk',
@@ -21,10 +23,14 @@ export class KioskComponent implements OnInit{
     private userService: UserService, 
     private commonService: CommonService, 
     private dialogService:DialogService,
-    private progressService:NgProgress
+    private progressService:NgProgress,
+    private loginService:LoginService,
+    private configService:ConfigService,
+    private zone:NgZone
   ) {
     
   }
+  ws:WebSocket;
   tempData :KioskUser[] = [];
   data:KioskUser[]= [];   
   filterQuery = "";
@@ -47,15 +53,52 @@ export class KioskComponent implements OnInit{
       }
     }
   }
+  initKioskMonitor():void{
+   
+    var token = this.loginService.getCurrentUserToken();
+    if(token==null)return;
+    this.ws = new WebSocket(this.configService.getWsRoot()+"kiosks/aliveness?sessionId="+token.sessionId);
+    
+    this.ws.onmessage = (ev:MessageEvent)=>{
+      this.zone.run(() => {    
+        console.log("MessageEvent", ev);    
+        let result = JSON.parse(ev.data);
+        console.log("alive result", result);
+        if(result.length>0){
+          for (let onlineKiosk of result){
+          let kiosk = this.data.find(x=>x.data.kioskId == onlineKiosk.data.kioskId);          
+          if(kiosk){
+            kiosk.alive = 1;            
+          }
+        }
+        }else if(result.kiosk && result.kiosk.data.kioskId){
+          let kiosk = this.data.find(x=>x.data.kioskId == result.kiosk.data.kioskId);        
+          console.log("alive kiosk", kiosk, result.alive);
+          if(kiosk){
+            kiosk.alive = result.alive;
+            console.log(kiosk);
+          }
+        }
+      });
+    }
+
+    this.ws.onopen =  () => {
+      console.log("live kiosk update connection opened");
+    };    
+    
+  }
 
   async ngOnInit(): Promise<void> {
     try{
+      
       this.progressService.start();
       let items = await this.kioskService.read("&paging.all=true");      
       this.data= Object.assign([],items);
       this.tempData= Object.assign([],items);      
       this.isAdmin = this.userService.userIs(RoleEnum.Administrator);
       console.log("is admin:", this.isAdmin);
+
+      this.initKioskMonitor();
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();

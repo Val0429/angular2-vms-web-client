@@ -32,7 +32,9 @@
 		"new": "新增",
 		"newPassword": "新密碼",
 		"no": "取消",
+		"offline": "離線",
 		"ok": "確認",
+		"online": "線上",
 		"password": "密碼",
 		"phone": "電話號碼",
 		"required": "必填",
@@ -102,7 +104,7 @@
 		"wsPort": "HTTP埠號"
 	},
 	"pageInvestigation": {
-		"EventStrictCompareFace":"臉部比對",
+		"EventStrictCompareFace": "臉部比對",
 		"EventStrictCompleteCheckIn": "註冊完成",
 		"EventStrictConfirmPhoneNumber": "再次確認",
 		"EventStrictTryCheckIn": "嚐試註冊",
@@ -113,8 +115,8 @@
 		"liveInvestigation": "即時事件",
 		"pin": "Pin碼",
 		"purpose": "目的",
-		"score": "相識度",
 		"result": "比對結果",
+		"score": "相識度",
 		"visitorImage": "訪客相片",
 		"visitorName": "訪客名稱"
 	},

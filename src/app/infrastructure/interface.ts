@@ -77,7 +77,7 @@ export class KioskData {
 }
 
 export class KioskUser extends BaseUser {
-
+    public alive:number;
     public data: KioskData;
 }
 

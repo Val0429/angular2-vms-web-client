@@ -38,6 +38,9 @@
                 <th style="width: 30%">
                   {{'pageKiosk.kioskName' | translate}}
                 </th>
+                <th style="width: 30%">
+                  {{'common.status' | translate}}
+                </th>
                 <th ></th>
                 <th ></th>
               </tr>
@@ -57,6 +60,9 @@
                 </td>
                 <td>
                   {{item.data.kioskName}}
+                </td>
+                <td class="{{item.alive && item.alive===1 ? 'online' : 'offline'}}">
+                  {{(item.alive && item.alive===1 ? 'common.online' : 'common.offline') | translate}}
                 </td>
                 <td>                  
                   <a *ngIf="item.data.activated" class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
