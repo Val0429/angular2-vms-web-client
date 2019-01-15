@@ -35,7 +35,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   passwordGroup: FormGroup;
   roles: FormControl;  
   data: FormGroup;  
-
+  isDataRequired=false;
   userIsSystemAdmin:boolean=false;
   public setFormData(userData: User, title: string, editMode: boolean) {
     console.log("setFormData");
@@ -51,6 +51,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     //binding data
     this.createFormControls();
     this.createForm();
+    this.checkCompanyAndFloorValidator();
   }
   constructor(private userService:UserService, 
     private floorService:FloorService, 
@@ -222,10 +223,12 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     if (selectedRoles.indexOf(RoleEnum[RoleEnum.TenantAdministrator]) > -1 || selectedRoles.indexOf(RoleEnum[RoleEnum.TenantUser]) > -1) {
       this.company.setValidators([Validators.required]);
       this.floor.setValidators([Validators.required]);
+      this.isDataRequired=true;
     }
     else {
       this.company.setValidators([]);
       this.floor.setValidators([]);
+      this.isDataRequired=false;
     }
     this.company.updateValueAndValidity();
     this.floor.updateValueAndValidity();

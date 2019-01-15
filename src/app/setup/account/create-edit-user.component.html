@@ -79,7 +79,8 @@
     <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
   </div>
 
-        <fieldset formGroupName="data">
+        <fieldset formGroupName="data" [hidden]="isDataRequired !==true">
+            
           <div class="input-group mb-1" title="{{'pageAccount.companyName'|translate}}" [ngClass]="{
        'has-danger': company.invalid && (company.dirty || company.touched),
        'has-success': company.valid && (company.dirty || company.touched)}">
@@ -96,6 +97,7 @@
           <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
             <p *ngIf="company.errors.required">{{'pageAccount.companyName'|translate}}{{'common.isRequired'|translate}}</p>            
           </div>
+          
           <div class="input-group mb-1" title="{{'pageAccount.floorName'|translate}}" [ngClass]="{
             'has-danger': floor.invalid && (floor.dirty || floor.touched),
             'has-success': floor.valid && (floor.dirty || floor.touched)}">
