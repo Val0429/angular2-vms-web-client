@@ -23,7 +23,7 @@
                     <div><img src="{{imgUrl}}" style="width:240px;height:auto;max-height: 300px;"/></div>
                   </div>
             </td>         
-            <td> {{event.score}}
+            <td> {{event.score ? event.score+"%" : ""}}
                 <div *ngIf="event.image"  >            
                     <div>{{'pageInvestigation.checkInImage' | translate}}</div>
                     <div><img src="{{event.image}}" style="width:240px;height:auto;max-height: 300px;"/></div>
