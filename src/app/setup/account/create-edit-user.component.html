@@ -167,7 +167,7 @@
         
         <div class="modal-footer" *ngIf="editMode">
             <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
-            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="data.valid !== true">{{'common.updateData' | translate}}</button>
         </div>
 
         <fieldset formGroupName="passwordGroup" *ngIf="(userIsSystemAdmin && editMode) || !editMode">
@@ -219,7 +219,7 @@
 
       <div class="modal-footer" *ngIf="(editMode && userIsSystemAdmin) || !editMode">
         <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="myform.valid !==true">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>
