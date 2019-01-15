@@ -141,7 +141,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     ? null : { 'mismatch': true };
   }
   createFormControls() {
-    this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor : []);
+    this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor.map(x=>x.objectId) : []);
     this.phone = new FormControl(this.formData.phone ? this.formData.phone : [], [
       //Validators.required,
       Validators.pattern(Globals.singlePhoneRegex)
