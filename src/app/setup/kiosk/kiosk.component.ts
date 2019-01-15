@@ -171,7 +171,7 @@ export class KioskComponent implements OnInit{
           this.data.splice(index, 1);          
           let tempIndex = this.tempData.indexOf(item, 0);            
           this.tempData.splice(tempIndex, 1);
-          this.commonService.showAlert(item.name+this.commonService.getLocaleString("common.hasBeenDeleted")).subscribe(()=>{});
+          this.commonService.showAlert(item.data.kioskName+this.commonService.getLocaleString("common.hasBeenDeleted")).subscribe(()=>{});
         }//no catch, global error handle handles it
         finally{      
           this.progressService.done();
