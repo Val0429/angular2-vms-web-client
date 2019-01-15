@@ -24,7 +24,7 @@
                     </span>
                     <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
                       value="{{start.value | date : 'yyyy-MM-dd'}}"  formControlName="start"/>
-                    <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                    <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker; showEndDatePicker=false">
                       <i class="fa fa-calendar"></i>
                     </span>
                     <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
@@ -44,7 +44,7 @@
                     <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" formControlName="end"
                       (focus)="showEndDatePicker = !showEndDatePicker"
                       value="{{end.value | date : 'yyyy-MM-dd'}}"/>
-                    <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                    <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker; showStartDatePicker=false">
                       <i class="fa fa-calendar"></i>
                     </span>
                     <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
