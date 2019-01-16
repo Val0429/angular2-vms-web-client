@@ -88,6 +88,7 @@ export class InvestigationComponent implements OnInit{
       let startMonth=(start.getMonth()+1).toString();
       let endMonth=(end.getMonth()+1).toString();
       let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${startMonth.length>1?startMonth:"0"+startMonth}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${endMonth.length>1?endMonth:"0"+endMonth}-${end.getDate()}T23:59`+filter);
+      console.log("items:",items);
       this.data = []
       for(let item of items){
         //reformat data
@@ -102,12 +103,21 @@ export class InvestigationComponent implements OnInit{
         }
         
         //display last event for current visitor
-        if(lastEvent){
-          newDisplayItem.action = lastEvent.action;
-          newDisplayItem.createdAt = lastEvent.createdAt
-          newDisplayItem.result = lastEvent.result;
+        if(!lastEvent)continue;
+
+        newDisplayItem.action = lastEvent.action;
+        newDisplayItem.createdAt = lastEvent.createdAt
+        newDisplayItem.result = lastEvent.result;
+
+        //check duplicates
+        let exists = this.data.find(x=>x.action == newDisplayItem.action && x.createdAt==newDisplayItem.createdAt && x.result == newDisplayItem.result);
+        if(!exists){
           this.data.push(newDisplayItem);
+        } else{
+          //updates with the latest value
+          exists = newDisplayItem;
         }
+        
       }
       
       
