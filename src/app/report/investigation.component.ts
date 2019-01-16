@@ -133,6 +133,7 @@ export class InvestigationComponent implements OnInit{
       kiosk:this.kiosk
     });
   }
+  
 
   public eventClick(eventData: InvestigationDisplay): void {    
       let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService, this.invitationService);      

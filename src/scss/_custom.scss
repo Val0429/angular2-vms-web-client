@@ -112,7 +112,9 @@ a.page-link,
  -moz-border-radius: 2px;
  z-index: 1;
 }
-
+.highlight-current-date{
+  background-color: black;
+}
 .checkbox input[type=checkbox]:checked + label {
  left: 23px;
 }

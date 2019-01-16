@@ -28,7 +28,7 @@
                       <i class="fa fa-calendar"></i>
                     </span>
                     <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                      <datepicker  [showWeeks]="false" formControlName="start" 
+                      <datepicker  [showWeeks]="false" formControlName="start" [customClass]="commonService.todayStyling"
                         (selectionDone)="showStartDatePicker = false"></datepicker>
                     </div>
                   </div>
@@ -48,7 +48,7 @@
                       <i class="fa fa-calendar"></i>
                     </span>
                     <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                      <datepicker [showWeeks]="false" formControlName="end"
+                      <datepicker [showWeeks]="false" formControlName="end" [customClass]="commonService.todayStyling"
                         (selectionDone)="showEndDatePicker = false"></datepicker>
                     </div>
                   </div>
