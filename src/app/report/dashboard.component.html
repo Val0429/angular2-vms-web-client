@@ -39,8 +39,8 @@
       </div>
       <div class="card-block">
 
-        <canvas baseChart #timeBarChart="base-chart" class="chart"
-                [datasets]="timeBarChartDatasets"
+        <canvas baseChart #statisticChart="base-chart" class="chart"
+                [datasets]="statisticChartData"
                 [labels]="timeBarChartLabels"
                 
                 [options]="barChartOptions"
@@ -56,8 +56,8 @@
       </div>
       <div class="card-block">
 
-        <canvas baseChart #entryBarChart="base-chart" class="chart"
-                [datasets]="entryBarChartDatasets"
+        <canvas baseChart #recurringChart="base-chart" class="chart"
+                [datasets]="recurringChartData"
                 [labels]="entryBarChartLabels"
                 [options]="barChartOptions"
                 
