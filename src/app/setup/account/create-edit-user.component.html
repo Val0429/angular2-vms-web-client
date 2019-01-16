@@ -85,7 +85,7 @@
        'has-danger': company.invalid && (company.dirty || company.touched),
        'has-success': company.valid && (company.dirty || company.touched)}">
             <span class="input-group-addon">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-industry"></i>
             </span>
             <select 
               (change)="onCompanyChange($event.target.value)"
@@ -102,7 +102,7 @@
             'has-danger': floor.invalid && (floor.dirty || floor.touched),
             'has-success': floor.valid && (floor.dirty || floor.touched)}">
                  <span class="input-group-addon">
-                   <i class="fa fa-envelope"></i>
+                   <i class="fa fa-building"></i>
                  </span>
                  <div class="input-group dropdown" dropdown placement="bottom right">        
                     <input type="text"
@@ -138,7 +138,7 @@
           'has-danger': phone.invalid && (phone.dirty || phone.touched),
           'has-success': phone.valid && (phone.dirty || phone.touched)}">
                <span class="input-group-addon">
-                 <i class="fa fa-envelope"></i>
+                 <i class="fa fa-phone"></i>
                </span>
                <input type="text"
                       class="form-control"
