@@ -85,7 +85,9 @@ export class InvestigationComponent implements OnInit{
         end = start;
         start = temp;
       }
-      let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${end.getMonth()+1}-${end.getDate()}T23:59`+filter);
+      let startMonth=(start.getMonth()+1).toString();
+      let endMonth=(end.getMonth()+1).toString();
+      let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${startMonth.length>1?startMonth:"0"+startMonth}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${endMonth.length>1?endMonth:"0"+endMonth}-${end.getDate()}T23:59`+filter);
       this.data = []
       for(let item of items){
         //reformat data
