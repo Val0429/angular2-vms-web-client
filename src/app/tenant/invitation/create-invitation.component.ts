@@ -5,6 +5,7 @@ import { NgProgress } from 'ngx-progressbar';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as Globals from 'app/globals';
+import { CommonService } from 'app/service/common.service';
 @Component({
   selector: 'app-create-invitation',
   templateUrl: './create-invitation.component.html'
@@ -27,7 +28,8 @@ export class CreateInvitationComponent extends DialogComponent<CreateEditDialog,
   constructor(
     public dialogService:DialogService,
     private invitationService:InvitationService,     
-    private progressService:NgProgress
+    private progressService:NgProgress,
+    private commonService:CommonService
   ) {
     super(dialogService);
     this.formData = new Invitation();

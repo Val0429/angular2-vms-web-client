@@ -73,32 +73,40 @@ export class FullLayoutComponent   implements OnInit {
         if (saved) {
           let formData = newForm.getFormData();
           var user = this.userService.getCurrentUser();
-          var data = new User();              
-          data.objectId = user.objectId;
-          data.password = formData.passwordGroup.newPassword;
+          let data={objectId: user.objectId, newPassword:formData.passwordGroup.newPassword, oldPassword:formData.oldPassword}          
           this.saveChangePassword(data);
         }
       });
   }
 
-  async saveChangePassword(data:User) {    
-    // Update password User
-    console.log("update Password Current User", data);
-    var result = await this.userService.update(data);
-    if(result){
-      this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
-      this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
-      this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
-      this.commonService.getLocaleString("common.alert")).subscribe(async()=>{
-        await this.logout();
-    });
-      
+  async saveChangePassword(data:any) {    
+    try{
+      // Update password User
+      console.log("update Password Current User", data);
+      var result = await this.userService.changePassword(data);
+      if(result){
+        this.commonService.showAlert(this.commonService.getLocaleString("common.password")+
+        this.commonService.getLocaleString("common.hasBeenUpdated")+", "+
+        this.commonService.getLocaleString("pageLogin.pleaseRelogin"),
+        this.commonService.getLocaleString("common.alert")).subscribe(async()=>{
+          await this.logout();
+      });        
+      }
+    }catch(err){
+      console.error(err);
+      this.commonService.showAlert(this.commonService.getLocaleString("pageLayout.header.changePassword")+this.commonService.getLocaleString("common.failed")).subscribe();
+    }
+    finally{
+
     }
   }
 
   public async logout() {
-    var result = await this.loginService.logOut();
-    if (result) {
+    try{
+      await this.loginService.logOut();      
+    }catch(err){
+      console.error(err);
+    }finally{
       this.router.navigate(['/login']);
     }
   }

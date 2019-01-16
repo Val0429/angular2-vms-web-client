@@ -85,7 +85,10 @@ export class InvestigationComponent implements OnInit{
         end = start;
         start = temp;
       }
-      let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${start.getMonth()+1}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${end.getMonth()+1}-${end.getDate()}T23:59`+filter);
+      let startMonth=(start.getMonth()+1).toString();
+      let endMonth=(end.getMonth()+1).toString();
+      let items = await this.invitationService.getInvestigations("&start="+`${start.getFullYear()}-${startMonth.length>1?startMonth:"0"+startMonth}-${start.getDate()}`+"&end="+`${end.getFullYear()}-${endMonth.length>1?endMonth:"0"+endMonth}-${end.getDate()}T23:59`+filter);
+      console.log("items:",items);
       this.data = []
       for(let item of items){
         //reformat data
@@ -100,12 +103,21 @@ export class InvestigationComponent implements OnInit{
         }
         
         //display last event for current visitor
-        if(lastEvent){
-          newDisplayItem.action = lastEvent.action;
-          newDisplayItem.createdAt = lastEvent.createdAt
-          newDisplayItem.result = lastEvent.result;
+        if(!lastEvent)continue;
+
+        newDisplayItem.action = lastEvent.action;
+        newDisplayItem.createdAt = lastEvent.createdAt
+        newDisplayItem.result = lastEvent.result;
+
+        //check duplicates
+        let exists = this.data.find(x=>x.action == newDisplayItem.action && x.createdAt==newDisplayItem.createdAt && x.result == newDisplayItem.result);
+        if(!exists){
           this.data.push(newDisplayItem);
+        } else{
+          //updates with the latest value
+          exists = newDisplayItem;
         }
+        
       }
       
       
@@ -133,6 +145,7 @@ export class InvestigationComponent implements OnInit{
       kiosk:this.kiosk
     });
   }
+  
 
   public eventClick(eventData: InvestigationDisplay): void {    
       let eventDialog = new EventPopupComponent(this.dialogService, this.loginService, this.configService, this.invitationService);      

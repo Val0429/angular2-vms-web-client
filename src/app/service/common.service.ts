@@ -57,4 +57,16 @@ export class CommonService{
         let lang = localStorage.getItem(Globals.languageKey)
         this.translateService.setDefaultLang(lang && (lang =="en-us" || lang=="zh-tw") ? lang : "en-us" );
       }
+      todayStyling = [{date: new Date().setHours(0,0,0,0), mode: 'day', clazz: 'highlight-current-date'}]
+}
+export class CustomDayStyle {
+  public date: Date;
+  public mode: string;
+  public clazz: string;
+
+  constructor(date: Date, mode: string, clazz: string) {
+      this.date = date;
+      this.mode = mode;
+      this.clazz = clazz;
+  }
 }

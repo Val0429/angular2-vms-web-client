@@ -28,7 +28,9 @@ export class EventPopupComponent extends DialogComponent<CreateEditDialog, Kiosk
     let token = this.loginService.getCurrentUserToken();
 
     for(let event of data.events){
-      
+      if(event.score){
+        event.score=Math.ceil(event.score*100);
+      }
       if(!this.invitationService.checkValidEvent(event.action)) continue;
       // must remove localhost from image address
       if(this.data && event.image && token!=null ){

@@ -30,6 +30,16 @@ export class UserService extends CrudService<User> implements UserServiceInterfa
       this.getCurrentUser().roles &&
       this.getCurrentUser().roles.map(function (e) { return e.name }).indexOf(RoleEnum[role]) > -1;;
   }
+  async changePassword(data: any): Promise<any> {
+    
+    let token = this.loginService.getCurrentUserToken();
+
+    let result = await this.coreService.putConfig({ path: this.uriCrud + "/change-password?sessionId=" + token.sessionId, data }).toPromise();
+
+    console.log("update result: ", result);
+
+    return result;
+  }
   async getUserRole(): Promise<string[]> {
     var token = this.loginService.getCurrentUserToken();
 

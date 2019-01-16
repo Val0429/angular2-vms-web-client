@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
   selectedKiosks:KioskUser[];
   
   
-  @ViewChild('timeBarChart') public timeBarChart: BaseChartDirective;
-  @ViewChild('entryBarChart') public entryBarChart: BaseChartDirective;
+  @ViewChild('statisticChart') public statisticChart: BaseChartDirective;
+  @ViewChild('recurringChart') public recurringChart: BaseChartDirective;
 
   end : Date;  
   start : Date;
@@ -34,12 +34,12 @@ export class DashboardComponent implements OnInit {
 
   // timeBarChart
   public timeBarChartLabels: string[];
-  public timeBarChartDatasets: any[];
+  public statisticChartData: any[];
   
 
   // entryBarChart
   public entryBarChartLabels: string[];  
-  public entryBarChartDatasets: any[];
+  public recurringChartData: any[];
   currentDuration: string;
   
 
@@ -79,13 +79,14 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(){   
     this.kiosks=[];
+    this.recurringData=[];
     this.selectedKiosks = await this.kioskService.read("&paging.all=true");    
     await this.changeDuration('month');
     this.recurringData = await this.reportService.getRecurringVisitors(this.start, this.end);
     //console.log(this.recurringData);
-    if(this.recurringData ){
+    if(this.recurringData.length){
       this.setRecurringBarChartData();
-      //this.entryBarChart.chart.update();      
+      //this.recurringChart.chart.update();      
     }
   }
 
@@ -102,13 +103,13 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
   }
   private async updateCharts() {
     //get success data
-    var sucessResult = await this.reportService.getStatistic(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
+    let sucessResult = await this.reportService.getStatistic(this.start, this.end, this.selectedKiosks.map(e => e.objectId));
     //copy result
     this.statisticData = Object.assign([], sucessResult);
     //merge with failed data
-    var failedResult = await this.reportService.getException(this.start, this.end, this.selectedKiosks.map(function(e){ return e.objectId}));
+    let failedResult = await this.reportService.getException(this.start, this.end, this.selectedKiosks.map(e => e.objectId));
     for (let stat of failedResult) {
-      let existsIndex = this.statisticData.map(function (e) { return e.date; }).indexOf(stat.date);
+      let existsIndex = this.statisticData.map(e => e.date).indexOf(stat.date);
       if (existsIndex > -1) {
         this.statisticData[existsIndex].totalException = stat.totalException;
       }
@@ -117,10 +118,9 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
         this.statisticData.push(stat);
       }
     }
-    //console.log(this.statisticData);
+    console.log("statisticData",this.statisticData);
     if(this.statisticData  ){
-      this.setTimeBarChartData();
-      //this.timeBarChart.chart.update();
+      this.setStatisticChartData();
     }
   }
 
@@ -154,7 +154,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     };
     
     
-    this.setTimeBarChartData();
+    this.setStatisticChartData();
     this.setRecurringBarChartData();
   }
   // events
@@ -194,26 +194,28 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
 
   private setRecurringBarChartData() {
     
-    this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];    
+    this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];
+    this.recurringChartData = this.recurringData.map(e=>{ return { data : [e.totalVisit], label : e.visitor.name}});
+    //add dummy data to ensuer graphic is working <- weirdest thing ever
+    this.recurringChartData.push({data:[0],label:"visitor"});
     
-    this.entryBarChartDatasets = this.recurringData.length > 0 ? 
-        this.recurringData.map(function(e){ return { label : e.visitor.name, data : [e.totalVisit]}}) :
-        [{label:"visitor", data:[0]}];
-    
+    //console.log("recurringChartData", this.recurringChartData);
   }
 
-  private setTimeBarChartData() {    
+  private setStatisticChartData() {    
     
-    this.timeBarChartLabels = this.statisticData.map(function(e){return e.date});
-    this.timeBarChartDatasets = [
+    this.timeBarChartLabels = this.statisticData.map(e=>e.date);
+    this.statisticChartData = [
     {
-        data: this.statisticData.map(function(e){return e.totalVisitor}),
+        data: this.statisticData.map(e=> e.totalVisitor),
         label: this.commonService.getLocaleString("pageDashboard.success")
     },
     {
-      data: this.statisticData.map(function(e){return e.totalException}),
+      data: this.statisticData.map(e => e.totalException),
       label: this.commonService.getLocaleString("pageDashboard.exception")
     }];
+
+    console.log("statisticChartData", this.statisticChartData);
   }
 
 }

@@ -3,9 +3,9 @@
   <app-visitor-statistic></app-visitor-statistic>
   <div class="row">
     <div class="col mb-1">
-      <button type="button" class="btn btn-primary" (click)="changeDuration('day');">{{'pageDashboard.today' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('week');">{{'pageDashboard.thisWeek' | translate}}</button>
-      <button type="button" class="btn btn-primary" (click)="changeDuration('month');">{{'pageDashboard.thisMonth' | translate}} </button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('month');" [class.active]="currentDuration == 'month'">{{'pageDashboard.thisMonth' | translate}} </button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('week');" [class.active]="currentDuration == 'week'">{{'pageDashboard.thisWeek' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="changeDuration('day');" [class.active]="currentDuration == 'day'">{{'pageDashboard.today' | translate}}</button>
     </div>
   </div>
   <div class="row">
@@ -39,8 +39,8 @@
       </div>
       <div class="card-block">
 
-        <canvas baseChart #timeBarChart="base-chart" class="chart"
-                [datasets]="timeBarChartDatasets"
+        <canvas baseChart #statisticChart="base-chart" class="chart"
+                [datasets]="statisticChartData"
                 [labels]="timeBarChartLabels"
                 
                 [options]="barChartOptions"
@@ -56,8 +56,8 @@
       </div>
       <div class="card-block">
 
-        <canvas baseChart #entryBarChart="base-chart" class="chart"
-                [datasets]="entryBarChartDatasets"
+        <canvas baseChart #recurringChart="base-chart" class="chart"
+                [datasets]="recurringChartData"
                 [labels]="entryBarChartLabels"
                 [options]="barChartOptions"
                 

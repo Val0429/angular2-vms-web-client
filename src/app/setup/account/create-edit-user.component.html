@@ -79,12 +79,13 @@
     <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
   </div>
 
-        <fieldset formGroupName="data">
+        <fieldset formGroupName="data" [hidden]="isDataRequired !==true">
+            
           <div class="input-group mb-1" title="{{'pageAccount.companyName'|translate}}" [ngClass]="{
        'has-danger': company.invalid && (company.dirty || company.touched),
        'has-success': company.valid && (company.dirty || company.touched)}">
             <span class="input-group-addon">
-              <i class="fa fa-envelope"></i>
+              <i class="fa fa-industry"></i>
             </span>
             <select 
               (change)="onCompanyChange($event.target.value)"
@@ -96,11 +97,12 @@
           <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
             <p *ngIf="company.errors.required">{{'pageAccount.companyName'|translate}}{{'common.isRequired'|translate}}</p>            
           </div>
+          
           <div class="input-group mb-1" title="{{'pageAccount.floorName'|translate}}" [ngClass]="{
             'has-danger': floor.invalid && (floor.dirty || floor.touched),
             'has-success': floor.valid && (floor.dirty || floor.touched)}">
                  <span class="input-group-addon">
-                   <i class="fa fa-envelope"></i>
+                   <i class="fa fa-building"></i>
                  </span>
                  <div class="input-group dropdown" dropdown placement="bottom right">        
                     <input type="text"
@@ -136,7 +138,7 @@
           'has-danger': phone.invalid && (phone.dirty || phone.touched),
           'has-success': phone.valid && (phone.dirty || phone.touched)}">
                <span class="input-group-addon">
-                 <i class="fa fa-envelope"></i>
+                 <i class="fa fa-phone"></i>
                </span>
                <input type="text"
                       class="form-control"
@@ -167,7 +169,7 @@
         
         <div class="modal-footer" *ngIf="editMode">
             <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
-            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!data.valid && (data.dirty || data.touched)">{{'common.updateData' | translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="save()" [disabled]="data.valid !== true">{{'common.updateData' | translate}}</button>
         </div>
 
         <fieldset formGroupName="passwordGroup" *ngIf="(userIsSystemAdmin && editMode) || !editMode">
@@ -219,7 +221,7 @@
 
       <div class="modal-footer" *ngIf="(editMode && userIsSystemAdmin) || !editMode">
         <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="myform.valid !==true">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>

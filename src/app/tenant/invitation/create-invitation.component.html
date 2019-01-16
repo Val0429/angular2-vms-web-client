@@ -55,11 +55,11 @@
                       </span>
                       <input type="text" class="form-control" placeholder="{{'common.start'|translate}}" (focus)="showStartDatePicker = !showStartDatePicker"
                         value="{{start.value | date : 'yyyy-MM-dd'}}"  formControlName="start"/>
-                      <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker">
+                      <span class="input-group-addon" dropdownToggle (click)="showStartDatePicker = !showStartDatePicker; showEndDatePicker=false" >
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div *ngIf="showStartDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker  [showWeeks]="false" formControlName="start"  [minDate]="minDate"
+                        <datepicker  [showWeeks]="false" formControlName="start"  [minDate]="minDate"  [customClass]="commonService.todayStyling"
                           (selectionDone)="showStartDatePicker = false"></datepicker>
                       </div>
                     </div>
@@ -75,11 +75,11 @@
                       <input type="text" class="form-control" placeholder="{{'common.end'|translate}}" formControlName="end"
                         (focus)="showEndDatePicker = !showEndDatePicker"
                         value="{{end.value | date : 'yyyy-MM-dd'}}"/>
-                      <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker">
+                      <span class="input-group-addon" dropdownToggle (click)="showEndDatePicker = !showEndDatePicker; showStartDatePicker=false">
                         <i class="fa fa-calendar"></i>
                       </span>
                       <div *ngIf="showEndDatePicker" style="position: absolute; z-index:10; min-height:290px;">
-                        <datepicker [showWeeks]="false" formControlName="end" [minDate]="minDate"
+                        <datepicker [showWeeks]="false" formControlName="end" [minDate]="minDate"  [customClass]="commonService.todayStyling"
                           (selectionDone)="showEndDatePicker = false"></datepicker>
                       </div>
                     </div>
@@ -130,7 +130,7 @@
       <!-- <pre>{{myform.value | json}}</pre> -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid">{{'common.save'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="myform.valid !== true">{{'common.save'|translate}}</button>
       </div>
     </div>
   </div>
