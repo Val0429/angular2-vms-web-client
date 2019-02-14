@@ -199,7 +199,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     
     this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];
     this.recurringChartData = this.recurringData.map(e=>{ return { data : [e.totalVisit], label : e.visitor.name}});
-    //add dummy data to ensuer graphic is working <- weirdest thing ever
+    //add dummy data to ensure graphic is working <- weirdest thing ever
     this.recurringChartData.push({data:[0],label:"visitor"});
     
     //console.log("recurringChartData", this.recurringChartData);

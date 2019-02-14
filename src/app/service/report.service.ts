@@ -36,6 +36,8 @@ export class ReportService {
         return result && result.data ? result.data : [];
     }
     private convertDateString(date: Date):string{
-        return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        let month = date.getMonth()+1;
+        let day = date.getDate();
+        return `${date.getFullYear()}-${month>=10?month:"0"+month}-${day>=10?day:"0"+day}`;
     }
 }
