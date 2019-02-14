@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'app/service/user.service';
 import { ConfirmComponent } from 'app/dialog/confirm/confirm.component';
-import { User,UserData, RoleEnum, Company } from 'app/infrastructure/interface';
+import { User,UserData, Company } from 'app/infrastructure/interface';
 import { CreateEditUserComponent } from './create-edit-user.component';
 import { CommonService } from '../../service/common.service';
 import { DialogService } from 'ng2-bootstrap-modal';
