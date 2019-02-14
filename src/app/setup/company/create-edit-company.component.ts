@@ -54,7 +54,7 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
     this.floorOptions = await this.floorService.read("&paging.all=true");
     //remove selected floor from floor options
     for(let floor of this.formData.floor){
-      let index = this.floorOptions.map(function(e){return e.objectId}).indexOf(floor.objectId);
+      let index = this.floorOptions.map(e => e.objectId).indexOf(floor.objectId);
       if(index<0) continue;
       this.floorOptions.splice(index,1);
     }
@@ -110,6 +110,7 @@ export class CreateEditCompanyComponent  extends DialogComponent<CreateEditDialo
       formResult.unitNumber = this.myform.value.unitNumber;
       formResult.contactNumber = this.myform.value.contactNumber.split(',');
       formResult.floor = this.myform.value.floor;
+      
       //close form with success
       this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
       this.close();  

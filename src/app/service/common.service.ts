@@ -28,8 +28,8 @@ export class CommonService{
       }
       addItemFromSelectedDropDown(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean){
         
-        let index = selected.map(function(e){return e.objectId}).indexOf(item.objectId);
-        let optionIndex = options.map(function(e){return e.objectId}).indexOf(item.objectId);    
+        let index = selected.map(e=> e.objectId ).indexOf(item.objectId);
+        let optionIndex = options.map(e=> e.objectId ).indexOf(item.objectId);    
         //assign checked value to temp role 
         if (index==-1) {
           selected.push(item);
@@ -37,12 +37,12 @@ export class CommonService{
         } 
         if(endResult!=null){
           //map the way backend wants it
-          endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+          endResult.setValue(selected.map(e=> byObjectId ? e.objectId : e.name ));
         }
       }
       removeItemFromSelectedDropDown(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {        
-        let index = selected.map(function (e) { return e.objectId }).indexOf(item.objectId);
-        let optionIndex = options.map(function (e) { return e.objectId }).indexOf(item.objectId);    
+        let index = selected.map(e=> e.objectId ).indexOf(item.objectId);
+        let optionIndex = options.map(e=> e.objectId ).indexOf(item.objectId);    
         //assign checked value  
         if (optionIndex==-1) {
           options.push(item);
@@ -50,7 +50,7 @@ export class CommonService{
         } 
         if(endResult!=null){
           //map the way backend wants it
-          endResult.setValue(selected.map(function (e) { return byObjectId ? e.objectId : e.name }));
+          endResult.setValue(selected.map(e=> byObjectId ? e.objectId : e.name ));
         }
       }
       loadLanguage():void{
