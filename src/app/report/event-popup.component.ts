@@ -29,7 +29,7 @@ export class EventPopupComponent extends DialogComponent<CreateEditDialog, Kiosk
 
     for(let event of data.events){
       if(event.score){
-        event.score=Math.ceil(event.score*100);
+        event.score=Math.ceil(event.score);
       }
       if(!this.invitationService.checkValidEvent(event.action)) continue;
       // must remove localhost from image address
