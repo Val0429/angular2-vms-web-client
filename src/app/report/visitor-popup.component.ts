@@ -21,7 +21,7 @@ export class VisitorPopupComponent extends DialogComponent<CreateEditDialog, Rec
     this.cgiRoot=this.configService.getCgiRoot();
    }
    public setFormData(data: RecurringVisitor, title: string) {
-    console.log("setFormData");
+    console.log("setFormData", data);
     this.data = Object.assign({}, data);    
     this.title = title;    
     let token = this.loginService.getCurrentUserToken();
@@ -29,8 +29,15 @@ export class VisitorPopupComponent extends DialogComponent<CreateEditDialog, Rec
     if(this.data && this.data.visitor && token!=null){
 
       // must remove localhost from image address
-      this.data.visitor.image = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);
-      this.imgUrl=this.cgiRoot+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
+      if(this.data.visitor.image){
+        this.data.visitor.image = this.data.visitor.image.replace ("localhost", this.configService.getLocation().hostname);
+        this.imgUrl=this.cgiRoot+"thumbnail?url="+data.visitor.image+"&size=300&sessionId="+token.sessionId;
+        console.log("imgUrl1", this.imgUrl)
+      }else if(this.data.visitor.idcard.images && this.data.visitor.idcard.images.length>0){
+        let tmpUrlImg = this.data.visitor.idcard.images[0].replace ("localhost", this.configService.getLocation().hostname);
+        this.imgUrl=this.cgiRoot+"thumbnail?url="+tmpUrlImg+"&size=300&sessionId="+token.sessionId;
+        console.log("imgUrl2", this.imgUrl)
+      }      
     }
       
   }
