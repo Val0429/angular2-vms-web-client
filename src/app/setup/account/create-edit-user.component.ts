@@ -152,7 +152,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       Validators.minLength(3)
     ]);
     this.email = new FormControl(this.formData.publicEmailAddress?this.formData.publicEmailAddress:"", [
-      //Validators.required,
+      Validators.required,
       Validators.pattern(Globals.emailRegex)
       
     ]);

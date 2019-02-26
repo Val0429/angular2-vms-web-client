@@ -102,12 +102,15 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     this.changeDuration(this.currentDuration);
   }
   private async updateCharts() {
+    let kioskIds=this.selectedKiosks.map(e => e.objectId);
+    if(kioskIds.length<=0) return;
+    
     //get success data
-    let sucessResult = await this.reportService.getStatistic(this.start, this.end, this.selectedKiosks.map(e => e.objectId));
+    let sucessResult = await this.reportService.getStatistic(this.start, this.end, kioskIds);
     //copy result
     this.statisticData = Object.assign([], sucessResult);
     //merge with failed data
-    let failedResult = await this.reportService.getException(this.start, this.end, this.selectedKiosks.map(e => e.objectId));
+    let failedResult = await this.reportService.getException(this.start, this.end, kioskIds);
     for (let stat of failedResult) {
       let existsIndex = this.statisticData.map(e => e.date).indexOf(stat.date);
       if (existsIndex > -1) {
@@ -196,7 +199,7 @@ add(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormCo
     
     this.entryBarChartLabels = [this.commonService.getLocaleString("pageDashboard.recurringVisitor")];
     this.recurringChartData = this.recurringData.map(e=>{ return { data : [e.totalVisit], label : e.visitor.name}});
-    //add dummy data to ensuer graphic is working <- weirdest thing ever
+    //add dummy data to ensure graphic is working <- weirdest thing ever
     this.recurringChartData.push({data:[0],label:"visitor"});
     
     //console.log("recurringChartData", this.recurringChartData);
