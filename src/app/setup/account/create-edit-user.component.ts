@@ -35,8 +35,10 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   passwordGroup: FormGroup;
   roles: FormControl;  
   data: FormGroup;  
+  description: FormControl;  
   isDataRequired=false;
   userIsSystemAdmin:boolean=false;
+  descriptionRequired: boolean;
   public setFormData(userData: User, title: string, editMode: boolean) {
     console.log("setFormData");
     this.formData = Object.assign({}, userData);
@@ -144,7 +146,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   createFormControls() {
     this.floor = new FormControl(this.formData.data.floor ? this.formData.data.floor.map(x=>x.objectId) : []);
     this.phone = new FormControl(this.formData.phone ? this.formData.phone : [], [
-      //Validators.required,
+      Validators.required,
       Validators.pattern(Globals.singlePhoneRegex)
     ]);
     this.username = new FormControl(this.formData.username, [
@@ -165,16 +167,20 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       Validators.required,
       Validators.minLength(6)
     ]);
-
+    this.description = new FormControl(this.formData.data.description, [
+      
+    ]);
+    
     this.passwordGroup = new FormGroup({
       password: this.password,
       confirmPassword: this.confirmPassword
     }, this.passwordMatchValidator);
 
-    this.roles = new FormControl(this.formData.roles.map(function (e) { return e.name }), Validators.required);
+    this.roles = new FormControl(this.formData.roles.map(e => e.name), Validators.required);
     this.data = new FormGroup({      
       floor: this.floor,
-      company: this.company
+      company: this.company,
+      description: this.description
     });
   }
   async update(data:User) {             
@@ -202,6 +208,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       formResult.publicEmailAddress = this.myform.value.email;  
       formResult.roles = this.myform.value.roles;      
       formResult.phone = this.myform.value.phone;
+      
       //close form with success
       this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
       this.close();  
@@ -219,7 +226,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   }
   private checkCompanyAndFloorValidator() {
     
-    let selectedRoles = this.formData.roles.map(function (e) { return e.name; });
+    let selectedRoles = this.formData.roles.map(e => e.name);
     if (selectedRoles.indexOf(RoleEnum[RoleEnum.TenantAdministrator]) > -1 || selectedRoles.indexOf(RoleEnum[RoleEnum.TenantUser]) > -1) {
       this.company.setValidators([Validators.required]);
       this.floor.setValidators([Validators.required]);
@@ -230,8 +237,16 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
       this.floor.setValidators([]);
       this.isDataRequired=false;
     }
+    if (selectedRoles.indexOf(RoleEnum[RoleEnum.TenantUser]) > -1) {
+      this.descriptionRequired=true;
+      this.description.setValidators([Validators.required]);
+    }else{
+      this.descriptionRequired=false;
+      this.description.setValidators([]);
+    }
     this.company.updateValueAndValidity();
     this.floor.updateValueAndValidity();
+    this.description.updateValueAndValidity();
   }
 
   remove(item: BaseClass, selected:BaseClass[], options:BaseClass[], endResult:FormControl, byObjectId?:boolean) {
@@ -243,7 +258,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
   createForm() {
     this.myform = new FormGroup({      
       username: this.username,   
-      phone: this.phone, 
+      phone: this.phone,       
       email: this.email, 
       data: this.data,
       passwordGroup: this.passwordGroup,      
