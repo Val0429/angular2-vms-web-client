@@ -33,7 +33,7 @@ export class Company extends BaseClass {
 export class UserData {
     public floor: Floor[];
     public company: Company;
-
+    public description:string;
 }
 export class IdCard{
     public name:string;

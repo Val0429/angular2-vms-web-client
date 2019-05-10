@@ -79,9 +79,28 @@
     <p *ngIf="roles.errors.required">{{'pageAccount.roles'|translate}}{{'common.isRequired'|translate}}</p>
   </div>
 
-        <fieldset formGroupName="data" [hidden]="isDataRequired !==true">
+        <fieldset formGroupName="data" >
+
             
-          <div class="input-group mb-1" title="{{'pageAccount.companyName'|translate}}" [ngClass]="{
+            <div class="input-group mb-1" title="{{'common.description'|translate}}" [hidden]="descriptionRequired !==true" [ngClass]="{
+              'has-danger': description.invalid && (description.dirty || description.touched),
+              'has-success': description.valid && (description.dirty || description.touched)}">
+                    <span class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </span>
+                    <input type="text"
+                          class="form-control"
+                          formControlName="description"                      
+                          placeholder="{{'common.description'|translate}}" />
+                  </div>
+                  <div style="color:red" [hidden]="descriptionRequired !==true" *ngIf="description.errors && (description.dirty || description.touched )">
+                    <p *ngIf="description.errors.required">{{'common.description'|translate}}{{'common.isRequired'|translate}}</p>
+                    <p *ngIf="description.errors.pattern">{{'common.description'|translate}}{{'common.isInvalid'|translate}}</p>
+                  </div>
+            
+
+            
+          <div class="input-group mb-1" title="{{'pageAccount.companyName'|translate}}"  [hidden]="isDataRequired !==true" [ngClass]="{
        'has-danger': company.invalid && (company.dirty || company.touched),
        'has-success': company.valid && (company.dirty || company.touched)}">
             <span class="input-group-addon">
@@ -94,11 +113,11 @@
               <option *ngFor="let item of companyOptions" value="{{item.objectId}}" >{{item.name}}</option>
               </select>
           </div>
-          <div style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
+          <div [hidden]="isDataRequired !==true" style="color:red" *ngIf="company.errors && (company.dirty || company.touched )">
             <p *ngIf="company.errors.required">{{'pageAccount.companyName'|translate}}{{'common.isRequired'|translate}}</p>            
           </div>
           
-          <div class="input-group mb-1" title="{{'pageAccount.floorName'|translate}}" [ngClass]="{
+          <div class="input-group mb-1" title="{{'pageAccount.floorName'|translate}}" [hidden]="isDataRequired !==true" [ngClass]="{
             'has-danger': floor.invalid && (floor.dirty || floor.touched),
             'has-success': floor.valid && (floor.dirty || floor.touched)}">
                  <span class="input-group-addon">
@@ -128,10 +147,10 @@
                         </span>
                       </div> 
                </div>
-               <div style="color:red" *ngIf="floor.errors && (floor.dirty || floor.touched )">
+               <div style="color:red" *ngIf="floor.errors && (floor.dirty || floor.touched )" [hidden]="isDataRequired !==true">
                  <p *ngIf="floor.errors.required">{{'pageAccount.floorName'|translate}}{{'common.isRequired'|translate}}</p>                 
                </div>
-
+              
         </fieldset>
         
         <div class="input-group mb-1" title="{{'common.phone'|translate}}" [ngClass]="{
