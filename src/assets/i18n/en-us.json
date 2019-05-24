@@ -24,6 +24,7 @@
 		"hasBeenUpdated": " has been updated",
 		"image": "Image",
 		"invalid": "Invalid",
+		"ipAddress": "IP Address",
 		"isInvalid": " is invalid",
 		"isRequired": " is required",
 		"list": " List",
@@ -176,7 +177,8 @@
 			"kioskManagement": "Kiosk Management",
 			"license": "License",
 			"smsSetting": "SMS Setting",
-			"smsSettingSingapore": "Online SMS Provider (SG only)"
+			"smsSettingSingapore": "Online SMS Provider (SG only)",
+			"tablets": "Tablets"
 		},
 		"tenant": {
 			"invitation": "Invitation",
@@ -219,6 +221,13 @@
 		"comPort": "COM Port Number",
 		"sendTestSmsPlaceholder": "Send to: +8869781XXXXX",
 		"testSms": "Test SMS phone number"
+	},
+	"pageTablet": {
+		"account": "Account",
+		"ipAddress": "IP Address",
+		"password": "Password",
+		"port": "Port",
+		"tablets": "Tablets"
 	},
 	"pageVisitor": {
 		"lastVisitDate": "Last visit date",

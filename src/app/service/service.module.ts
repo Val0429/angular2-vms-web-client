@@ -18,6 +18,7 @@ import { FloorService } from './floor.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { InvitationService} from 'app/service/invitation.service';
 import { LicenseService } from './license.service';
+import { TabletService } from './tablet.service';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { LicenseService } from './license.service';
     LicenseService,
     CommonService,
     DialogService,
-    InvitationService
+    InvitationService,
+    TabletService
     ]
 })
 export class ServiceModule { }

@@ -105,6 +105,11 @@
                       <i class="icon-settings"></i> {{'pageLayout.setup.smsSettingSingapore'|translate}}
                     </a>
                   </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/tablets']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.tablets'|translate}}
+                    </a>
+                  </li>
               </ul>
             </li>
             <!--Tenant User Menu-->

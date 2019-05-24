@@ -24,6 +24,7 @@
 		"hasBeenUpdated": "已更新",
 		"image": "相片",
 		"invalid": "無效",
+		"ipAddress": "IP Address",
 		"isInvalid": "無效",
 		"isRequired": "必填",
 		"list": "列表",
@@ -176,7 +177,8 @@
 			"kioskManagement": "設備管理",
 			"license": "授權",
 			"smsSetting": "簡訊設定",
-			"smsSettingSingapore": "簡訊提供者"
+			"smsSettingSingapore": "簡訊提供者",
+			"tablets": "Tablets"
 		},
 		"tenant": {
 			"invitation": "邀請",
@@ -219,6 +221,13 @@
 		"comPort": "埠號",
 		"sendTestSmsPlaceholder": "行動電話號碼: +8869781XXXXX",
 		"testSms": "測試簡訊"
+	},
+	"pageTablet": {
+		"account": "Account",
+		"ipAddress": "IP Address",
+		"password": "Password",
+		"port": "Port",
+		"tablets": "Tablets"
 	},
 	"pageVisitor": {
 		"lastVisitDate": "最後有效日期",

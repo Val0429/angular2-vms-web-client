@@ -47,7 +47,8 @@ import { ConfigService } from './service/config.service';
 
 
 export function translateLoader(http: Http) {
-  return new TranslateStaticLoader(http, '../assets/i18n/', '.json');
+  let loader = new TranslateStaticLoader(http, 'assets/i18n/', '.json');  
+  return loader;
 }
 export const appInitializerFn = (appConfig: ConfigService) => {
   return () => {
