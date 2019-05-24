@@ -57,7 +57,7 @@
                   <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
                 </td>
                 <td>
-                  <a *ngIf="item.objectId !== currentUser.objectId" class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
                 </td>
               </tr>
             </tbody>

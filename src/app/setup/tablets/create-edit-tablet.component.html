@@ -56,7 +56,7 @@
      </span>
      <input type="text"
             class="form-control"
-            [readonly]="editMode"
+            
             
             formControlName="account"
            
@@ -85,7 +85,7 @@
        <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
        <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}} </p>
      </div>
-        <pre>{{myform.value | json}}</pre>
+        <!-- <pre>{{myform.value | json}}</pre> -->
 
       </form>
 

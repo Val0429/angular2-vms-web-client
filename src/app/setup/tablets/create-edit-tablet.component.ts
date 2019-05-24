@@ -42,7 +42,7 @@ export class CreateEditTabletComponent  extends DialogComponent<CreateEditDialog
         formResult.password = this.myform.value.password;
         
         //close form with success
-        this.result = formResult.objectId === "" ? await this.create(formResult): await this.update(formResult);
+        this.result = formResult.objectId ? await this.update(formResult):await this.create(formResult);
         this.close();  
       }//no catch, global error handle handles it
       finally{      

@@ -48,7 +48,7 @@ export class TabletsComponent implements OnInit {
   }
   edit(item:Tablet) {
     if(this.isLoading())return;
-    console.log("edit floor", item);
+    console.log("edit", item);
     this.actionMode = this.commonService.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
   }
@@ -92,7 +92,7 @@ export class TabletsComponent implements OnInit {
           this.data.splice(index, 1);          
           let tempIndex = this.tempData.indexOf(item, 0);            
           this.tempData.splice(tempIndex, 1);
-          this.commonService.showAlert(item.name + this.commonService.getLocaleString("common.hasBeenDeleted")).subscribe(()=>{});
+          this.commonService.showAlert(item.ip + this.commonService.getLocaleString("common.hasBeenDeleted")).subscribe(()=>{});
         }//no catch, global error handle handles it
         finally{      
           this.progressService.done();
@@ -122,14 +122,14 @@ export class TabletsComponent implements OnInit {
     if(tempIndex<0){
       this.tempData.push(data);
       this.data.push(data);
-      this.commonService.showAlert(data.name +this.commonService.getLocaleString("common.hasBeenCreated")).subscribe(()=>{});
+      this.commonService.showAlert(data.ip +this.commonService.getLocaleString("common.hasBeenCreated")).subscribe(()=>{});
     }
     else{
       //update data at specified index
       this.tempData[tempIndex] = data;    
       let index = this.data.map(e => e.objectId).indexOf(data.objectId);
       this.data[index] = data;
-      this.commonService.showAlert(data.name +this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
+      this.commonService.showAlert(data.ip +this.commonService.getLocaleString("common.hasBeenUpdated")).subscribe(()=>{});
     }
   }
 
