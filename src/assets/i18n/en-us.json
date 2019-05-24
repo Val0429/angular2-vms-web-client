@@ -172,13 +172,16 @@
 			"accountManagement": "Account Management",
 			"companyManagement": "Company Management",
 			"emailSetting": "Email Setting",
+			"employee": "Employee",
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
 			"license": "License",
 			"smsSetting": "SMS Setting",
 			"smsSettingSingapore": "Online SMS Provider (SG only)",
-			"tablets": "Tablets"
+			"tablets": "Tablets",
+			"visitor-card": "Visitor Card",
+			"visitorCardSetting": "Visitor Card Setting"
 		},
 		"tenant": {
 			"invitation": "Invitation",
@@ -232,6 +235,10 @@
 	"pageVisitor": {
 		"lastVisitDate": "Last visit date",
 		"totalVisit": "Total visit"
+	},
+	"pageVisitorCard": {
+		"rangeEnd": "Range End",
+		"rangeStart": "Range Start"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

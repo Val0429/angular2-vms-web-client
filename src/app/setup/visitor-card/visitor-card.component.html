@@ -1,0 +1,53 @@
+<ng-progress></ng-progress>
+<div class="animated fadeIn">
+    <div class="card col-md-6">
+        <div class="card-block">
+<form novalidate 
+      [formGroup]="myform">
+      <div class="input-group mb-1" title="{{'pageVisitorCard.rangeStart'|translate}}" [ngClass]="{
+        'has-danger': rangestart.invalid && (rangestart.dirty || rangestart.touched),
+        'has-success': rangestart.valid && (rangestart.dirty || rangestart.touched)}">
+     <span class="input-group-addon">
+       <i class="fa fa-server"></i>
+     </span>
+     <input type="text"
+            class="form-control"
+            
+            inputmode="numeric"
+            formControlName="rangestart"
+           
+            placeholder="{{'pageVisitorCard.rangeStart'|translate}}" />
+    </div>
+    <div style="color:red" *ngIf="rangestart.errors && (rangestart.dirty || rangestart.touched )">
+     <p *ngIf="rangestart.errors.required">{{'pageVisitorCard.rangeStart' | translate}}{{'common.isRequired' | translate}}</p>
+     <p *ngIf="rangestart.errors.pattern">{{'pageVisitorCard.rangeStart' | translate}}{{ 'common.isInvalid' | translate}}</p>
+    </div>
+
+  <div class="input-group mb-1" title="{{'pageVisitorCard.rangeEnd'|translate}}" [ngClass]="{
+    'has-danger': rangeend.invalid && (rangeend.dirty || rangeend.touched),
+    'has-success': rangeend.valid && (rangeend.dirty || rangeend.touched)}">
+ <span class="input-group-addon">
+   <i class="fa fa-server"></i>
+ </span>
+ <input type="text"
+        class="form-control"
+        
+        inputmode="numeric"
+        formControlName="rangeend"
+       
+        placeholder="{{'pageVisitorCard.rangeEnd'|translate}}" />
+</div>
+<div style="color:red" *ngIf="rangeend.errors && (rangeend.dirty || rangeend.touched )">
+ <p *ngIf="rangeend.errors.required">{{'pageVisitorCard.rangeEnd' | translate}}{{'common.isRequired' | translate}}</p>
+ <p *ngIf="rangeend.errors.pattern">{{'pageVisitorCard.rangeEnd' | translate}}{{ 'common.isInvalid' | translate}}</p>
+</div>
+
+    <!-- <pre>{{myform.value | json}}</pre> -->
+</form>
+
+<div class="modal-footer">  
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!myform.valid || isLoading()">{{'common.save'|translate}}</button>
+</div>
+</div>
+</div>
+</div>

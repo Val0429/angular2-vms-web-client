@@ -110,6 +110,16 @@
                       <i class="icon-settings"></i> {{'pageLayout.setup.tablets'|translate}}
                     </a>
                   </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/employee']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.employee'|translate}}
+                    </a>
+                  </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/visitor-card']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.visitor-card'|translate}}
+                    </a>
+                  </li>
               </ul>
             </li>
             <!--Tenant User Menu-->

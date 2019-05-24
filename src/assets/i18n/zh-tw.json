@@ -172,13 +172,16 @@
 			"accountManagement": "用戶管理",
 			"companyManagement": "公司帳戶管理",
 			"emailSetting": "電子郵件設定",
+			"employee": "Employee",
 			"floorManagement": "樓層管理",
 			"frsSetting": "FRS設定",
 			"kioskManagement": "設備管理",
 			"license": "授權",
 			"smsSetting": "簡訊設定",
 			"smsSettingSingapore": "簡訊提供者",
-			"tablets": "Tablets"
+			"tablets": "Tablets",
+			"visitor-card": "Visitor Card",
+			"visitorCardSetting": "Visitor Card Setting"
 		},
 		"tenant": {
 			"invitation": "邀請",
@@ -232,6 +235,10 @@
 	"pageVisitor": {
 		"lastVisitDate": "最後有效日期",
 		"totalVisit": "參訪次數"
+	},
+	"pageVisitorCard": {
+		"rangeEnd": "Range End",
+		"rangeStart": "Range Start"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

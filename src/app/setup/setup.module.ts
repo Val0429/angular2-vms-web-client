@@ -34,6 +34,9 @@ import { LicenseComponent } from './license/license.component';
 import { CreateLicenseComponent } from './license/create-license.component';
 import { TabletsComponent } from './tablets/tablets.component';
 import { CreateEditTabletComponent } from './tablets/create-edit-tablet.component';
+import { VisitorCardComponent } from './visitor-card/visitor-card.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { CreateEditEmployeeComponent } from './employee/create-edit-employee.component';
 
 
 
@@ -67,6 +70,7 @@ import { CreateEditTabletComponent } from './tablets/create-edit-tablet.componen
     FloorComponent,
     AccountComponent,
     FrsComponent,
+    VisitorCardComponent,
     CreateEditUserComponent,    
     CreateEditKioskComponent,
     CreateEditFloorComponent,
@@ -77,7 +81,9 @@ import { CreateEditTabletComponent } from './tablets/create-edit-tablet.componen
     LicenseComponent,
     CreateLicenseComponent,
     TabletsComponent,
-    CreateEditTabletComponent
+    CreateEditTabletComponent,
+    EmployeeComponent,
+    CreateEditEmployeeComponent
   ]
 })
 export class SetupModule { }

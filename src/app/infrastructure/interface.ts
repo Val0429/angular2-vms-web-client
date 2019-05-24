@@ -86,6 +86,9 @@ export class Tablet extends BaseClass{
     account: string;
     password: string;    
 }
+export class Employee extends BaseClass{    
+    
+}
 export class Role extends BaseClass {
 
 }
