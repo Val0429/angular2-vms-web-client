@@ -92,6 +92,12 @@
 		"smtpHost": "SMTP Hostname",
 		"testEmail": "Test Email"
 	},
+	"pageEmployee": {
+		"cardNo": "Card No",
+		"employeeNo": "Employee No",
+		"employees": "Employees",
+		"name": "Name"
+	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
 		"batchUploadFloor": "Floor Data Batch upload",

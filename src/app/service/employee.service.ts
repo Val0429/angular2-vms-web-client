@@ -14,7 +14,7 @@ export class EmployeeService extends CrudService<Employee> implements CrudInterf
         private configService:ConfigService
     ) { 
       super(coreService, loginService);
-        this.uriCrud = this.configService.getCgiRoot() + "hikvision/tablets";
+        this.uriCrud = this.configService.getCgiRoot() + "employees";
     }
 
  

@@ -48,7 +48,7 @@ export class EmployeeComponent implements OnInit {
   }
   edit(item:Employee) {
     if(this.isLoading())return;
-    console.log("edit floor", item);
+    console.log("edit", item);
     this.actionMode = this.commonService.getLocaleString("common.edit");    
     this.showCreateEditDialog(item, true);
   }

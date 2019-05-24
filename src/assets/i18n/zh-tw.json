@@ -92,6 +92,12 @@
 		"smtpHost": "SMTP伺服器位址",
 		"testEmail": "測試郵件"
 	},
+	"pageEmployee": {
+		"cardNo": "Card No",
+		"employeeNo": "Employee No",
+		"employees": "Employees",
+		"name": "Name"
+	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
 		"batchUploadFloor": "批次上傳",

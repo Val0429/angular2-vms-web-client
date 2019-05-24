@@ -61,7 +61,8 @@ import { CreateEditEmployeeComponent } from './employee/create-edit-employee.com
     BatchUploadFloorComponent,
     CreateEditCompanyComponent,
     CreateLicenseComponent,
-    CreateEditTabletComponent
+    CreateEditTabletComponent,
+    CreateEditEmployeeComponent
   ],
   declarations: [
     EmailComponent,

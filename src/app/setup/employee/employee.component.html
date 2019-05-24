@@ -1,3 +1,82 @@
-<p>
-  employee works!
-</p>
+<!-- Progress bar -->
+<ng-progress>
+</ng-progress>
+
+<div class="animated fadeIn">
+  <div class="row" >
+      <div class="card border-none col-md-4">          
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="{{'common.search' | translate}}" (keyup)="itemSearch($event)" />
+            <span class="input-group-addon" (click)="doSearch()">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>        
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i>{{'pageEmployee.employees' | translate}}
+          
+        </div>
+        <div class="card-block">  
+            <div class="col-md-1 offset-md-11">                  
+              <button type="button" class="btn btn-primary" data-toggle="modal" (click)="createNew(); " [disabled]="isLoading()">
+                {{'common.new' | translate}}
+              </button>
+          </div>
+        <div class="card-block">
+          <table datatable class="table table-striped table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <thead>
+              <tr>
+                <th style="width: 5%">{{'common.no' | translate}}</th>
+                <th >
+                  <mfDefaultSorter by="updatedAt">{{'pageEmployee.name' | translate}}</mfDefaultSorter>
+                </th>
+                <th style="width: 18%">
+                  {{'pageEmployee.cardNo' | translate}}
+                </th>
+                <th style="width: 18%">
+                  {{'pageEmployee.employeeNo' | translate}}
+                </th>
+                
+
+                <th style="width: 40px">{{'common.edit' | translate}}</th>
+                <th style="width: 40px">{{'common.delete' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr *ngFor="let item of mf.data; let i = index">
+                <td>{{(i+(mf.activePage -1)*mf.rowsOnPage)+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.cardno}}</td>
+                <td>
+                  {{item.employeeno}}
+                </td>                
+                <td>
+                  <a class="fa fa-pencil fa-lg" (click)="$event.stopPropagation();edit(item);"></a>
+                </td>
+                <td>
+                  <a class="fa fa-remove fa-lg" (click)="$event.stopPropagation();delete(item)"></a>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,20]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
