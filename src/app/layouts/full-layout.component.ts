@@ -6,6 +6,8 @@ import { User, RoleEnum } from 'app/infrastructure/interface';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { CommonService } from '../service/common.service';
+import { SetupService } from 'app/service/setup.service';
+import { AboutUsComponent } from './about-us.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +19,7 @@ export class FullLayoutComponent   implements OnInit {
 
   constructor(private userService: UserService, 
     private loginService: LoginService, 
+    private setupService:SetupService,
     private router: Router, 
     private dialogService:DialogService,
     private commonService:CommonService
@@ -78,7 +81,13 @@ export class FullLayoutComponent   implements OnInit {
         }
       });
   }
-
+ async about(){
+   let version = await this.setupService.getVersion();
+   let about = new AboutUsComponent(this.dialogService);
+   about.setFormData(version);
+   console.log(version);
+   this.dialogService.addDialog(AboutUsComponent, about).subscribe(()=>{});
+ }
   async saveChangePassword(data:any) {    
     try{
       // Update password User

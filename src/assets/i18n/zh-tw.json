@@ -7,6 +7,7 @@
 		"confirmPassword": "確認密碼",
 		"confirmation": "注意",
 		"contactAdministrator": "Internal Server Error, please contact administrator",
+		"copyright": "Copyright iSAP Solution",
 		"delete": "刪除",
 		"description": "描述",
 		"disabled": "已取消",
@@ -24,6 +25,7 @@
 		"hasBeenUpdated": "已更新",
 		"image": "相片",
 		"invalid": "無效",
+		"ipAddress": "IP Address",
 		"isInvalid": "無效",
 		"isRequired": "必填",
 		"list": "列表",
@@ -41,12 +43,14 @@
 		"online": "線上",
 		"password": "密碼",
 		"phone": "電話號碼",
+		"productName": "Visitor Management Service",
 		"required": "必填",
 		"save": "保存",
 		"search": "搜索",
 		"searchCondition": "過濾",
 		"select": "選擇",
 		"send": "傳送",
+		"server": "Server",
 		"sms": "簡訊",
 		"start": "開始",
 		"status": "狀態",
@@ -55,7 +59,15 @@
 		"updateData": "更新",
 		"upload": "上傳",
 		"url": "網址",
-		"userName": "用戶名"
+		"userName": "用戶名",
+		"version": "Version",
+		"workspace": "Workspace"
+	},
+	"pageAbout": {
+		"installerVersion": "Installer Version",
+		"serverVersion": "Server Version",
+		"webclientVersion": "Web Client Version",
+		"workspaceVersion": "Workspace Version"
 	},
 	"pageAccount": {
 		"companyName": "公司名稱",
@@ -90,6 +102,12 @@
 		"sendTestEmailPlaceholder": "收件者: mail@abc.xyz",
 		"smtpHost": "SMTP伺服器位址",
 		"testEmail": "測試郵件"
+	},
+	"pageEmployee": {
+		"cardNo": "Card No",
+		"employeeNo": "Employee No",
+		"employees": "Employees",
+		"name": "Name"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
@@ -153,6 +171,7 @@
 			"systemStatus": "系統狀況"
 		},
 		"header": {
+			"about": "About",
 			"account": "帳戶",
 			"changePassword": "更改密碼",
 			"logout": "登出"
@@ -171,12 +190,16 @@
 			"accountManagement": "用戶管理",
 			"companyManagement": "公司帳戶管理",
 			"emailSetting": "電子郵件設定",
+			"employee": "Employee",
 			"floorManagement": "樓層管理",
 			"frsSetting": "FRS設定",
 			"kioskManagement": "設備管理",
 			"license": "授權",
 			"smsSetting": "簡訊設定",
-			"smsSettingSingapore": "簡訊提供者"
+			"smsSettingSingapore": "簡訊提供者",
+			"tablets": "Tablets",
+			"visitor-card": "Visitor Card",
+			"visitorCardSetting": "Visitor Card Setting"
 		},
 		"tenant": {
 			"invitation": "邀請",
@@ -220,9 +243,20 @@
 		"sendTestSmsPlaceholder": "行動電話號碼: +8869781XXXXX",
 		"testSms": "測試簡訊"
 	},
+	"pageTablet": {
+		"account": "Account",
+		"ipAddress": "IP Address",
+		"password": "Password",
+		"port": "Port",
+		"tablets": "Tablets"
+	},
 	"pageVisitor": {
 		"lastVisitDate": "最後有效日期",
 		"totalVisit": "參訪次數"
+	},
+	"pageVisitorCard": {
+		"rangeEnd": "Range End",
+		"rangeStart": "Range Start"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

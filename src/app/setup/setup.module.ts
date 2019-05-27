@@ -32,6 +32,11 @@ import { NgProgressModule } from 'ngx-progressbar';
 import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
 import { LicenseComponent } from './license/license.component';
 import { CreateLicenseComponent } from './license/create-license.component';
+import { TabletsComponent } from './tablets/tablets.component';
+import { CreateEditTabletComponent } from './tablets/create-edit-tablet.component';
+import { VisitorCardComponent } from './visitor-card/visitor-card.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { CreateEditEmployeeComponent } from './employee/create-edit-employee.component';
 
 
 
@@ -55,7 +60,9 @@ import { CreateLicenseComponent } from './license/create-license.component';
     CreateEditFloorComponent,
     BatchUploadFloorComponent,
     CreateEditCompanyComponent,
-    CreateLicenseComponent
+    CreateLicenseComponent,
+    CreateEditTabletComponent,
+    CreateEditEmployeeComponent
   ],
   declarations: [
     EmailComponent,
@@ -64,6 +71,7 @@ import { CreateLicenseComponent } from './license/create-license.component';
     FloorComponent,
     AccountComponent,
     FrsComponent,
+    VisitorCardComponent,
     CreateEditUserComponent,    
     CreateEditKioskComponent,
     CreateEditFloorComponent,
@@ -72,7 +80,11 @@ import { CreateLicenseComponent } from './license/create-license.component';
     CreateEditCompanyComponent,
     SmsSingaporeComponent,
     LicenseComponent,
-    CreateLicenseComponent
+    CreateLicenseComponent,
+    TabletsComponent,
+    CreateEditTabletComponent,
+    EmployeeComponent,
+    CreateEditEmployeeComponent
   ]
 })
 export class SetupModule { }

@@ -7,6 +7,7 @@
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
 		"contactAdministrator": "Internal Server Error, please contact administrator",
+		"copyright": "Copyright iSAP Solution",
 		"delete": "Delete",
 		"description": "Description",
 		"disabled": "disabled",
@@ -24,6 +25,7 @@
 		"hasBeenUpdated": " has been updated",
 		"image": "Image",
 		"invalid": "Invalid",
+		"ipAddress": "IP Address",
 		"isInvalid": " is invalid",
 		"isRequired": " is required",
 		"list": " List",
@@ -41,12 +43,14 @@
 		"online": "Online",
 		"password": "Password",
 		"phone": "Phone",
+		"productName": "Visitor Management Service",
 		"required": "required",
 		"save": "Save",
 		"search": "Search",
 		"searchCondition": "Search Condition",
 		"select": "Select ",
 		"send": "Send",
+		"server": "Server",
 		"sms": "SMS",
 		"start": "Start",
 		"status": "Status",
@@ -55,7 +59,15 @@
 		"updateData": "Update Data",
 		"upload": "Upload",
 		"url": "URL",
-		"userName": "Username"
+		"userName": "Username",
+		"version": "Version",
+		"workspace": "Workspace"
+	},
+	"pageAbout": {
+		"installerVersion": "Installer Version",
+		"serverVersion": "Server Version",
+		"webclientVersion": "Web Client Version",
+		"workspaceVersion": "Workspace Version"
 	},
 	"pageAccount": {
 		"companyName": "Company Name",
@@ -90,6 +102,12 @@
 		"sendTestEmailPlaceholder": "Send Test Email to: mail@abc.xyz",
 		"smtpHost": "SMTP Hostname",
 		"testEmail": "Test Email"
+	},
+	"pageEmployee": {
+		"cardNo": "Card No",
+		"employeeNo": "Employee No",
+		"employees": "Employees",
+		"name": "Name"
 	},
 	"pageFloor": {
 		"addComma": "add comma (,) for multiple phone numbers",
@@ -153,6 +171,7 @@
 			"systemStatus": "System Status"
 		},
 		"header": {
+			"about": "About",
 			"account": "Account",
 			"changePassword": "Change Password",
 			"logout": "Logout"
@@ -171,12 +190,16 @@
 			"accountManagement": "Account Management",
 			"companyManagement": "Company Management",
 			"emailSetting": "Email Setting",
+			"employee": "Employee",
 			"floorManagement": "Floor Management",
 			"frsSetting": "FRS Setting",
 			"kioskManagement": "Kiosk Management",
 			"license": "License",
 			"smsSetting": "SMS Setting",
-			"smsSettingSingapore": "Online SMS Provider (SG only)"
+			"smsSettingSingapore": "Online SMS Provider (SG only)",
+			"tablets": "Tablets",
+			"visitor-card": "Visitor Card",
+			"visitorCardSetting": "Visitor Card Setting"
 		},
 		"tenant": {
 			"invitation": "Invitation",
@@ -220,9 +243,20 @@
 		"sendTestSmsPlaceholder": "Send to: +8869781XXXXX",
 		"testSms": "Test SMS phone number"
 	},
+	"pageTablet": {
+		"account": "Account",
+		"ipAddress": "IP Address",
+		"password": "Password",
+		"port": "Port",
+		"tablets": "Tablets"
+	},
 	"pageVisitor": {
 		"lastVisitDate": "Last visit date",
 		"totalVisit": "Total visit"
+	},
+	"pageVisitorCard": {
+		"rangeEnd": "Range End",
+		"rangeStart": "Range Start"
 	},
 	"roleEnum": {
 		"Administrator": "Administrator",

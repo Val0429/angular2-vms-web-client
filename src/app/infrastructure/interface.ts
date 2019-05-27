@@ -80,7 +80,17 @@ export class KioskUser extends BaseUser {
     public alive:number;
     public data: KioskData;
 }
-
+export class Tablet extends BaseClass{    
+    ip: string;
+    port: number;
+    account: string;
+    password: string;    
+}
+export class Employee extends BaseClass{    
+    cardno:number;
+    employeeno:number;
+    image:string;
+}
 export class Role extends BaseClass {
 
 }

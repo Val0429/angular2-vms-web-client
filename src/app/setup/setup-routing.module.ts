@@ -14,6 +14,9 @@ import { FrsComponent } from './frs/frs.component';
 import { CompanyComponent } from './company/company.component';
 import { SmsSingaporeComponent } from './sms-singapore/sms-singapore.component';
 import { LicenseComponent } from './license/license.component';
+import { TabletsComponent } from './tablets/tablets.component';
+import { VisitorCardComponent } from './visitor-card/visitor-card.component';
+import { EmployeeComponent } from './employee/employee.component';
 
 
 
@@ -95,6 +98,30 @@ const routes: Routes = [
         component: LicenseComponent,
         data: {
           title: 'pageLayout.setup.license'
+        }
+      },
+      {
+        path: 'tablets',
+        canActivate: [LoginService],
+        component: TabletsComponent,
+        data: {
+          title: 'pageLayout.setup.tablets'
+        }
+      },
+      {
+        path: 'visitor-card',
+        canActivate: [LoginService],
+        component: VisitorCardComponent,
+        data: {
+          title: 'pageLayout.setup.visitorCardSetting'
+        }
+      },
+      {
+        path: 'employee',
+        canActivate: [LoginService],
+        component: EmployeeComponent,
+        data: {
+          title: 'pageLayout.setup.employee'
         }
       },
       {

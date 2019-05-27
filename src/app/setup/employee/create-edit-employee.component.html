@@ -1,0 +1,95 @@
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <form novalidate
+            [formGroup]="myform">
+
+            <div class="input-group mb-1" title="{{'pageEmployee.name'|translate}}"
+            [ngClass]="{
+            'has-danger': name.invalid && (name.dirty || name.touched),
+            'has-success': name.valid && (name.dirty || name.touched)}">
+         <span class="input-group-addon">
+           <i class="fa fa-user"></i>
+         </span>
+         <input type="text"
+                class="form-control"
+                
+                
+                formControlName="name"
+               
+                placeholder="{{'pageEmployee.name'|translate}}" />
+       </div>
+       <div style="color:red" *ngIf="name.errors && (name.dirty || name.touched )">
+         <p *ngIf="name.errors.required">{{'pageEmployee.name'|translate}}{{'common.isRequired'|translate}}</p>
+         <p *ngIf="name.errors.minlength">{{'pageEmployee.name'|translate}}{{'common.minLength'|translate:name.errors}} </p>
+       </div>
+
+
+        <div class="input-group mb-1" title="{{'pageEmployee.cardNo'|translate}}" 
+             [ngClass]="{
+       'has-danger': cardno.invalid && (cardno.dirty || cardno.touched),
+       'has-success': cardno.valid && (cardno.dirty || cardno.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-server"></i>
+          </span>
+          <input type="number"
+                 class="form-control"
+                 required
+                 inputmode="numeric"
+                 formControlName="cardno"
+                 placeholder="{{'pageEmployee.cardNo'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="cardno.errors && (cardno.dirty || cardno.touched )">
+          <p *ngIf="cardno.errors.required">{{'pageEmployee.cardNo'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="cardno.errors.pattern">{{'pageEmployee.cardNo'|translate}}{{'common.isInvalid'|translate}}</p>
+        </div>
+        
+        
+        <div class="input-group mb-1" title="{{'pageEmployee.employeeNo'|translate}}" 
+        [ngClass]="{
+  'has-danger': employeeno.invalid && (employeeno.dirty || employeeno.touched),
+  'has-success': employeeno.valid && (employeeno.dirty || employeeno.touched)}">
+     <span class="input-group-addon">
+       <i class="fa fa-server"></i>
+     </span>
+     <input type="number"
+            class="form-control"
+            required
+            inputmode="numeric"
+            formControlName="employeeno"
+            placeholder="{{'pageEmployee.employeeNo'|translate}}" />
+   </div>
+   <div style="color:red" *ngIf="employeeno.errors && (employeeno.dirty || employeeno.touched )">
+     <p *ngIf="employeeno.errors.required">{{'pageEmployee.employeeNo'|translate}}{{'common.isRequired'|translate}}</p>
+     <p *ngIf="employeeno.errors.pattern">{{'pageEmployee.employeeNo'|translate}}{{'common.isInvalid'|translate}}</p>
+   </div>
+
+   <div class="input-group mb-1">
+    <span class="input-group-addon">
+      <i class="fa fa-user"></i>
+    </span>
+    <input type="file" class="form-control-file" data-show-preview="false" accept="image/*" id="imageInput" name="imageInput"
+      (change)="imageListener($event)">
+  </div>
+
+  <div class="col-12 text-center">
+    <img class="blankPotrait" *ngIf="image.value" src="{{image.value}}">
+    <img class="blankPotrait default" *ngIf="!image.value">
+  </div>
+         <!-- <pre>{{myform.value | json}}</pre>  -->
+
+      </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="myform.valid!==true">{{'common.save'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

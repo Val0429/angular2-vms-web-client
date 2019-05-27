@@ -18,9 +18,13 @@
                 <a class="dropdown-item" style="cursor: pointer;" (click)="changePassword()">
                   <i class="fa fa-shield"></i> {{'pageLayout.header.changePassword'|translate}}
                 </a>
+                <a class="dropdown-item" style="cursor: pointer;" (click)="about()">
+                  <i class="fa fa-user"></i>{{'pageLayout.header.about'|translate}} 
+                </a>
                 <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">
                   <i class="fa fa-lock"></i>{{'pageLayout.header.logout'|translate}} 
                 </a>
+               
             </div>
         </li>
         <li class="nav-item hidden-md-down">
@@ -103,6 +107,21 @@
                 <li class="nav-item" *ngIf="userIsSysAdmin">
                     <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/sms-singapore']">
                       <i class="icon-settings"></i> {{'pageLayout.setup.smsSettingSingapore'|translate}}
+                    </a>
+                  </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/tablets']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.tablets'|translate}}
+                    </a>
+                  </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/employee']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.employee'|translate}}
+                    </a>
+                  </li>
+                  <li class="nav-item" *ngIf="userIsSysAdmin">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/setup/visitor-card']">
+                      <i class="icon-settings"></i> {{'pageLayout.setup.visitor-card'|translate}}
                     </a>
                   </li>
               </ul>

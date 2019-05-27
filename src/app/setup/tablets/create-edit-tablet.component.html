@@ -1,0 +1,98 @@
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+      <button type="button" class="close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+      <form novalidate
+            [formGroup]="myform">
+
+        <div class="input-group mb-1" title="{{'pageTablet.ipAddress'|translate}}"
+             [ngClass]="{
+       'has-danger': ip.invalid && (ip.dirty || ip.touched),
+       'has-success': ip.valid && (ip.dirty || ip.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-server"></i>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 
+                 required
+                 formControlName="ip"
+                 placeholder="{{'pageTablet.ipAddress'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="ip.errors && (ip.dirty || ip.touched )">
+          <p *ngIf="ip.errors.required">{{'pageTablet.ipAddresss'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="ip.errors.minlength">{{'pageTablet.ipAddress'|translate}}{{'common.minLength'|translate:ip.errors}}</p>
+        </div>
+
+        <div class="input-group mb-1" title="{{'pageTablet.port'|translate}}" 
+             [ngClass]="{
+       'has-danger': port.invalid && (port.dirty || port.touched),
+       'has-success': port.valid && (port.dirty || port.touched)}">
+          <span class="input-group-addon">
+            <i class="fa fa-server"></i>
+          </span>
+          <input type="text"
+                 class="form-control"
+                 required
+                 inputmode="numeric"
+                 formControlName="port"
+                 placeholder="{{'pageTablet.port'|translate}}" />
+        </div>
+        <div style="color:red" *ngIf="port.errors && (port.dirty || port.touched )">
+          <p *ngIf="port.errors.required">{{'pageTablet.port'|translate}}{{'common.isRequired'|translate}}</p>
+          <p *ngIf="port.errors.pattern">{{'pageTablet.port'|translate}}{{'common.isInvalid'|translate}}</p>
+        </div>
+        <div class="input-group mb-1" title="{{'common.account'|translate}}"
+        [ngClass]="{
+        'has-danger': account.invalid && (account.dirty || account.touched),
+        'has-success': account.valid && (account.dirty || account.touched)}">
+     <span class="input-group-addon">
+       <i class="fa fa-user"></i>
+     </span>
+     <input type="text"
+            class="form-control"
+            
+            
+            formControlName="account"
+           
+            placeholder="{{'common.account'|translate}}" />
+   </div>
+   <div style="color:red" *ngIf="account.errors && (account.dirty || account.touched )">
+     <p *ngIf="account.errors.required">{{'common.account'|translate}}{{'common.isRequired'|translate}}</p>
+     <p *ngIf="account.errors.minlength">{{'common.account'|translate}}{{'common.minLength'|translate:account.errors}} </p>
+   </div>
+ 
+     <div class="input-group mb-1" title="{{'common.password'|translate}}"
+          [ngClass]="{
+        'has-danger': password.invalid && (password.dirty || password.touched),
+        'has-success': password.valid && (password.dirty || password.touched)}">
+       <span class="input-group-addon">
+         <i class="fa fa-key"></i>
+       </span>
+       <input type="password"
+              class="form-control"
+              
+              formControlName="password"
+             
+              placeholder="{{'common.password'|translate}}" />
+     </div>
+     <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched )">
+       <p *ngIf="password.errors.required">{{'common.password'|translate}}{{'common.isRequired'|translate}}</p>
+       <p *ngIf="password.errors.minlength">{{'common.password'|translate}}{{'common.minLength'|translate:password.errors}} </p>
+     </div>
+        <!-- <pre>{{myform.value | json}}</pre> -->
+
+      </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'common.cancel'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="save()" [disabled]="myform.valid!==true">{{'common.save'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
