@@ -44,6 +44,7 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 import { NgProgressModule } from 'ngx-progressbar';
 import { ReportModule } from './report/report.module';
 import { ConfigService } from './service/config.service';
+import { AboutUsComponent } from './layouts/about-us.component';
 
 
 export function translateLoader(http: Http) {
@@ -82,7 +83,8 @@ export const appInitializerFn = (appConfig: ConfigService) => {
   entryComponents: [
     ConfirmComponent,
     AlertComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
+    AboutUsComponent
   ],
   declarations: [
     AppComponent,
@@ -94,7 +96,8 @@ export const appInitializerFn = (appConfig: ConfigService) => {
     //AsideToggleDirective,    
     ConfirmComponent,
     AlertComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
+    AboutUsComponent
   ],
   providers: [
     ConfigService,

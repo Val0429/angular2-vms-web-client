@@ -7,6 +7,7 @@
 		"confirmPassword": "Confirm Password",
 		"confirmation": "Confirmation",
 		"contactAdministrator": "Internal Server Error, please contact administrator",
+		"copyright": "Copyright iSAP Solution",
 		"delete": "Delete",
 		"description": "Description",
 		"disabled": "disabled",
@@ -42,12 +43,14 @@
 		"online": "Online",
 		"password": "Password",
 		"phone": "Phone",
+		"productName": "Visitor Management Service",
 		"required": "required",
 		"save": "Save",
 		"search": "Search",
 		"searchCondition": "Search Condition",
 		"select": "Select ",
 		"send": "Send",
+		"server": "Server",
 		"sms": "SMS",
 		"start": "Start",
 		"status": "Status",
@@ -56,7 +59,14 @@
 		"updateData": "Update Data",
 		"upload": "Upload",
 		"url": "URL",
-		"userName": "Username"
+		"userName": "Username",
+		"version": "Version",
+		"workspace": "Workspace"
+	},
+	"pageAbout": {
+		"installerVersion": "Installer Version",
+		"serverVersion": "Server Version",
+		"webclientVersion": "Web Client Version"
 	},
 	"pageAccount": {
 		"companyName": "Company Name",
@@ -160,6 +170,7 @@
 			"systemStatus": "System Status"
 		},
 		"header": {
+			"about": "About",
 			"account": "Account",
 			"changePassword": "Change Password",
 			"logout": "Logout"

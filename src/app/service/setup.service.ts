@@ -7,7 +7,7 @@ import { ConfigService } from './config.service';
 @Injectable()
 export class SetupService {
 
-
+    private uriVersion: string = this.configService.getCgiRoot() + "test/about";
     private uriServerConfig: string = this.configService.getCgiRoot() + "config";
     private uriTestEmail: string = this.configService.getCgiRoot() + "test/email";
     private uriTestSms: string = this.configService.getCgiRoot() + "test/sms";
@@ -45,7 +45,12 @@ export class SetupService {
       var result = await this.coreService.postConfig({ path: this.uriTestEmail, data }).toPromise();
       return result;
   }
-
+  async getVersion(): Promise<any> {
+    var token = this.loginService.getCurrentUserToken();
+    var result = await this.coreService.getConfig({ path: this.uriVersion, query:"?sessionId="+token.sessionId }).toPromise();
+    console.log("get version result", result);
+    return result;
+  }
   async getServerSettings(): Promise<any> {
       var token = this.loginService.getCurrentUserToken();
       var result = await this.coreService.getConfig({ path: this.uriServerConfig, query:"?sessionId="+token.sessionId }).toPromise();
