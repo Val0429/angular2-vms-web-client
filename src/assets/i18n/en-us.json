@@ -66,7 +66,8 @@
 	"pageAbout": {
 		"installerVersion": "Installer Version",
 		"serverVersion": "Server Version",
-		"webclientVersion": "Web Client Version"
+		"webclientVersion": "Web Client Version",
+		"workspaceVersion": "Workspace Version"
 	},
 	"pageAccount": {
 		"companyName": "Company Name",
