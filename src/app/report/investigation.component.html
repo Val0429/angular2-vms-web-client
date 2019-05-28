@@ -80,7 +80,8 @@
     </form>
           <!-- <pre>{{myform.value | json}}</pre>  -->
           <div class="modal-footer">
-              <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid" (click)="doSearch()">{{'common.search' | translate}}</button>
+              <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid || searching" (click)="doSearch()">{{'common.search' | translate}}</button>
+              <button type="submit" class="btn btn-primary px-2 pull-right" [disabled]="!myform.valid || !data.length>0" (click)="export()">{{'common.exportToPdf' | translate}}</button>
             </div>
             <!-- <div class="col-md-4">
                 <button type="button" class="btn btn-primary px-2 pull-right" style="margin-left: 20px;" (click)="exportExl()">Export to CSV</button> 
