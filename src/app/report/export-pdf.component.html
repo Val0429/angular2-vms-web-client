@@ -32,9 +32,9 @@
                   </tr>
                 </thead>
                 <tbody>
-        
-                  <tr *ngFor="let item of data; let i = index">
-                    <td>{{i}}</td>      
+                    <ng-container *ngFor="let item of data; let i = index">
+                  <tr >
+                    <td>{{i+1}}</td>      
                     <td>
                         {{item.visitor.name}}
                     </td>
@@ -54,6 +54,25 @@
                         {{item.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}
                     </td>
                   </tr>
+                
+                  <ng-container *ngFor="let event of item.events">
+                    <tr *ngIf="event.image">          
+                        <td colspan="3">{{'pageInvestigation.'+event.action | translate}}                                 
+                            <div *ngIf="event.image">
+                                <div>{{'pageInvestigation.visitorImage' | translate}}</div>
+                                <div><img src="{{event.imgUrl}}" class="visitor-image"/></div>
+                              </div>
+                        </td>         
+                        <td colspan="3"> {{'pageInvestigation.score' | translate}}: {{event.score ? event.score+"%" : ""}}
+                            <div *ngIf="event.image"  >            
+                                <div>{{'pageInvestigation.checkInImage' | translate}}</div>
+                                <div><img src="{{event.image}}" class="visitor-image"/></div>
+                              </div>
+                        </td>   
+                        <td>{{'pageInvestigation.pin' | translate}}: {{event.pin}}</td>                      
+                      </tr>
+                  </ng-container>
+                </ng-container>
                 </tbody>                
               </table>
         <!-- <pre>{{data | json}}</pre> -->

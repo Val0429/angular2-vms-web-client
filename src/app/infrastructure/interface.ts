@@ -173,6 +173,7 @@ export class KioskEvent extends BaseClass{
     public score:number;
     public result:boolean;
     public image:string;
+    public imgUrl: string;
 }
 export class Investigation{    
     public owner : User;

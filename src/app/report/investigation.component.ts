@@ -140,7 +140,7 @@ export class InvestigationComponent implements OnInit{
     } 
   }
   export(){
-    let exportPdf = new ExportPdfComponent(this.dialogService);      
+    let exportPdf = new ExportPdfComponent(this.dialogService, this.loginService, this.configService);      
     exportPdf.setFormData(this.data, this.commonService.getLocaleString("pageLayout.report.investigation"));    
     this.dialogService.addDialog(ExportPdfComponent, exportPdf).subscribe(() => {});    
 
