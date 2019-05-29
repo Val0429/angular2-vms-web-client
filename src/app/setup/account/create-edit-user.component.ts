@@ -46,6 +46,7 @@ export class CreateEditUserComponent extends DialogComponent<CreateEditDialog, U
     this.formData.roles = Object.assign([], userData.roles);
     this.formData.data.floor = Object.assign([], userData.data && userData.data.floor ? userData.data.floor : []);
     this.formData.data.company = Object.assign({}, userData.data && userData.data.company ? userData.data.company : new Company());
+    this.formData.data.description = userData.data.description ? userData.data.description : "";
 
     this.title = title;
     this.editMode = editMode;

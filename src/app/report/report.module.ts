@@ -20,6 +20,7 @@ import { VisitorStatisticComponent } from './visitor-statistic.component';
 import { VisitorPopupComponent } from './visitor-popup.component';
 import { NgProgressModule } from 'ngx-progressbar';
 import { EventPopupComponent } from './event-popup.component';
+import { ExportPdfComponent } from './export-pdf.component';
 
 @NgModule({
   imports: [
@@ -38,13 +39,16 @@ import { EventPopupComponent } from './event-popup.component';
   ],
   entryComponents: [
     VisitorPopupComponent,
-    EventPopupComponent
+    EventPopupComponent,
+    ExportPdfComponent
   ],
   declarations: [
     DashboardComponent, 
     InvestigationComponent, 
     VisitorStatisticComponent, 
-    VisitorPopupComponent, EventPopupComponent
+    VisitorPopupComponent, 
+    EventPopupComponent,
+    ExportPdfComponent
   ]
 })
 export class ReportModule { }

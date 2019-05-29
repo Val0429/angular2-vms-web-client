@@ -10,6 +10,7 @@ import { ConfigService } from "app/service/config.service";
 import { EventPopupComponent } from "./event-popup.component";
 import { KioskService } from "app/service/kiosk.service";
 import { CommonService } from "app/service/common.service";
+import { ExportPdfComponent } from "./export-pdf.component";
 
 @Component({
   templateUrl: 'investigation.component.html'
@@ -23,7 +24,7 @@ export class InvestigationComponent implements OnInit{
   end:FormControl;
   kiosk:FormControl;
   purpose:FormControl;
-
+  searching:boolean;
   kioskData:KioskUser[];
   purposeData:Purpose[];
   data : InvestigationDisplay[] =[];
@@ -72,6 +73,7 @@ export class InvestigationComponent implements OnInit{
   
   async doSearch(){
     try{
+      this.searching=true;
       this.progressService.start();   
       let filter="";
       if(this.kiosk.value) filter+="&kiosk="+this.kiosk.value;
@@ -134,7 +136,14 @@ export class InvestigationComponent implements OnInit{
     }//no catch, global error handle handles it
     finally{      
       this.progressService.done();
+      this.searching=false;
     } 
+  }
+  export(){
+    let exportPdf = new ExportPdfComponent(this.dialogService, this.loginService, this.configService);      
+    exportPdf.setFormData(this.data, this.commonService.getLocaleString("pageLayout.report.investigation"));    
+    this.dialogService.addDialog(ExportPdfComponent, exportPdf).subscribe(() => {});    
+
   }
   createForm(): any {
     this.myform = new FormGroup({

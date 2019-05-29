@@ -1,0 +1,88 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+        <button type="button" class="close" (click)="close()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height:720px;overflow-y: scroll">
+        <table  class="table table-striped table-hover" id="pdfContent">            
+                <thead>
+                  <tr>
+                    <th style="width: 5%">{{'common.no' | translate}}</th>
+                    <th style="width: 15%">
+                      {{'pageInvestigation.visitorName' | translate}}
+                    </th>
+                    <th style="width: 15%">
+                      {{'pageInvestigation.purpose' | translate}}
+                    </th>
+                    <th style="width: 15%">
+                      {{'pageInvestigation.kioskName' | translate}}
+                    </th>
+                    
+                    <th style="width: 8%">
+                        {{'pageInvestigation.result' | translate}}
+                      </th>
+                    <th>
+                      {{'pageInvestigation.event' | translate}}
+                    </th>
+                    <th style="width: 15%">
+                        {{'pageInvestigation.eventTime' | translate}}
+                      </th> 
+                  </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of data; let i = index">
+                  <tr >
+                    <td>{{i+1}}</td>      
+                    <td>
+                        {{item.visitor.name}}
+                    </td>
+                    <td>
+                      {{item.purpose && item.purpose.name ? item.purpose.name  : ""}}
+                    </td>
+                    <td>
+                      {{item.kiosk && item.kiosk.data && item.kiosk.data.kioskName ? item.kiosk.data.kioskName : ""}}
+                    </td>                  
+                    <td>                   
+                        <span *ngIf="item.result === true || item.result === false">{{'common.'+item.result | translate}}</span>
+                    </td>
+                    <td>
+                        {{'pageInvestigation.'+item.action | translate}}
+                    </td>
+                    <td>                    
+                        {{item.createdAt | date : "yyyy-MM-dd HH:mm:ss"}}
+                    </td>
+                  </tr>
+                
+                  <!-- <ng-container *ngFor="let event of item.events">
+                    <tr *ngIf="event.image">          
+                        <td colspan="3">{{'pageInvestigation.'+event.action | translate}}                                 
+                            <div *ngIf="event.image">
+                                <div>{{'pageInvestigation.visitorImage' | translate}}</div>
+                                <div><img src="{{event.imgUrl}}" class="visitor-image"/></div>
+                              </div>
+                        </td>         
+                        <td colspan="3"> {{'pageInvestigation.score' | translate}}: {{event.score ? event.score+"%" : ""}}
+                            <div *ngIf="event.image"  >            
+                                <div>{{'pageInvestigation.checkInImage' | translate}}</div>
+                                <div><img src="{{event.image}}" class="visitor-image"/></div>
+                              </div>
+                        </td>   
+                        <td>{{'pageInvestigation.pin' | translate}}: {{event.pin}}</td>                      
+                      </tr>
+                  </ng-container> -->
+                </ng-container>
+                </tbody>                
+              </table>
+        <!-- <pre>{{data | json}}</pre> -->
+        
+      </div>
+      <div class="modal-footer" >
+          
+        <button type="button" class="btn btn-primary" (click)="export()">{{'common.download'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="close()">{{'common.close'|translate}}</button>
+      </div>
+    </div>
+  </div>
+  
